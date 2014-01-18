@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define, brackets: true, $, window, navigator */
+/*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval*/
 
 define(['d3', 'utils/utils'], function (d3, _util) {
 
@@ -97,14 +97,20 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             .attr("height", gridHeight).style('fill', '#000');
 
         //Bg left
-        Chart.append('rect')
+        /*Chart.append('rect')
             .attr("width", paddingleft)
-            .attr("height", gridHeight).style('fill', '#220022');
+            .attr("height", gridHeight).style('fill', '#220022');*/
+
+        //Bg bottom
+        var bottomPanel = Chart.append('g').attr("transform", "translate(0," + gridHeight + ")");
+        bottomPanel.append('rect')
+            .attr("width", canvasWidth)
+            .attr("height", paddingBottom).style('fill', '#2E062E');
 
         var grid = Chart.append('g').attr("class", "gridWrapper").attr("transform", "translate(" + paddingleft + ",0)");
 
 
-        var cuttrentMonth = 0;
+        var currentMonth = 0;
 
         var circles = grid.selectAll('.tags')
             .data(plotMap)
@@ -139,24 +145,42 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             .attr("transform", "translate(75,300) rotate(-90)");
 
         var line = grid.append("line")
-            .attr("x1", 0)
+            .attr("x1", -paddingleft)
             .attr("y1", gridHeight)
             .attr("x2", gridWidth)
             .attr("y2", gridHeight)
             .attr("stroke-width", 1)
             .attr("stroke", "rgba(37, 228, 167, .5)");
 
+        var maxCountLabel = bottomPanel.append('text')
+            .attr('class', 'maxcount-label')
+            .style("font-size", "30px")
+            .attr("transform", "translate(100,45)");
 
+        maxCountLabel.append('tspan').text('Highest number of questions  ');
+        maxCountLabel.append('tspan').text('   count : ').style("font-size", "20px");
+        maxCountLabel.append('tspan').attr('class', 'max-count').text(0);
+        maxCountLabel.append('tspan').text('  date : ').style("font-size", "20px");
+        maxCountLabel.append('tspan').attr('class', 'max-month').text('12');
+        maxCountLabel.append('tspan').text('  tag : ').style("font-size", "20px");
+        maxCountLabel.append('tspan').attr('class', 'max-tag').text('javascript');
+
+
+
+        var maxData = {
+            maxCount: 0
+        };
 
         function moveTag() {
 
-            if (cuttrentMonth >= monthData.length) {
+            if (currentMonth >= monthData.length) {
                 clearInterval(animate);
-                cuttrentMonth = 0;
+                currentMonth = 0;
+                maxData.write = true;
                 return;
             }
 
-            var month = monthData[cuttrentMonth];
+            var month = monthData[currentMonth];
             var positions = [],
                 maxCountOfMonth = 0,
                 tagOfMonth = '';
@@ -171,6 +195,13 @@ define(['d3', 'utils/utils'], function (d3, _util) {
                 if (count > maxCountOfMonth) {
                     maxCountOfMonth = count;
                     tagOfMonth = tag.name;
+
+                    if (count > maxData.maxCount) {
+                        maxData.maxCount = count;
+                        maxData.tag = tagOfMonth;
+                        maxData.month = new Date(+month).getMonth() + 1 + "/" + new Date(+month).getFullYear();
+                    }
+
                 }
 
                 positions.push(pos);
@@ -181,12 +212,16 @@ define(['d3', 'utils/utils'], function (d3, _util) {
                     .attr('r', getRadius(total));
 
             });
-            console.log(maxCountOfMonth, tagOfMonth);
-            cuttrentMonth++;
+
+            currentMonth++;
+
+            maxCountLabel.select('.max-count').text(maxData.maxCount);
+            maxCountLabel.select('.max-month').text(maxData.month);
+            maxCountLabel.select('.max-tag').text(maxData.tag);
             var maxPos = d3.min(positions);
             line.transition()
                 .duration(300)
-                .attr("x1", 0)
+                .attr("x1", -paddingleft)
                 .attr("y1", maxPos)
                 .attr("x2", gridWidth)
                 .attr("y2", maxPos);
