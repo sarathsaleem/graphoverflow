@@ -6,7 +6,7 @@ define(function () {
 
     var graph = {
         id: 'g3',
-        title: 'Growth rate for tags',
+        title: '',
         description: ''
     };
 

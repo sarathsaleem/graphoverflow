@@ -1,12 +1,10 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval*/
-
 define(['d3', 'utils/utils'], function (d3, _util) {
 
     "use strict";
 
     function render(data, canvas) {
-
 
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000, // $(canvas).height();
@@ -17,7 +15,6 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             allMonthCounts = [],
             allCounts = [],
             tags = Object.keys(data.map);
-
 
         Object.keys(data.map).sort().forEach(function (tagName) {
 
@@ -35,7 +32,6 @@ define(['d3', 'utils/utils'], function (d3, _util) {
                     oneRowData[a].push(0);
                 }
                 oneRowData[b].push((+oneRowData[a][1] + (+oneRowData[b][0])));
-
 
                 if (oneRowData[a][0] === 0) {
                     oneRowData[b].push(0);
@@ -59,13 +55,13 @@ define(['d3', 'utils/utils'], function (d3, _util) {
 
         });
 
-        var monthData = Object.keys(plotMap[0].countData);
+        var monthData = Object.keys(plotMap[0].countData).sort();
+
         //monthData.sort(sortYearData);
 
         var gridWidth = canvasWidth - paddingleft,
             gridHeight = canvasHeight - paddingBottom,
             spacing = gridWidth / tags.length;
-
 
         var Chart = d3.select(canvas).append("svg");
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
@@ -90,7 +86,6 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             return Object.keys(colorList).indexOf(name) > -1 ? "url(#grad-" + name + ")" : getColorScale(nameOrindex);
         }
 
-
         //Bg
         Chart.append('rect')
             .attr("width", canvasWidth)
@@ -109,36 +104,44 @@ define(['d3', 'utils/utils'], function (d3, _util) {
 
         var grid = Chart.append('g').attr("class", "gridWrapper").attr("transform", "translate(" + paddingleft + ",0)");
 
-
         var currentMonth = 0;
 
         var circles = grid.selectAll('.tags')
             .data(plotMap)
             .enter()
-            .append('circle')
+            .append('g')
             .attr("class", "tags")
-            .attr("r", 0)
-            .attr("cx", function (d, i) {
+            .attr("transform", function (d, i) {
+                return "translate(" + i * spacing + "," + gridHeight + ")";
+            })
+            .attr("cx", function (d, i) { // for reff
                 return i * spacing;
             })
-            .attr("cy", gridHeight)
+            .attr("cy", gridHeight); // for reff
+
+        circles.append('circle')
+            .attr("r", 0)
             .style("fill", function (d) {
                 return getColor(d.name);
-            })
-            .on('mouseover', function (data) {
-                var x = d3.select(this).attr("cx") - d3.select(this).attr("r") + paddingBottom,
-                    y = d3.select(this).attr("cy") - d3.select(this).attr("r");
-                label.text(data.name)
-                    .attr("transform", "translate(" + x + "," + y + ")")
-                    .transition()
-                    .duration(300)
-                    .style('opacity', 1);
-            })
-            .on('mouseout', function () {
-                label.text('').style('opacity', 0);
             });
 
-        var label = Chart.append('text').attr('class', 'tag-label').style("fill", "rgb(37, 228, 167)");
+        var label = circles.append('text').attr('class', 'tag-label').style("fill", "D0D0D0").text(function (d) {
+            return d.name;
+        }).style('opacity', '0');
+
+
+        circles.on('mouseover', function (data) {
+            d3.select(this).select('text').style('opacity', 1).text(function () {
+                //
+                return data.name + " " + data.countData[monthData[currentMonth || 60]][0];
+            });
+        }).on('mouseout', function () {
+            d3.select(this).select('text').style('opacity', 0).text(function () {
+                return data.name;
+            });
+        });
+
+
         var monthLabel = Chart.append('text')
             .attr('class', 'month-label')
             .style("font-size", "70px")
@@ -157,13 +160,56 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             .style("font-size", "30px")
             .attr("transform", "translate(100,45)");
 
-        maxCountLabel.append('tspan').text('Highest number of questions  ');
+        maxCountLabel.append('tspan').text('Highest');
         maxCountLabel.append('tspan').text('   count : ').style("font-size", "20px");
         maxCountLabel.append('tspan').attr('class', 'max-count').text(0);
         maxCountLabel.append('tspan').text('  date : ').style("font-size", "20px");
-        maxCountLabel.append('tspan').attr('class', 'max-month').text('12');
+        maxCountLabel.append('tspan').attr('class', 'max-month').text(0);
         maxCountLabel.append('tspan').text('  tag : ').style("font-size", "20px");
-        maxCountLabel.append('tspan').attr('class', 'max-tag').text('javascript');
+        maxCountLabel.append('tspan').attr('class', 'max-tag').text('')
+            .on('mouseover', function () {
+                label.style('opacity', 1);
+            })
+            .on('mouseout', function () {
+                label.style('opacity', 0);
+            });
+
+        //arrows
+        bottomPanel.append("svg:image")
+            .attr('x', canvasWidth - 200)
+            .attr('y', 20)
+            .attr('width', 32)
+            .attr('height', 32).attr("xlink:href", "theme/images/arrow_left.png")
+            .on('click', function () {
+                currentMonth--;
+                moveTag();
+            });
+
+        bottomPanel.append("svg:image")
+            .attr('x', canvasWidth - 65)
+            .attr('y', 20)
+            .attr('width', 32)
+            .attr('height', 32).attr("xlink:href", "theme/images/arrow_right.png")
+            .on('click', function () {
+                currentMonth++;
+                moveTag();
+            });
+
+        var startStop = bottomPanel.append("g")
+            .attr("transform", "translate(" + (gridWidth - 60) + ", 25)");
+
+        startStop.append('rect')
+            .attr('y', '-5')
+            .attr('width', 80)
+            .attr('height', 40).attr('rx', 10).attr('ry', 10)
+            .on('click', function () {
+                startAnimate();
+            }).style("fill", "url(#grad-c#)");
+
+        startStop.append('text').text('restart').attr('x', 10).attr('y', 25).style('font-size', '20px')
+            .on('click', function () {
+                startAnimate();
+            });
 
 
 
@@ -174,9 +220,7 @@ define(['d3', 'utils/utils'], function (d3, _util) {
         function moveTag() {
 
             if (currentMonth >= monthData.length) {
-                clearInterval(animate);
-                currentMonth = 0;
-                maxData.write = true;
+                stopAnimate();
                 return;
             }
 
@@ -208,12 +252,13 @@ define(['d3', 'utils/utils'], function (d3, _util) {
 
                 d3.select(this).transition()
                     .duration(400)
-                    .attr("cy", pos)
-                    .attr('r', getRadius(total));
+                    .attr("transform", function () {
+                        return "translate(" + d3.select(this).attr('cx') + "," + pos + ")";
+                    });
+
+                d3.select(this).select('circle').attr('r', getRadius(total));
 
             });
-
-            currentMonth++;
 
             maxCountLabel.select('.max-count').text(maxData.maxCount);
             maxCountLabel.select('.max-month').text(maxData.month);
@@ -226,10 +271,25 @@ define(['d3', 'utils/utils'], function (d3, _util) {
                 .attr("x2", gridWidth)
                 .attr("y2", maxPos);
         }
+        var animate;
 
-        var animate = setInterval(function () {
-            moveTag();
-        }, 300);
+        function startAnimate() {
+            currentMonth = 0;
+            animate = setInterval(function () {
+                currentMonth++;
+                moveTag();
+            }, 300);
+        }
+
+        var stopAnimate = function () {
+            clearInterval(animate);
+            currentMonth = monthData.length - 1;
+            maxData.write = true;
+        };
+
+
+        //auto start animation
+        startAnimate();
 
     }
 
