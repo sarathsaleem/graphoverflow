@@ -145,7 +145,9 @@ define(['d3', 'utils/utils'], function (d3, _util) {
         var monthLabel = Chart.append('text')
             .attr('class', 'month-label')
             .style("font-size", "70px")
-            .attr("transform", "translate(75,300) rotate(-90)");
+            .attr("transform", "translate(75,300) rotate(-90)").on('click', function () {
+                stopAnimate();
+            });
 
         var line = grid.append("line")
             .attr("x1", -paddingleft)
@@ -219,7 +221,7 @@ define(['d3', 'utils/utils'], function (d3, _util) {
 
         function moveTag() {
 
-            if (currentMonth >= monthData.length) {
+            if (currentMonth >= monthData.length || currentMonth < 0) {
                 stopAnimate();
                 return;
             }
@@ -271,6 +273,7 @@ define(['d3', 'utils/utils'], function (d3, _util) {
                 .attr("x2", gridWidth)
                 .attr("y2", maxPos);
         }
+
         var animate;
 
         function startAnimate() {
