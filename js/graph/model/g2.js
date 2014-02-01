@@ -6,8 +6,8 @@ define(function () {
 
     var graph = {
         id: 'g2',
-        title: 'Yearly data of tags',
-        description: 'Yearly data of tags'
+        title: 'What is the trending tag in last year?',
+        description: 'You can sort the the data in yearly wise by clicking on the bottom year tab. The tags will be rearranged in descending order'
     };
 
     return graph;

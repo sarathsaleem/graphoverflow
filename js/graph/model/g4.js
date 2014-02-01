@@ -6,10 +6,9 @@ define(function () {
 
     var graph = {
         id: 'g4',
-        title: 'month',
-        description: 'month'
+        title: 'Did you code on last Christmas day ?',
+        description: 'It’s the punch-card visualization of question asked in each day of November-December in 2013'
     };
-
     return graph;
 
 });

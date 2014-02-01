@@ -6,8 +6,8 @@ define(function () {
 
     var graph = {
         id: 'g1',
-        title: '',//'What is the popular programming language ?',
-        description: 'Its the first graph.If a parameter you specify is outside of the expected range,'
+        title: 'Relation between tags in stackoverflow',
+        description: 'This grapgh shows the relation between first 60 tags and each tags first 60 ralted tags.'
     };
 
     return graph;
