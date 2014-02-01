@@ -73,6 +73,12 @@ define(function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g4') {
+            _u.getData({
+                url: baseUrl + 'month.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, null);

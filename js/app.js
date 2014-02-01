@@ -95,7 +95,7 @@ define(function (require, exports, module) {
     var App = new GraphOverflow();
 
     //add all graphs
-    App.addGraph(['g1','g2','g3']);
+    App.addGraph(['g1','g2','g3','g4']);
 
     function initKoBinding() {
         $(function () {
