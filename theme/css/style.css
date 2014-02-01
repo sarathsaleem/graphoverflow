@@ -85,6 +85,30 @@ footer {
     color: #FF1171;
     padding: 5px;
 }
+
+.graplist-item {
+    border-radius: 1px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    padding: 10px 12px;
+    color: #f8f8f8;
+    background: rgba(51,51,51,0.4);
+    margin-bottom: 30px;
+    position: relative;
+    margin:10px;
+}
+.graplist-item h2{
+  font-size:20px;
+  margin:5px 0;
+  padding:0px;
+}
+
+.graplist-item p{
+    font-size:14px;
+    padding:5px;
+}
+
 .navebar,
 footer,
 .canvas,
