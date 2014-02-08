@@ -20,7 +20,7 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
         this.id = '';
         this.title = '';
         this.isTemplateReady = false;
-        this.thumbnail = '';
+        this.thumbnail = 'templates/images' + this.id;
         this.description = '';
         this.tags = [];
         this.date = '01/01/2014';

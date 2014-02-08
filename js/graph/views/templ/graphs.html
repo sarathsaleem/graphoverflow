@@ -1,12 +1,11 @@
 <div class="row" data-bind="foreach : $data ">
-    <div class="col-md-2 graplist-item">
-        <h2 data-bind="text : title"></h2>
-        <p data-bind="text : description"></p>
-        <a href="#"  data-bind="click: show" class="thumbnail">
-            <img  class="img-responsive" data-bind="attr: { src: thumbnail }" data-src="holder.js/100%x180" alt="..." />
+    <div class="graplist-item" data-bind="attr : {id : 'graph-'+id} , click: show">
+        <!--        <p data-bind="text : description"></p>-->
+        <a data-bind="attr: { href: '#'+id }" class="thumbnail">
+            <img class="img-polaroid" data-bind="attr: { src: thumbnail }" src=" http://placehold.it/200x200 " />
         </a>
-        <p>
-        <a href="#" class="btn btn-default" data-bind="attr: { href: id }" role="button">View details &raquo;</a>
-        </p>
+        <h2 data-bind="text : title"></h2>
+
+        <div class="description" data-bind="text : description"></div>
     </div>
 </div>
