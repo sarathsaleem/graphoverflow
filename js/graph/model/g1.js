@@ -7,7 +7,8 @@ define(function () {
     var graph = {
         id: 'g1',
         title: 'Relation between tags in stackoverflow',
-        description: 'This grapgh shows the relation between first 60 tags and each tags first 60 ralted tags.'
+        description: 'This grapgh shows the relation between first 60 tags and each tags first 60 ralted tags.',
+        thumbnail: 'templates/images/' + 'g1.png'
     };
 
     return graph;
