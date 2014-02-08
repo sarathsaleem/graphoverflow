@@ -47,11 +47,26 @@ define(['knockout'], function (ko) {
         };
 
         this.showGraph = function (id) {
-            $('#graph-' + id).click();
+
+            var graph;
+            this.graphs().some(function (gs) {
+                if (gs.id === id) {
+                    graph = gs;
+                    return true;
+                }
+            });
+            if (graph) {
+                graph.show.call(graph);
+            } else {
+                this.goHome();
+            }
         };
 
         this.goHome = function () {
             that.page('home');
+            parent.location.hash = "home";
+            //window.location.href.replace(/#.*/, '');
+            //return false;
         };
 
         /**
