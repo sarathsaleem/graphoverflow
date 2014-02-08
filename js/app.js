@@ -26,6 +26,10 @@ define(function (require, exports, module) {
         GraphModel = require('graph/model/graph'),
         Dashboard = require('graph/views/dashboard');
 
+    /**
+     * Description
+     */
+
     function GraphOverflow() {
 
         var app = this;
@@ -95,11 +99,27 @@ define(function (require, exports, module) {
     var App = new GraphOverflow();
 
     //add all graphs
-    App.addGraph(['g1','g2','g3','g4']);
+    App.addGraph(['g1', 'g2', 'g3', 'g4']);
+
+    /**
+     * Description
+     */
 
     function initKoBinding() {
         $(function () {
             ko.applyBindings(App.dashboard, $('html')[0]);
+
+            var loadGraphFromHash = function () {
+                var grapId = window.location.hash.replace('#', '');
+                App.dashboard.showGraph(grapId);
+            };
+
+            $(window).on('hashchange', loadGraphFromHash);
+
+            //initial
+            loadGraphFromHash();
+
+
         });
     }
 
