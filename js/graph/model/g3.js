@@ -6,8 +6,9 @@ define(function () {
 
     var graph = {
         id: 'g3',
-        title: 'What happend in each month at stackoverflow.com ?',
-        description: 'This graph shows the growth of tags in each month.The vertical position of circle represent the count of questions in a month.'
+        title: 'How tags are growing ?',
+        description: 'This graph shows the growth of tags in each month.The vertical position of circle represent the count of questions in a month.',
+        thumbnail: 'templates/images/' + 'g3.png'
     };
 
     return graph;

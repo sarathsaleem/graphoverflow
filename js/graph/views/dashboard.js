@@ -25,7 +25,7 @@ define(['knockout'], function (ko) {
 
             //add each graph object to layout graph array
             this.graphs.push({
-                id: '#'+graph.id,
+                id: graph.id,
                 title: graph.title,
                 description: graph.description,
                 thumbnail: graph.thumbnail,
@@ -41,9 +41,13 @@ define(['knockout'], function (ko) {
                     graph.init(arguments);
 
                     //load graph static desc
-                    $('#graphContent').load('templates/'+graph.id+'.html');
+                    $('#graphContent').load('templates/' + graph.id + '.html');
                 }
             });
+        };
+
+        this.showGraph = function (id) {
+            $('#graph-' + id).click();
         };
 
         this.goHome = function () {
