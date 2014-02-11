@@ -40,8 +40,21 @@
     <!-- ko if: page()=== 'home' -->
     <div class="titleWrap">
         <div class="container">
-            <h1>Some data visvalizations</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+            <h1>Some
+                <svg class="lineThrough">
+                    <defs>
+                        <path id="textPath" d="M10 50 C10 0 90 0 90 50" />
+                    </defs>
+                    <text fill="red">
+                        <textPath xlink:href="#textPath">useless</textPath>
+                    </text>
+                </svg>
+                data visvalizations</h1>
+            <p>Here you can find a collection of data visualization on
+                <a target="_blank" href="http://stackoverflow.com/" target="_blank">stackowerflow.com</a>data , basically related to programming languages which are tags in questions asked. All data are collected using
+                <a target="_blank" href="https://api.stackexchange.com/docs " target="_blank">Stack API</a>. These are experiments with javascript data visualization library
+                <a target="_blank" href="http://d3js.org/" target="_blank">D3.js</a>. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
+            </p>
 
         </div>
     </div>

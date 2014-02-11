@@ -71,12 +71,40 @@ h6,
     color: #000000;
     background: #FFB400;
 }
+.titleWrap h1 {
+    position: relative;
+    margin: 20px 0;
+}
+.titleWrap a {
+    color: #EEEEEE;
+}
+.titleWrap a:hover {
+    color: #FFFFFF;
+}
+.titleWrap p {
+    font-size: 20px;
+}
+.lineThrough {
+    display: inline-block;
+    position: absolute;
+    top: -40px;
+    left: 94px;
+    width: 60px;
+    height: 50px;
+}
+.lineThrough text {
+    fill: #FFF;
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+    text-rendering: optimizeLegibility;
+}
 footer {
     height: 20px;
     background: #000;
     bottom: 0px;
     position: fixed;
     width: 100%;
+    color: #ff1171;
 }
 .graphWrapper {
     width: 100%;
@@ -119,15 +147,19 @@ footer {
 }
 .graphWrapper .canvas .heading {
     clear: both;
-    overflow-y: scroll;
     height: 17%;
     background: #222222;
     margin: 1%;
-}
-.graphWrapper .canvas .heading > * {
-    margin: 0px;
     color: #FF1171;
-    padding: 5px;
+}
+.graphWrapper .canvas .heading h2 {
+    font-size: 21px;
+    padding: 10px;
+    margin: 0px;
+}
+.graphWrapper .canvas .heading h4 {
+    margin: 0px;
+    padding: 5px 10px;
 }
 .graplist-item {
     border-radius: 1px;
