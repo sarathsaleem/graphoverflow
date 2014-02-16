@@ -146,7 +146,7 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             .attr('class', 'month-label')
             .style("font-size", "70px")
             .attr("transform", "translate(75,300) rotate(-90)").on('click', function () {
-                stopAnimate();
+                stopAnimate(true);
             });
 
         var line = grid.append("line")
@@ -284,9 +284,11 @@ define(['d3', 'utils/utils'], function (d3, _util) {
             }, 300);
         }
 
-        var stopAnimate = function () {
+        var stopAnimate = function (preservePos) {
             clearInterval(animate);
-            currentMonth = monthData.length - 1;
+            if (!preservePos) {
+                currentMonth = monthData.length - 1;
+            }
             maxData.write = true;
         };
 
