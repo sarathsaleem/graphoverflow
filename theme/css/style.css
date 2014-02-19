@@ -54,6 +54,7 @@ h6,
     margin: 0px;
     font-size: 20px;
     font-weight: bold;
+    display: none;
 }
 .navbar a.navbar-brand h1 span {
     float: left;
@@ -347,4 +348,13 @@ grapgCanvas,
     position: absolute;
     text-align: center;
     -webkit-font-smoothing: antialiased;
+}
+/* g5 */
+
+canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 500px;
+    height: 500px;
 }
