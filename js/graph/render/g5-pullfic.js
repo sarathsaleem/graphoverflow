@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval*/
+/*global require, define, brackets: true, $, window, navigator , clearTimeout , setTimeout*/
 (function () {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -35,35 +35,28 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function Particle(x, y, radius, explodeX, explodeY, time, opt) {
+    function Particle(radius, explodeX, explodeY, opt) {
 
         var options = opt || {};
 
         this.initPos = {
-            x: x,
-            y: y
+            x: options.startX || 0,
+            y: options.startY || 0
         };
         this.pos = {
-            x: x,
-            y: y
+            x: 0,
+            y: 0,
         };
         this.id = Math.random();
         this.radius = radius;
         this.explode = false;
-        this.explodeX = explodeX || 100;
-        this.explodeY = explodeY || 100;
+        this.distanceX = explodeX - this.initPos.x;
+        this.distanceY = explodeY - this.initPos.y;
         this.time = 0;
         this.easing = options.easing || 'easeInQuad';
-        this.duration = time || 1000;
+        this.duration = options.time || 1000;
         this.alpha = options.alpha | 1;
-        this.dirX = 1;
-        if (this.pos.x > this.explodeX) {
-            this.dirX = -1;
-        }
-        this.dirY = 1;
-        if (this.pos.y > this.explodeY) {
-            this.dirY = -1;
-        }
+
         this.reset = function (r) {
             this.radius = r;
         };
@@ -85,11 +78,11 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             }
 
             if (this.time < this.duration) {
-                var progressX = FX[this.easing](this.time, 0, this.explodeX, this.duration) * this.dirX;
-                var progressY = FX[this.easing](this.time, 0, this.explodeY, this.duration) * this.dirY;
+                var progressX = FX[this.easing](this.time, 0, this.distanceX, this.duration);
+                var progressY = FX[this.easing](this.time, 0, this.distanceY, this.duration);
 
                 this.pos.x = (this.initPos.x + progressX);
-                this.pos.y = (this.initPos.x + progressY);
+                this.pos.y = (this.initPos.y + progressY);
                 this.time += (1000 / 60);
 
             } else {
@@ -104,7 +97,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             cx.save();
             cx.translate(this.pos.x, this.pos.y);
             cx.globalAlpha = this.alpha;
-            //cx.globalCompositeOperation = this.compositeOperation;
+            //cx.globalCompositeOperation = this.compositeOperation;  //fix :mozilla bug
             cx.strokeStyle = "#ffffff";
             cx.fillStyle = this.color;
             cx.lineWidth = 0;
@@ -122,10 +115,19 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
     }
 
 
-    var getColor = d3.scale.linear().domain([0, 50]).range(['#c7e9b4', "#41b6c4"]);
+    var getColor = d3.scale.linear().domain([0, 1]).range(['rgb(199, 233, 180)', 'rgb(65, 182, 196)']);
 
-    var TimeLine = function (canvas, explodes) {
+    function convertHex(hex, opacity) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0, 2), 16),
+            g = parseInt(hex.substring(2, 4), 16),
+            b = parseInt(hex.substring(4, 6), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+    }
+
+    var TimeLine = function (canvas, chart, explodes) {
         this.canvas = canvas;
+        this.chart = chart;
         this.ctx = canvas.getContext('2d');
         this.width = canvas.width;
         this.height = canvas.height;
@@ -146,7 +148,6 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                 this.time += 16.67; //1000/60;
             } else {
 
-
             }
         };
         this.timeProgressBar = {};
@@ -157,25 +158,16 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             this.length = len || 1000;
             this.speed = speed || 1;
             this.cueLines = 0;
-            this.intensity = .5;
-            this.maxCueValue = 35;
-            this.addCue = false;
+            this.intensity = 0;
+            this.timeColor = 'rgb(199, 233, 180)';
+            this.color = 0;
             this.update = function () {
                 if (this.time < this.duration) {
                     var progressX = FX[this.easing || 'linear'](this.time, 0, this.length, this.duration);
                     this.progress = progressX;
-                    this.time += 16.67; //1000/60;         
-                    if (this.addCue) {
-                        this.cueLines += this.intensity;
-                    } else  {
-                       this.cueLines -= this.intensity;
-                    }
-                    
-                    if(this.cueLines >= this.maxCueValue) {
-                        this.addCue = false;
-                    }
-
-                    this.cueLines = (this.cueLines <= 0 ? 0 : this.cueLines);
+                    this.time += (16.67 * this.speed); //1000/60 * speed;      
+                    this.intensity = (this.intensity <= 0) ? 0 : (this.intensity -= 0.005);
+                    this.color = (this.color <= 0) ? 0 : (this.color -= 0.005);
                 }
             };
         };
@@ -184,32 +176,71 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             var ctx = this.ctx;
             ctx.fillStyle = "white";
             ctx.fillRect(0, (this.height - 100), this.width, 5);
-            // ctx.fillStyle = "rgba(76, 155, 46, 1)";
-            // ctx.fillRect(0, (this.height - 95), this.timeProgressBar.progress, 45);
 
-
-
-            ctx.strokeStyle = getColor(that.timeProgressBar.cueLines); //"rgba(76, 155, 46, 1)";
-            ctx.fillStyle = getColor(that.timeProgressBar.cueLines); //"rgba(76, 155, 46, 1)";
+            ctx.strokeStyle = this.timeProgressBar.timeColor; //"rgba(76, 155, 46, 1)";
+            ctx.fillStyle = this.timeProgressBar.timeColor; //"rgba(76, 155, 46, 1)";
             ctx.beginPath();
             ctx.moveTo(this.timeProgressBar.progress, (this.height));
             ctx.lineTo(this.timeProgressBar.progress, (this.height - 95));
             ctx.lineWidth = 1;
             ctx.stroke();
             ctx.closePath();
-
             /*
             ctx.fillStyle = "red";            
             this.timeProgressBar.cueLines.forEach(function(pos){
                 ctx.fillRect(pos, (that.height - 95), 1, 95);           
             });
             */
-
         };
-        this.addExplorer = function (intensity, explodeX, explodeY, time) {
-            var exploder = this.getExploder(intensity, explodeX, explodeY, time);
+        this.drawHiglight = function (pos, intensity) {
+
+            var that = this;
+            var ctx = this.ctx;
+
+            var len = 1;
+            var width = -len,
+                begin = pos - len;
+
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
+            ctx.fillStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";               
+
+            for (; width < len; begin++, width++) {
+                ctx.moveTo(begin, (this.height));
+                ctx.lineTo(begin, (this.height - 95));
+                ctx.stroke();
+                ctx.beginPath();
+                if (width <= 0) {
+                    that.timeProgressBar.color += (1 / len);
+                } else {
+                    that.timeProgressBar.color -= (1 / len);
+                }
+            }
+        };
+        this.addExplorer = function (intensity, explodeX, explodeY, options) {
+            var exploder = this.getExploder(intensity, explodeX, explodeY, options);
             this.exploders.push(exploder);
         };
+        this.addDialogue = function (dialogue) {
+            var i =0;
+            this.chart.append("text")
+                  .attr("transform", "translate(100,45)")
+                  .text(dialogue)
+                  .style("stroke", d3.hsl((i = (i + 1) % 360), 1, .5))
+                  .style("stroke-opacity", 1)
+                  .style({
+                    'fill': '#0C6124',
+                    'font-size': '20px',
+                    'font-weight': 'bold'
+                })
+                .transition()
+                  .duration(2000)
+                  .ease(Math.sqrt)                 
+                  .style("stroke-opacity", 1e-6)
+                  .remove();
+            
+        };        
         this.removeExploder = function (id) {
             var arr = this.exploders;
             var i = arr.length;
@@ -219,8 +250,8 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                 }
             }
         };
-        this.getExploder = function (strength, x, y, time) {
-            return new Particle(0, 0, strength, x, y, time);
+        this.getExploder = function (strength, x, y, options) {
+            return new Particle(strength, x, y, options);
         };
         this.startRendering = function () {
             var that = this;
@@ -230,18 +261,23 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             this.drawTimelinePanel();
             this.timeProgressBar.update();
 
-            this.explodeTime.forEach(function (time, i) {
-                if (time < that.timeProgressBar.time) {
-                    var pos = time * that.scale;
-                    that.addExplorer(.5, pos, that.height - 100, 2000);
+            //add an exploder if there is data at current time
+            this.explodeTime.forEach(function (data, i) {
+                if (data.time < (that.timeProgressBar.time)) {
+                    var pos = data.time * that.scale;
+                    var intesity = 2; //that.timeProgressBar.intensity + 1;                    
+                    that.addExplorer(intesity, pos, that.height - 100, {
+                        time: 2000,
+                        color: 'rgb(199, 233, 180)',
+                        startX: getRandomInt(0, 900),
+                        startY: 100
+                    });
                     that.explodeTime.splice(i, 1);
-                    if(that.timeProgressBar.addCue ) {
-                        that.timeProgressBar.maxCueValue +=2;
-                    } else {
-                        that.timeProgressBar.maxCueValue -=.5;
-                        that.timeProgressBar.maxCueValue = that.timeProgressBar.maxCueValue < 35 ? 35 : that.timeProgressBar.maxCueValue;
-                    }
-                    that.timeProgressBar.addCue = true;
+                    that.timeProgressBar.intensity += 0.2;
+                    setTimeout(function () {
+                        that.drawHiglight(pos, that.timeProgressBar.intensity);
+                    }, 2000);
+                    that.addDialogue(data.text);
                 }
             });
 
@@ -255,9 +291,9 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             this.ctx.restore();
             this.animationId = requestAnimationFrame(this.startRendering.bind(this));
         };
-        this.init = function (totalDuration) {
+        this.init = function (totalDuration, timelineSpeed) {
             this.totalDuration = totalDuration;
-            this.progressBar.call(this.timeProgressBar, totalDuration, this.width, 1);
+            this.progressBar.call(this.timeProgressBar, totalDuration, this.width, timelineSpeed);
             this.scale = this.width / this.totalDuration;
             this.startRendering();
             this.play = true;
@@ -286,22 +322,74 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         canvas.width = canvasWidth;
         canvas.height = gridHeight;
         ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillRect(0, 0, 1000, 1000);
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        var totalFilimDuration = (1 * 60 * 1e3); //5min
-        var explos = [];
-        for (var x = 0; x < 25; x++) {
-            explos.push(getRandomInt(0, totalFilimDuration));
+        var totalFilimDuration = (150 * 60 * 1000); //min
+        var timelineSpeed = 150; // 100x;
+
+       
+        function loadSrt(search, cb) {
+            $.get('js/data/pulfic.srt', function (data) {
+                var srt = data.replace(/\r\n|\r|\n/g, '\n');
+
+                function strip(s) {
+                    return s.replace(/^\s+|\s+$/g, "");
+                }
+
+                function toSeconds(t) {
+                    var s = 0.0;
+                    if (t) {
+                        var p = t.split(':');
+                        for (i = 0; i < p.length; i++)
+                            s = s * 60 + parseFloat(p[i].replace(',', '.'));
+                    }
+                    return parseInt(s*1000,10);
+                }
+                var subtitles = [],
+                    st, n, i, o, t, timeinSec, j;
+                srt = strip(srt);
+                var srt_ = srt.split('\n\n');
+                for (var s in srt_) {
+                    st = srt_[s].split('\n');
+                    if (st.length >= 2) {
+                        n = st[0];
+                        i = strip(st[1].split(' --> ')[0]);
+                        o = strip(st[1].split(' --> ')[1]);
+                        t = st[2];
+                        if (st.length > 2) {
+                            for (j = 3; j < st.length; j++)
+                                t += '\n' + st[j];
+                        }
+                        timeinSec = toSeconds(i);
+                       
+                        var reg = new RegExp(search, 'ig');
+
+                        var matching = t.match(reg);
+
+                        if (matching) {
+
+                            for (var k = 0; k < matching.length; k++) {
+                                subtitles.push({ time : timeinSec, text : t });
+                            }
+                        }
+                    }
+                }
+                cb(subtitles);
+
+            });
         }
 
-        var timeLine = new TimeLine(canvas, explos);
-        timeLine.init(totalFilimDuration);
 
-        $(canvas).on('click', function () {
-            for (var i = 0; i <= 10; i++) {
-                timeLine.addExplorer((Math.random() * 2), (Math.random() * canvasWidth), (Math.random() * gridHeight), (Math.random() * 5000));
-            }
-        });
+
+        function initGraph() {
+            loadSrt('fuck', function (fuckData) {
+                var timeLine = new TimeLine(canvas, Chart, fuckData);
+                timeLine.init(totalFilimDuration, timelineSpeed);
+                
+            });
+        }
+
+        initGraph();
     }
 
     return render;
