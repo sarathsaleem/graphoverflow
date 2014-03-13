@@ -223,24 +223,30 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             this.exploders.push(exploder);
         };
         this.addDialogue = function (dialogue) {
-            var i =0;
+            var i = 0,
+            randomX = getRandomInt(0, 400),
+            randomY = getRandomInt(0, 500),
+            moveToX = getRandomInt(0, 400),
+            moveToY = getRandomInt(0, 500),
+            fontSize = getRandomInt(8, 20);
+
             this.chart.append("text")
-                  .attr("transform", "translate(100,45)")
-                  .text(dialogue)
-                  .style("stroke", d3.hsl((i = (i + 1) % 360), 1, .5))
-                  .style("stroke-opacity", 1)
-                  .style({
-                    'fill': '#0C6124',
-                    'font-size': '20px',
+                .attr("transform", "translate(" + randomX + "," + randomY + ")")
+                .text(dialogue)
+                .style("fill", d3.hsl((i = (i + 1) % 360), 1, .5))
+                .style("opacity", 1)
+                .style({                    
+                    'font-size': fontSize+'px',
                     'font-weight': 'bold'
                 })
                 .transition()
-                  .duration(2000)
-                  .ease(Math.sqrt)                 
-                  .style("stroke-opacity", 1e-6)
-                  .remove();
-            
-        };        
+                .duration(3000)
+                .ease(Math.sqrt)
+                .style("opacity", 0)
+                .attr("transform", "translate(" + moveToX + "," + moveToY + ")")
+                .remove();
+
+        };
         this.removeExploder = function (id) {
             var arr = this.exploders;
             var i = arr.length;
@@ -276,8 +282,8 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                     that.timeProgressBar.intensity += 0.2;
                     setTimeout(function () {
                         that.drawHiglight(pos, that.timeProgressBar.intensity);
+                        that.addDialogue(data.text);
                     }, 2000);
-                    that.addDialogue(data.text);
                 }
             });
 
@@ -327,7 +333,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         var totalFilimDuration = (150 * 60 * 1000); //min
         var timelineSpeed = 150; // 100x;
 
-       
+
         function loadSrt(search, cb) {
             $.get('js/data/pulfic.srt', function (data) {
                 var srt = data.replace(/\r\n|\r|\n/g, '\n');
@@ -343,7 +349,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                         for (i = 0; i < p.length; i++)
                             s = s * 60 + parseFloat(p[i].replace(',', '.'));
                     }
-                    return parseInt(s*1000,10);
+                    return parseInt(s * 1000, 10);
                 }
                 var subtitles = [],
                     st, n, i, o, t, timeinSec, j;
@@ -357,11 +363,12 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                         o = strip(st[1].split(' --> ')[1]);
                         t = st[2];
                         if (st.length > 2) {
-                            for (j = 3; j < st.length; j++)
+                            for (j = 3; j < st.length; j++) {
                                 t += '\n' + st[j];
+                            }
                         }
                         timeinSec = toSeconds(i);
-                       
+
                         var reg = new RegExp(search, 'ig');
 
                         var matching = t.match(reg);
@@ -369,7 +376,10 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                         if (matching) {
 
                             for (var k = 0; k < matching.length; k++) {
-                                subtitles.push({ time : timeinSec, text : t });
+                                subtitles.push({
+                                    time: timeinSec,
+                                    text: t
+                                });
                             }
                         }
                     }
@@ -385,7 +395,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             loadSrt('fuck', function (fuckData) {
                 var timeLine = new TimeLine(canvas, Chart, fuckData);
                 timeLine.init(totalFilimDuration, timelineSpeed);
-                
+
             });
         }
 
