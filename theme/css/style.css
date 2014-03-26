@@ -367,3 +367,13 @@ svg {
     left: 0px;
     z-index: 10;
 }
+
+.char-link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+
+.chars {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}

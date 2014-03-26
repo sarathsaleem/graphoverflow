@@ -30,6 +30,10 @@
 define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
 
     "use strict";
+    
+    var forceLayout,
+        Chart,
+        canvas;
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -224,19 +228,19 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         };
         this.addDialogue = function (dialogue) {
             var i = 0,
-            randomX = getRandomInt(0, 400),
-            randomY = getRandomInt(0, 500),
-            moveToX = getRandomInt(0, 400),
-            moveToY = getRandomInt(0, 500),
-            fontSize = getRandomInt(8, 20);
+                randomX = getRandomInt(0, 400),
+                randomY = getRandomInt(0, 500),
+                moveToX = getRandomInt(0, 400),
+                moveToY = getRandomInt(0, 500),
+                fontSize = getRandomInt(12, 40);
 
             this.chart.append("text")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
                 .text(dialogue)
-                .style("fill", d3.hsl((i = (i + 1) % 360), 1, .5))
+                .style("fill", d3.hsl((i = (i + 1) % 360), 1, 0.5))
                 .style("opacity", 1)
-                .style({                    
-                    'font-size': fontSize+'px',
+                .style({
+                    'font-size': fontSize + 'px',
                     'font-weight': 'bold'
                 })
                 .transition()
@@ -266,23 +270,27 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             this.ctx.fillRect(0, 0, this.width, this.height - 95);
             this.drawTimelinePanel();
             this.timeProgressBar.update();
-
+            //start the exploder from any charator circle center randomly
+            var chars = that.chart.selectAll(".chars")[0],
+                charLen = chars.length;
             //add an exploder if there is data at current time
             this.explodeTime.forEach(function (data, i) {
                 if (data.time < (that.timeProgressBar.time)) {
                     var pos = data.time * that.scale;
-                    var intesity = 2; //that.timeProgressBar.intensity + 1;                    
+                    var intesity = 2; //that.timeProgressBar.intensity + 1;
+                    var randomChar = getRandomInt(0,charLen-1);                   
                     that.addExplorer(intesity, pos, that.height - 100, {
                         time: 2000,
                         color: 'rgb(199, 233, 180)',
-                        startX: getRandomInt(0, 900),
-                        startY: 100
+                        startX: chars[randomChar].cx.animVal.value,
+                        startY: chars[randomChar].cy.animVal.value
                     });
                     that.explodeTime.splice(i, 1);
+                    forceLayout.alpha(3);
                     that.timeProgressBar.intensity += 0.2;
                     setTimeout(function () {
                         that.drawHiglight(pos, that.timeProgressBar.intensity);
-                        that.addDialogue(data.text);
+                        that.addDialogue(data.text);                        
                     }, 2000);
                 }
             });
@@ -317,18 +325,22 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             gridHeight = canvasHeight - paddingBottom;
         var colors = d3.scale.category20b();
         var ci = 0;
-        var Chart = d3.select(container).append("svg");
+        Chart = d3.select(container).append("svg");
 
-        var canvas = d3.select(container).append("canvas")[0][0],
-            ctx = canvas.getContext('2d');
+        canvas = d3.select(container).append("canvas")[0][0];
+        var ctx = canvas.getContext('2d');
         ctx.font = "bold 16px Arial";
-
+        
+       
 
         var ground_height = 300;
         canvas.width = canvasWidth;
         canvas.height = gridHeight;
         ctx.fillStyle = "rgb(0,0,0)";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        
+        Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
+            .attr("preserveAspectRatio", "xMidYMid");
 
         var totalFilimDuration = (150 * 60 * 1000); //min
         var timelineSpeed = 150; // 100x;
@@ -390,13 +402,143 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         }
 
 
+        var characters = [{
+            id: 'one',
+            path: './templates/images/g5-pullfic/s.png'
+        }, {
+            id: 'two',
+            path: './templates/images/g5-pullfic/s1.png'
+        }, {
+            id: 'three',
+            path: './templates/images/g5-pullfic/s2.png'
+        }];
+
+        function addCharaters() {
+            
+            
+            var graph = {
+                "nodes": [
+                    {
+                        "name": "Myriel",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "Napoleon",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "Baptistine",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "Magloire",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "CountessdeLo",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "Geborand",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "Champtercier",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s.png'
+                    },
+                    {
+                        "name": "Cravatte",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s1.png'
+                    },
+                    {
+                        "name": "Count",
+                        "group": 1,
+                        "path" : './templates/images/g5-pullfic/s2.png'
+                    }
+  ],
+                "links": []
+            };
+                          
+                          //add image patterns
+            graph.nodes.forEach(function (data) {
+                _util.addImage(Chart.selectAll("svg")[0].parentNode, data.name, data.path, 100, 100);
+            });
+
+
+
+           forceLayout = d3.layout.force()
+                .charge(-300)
+                .linkDistance(250)
+                .size([canvasWidth/2, gridHeight/2]);
+
+            forceLayout
+                .nodes(graph.nodes)
+                .links(graph.links)
+                .start();
+
+            var link = Chart.selectAll(".char-link")
+                .data(graph.links)
+                .enter().append("line")
+                .attr("class", "char-link")
+                .style("stroke-width", 1);
+
+            var node = Chart.selectAll(".chars")
+                .data(graph.nodes)
+                .enter().append("circle")
+                .attr("class", "chars")
+                .attr("r", 35)
+                .style("fill", function (d) {
+                    return "url(#image-" + d.nme + ")";
+                })
+                .call(forceLayout.drag);
+
+
+            forceLayout.on("tick", function () {
+                link.attr("x1", function (d) {
+                    return d.source.x;
+                })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+                node.attr("cx", function (d) {
+                    return d.x;
+                })
+                    .attr("cy", function (d) {
+                        return d.y;
+                    });
+            });
+            
+
+        
+        }
+
+
 
         function initGraph() {
+
             loadSrt('fuck', function (fuckData) {
+                addCharaters(characters);
                 var timeLine = new TimeLine(canvas, Chart, fuckData);
                 timeLine.init(totalFilimDuration, timelineSpeed);
+                
 
             });
+
         }
 
         initGraph();
