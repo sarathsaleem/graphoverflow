@@ -27,12 +27,12 @@
 }());
 
 
-define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
+define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util, FX, audio) {
 
     "use strict";
-    
-    var forceLayout,
-        Chart,
+
+    var Chart,
+        forceLayout,
         canvas;
 
     function getRandomInt(min, max) {
@@ -169,7 +169,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                 if (this.time < this.duration) {
                     var progressX = FX[this.easing || 'linear'](this.time, 0, this.length, this.duration);
                     this.progress = progressX;
-                    this.time += (16.67 * this.speed); //1000/60 * speed;      
+                    this.time += (16.67 * this.speed); //1000/60 * speed;
                     this.intensity = (this.intensity <= 0) ? 0 : (this.intensity -= 0.005);
                     this.color = (this.color <= 0) ? 0 : (this.color -= 0.005);
                 }
@@ -190,9 +190,9 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             ctx.stroke();
             ctx.closePath();
             /*
-            ctx.fillStyle = "red";            
+            ctx.fillStyle = "red";
             this.timeProgressBar.cueLines.forEach(function(pos){
-                ctx.fillRect(pos, (that.height - 95), 1, 95);           
+                ctx.fillRect(pos, (that.height - 95), 1, 95);
             });
             */
         };
@@ -208,7 +208,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.strokeStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
-            ctx.fillStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";               
+            ctx.fillStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
 
             for (; width < len; begin++, width++) {
                 ctx.moveTo(begin, (this.height));
@@ -233,6 +233,14 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                 moveToX = getRandomInt(0, 400),
                 moveToY = getRandomInt(0, 500),
                 fontSize = getRandomInt(12, 40);
+
+            if (dialogue.indexOf('from okay') > -1) {
+                fontSize = 80;
+                randomX = 200;
+                randomY = 20;
+                moveToX = 100;
+                moveToY = 600;
+            }
 
             this.chart.append("text")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
@@ -278,7 +286,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                 if (data.time < (that.timeProgressBar.time)) {
                     var pos = data.time * that.scale;
                     var intesity = 2; //that.timeProgressBar.intensity + 1;
-                    var randomChar = getRandomInt(0,charLen-1);                   
+                    var randomChar = getRandomInt(0, charLen - 1);
                     that.addExplorer(intesity, pos, that.height - 100, {
                         time: 2000,
                         color: 'rgb(199, 233, 180)',
@@ -290,7 +298,7 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                     that.timeProgressBar.intensity += 0.2;
                     setTimeout(function () {
                         that.drawHiglight(pos, that.timeProgressBar.intensity);
-                        that.addDialogue(data.text);                        
+                        that.addDialogue(data.text);
                     }, 2000);
                 }
             });
@@ -330,21 +338,24 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         canvas = d3.select(container).append("canvas")[0][0];
         var ctx = canvas.getContext('2d');
         ctx.font = "bold 16px Arial";
-        
-       
+
+
 
         var ground_height = 300;
         canvas.width = canvasWidth;
         canvas.height = gridHeight;
         ctx.fillStyle = "rgb(0,0,0)";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        
+
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
 
         var totalFilimDuration = (150 * 60 * 1000); //min
-        var timelineSpeed = 150; // 100x;
+        var timelineSpeed = 250; // 100x;
 
+        var canStartMovie = false;
+        var isSrtLoaded = false;
+        var timeLine;
 
         function loadSrt(search, cb) {
             $.get('js/data/pulfic.srt', function (data) {
@@ -414,70 +425,70 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
         }];
 
         function addCharaters() {
-            
-            
+
+
             var graph = {
                 "nodes": [
                     {
                         "name": "Myriel",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Napoleon",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Baptistine",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Magloire",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "CountessdeLo",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Geborand",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Champtercier",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s.png'
+                        "path": './templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Cravatte",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s1.png'
+                        "path": './templates/images/g5-pullfic/s1.png'
                     },
                     {
                         "name": "Count",
                         "group": 1,
-                        "path" : './templates/images/g5-pullfic/s2.png'
+                        "path": './templates/images/g5-pullfic/s2.png'
                     }
   ],
                 "links": []
             };
-                          
-                          //add image patterns
+
+            //add image patterns
             graph.nodes.forEach(function (data) {
                 _util.addImage(Chart.selectAll("svg")[0].parentNode, data.name, data.path, 100, 100);
             });
 
 
 
-           forceLayout = d3.layout.force()
+            forceLayout = d3.layout.force()
                 .charge(-300)
                 .linkDistance(250)
-                .size([canvasWidth/2, gridHeight/2]);
+                .size([canvasWidth / 2, gridHeight / 2]);
 
             forceLayout
                 .nodes(graph.nodes)
@@ -522,9 +533,54 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
                         return d.y;
                     });
             });
-            
 
-        
+
+        }
+
+
+        function addAudio() {
+
+
+            var loadingScreen = $('<div class="loadingScreen" />'),
+                loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
+                play = $('<div class="play_border"><div class="play_button"></div></div>');
+
+            play.on('click', function () {
+                loadingScreen.hide();
+                timeLine.init(totalFilimDuration, timelineSpeed);
+                sound.play();
+
+            });
+
+            loadingScreen.append(loader);
+
+            $(container).append(loadingScreen);
+
+
+            function addPlayScreen() {
+                if (isSrtLoaded && canStartMovie) {
+                    loadingScreen.css('background', '#FFF');
+                    loadingScreen.html(play);
+
+                } else {
+                    setTimeout(function () {
+                        addPlayScreen();
+                    }, 100);
+                }
+            }
+
+            //http://goldfirestudios.com/proj/howlerjs/sounds.mp3
+            var sound = new audio.Howl({
+                urls: ['http://goldfirestudios.com/proj/howlerjs/sounds.mp3', 'http://goldfirestudios.com/proj/howlerjs/sounds.ogg'],
+                autoplay: false,
+                loop: false,
+                volume: 0.5,
+                onload: function () {
+                    canStartMovie = true;
+                    addPlayScreen();
+                }
+            });
+
         }
 
 
@@ -533,11 +589,11 @@ define(['d3', 'utils/utils', 'libs/easing'], function (d3, _util, FX) {
 
             loadSrt('fuck', function (fuckData) {
                 addCharaters(characters);
-                var timeLine = new TimeLine(canvas, Chart, fuckData);
-                timeLine.init(totalFilimDuration, timelineSpeed);
-                
-
+                timeLine = new TimeLine(canvas, Chart, fuckData);
+                isSrtLoaded = true;
             });
+
+            addAudio();
 
         }
 
