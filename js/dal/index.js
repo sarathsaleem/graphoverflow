@@ -7,7 +7,7 @@ define(['data/index'], function (Data) {
 
     function getAjaxData(options, callback, scope) {
 
-        var url = 'data/';
+        var url = '../data/';
 
         var ajaxParams = $.extend({
             url: '',
