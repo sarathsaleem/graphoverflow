@@ -52,7 +52,7 @@
                 </svg>
                 data visvalizations</h1>
             <p>Here you can find a collection of data visualization on
-                <a target="_blank" href="http://stackoverflow.com/" target="_blank">stackowerflow.com</a>data , basically related to programming languages which are tags in questions asked. All data are collected using
+                <a target="_blank" href="http://stackoverflow.com/" target="_blank">stackowerflow.com</a> data , basically related to programming languages which are tags in questions asked. All data are collected using
                 <a target="_blank" href="https://api.stackexchange.com/docs " target="_blank">Stack API</a>. These are experiments with javascript data visualization library
                 <a target="_blank" href="http://d3js.org/" target="_blank">D3.js</a>. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
             </p>
@@ -78,9 +78,21 @@
     <footer>
         <p>&copy; WTF 2014</p>
     </footer>
+    <script>
+        var require = {
+            baseUrl: './js'
+        };
+    </script>
     <script src="js/libs/jquery.js"></script>
     <script src="theme/js/bootstrap.min.js"></script>
-    <script data-main="js/app" src="js/libs/require.js"></script>
+    <script src="js/libs/require.js"></script>
+    <script src="js/app-min.js"></script>
+    <script type="text/javascript">
+        require(['app'], function (modules) {
+            var application = modules.App;
+            application.loadGraph();
+        });
+    </script>
 </body>
 
 </html>

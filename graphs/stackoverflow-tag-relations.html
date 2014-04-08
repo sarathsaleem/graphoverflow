@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>GraphOverflow</title>
+    <!-- Bootstrap core CSS -->
+    <!--   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
+    <link href="../theme/css/bootstrap-min.css" rel="stylesheet">
+    <link href="../theme/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../theme/css/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="http://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="http://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" data-bind="click: goHome" href="#home">
+                    <h1>
+                        <span>GRAPH</span>
+                        <span>OVERFLOW</span>
+                    </h1>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse"></div>
+            <!--/.navbar-collapse -->
+        </div>
+    </div>
+
+
+    <!-- ko if: page() === 'graph' -->
+    <div class="graphWrapper">
+        <div class="container">
+            <div class="streach"></div>
+            <div class="canvas" data-bind="template: { name: 'graph' , data : currentGraph }"></div>
+        </div>
+        <div class="container" id="graphContent">
+            
+<div class="conterntWrapper">
+    <div class="col-md-12">It is a visvalization of first <b>60</b> tags in <a href="http://stackoverflow.com/" target="_blank" >stackowerflow.com</a> sorted by the number of questions asked aganist each tag from begning to 1/1/2014. <span class="tag">‘c#’</span> tops with highest number of question followed by <span class="tag">‘java’</span>,<span class="tag">’javascript’</span>,<span class="tag">’php’</span>.The left side bar-chart helps to sort it out clearly with its number of questions</div>
+    <div class="col-md-12">
+        The chord-chart tells you how these tags are related to each other, means if a question is tagged with two or more tags they are related to each other.All questions are tagged with their subject areas. Each can have up to 5 tags, since a question might be related to several subjects. So in data related to <span class="tag">‘java’</span> total number of questions asked is <b>539343</b> among that <b>64043</b> questions are tagged android
+        <ul>
+            <li>android : 64043</li>
+            <li>swing : 34189</li>
+            <li>eclipse : 21011</li>
+            <li>spring : 19241</li>
+            <li>hibernate : 15605</li>
+            <li>multithreading : 12015</li>
+            <li>xml : 11153</li>
+            <li>jsp : 10655</li>
+            <li>.... etc</li>
+        </ul>
+        I took the first 60 tags and each tags first 60 ralted tags. So its not necessary that all are related to each other for example in the first 60 list of <span class="tag">php</span> we cannot find any <span class="tag">.net </span>, <span class="tag"> c </span> or <span class="tag"> c++ </span>.
+    </div>
+    <div class="col-md-12">
+    In this <span class="tag">‘javascript’</span> is largest arc, means its tagged along with other tags in highest number , out of total <b>505950</b> questions <span class="tag">jquery</span> holds <b>172170</b> ,
+         <ul>
+            <li>jquery : 172170</li>
+            <li>html : 78658</li>
+            <li>php : 36424</li>
+            <li>css : 35249</li>
+            <li>ajax : 28496</li>
+            <li>html5 : 18537</li>
+            <li>.... etc</li>
+        </ul> And we can see the strong bond between the c family and linux <span class="tag"> c </span> <span class="tag"> c++ </span><span class="tag"> linux</span>, ofcourse  apple guys <span class="tag">iPhone</span> <span class="tag">ios </span> <span class="tag">objective-c</span>  <span class="tag">x-code</span> , also check Android Development Tools (ADT) deep love <span class="tag"> eclipse</span><span class="tag">android</span><span class="tag">java</span>.
+    </div>
+</div>
+
+        </div>
+    </div>
+    <!-- /ko -->
+    <footer>
+        <p>&copy; WTF 2014</p>
+    </footer>
+    <script>
+        var require = {
+            baseUrl: '../js'
+        };
+    </script>
+    <script src="../js/libs/jquery.js"></script>
+    <script src="../theme/js/bootstrap.min.js"></script>
+    <script src="../js/libs/require.js"></script>
+    <script src="../js/app-min.js"></script>
+    <script type="text/javascript">
+        require(['app','../js/graph/render/g1'], function (modules,render) {
+            var application = modules.App;
+            application.loadGraph('g1');
+            application.dashboard.showGraph('g1');
+
+        });
+    </script>
+</body>
+
+</html>

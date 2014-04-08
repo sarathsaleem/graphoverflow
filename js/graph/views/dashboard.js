@@ -15,7 +15,9 @@ define(['knockout'], function (ko) {
         this.graphs = ko.observableArray();
         this.page = ko.observable('home');
 
-        this.templatePath = './js/graph/views/templ/';
+        this.insideGraphs = window.location.pathname.indexOf('/graphs/') > -1 ? true : false;
+
+        this.templatePath = this.insideGraphs ? '../js/graph/views/templ/' : './js/graph/views/templ/';
         this.templates = ['graphs', 'sidebar', 'graph'];
 
         this.currentGraph = ko.observable();
@@ -41,7 +43,8 @@ define(['knockout'], function (ko) {
                     graph.init(arguments);
 
                     //load graph static desc
-                    $('#graphContent').load('templates/' + graph.id + '.html');
+                    //$('#graphContent').load('../templates/' + graph.id + '.html');
+                    //added in grunt
                 }
             });
         };
@@ -71,7 +74,7 @@ define(['knockout'], function (ko) {
 
         /**
          *@public : Load all template files
-         *
+         * has to move , can be rendered in grunt
          */
         this.loadTemplates = function (cb) {
             var that = this;
@@ -80,8 +83,6 @@ define(['knockout'], function (ko) {
                 var tempL = $('<script id="' + name + '" type="text/html"></script>');
 
                 tempL.load(that.templatePath + name + '.html?bust=' + (new Date()).getTime(), function () {
-
-                    console.log('GO: Loaded template "', name);
 
                     if (i === that.templates.length - 1) {
                         //init KO binding after template loading

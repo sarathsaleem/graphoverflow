@@ -2,7 +2,7 @@
 /*global require, define, brackets: true, $, window, navigator */
 
 require.config({
-    baseUrl: './js',
+    //baseUrl: './js',
     urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
@@ -24,8 +24,8 @@ define(function (require, exports, module) {
         ko = require('knockout'),
         d3 = require('d3'),
         GraphModel = require('graph/model/graph'),
-        Dashboard = require('graph/views/dashboard');
-
+        Dashboard = require('graph/views/dashboard'),
+        graphsList = require('graph/model/graph-list');
     /**
      * Description
      */
@@ -39,57 +39,42 @@ define(function (require, exports, module) {
         //register all graphs in this array with addgraph
         var graphs = [];
 
-        this.getGraphsList = function () {
-            var list = [],
-                modelPath = 'graph/model/';
-            graphs.forEach(function (name) {
-                list.push(modelPath + name);
-            });
-            return list;
-        };
+        this.modelPath = 'graph/model/graph-list';
 
-        /**
-         * Add graph model to App
-         * @public
-         * @param {String}{Array} names
-         *
-         *
-         */
-        this.addGraph = function (names) {
+        this.getGraphList = function (id) {
+            var list = [];
+            if (id) {
+                if (graphsList[id]) {
+                    list.push(graphsList[id]);
+                    return list;
+                }
+                console.error('cannot find graph with id' + id + ' in graphlist');
+                // give full graph list for dashboard
+            } else {
 
-            if (typeof names === 'string') {
-                names = names.split(',');
-            }
-            names.forEach(function (name) {
-                graphs.push(name);
-
-            });
-
-            //load all graph
-            this.loadGraph();
-        };
-
-        this.loadGraph = function () {
-
-            var graphList = this.getGraphsList();
-
-            graphList.forEach(function (grapgModel) {
-
-                require([grapgModel], function () {
-                    var graphs = Array.prototype.slice.call(arguments);
-                    //add all graph to dashboard
-                    graphs.forEach(function (graphModel) {
-                        var graph = new GraphModel(graphModel, app);
-                        app.dashboard.addGraph(graph);
-                    });
-                }, function (err) {
-                    //The errback, error callback
-                    //The error has a list of modules that failed
-                    var failedId = err.requireModules && err.requireModules[0];
-                    console.error("GO: Cannot load a graph with name " + failedId);
+                Object.keys(graphsList).forEach(function (id) {
+                    list.push(graphsList[id]);
                 });
+                return list;
+            }
+        };
 
+        this.loadGraph = function (id) {
+
+            var graphList = this.getGraphList(id);
+
+            graphList.forEach(function (graphModel) {
+
+                var graph = new GraphModel(graphModel, app);
+                app.dashboard.addGraph(graph);
+
+            }, function (err) {
+                //The errback, error callback
+                //The error has a list of modules that failed
+                var failedId = err.requireModules && err.requireModules[0];
+                console.error("GO: Cannot load a graph with name " + failedId);
             });
+
         };
     }
 
@@ -98,31 +83,30 @@ define(function (require, exports, module) {
 
     var App = new GraphOverflow();
 
-    //add all graphs
-    App.addGraph(['g1', 'g2', 'g3', 'g4']);
-
     /**
      * Description
      */
 
     function initKoBinding() {
         $(function () {
-            ko.applyBindings(App.dashboard, $('html')[0]);
+            ko.applyBindings(App.dashboard, $('html ')[0]);
 
             var loadGraphFromHash = function () {
                 var grapId = window.location.hash.replace('#', '');
                 App.dashboard.showGraph(grapId);
             };
 
-            $(window).on('hashchange', loadGraphFromHash);
+            // $(window).on('hashchange ', loadGraphFromHash);
 
             //initial
-            loadGraphFromHash();
+            //loadGraphFromHash();
 
 
         });
     }
 
     App.dashboard.init(initKoBinding);
+
+    exports.App = App;
 
 });
