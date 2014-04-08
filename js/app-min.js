@@ -4115,6 +4115,7 @@ define('graph/views/dashboard',['knockout'], function (ko) {
                 title: graph.title,
                 description: graph.description,
                 thumbnail: graph.thumbnail,
+                link : graph.htmlTitle,
                 show: function () {
 
                     // set this as current graph

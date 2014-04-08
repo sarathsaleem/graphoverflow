@@ -1,7 +1,7 @@
 <div class="row" data-bind="foreach : $data ">
     <div class="graplist-item" data-bind="attr : {id : 'graph-'+id}">
         <!--        <p data-bind="text : description"></p>-->
-        <a data-bind="attr: { href: '#'+id }" class="thumbnail">
+        <a data-bind="attr: { href: './graphs/'+link+'.html'}" class="thumbnail">
             <img class="img-polaroid" data-bind="attr: { src: thumbnail }" src=" http://placehold.it/200x200 " />
 
             <h2 data-bind="text : title"></h2>
