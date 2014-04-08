@@ -181,7 +181,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             .attr('x', canvasWidth - 200)
             .attr('y', 20)
             .attr('width', 32)
-            .attr('height', 32).attr("xlink:href", "theme/images/arrow_left.png")
+            .attr('height', 32).attr("xlink:href", "../theme/images/arrow_left.png")
             .on('click', function () {
                 currentMonth--;
                 moveTag();
@@ -191,7 +191,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             .attr('x', canvasWidth - 65)
             .attr('y', 20)
             .attr('width', 32)
-            .attr('height', 32).attr("xlink:href", "theme/images/arrow_right.png")
+            .attr('height', 32).attr("xlink:href", "../theme/images/arrow_right.png")
             .on('click', function () {
                 currentMonth++;
                 moveTag();
