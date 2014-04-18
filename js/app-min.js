@@ -3964,8 +3964,6 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
             //check data error
             localStorage.setItem(that.id, JSON.stringify(grapData));
 
-            console.log('rendering', grapData);
-
             require(['graph/render/' + that.id], function (render) {
 
                 render(grapData, $(that.graphCanvas)[0]);
@@ -4079,13 +4077,15 @@ define('graph/views/dashboard',['knockout'], function (ko) {
         var that = this;
 
         this.layouts = ko.observableArray();
-        this.graphs = ko.observableArray();
+        this.graphs = ko.observableArray().extend({
+            notify: 'always'
+        });
         this.page = ko.observable('home');
 
         this.insideGraphs = window.location.pathname.indexOf('/graphs/') > -1 ? true : false;
 
         this.templatePath = this.insideGraphs ? '../js/graph/views/templ/' : './js/graph/views/templ/';
-        this.templates = ['graphs', 'sidebar', 'graph'];
+        this.templates = ['sidebar'];
 
         this.currentGraph = ko.observable();
 
@@ -4098,7 +4098,7 @@ define('graph/views/dashboard',['knockout'], function (ko) {
                 title: graph.title,
                 description: graph.description,
                 thumbnail: graph.thumbnail,
-                link : graph.htmlTitle,
+                link: graph.htmlTitle,
                 show: function () {
 
                     // set this as current graph
@@ -4150,11 +4150,12 @@ define('graph/views/dashboard',['knockout'], function (ko) {
 
                 var tempL = $('<script id="' + name + '" type="text/html"></script>');
 
-                tempL.load(that.templatePath + name + '.html?bust=' + (new Date()).getTime(), function () {
+                tempL.load(that.templatePath + name + '.html', function () {
 
                     if (i === that.templates.length - 1) {
                         //init KO binding after template loading
                         cb();
+
                     }
 
                 });
@@ -4162,6 +4163,7 @@ define('graph/views/dashboard',['knockout'], function (ko) {
             });
 
         };
+
 
         this.init = function (cb) {
 
@@ -4213,7 +4215,7 @@ define('graph/model/graph-list',[],function () {
 
 require.config({
     //baseUrl: './js',
-    urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
+   // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
         d3: 'libs/d3',
@@ -4272,6 +4274,10 @@ define('app',['require','exports','module','jquery','knockout','d3','graph/model
         this.loadGraph = function (id) {
 
             var graphList = this.getGraphList(id);
+            if(graphList.length === 0) {
+
+
+            }
 
             graphList.forEach(function (graphModel) {
 
@@ -4284,6 +4290,8 @@ define('app',['require','exports','module','jquery','knockout','d3','graph/model
                 var failedId = err.requireModules && err.requireModules[0];
                 console.error("GO: Cannot load a graph with name " + failedId);
             });
+
+            //setTimeout(this.loadGraph.bind(this), 2000);
 
         };
     }
@@ -4300,19 +4308,13 @@ define('app',['require','exports','module','jquery','knockout','d3','graph/model
     function initKoBinding() {
         $(function () {
             ko.applyBindings(App.dashboard, $('html ')[0]);
-
-            var loadGraphFromHash = function () {
-                var grapId = window.location.hash.replace('#', '');
-                App.dashboard.showGraph(grapId);
-            };
-
-            // $(window).on('hashchange ', loadGraphFromHash);
-
+            App.loadGraph();
         });
+
     }
 
     App.dashboard.init(initKoBinding);
-    App.loadGraph();
+
 
     exports.App = App;
 

@@ -12,13 +12,15 @@ define(['knockout'], function (ko) {
         var that = this;
 
         this.layouts = ko.observableArray();
-        this.graphs = ko.observableArray();
+        this.graphs = ko.observableArray().extend({
+            notify: 'always'
+        });
         this.page = ko.observable('home');
 
         this.insideGraphs = window.location.pathname.indexOf('/graphs/') > -1 ? true : false;
 
         this.templatePath = this.insideGraphs ? '../js/graph/views/templ/' : './js/graph/views/templ/';
-        this.templates = ['graphs', 'sidebar', 'graph'];
+        this.templates = ['sidebar'];
 
         this.currentGraph = ko.observable();
 
@@ -31,7 +33,7 @@ define(['knockout'], function (ko) {
                 title: graph.title,
                 description: graph.description,
                 thumbnail: graph.thumbnail,
-                link : graph.htmlTitle,
+                link: graph.htmlTitle,
                 show: function () {
 
                     // set this as current graph
@@ -83,11 +85,12 @@ define(['knockout'], function (ko) {
 
                 var tempL = $('<script id="' + name + '" type="text/html"></script>');
 
-                tempL.load(that.templatePath + name + '.html?bust=' + (new Date()).getTime(), function () {
+                tempL.load(that.templatePath + name + '.html', function () {
 
                     if (i === that.templates.length - 1) {
                         //init KO binding after template loading
                         cb();
+
                     }
 
                 });
@@ -95,6 +98,7 @@ define(['knockout'], function (ko) {
             });
 
         };
+
 
         this.init = function (cb) {
 

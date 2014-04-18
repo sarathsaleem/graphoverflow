@@ -42,7 +42,17 @@
     <div class="graphWrapper">
         <div class="container">
             <div class="streach"></div>
-            <div class="canvas" data-bind="template: { name: 'graph' , data : currentGraph }"></div>
+            <div class="canvas">
+              <div class="graphCanvas"></div>
+                <div class="specs">
+                </div>
+                <div class="heading">
+                    <h2 data-bind="text : currentGraph.title"></h2>
+                    <h4>
+                        <small data-bind="text : currentGraph.description"></small>
+                    </h4>
+                </div>
+            </div>
         </div>
         <div class="container" id="graphContent">
             <div class="conterntWrapper">
@@ -73,8 +83,8 @@
 
 
 
-
     <script src="../js/libs/require.js"></script>
+    <script src="../js/app-min.js"></script>
     <script type="text/javascript">
         require(['app','../js/graph/render/g3'], function (modules,render) {
             var application = modules.App;

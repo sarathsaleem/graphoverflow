@@ -3,7 +3,7 @@
 
 require.config({
     //baseUrl: './js',
-    urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
+   // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
         d3: 'libs/d3',
@@ -62,6 +62,10 @@ define(function (require, exports, module) {
         this.loadGraph = function (id) {
 
             var graphList = this.getGraphList(id);
+            if(graphList.length === 0) {
+
+
+            }
 
             graphList.forEach(function (graphModel) {
 
@@ -74,6 +78,8 @@ define(function (require, exports, module) {
                 var failedId = err.requireModules && err.requireModules[0];
                 console.error("GO: Cannot load a graph with name " + failedId);
             });
+
+            //setTimeout(this.loadGraph.bind(this), 2000);
 
         };
     }
@@ -90,19 +96,13 @@ define(function (require, exports, module) {
     function initKoBinding() {
         $(function () {
             ko.applyBindings(App.dashboard, $('html ')[0]);
-
-            var loadGraphFromHash = function () {
-                var grapId = window.location.hash.replace('#', '');
-                App.dashboard.showGraph(grapId);
-            };
-
-            // $(window).on('hashchange ', loadGraphFromHash);
-
+            App.loadGraph();
         });
+
     }
 
     App.dashboard.init(initKoBinding);
-    App.loadGraph();
+
 
     exports.App = App;
 
