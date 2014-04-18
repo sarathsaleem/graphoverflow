@@ -39,7 +39,6 @@
     </div>
 
 
-    <!-- ko if: page() === 'graph' -->
     <div class="graphWrapper">
         <div class="container">
             <div class="streach"></div>
@@ -60,7 +59,7 @@
 
         </div>
     </div>
-    <!-- /ko -->
+
     <footer>
         <p>&copy; WTF 2014</p>
     </footer>
@@ -71,8 +70,10 @@
     </script>
     <script src="../js/libs/jquery.js"></script>
     <script src="../theme/js/bootstrap.min.js"></script>
-    <script src="../js/libs/require.js"></script>
-    <script src="../js/app-min.js"></script>
+
+
+
+    <script data-main="app"  src="../js/libs/require.js"></script>
     <script type="text/javascript">
         require(['app','../js/graph/render/g3'], function (modules,render) {
             var application = modules.App;
@@ -81,6 +82,9 @@
 
         });
     </script>
+
+
+
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

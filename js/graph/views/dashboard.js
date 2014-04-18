@@ -68,7 +68,7 @@ define(['knockout'], function (ko) {
 
         this.goHome = function () {
             that.page('home');
-            parent.location.hash = "home";
+            //parent.location.hash = "home";
             //window.location.href.replace(/#.*/, '');
             //return false;
         };

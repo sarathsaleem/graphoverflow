@@ -98,14 +98,11 @@ define(function (require, exports, module) {
 
             // $(window).on('hashchange ', loadGraphFromHash);
 
-            //initial
-            //loadGraphFromHash();
-
-
         });
     }
 
     App.dashboard.init(initKoBinding);
+    App.loadGraph();
 
     exports.App = App;
 

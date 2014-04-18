@@ -75,7 +75,6 @@ h6,
     position: relative;
     margin: 20px 0;
     font-size: 24px;
-    font-weight: bold;
 }
 .titleWrap a {
     color: #EEEEEE;
@@ -86,12 +85,13 @@ h6,
 .titleWrap p {
     font-size: 18px;
     text-align: justify;
+    color: #222222;
 }
 .lineThrough {
     display: inline-block;
     position: absolute;
     top: -40px;
-    left: 72px;
+    left: 68px;
     width: 70px;
     height: 50px;
 }
