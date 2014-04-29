@@ -507,7 +507,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                 .attr("class", "chars")
                 .attr("r", 35)
                 .style("fill", function (d) {
-                    return "url(#image-" + d.nme + ")";
+                    return "url(#image-" + d.name + ")";
                 })
                 .call(forceLayout.drag);
 
