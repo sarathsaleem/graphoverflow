@@ -229,9 +229,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
         this.addDialogue = function (dialogue) {
             var i = 0,
                 randomX = getRandomInt(0, 400),
-                randomY = getRandomInt(0, 500),
+                randomY = getRandomInt(0, 100),
                 moveToX = getRandomInt(0, 400),
-                moveToY = getRandomInt(0, 500),
+                moveToY = getRandomInt(0, 1000),
                 fontSize = getRandomInt(12, 40);
 
             if (dialogue.indexOf('from okay') > -1) {
@@ -570,8 +570,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
             }
 
             //http://goldfirestudios.com/proj/howlerjs/sounds.mp3
+            //http://www.taringa.net/posts/imagenes/17253419/Megapost-Afiches-de-Tarantino-y-sus-peliculas.html
             var sound = new audio.Howl({
-                urls: ['http://goldfirestudios.com/proj/howlerjs/sounds.mp3', 'http://goldfirestudios.com/proj/howlerjs/sounds.ogg'],
+                urls: ['./templates/images/g5-pullfic/PulpFiction.mp3'],
                 autoplay: false,
                 loop: false,
                 volume: 0.5,
