@@ -58,7 +58,7 @@ define(function (require) {
 
         } else {
 
-            cb.call(this, null);
+            cb.call(this, []);
         }
 
 
