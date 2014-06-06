@@ -2,7 +2,7 @@
 /*global require, define, brackets: true, $, window, navigator */
 
 require.config({
-    //baseUrl: './js',
+   // baseUrl: './js',
    // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
@@ -85,12 +85,7 @@ define(function (require, exports, module) {
     }
 
 
-
-
     var App = new GraphOverflow();
-
-    //add all graphs
-    App.addGraph(['g1', 'g2', 'g3', 'g4', 'g5-pullfic']);
 
     /**
      * Description
@@ -105,7 +100,6 @@ define(function (require, exports, module) {
     }
 
     App.dashboard.init(initKoBinding);
-
 
     exports.App = App;
 

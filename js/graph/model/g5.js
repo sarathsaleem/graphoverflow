@@ -5,7 +5,7 @@ define(function () {
     "use strict";
 
     var graph = {
-        id: 'g5-pullfic',
+        id: 'g5',
         title: 'pullfic?',
         description: 'pullfic',
         thumbnail: 'templates/images/' + 'g5-pullfic.png'

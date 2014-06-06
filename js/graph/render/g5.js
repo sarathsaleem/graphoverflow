@@ -27,7 +27,7 @@
 }());
 
 
-define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util, FX, audio) {
+define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _util, FX, audio) {
 
     "use strict";
 
@@ -359,12 +359,12 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
         var totalFilimDuration = (150 * 60 * 1000); //min
         var timelineSpeed = 250; // 100x;
 
-        var canStartMovie = false;
+        var canStartMovie = true;
         var isSrtLoaded = false;
         var timeLine;
 
         function loadSrt(search, cb) {
-            $.get('js/data/pulfic.srt', function (data) {
+            $.get('../js/data/pulfic.srt', function (data) {
                 var srt = data.replace(/\r\n|\r|\n/g, '\n');
 
                 function strip(s) {
@@ -586,6 +586,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                     addPlayScreen();
                 }
             });
+
+            //for local only
+             addPlayScreen();
 
         }
 
