@@ -71,21 +71,36 @@ define(function () {
             pattern.setAttribute('id', 'image-' + id);
             pattern.setAttribute('width', w);
             pattern.setAttribute('height', h);
-            
-            
+
+
             var image = document.createElementNS(svgNS, 'image');
             image.setAttribute('x', 0);
-            image.setAttribute('y', 0);    
+            image.setAttribute('y', 0);
             image.setAttribute('width', w);
             image.setAttribute('height', h);
             image.setAttributeNS(XLink_NS, 'xlink:href', path);
-         
-            
+
+
             pattern.appendChild(image);
-                        
+
             var defs = svg.querySelector('defs') || svg.insertBefore(document.createElementNS(svgNS, 'defs'), svg.firstChild);
             return defs.appendChild(pattern);
-            
+
+        },
+        addClipPathCircle: function (svg, id, radius) {
+            var svgNS = svg.namespaceURI,
+                clipPath = document.createElementNS(svgNS, "clipPath");
+            clipPath.setAttribute('id', id);
+
+            var circle = document.createElementNS(svgNS, 'circle');
+            circle.setAttribute("r", radius);
+            circle.setAttribute("cx", 50);
+            circle.setAttribute("cy", 50);
+            clipPath.appendChild(circle);
+
+            var defs = svg.querySelector('defs') || svg.insertBefore(document.createElementNS(svgNS, 'defs'), svg.firstChild);
+            return defs.appendChild(clipPath);
+
         },
         getTagColors: function () {
 

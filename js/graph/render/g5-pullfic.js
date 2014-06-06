@@ -137,7 +137,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
         this.height = canvas.height;
         this.explodeTime = explodes;
         this.exploders = [];
-        this.animateId = 0;
+        this.animationId = 0;
         this.currentPos = 0;
         this.totalDuration = 0;
         this.interval = 1000 / 60;
@@ -145,15 +145,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
         this.scale = 0; //totalDuration/this.width
         this.pause = false;
         this.stop = true;
-        this.updateAnimation = function () {
-            if (this.time < this.duration) {
-                var progressX = FX[this.easing || 'linear'](this.time, 0, this.explodeX, this.duration) * this.dirX;
-                this.pos.x = (this.initPos.x + progressX);
-                this.time += 16.67; //1000/60;
-            } else {
+        this.finishPlayed = false;
+        this.onFinish = function () {};
 
-            }
-        };
         this.timeProgressBar = {};
         this.progressBar = function (duration, len, speed) {
             this.time = 0;
@@ -165,13 +159,21 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
             this.intensity = 0;
             this.timeColor = 'rgb(199, 233, 180)';
             this.color = 0;
-            this.update = function () {
+            this.update = function (timeline) {
                 if (this.time < this.duration) {
                     var progressX = FX[this.easing || 'linear'](this.time, 0, this.length, this.duration);
                     this.progress = progressX;
                     this.time += (16.67 * this.speed); //1000/60 * speed;
                     this.intensity = (this.intensity <= 0) ? 0 : (this.intensity -= 0.005);
                     this.color = (this.color <= 0) ? 0 : (this.color -= 0.005);
+                } else {
+
+                    timeline.stop = true;
+                    timeline.finishPlayed = true;
+                    if (typeof timeline.onFinish === 'function' && (timeline.exploders.length === 0)) {
+                        timeline.onFinish();
+                        cancelAnimationFrame(timeline.animationId);
+                    }
                 }
             };
         };
@@ -229,9 +231,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
         this.addDialogue = function (dialogue) {
             var i = 0,
                 randomX = getRandomInt(0, 400),
-                randomY = getRandomInt(0, 100),
+                randomY = getRandomInt(0, 500),
                 moveToX = getRandomInt(0, 400),
-                moveToY = getRandomInt(0, 1000),
+                moveToY = getRandomInt(0, 500),
                 fontSize = getRandomInt(12, 40);
 
             if (dialogue.indexOf('from okay') > -1) {
@@ -272,17 +274,20 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
             return new Particle(strength, x, y, options);
         };
         this.startRendering = function () {
+            this.animationId = requestAnimationFrame(this.startRendering.bind(this));
             var that = this;
             this.ctx.save();
             this.ctx.fillStyle = "rgba(0,0,0,.1)";
             this.ctx.fillRect(0, 0, this.width, this.height - 95);
             this.drawTimelinePanel();
-            this.timeProgressBar.update();
+            this.timeProgressBar.update(this);
             //start the exploder from any charator circle center randomly
             var chars = that.chart.selectAll(".chars")[0],
                 charLen = chars.length;
+
             //add an exploder if there is data at current time
             this.explodeTime.forEach(function (data, i) {
+
                 if (data.time < (that.timeProgressBar.time)) {
                     var pos = data.time * that.scale;
                     var intesity = 2; //that.timeProgressBar.intensity + 1;
@@ -290,8 +295,8 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                     that.addExplorer(intesity, pos, that.height - 100, {
                         time: 2000,
                         color: 'rgb(199, 233, 180)',
-                        startX: chars[randomChar].cx.animVal.value,
-                        startY: chars[randomChar].cy.animVal.value
+                        startX: d3.select(chars[randomChar]).data()[0].x, // FIX me: use d3 filter
+                        startY: d3.select(chars[randomChar]).data()[0].y
                     });
                     that.explodeTime.splice(i, 1);
                     forceLayout.alpha(3);
@@ -311,14 +316,15 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                 }
             });
             this.ctx.restore();
-            this.animationId = requestAnimationFrame(this.startRendering.bind(this));
         };
         this.init = function (totalDuration, timelineSpeed) {
             this.totalDuration = totalDuration;
             this.progressBar.call(this.timeProgressBar, totalDuration, this.width, timelineSpeed);
             this.scale = this.width / this.totalDuration;
-            this.startRendering();
-            this.play = true;
+            this.stop = false;
+            this.isPlaying = true;
+            this.finishPlayed = false;
+            this.animationId = requestAnimationFrame(this.startRendering.bind(this));
         };
 
     };
@@ -478,10 +484,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                 "links": []
             };
 
-            //add image patterns
-            graph.nodes.forEach(function (data) {
-                _util.addImage(Chart.selectAll("svg")[0].parentNode, data.name, data.path, 100, 100);
-            });
+            //add ClipPath Circle
+            _util.addClipPathCircle(Chart.selectAll("svg")[0].parentNode, "clipPathCircle", 50);
+
 
 
 
@@ -501,15 +506,19 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                 .attr("class", "char-link")
                 .style("stroke-width", 1);
 
-            var node = Chart.selectAll(".chars")
+            var node = Chart.selectAll(".node")
                 .data(graph.nodes)
-                .enter().append("circle")
+                .enter().append("g")
                 .attr("class", "chars")
-                .attr("r", 35)
-                .style("fill", function (d) {
-                    return "url(#image-" + d.name + ")";
-                })
                 .call(forceLayout.drag);
+
+
+            node.append("image")
+                .attr("width", "100").attr("height", "100")
+                .attr("xlink:href", function (d) {
+                    return d.path;
+                })
+                .attr('clip-path', "url(#clipPathCircle)");
 
 
             forceLayout.on("tick", function () {
@@ -526,12 +535,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
                         return d.target.y;
                     });
 
-                node.attr("cx", function (d) {
-                    return d.x;
-                })
-                    .attr("cy", function (d) {
-                        return d.y;
-                    });
+                node.attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
             });
 
 
@@ -570,9 +576,8 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
             }
 
             //http://goldfirestudios.com/proj/howlerjs/sounds.mp3
-            //http://www.taringa.net/posts/imagenes/17253419/Megapost-Afiches-de-Tarantino-y-sus-peliculas.html
             var sound = new audio.Howl({
-                urls: ['./templates/images/g5-pullfic/PulpFiction.mp3'],
+                urls: ['http://goldfirestudios.com/proj/howlerjs/sounds.mp3', 'http://goldfirestudios.com/proj/howlerjs/sounds.ogg'],
                 autoplay: false,
                 loop: false,
                 volume: 0.5,
@@ -586,11 +591,21 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (d3, _util,
 
 
 
+        var onFinish = function () {
+
+            console.log('finished');
+
+
+        };
+
+
+
         function initGraph() {
 
             loadSrt('fuck', function (fuckData) {
                 addCharaters(characters);
                 timeLine = new TimeLine(canvas, Chart, fuckData);
+                timeLine.onFinish = onFinish;
                 isSrtLoaded = true;
             });
 
