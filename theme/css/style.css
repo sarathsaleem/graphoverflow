@@ -261,6 +261,7 @@ grapgCanvas,
     height: 30px;
     background: rgba(255, 255, 255, 0.15) url("../images/fullscreen.png") no-repeat center center;
     border: 1px solid rgba(255, 255, 255, 0.29);
+    z-index: 1000; /* make it at top most */
 }
 .inFullScreen .fullscreenControl {
     background: rgba(255, 255, 255, 0.15) url("../images/fullscreen_exit.png") no-repeat center center;
@@ -352,6 +353,8 @@ grapgCanvas,
     text-align: center;
     -webkit-font-smoothing: antialiased;
 }
+
+
 /* pullfic */
 
 canvas {
@@ -475,4 +478,19 @@ svg {
     border-top: 18px solid transparent;
     border-bottom: 18px solid transparent;
     border-left: 18px solid rgba(0,0,0,0.8);
+}
+
+.finishScreen {
+    z-index: 8;
+    background: #fff;
+    display: none;
+    height: 90%;
+}
+.restart_button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 11;
+    right: 10%;
+    bottom: 20%;
 }

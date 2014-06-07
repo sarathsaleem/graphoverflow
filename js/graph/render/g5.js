@@ -135,6 +135,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
         this.ctx = canvas.getContext('2d');
         this.width = canvas.width;
         this.height = canvas.height;
+        this.initialExploders = explodes.slice(0);
         this.explodeTime = explodes;
         this.exploders = [];
         this.animationId = 0;
@@ -171,7 +172,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                     timeline.stop = true;
                     timeline.finishPlayed = true;
                     if (typeof timeline.onFinish === 'function' && (timeline.exploders.length === 0)) {
-                        timeline.onFinish();
+                        timeline.onFinish(timeline.initialExploders);
                         cancelAnimationFrame(timeline.animationId);
                     }
                 }
@@ -231,9 +232,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
         this.addDialogue = function (dialogue) {
             var i = 0,
                 randomX = getRandomInt(0, 400),
-                randomY = getRandomInt(0, 500),
+                randomY = getRandomInt(0, 900),
                 moveToX = getRandomInt(0, 400),
-                moveToY = getRandomInt(0, 500),
+                moveToY = getRandomInt(0, 900),
                 fontSize = getRandomInt(12, 40);
 
             if (dialogue.indexOf('from okay') > -1) {
@@ -324,6 +325,11 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             this.stop = false;
             this.isPlaying = true;
             this.finishPlayed = false;
+
+            this.ctx.fillStyle = "rgb(0,0,0)";//clear canvas
+            this.ctx.fillRect(0, 0, this.width, this.height);
+
+            //start rendering
             this.animationId = requestAnimationFrame(this.startRendering.bind(this));
         };
 
@@ -362,6 +368,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
         var canStartMovie = true;
         var isSrtLoaded = false;
         var timeLine;
+        var sound;
 
         function loadSrt(search, cb) {
             $.get('../js/data/pulfic.srt', function (data) {
@@ -552,7 +559,6 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 play = $('<div class="play_border"><div class="play_button"></div></div>');
 
 
-
             loadingScreen.append(loader);
 
             $(container).append(loadingScreen);
@@ -578,7 +584,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             }
 
             //http://goldfirestudios.com/proj/howlerjs/sounds.mp3
-            var sound = new audio.Howl({
+            sound = new audio.Howl({
                 urls: ['http://goldfirestudios.com/proj/howlerjs/sounds.mp3', 'http://goldfirestudios.com/proj/howlerjs/sounds.ogg'],
                 autoplay: false,
                 loop: false,
@@ -590,16 +596,29 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             });
 
             //for local only
-             addPlayScreen();
+            addPlayScreen();
 
         }
 
 
 
-        var onFinish = function () {
+        var onFinish = function (exploders) {
 
-            console.log('finished');
+            var finishScreen = $('<div class="loadingScreen finishScreen" />'),
+                restart = $('<div class="play_border restart_button"></div>');
+            //finishScreen.append(restart);
 
+            $(container).append(finishScreen);
+            $(container).append(restart);
+
+            restart.on('click', function () {
+                finishScreen.hide();
+                timeLine.init(totalFilimDuration, timelineSpeed);
+                timeLine.explodeTime = exploders;
+                sound.play();
+            });
+
+            finishScreen.fadeIn(2000);
 
         };
 
@@ -615,7 +634,6 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             });
 
             addAudio();
-
         }
 
         initGraph();
