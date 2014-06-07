@@ -245,6 +245,8 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 moveToY = 600;
             }
 
+            dialogue.replace('/-/gi',' ').replace(/ *\[[^)]*\] */g, "");
+
             this.chart.append("text")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
                 .text(dialogue)
