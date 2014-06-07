@@ -438,7 +438,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                     {
                         "name": "Myriel",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Napoleon",
@@ -448,37 +448,37 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                     {
                         "name": "Baptistine",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Magloire",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "CountessdeLo",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Geborand",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Champtercier",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/s.png'
                     },
                     {
                         "name": "Cravatte",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s1.png'
+                        "path": '../templates/images/g5-pullfic/s1.png'
                     },
                     {
                         "name": "Count",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s2.png'
+                        "path": '../templates/images/g5-pullfic/s2.png'
                     }
   ],
                 "links": []
@@ -551,12 +551,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
                 play = $('<div class="play_border"><div class="play_button"></div></div>');
 
-            play.on('click', function () {
-                loadingScreen.hide();
-                timeLine.init(totalFilimDuration, timelineSpeed);
-                sound.play();
 
-            });
 
             loadingScreen.append(loader);
 
@@ -567,6 +562,13 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 if (isSrtLoaded && canStartMovie) {
                     loadingScreen.css('background', '#FFF');
                     loadingScreen.html(play);
+
+                    $(play).on('click', function () {
+                        loadingScreen.hide();
+                        timeLine.init(totalFilimDuration, timelineSpeed);
+                        sound.play();
+
+                    });
 
                 } else {
                     setTimeout(function () {
