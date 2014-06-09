@@ -237,15 +237,15 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 moveToY = getRandomInt(0, 900),
                 fontSize = getRandomInt(12, 40);
 
-            if (dialogue.indexOf('from okay') > -1) {
+            if (dialogue.match(/Bad Motherfucker/g)) {
                 fontSize = 80;
-                randomX = 200;
-                randomY = 20;
+                randomX = 0;
+                randomY = 500;
                 moveToX = 100;
-                moveToY = 600;
+                moveToY = 800;
             }
 
-            dialogue.replace('/-/gi',' ').replace(/ *\[[^)]*\] */g, "");
+            dialogue = dialogue.replace('/-/gi',' ').replace(/ *\[[^)]*\] */g, " ");
 
             this.chart.append("text")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
@@ -257,7 +257,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                     'font-weight': 'bold'
                 })
                 .transition()
-                .duration(3000)
+                .duration(5000)
                 .ease(Math.sqrt)
                 .style("opacity", 0)
                 .attr("transform", "translate(" + moveToX + "," + moveToY + ")")
