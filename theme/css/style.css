@@ -54,7 +54,6 @@ h6,
     margin: 0px;
     font-size: 20px;
     font-weight: bold;
-    display: none;
 }
 .navbar a.navbar-brand h1 span {
     float: left;
@@ -78,7 +77,7 @@ h6,
     font-size: 24px;
 }
 .titleWrap a {
-    color: #EEEEEE;
+    color: #000000;
 }
 .titleWrap a:hover {
     color: #FFFFFF;
@@ -109,7 +108,25 @@ footer {
     position: fixed;
     width: 100%;
     color: #ff1171;
-    display: none;
+}
+footer p {
+    font-size: 10px;
+    padding: 5px;
+    float: left;
+}
+footer .developedBy {
+    font-size: 10px;
+    padding: 2px 10px;
+    position: absolute;
+    right: 0px;
+    color: #BFBFBF;
+    margin: 0px;
+    bottom: 0px;
+}
+@media (max-width: 480px) {
+    footer {
+        height: 50px;
+    }
 }
 .graphWrapper {
     width: 100%;
@@ -261,7 +278,8 @@ grapgCanvas,
     height: 30px;
     background: rgba(255, 255, 255, 0.15) url("../images/fullscreen.png") no-repeat center center;
     border: 1px solid rgba(255, 255, 255, 0.29);
-    z-index: 1000; /* make it at top most */
+    z-index: 1000;
+    /* make it at top most */
 }
 .inFullScreen .fullscreenControl {
     background: rgba(255, 255, 255, 0.15) url("../images/fullscreen_exit.png") no-repeat center center;
@@ -353,8 +371,6 @@ grapgCanvas,
     text-align: center;
     -webkit-font-smoothing: antialiased;
 }
-
-
 /* pullfic */
 
 canvas {
@@ -365,54 +381,66 @@ canvas {
     height: 100%;
     z-index: 5;
 }
-
 svg {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 10;
 }
-
 .char-link {
-  stroke: #999;
-  stroke-opacity: .6;
+    stroke: #999;
+    stroke-opacity: .6;
 }
-
 .chars {
-  stroke: #fff;
-  stroke-width: 1.5px;
+    stroke: #fff;
+    stroke-width: 1.5px;
 }
-.loadingScreen{
+.loadingScreen {
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 15;
     background: #000;
-    padding:30% 0 0 0;
+    padding: 30% 0 0 0;
 }
-
 @-moz-keyframes spin {
-    0% { -moz-transform:rotate(0deg); }
-    100% { -moz-transform:rotate(360deg); }
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+    }
 }
 @-moz-keyframes spinoff {
-    0% { -moz-transform:rotate(0deg); }
-    100% { -moz-transform:rotate(-360deg); }
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+    }
 }
 @-webkit-keyframes spin {
-    0% { -webkit-transform:rotate(0deg); }
-    100% { -webkit-transform:rotate(360deg); }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
 @-webkit-keyframes spinoff {
-    0% { -webkit-transform:rotate(0deg); }
-    100% { -webkit-transform:rotate(-360deg); }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+    }
 }
 .spin1 {
-    background-color: rgba(0,0,0,0);
-    border: 5px solid rgba(0,183,229,0.9);
+    background-color: rgba(0, 0, 0, 0);
+    border: 5px solid rgba(0, 183, 229, 0.9);
     opacity: .9;
-    border-top: 5px solid rgba(0,0,0,0);
-    border-left: 5px solid rgba(0,0,0,0);
+    border-top: 5px solid rgba(0, 0, 0, 0);
+    border-left: 5px solid rgba(0, 0, 0, 0);
     border-radius: 50px;
     box-shadow: 0 0 35px #2187e7;
     width: 50px;
@@ -422,11 +450,11 @@ svg {
     -webkit-animation: spin .5s infinite linear;
 }
 .spin2 {
-    background-color: rgba(0,0,0,0);
-    border: 5px solid rgba(0,183,229,0.9);
+    background-color: rgba(0, 0, 0, 0);
+    border: 5px solid rgba(0, 183, 229, 0.9);
     opacity: .9;
-    border-top: 5px solid rgba(0,0,0,0);
-    border-left: 5px solid rgba(0,0,0,0);
+    border-top: 5px solid rgba(0, 0, 0, 0);
+    border-left: 5px solid rgba(0, 0, 0, 0);
     border-radius: 50px;
     box-shadow: 0 0 15px #2187e7;
     width: 30px;
@@ -438,8 +466,8 @@ svg {
     -webkit-animation: spinoff .5s infinite linear;
 }
 .play_border {
-    margin:0 auto;
-    border: 2px solid rgba(0,0,0,0.7);
+    margin: 0 auto;
+    border: 2px solid rgba(0, 0, 0, 0.7);
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
@@ -455,31 +483,31 @@ svg {
     transition: all 0.5s ease;
     cursor: pointer;
 }
-.play_border:hover{
+.play_border:hover {
     border-color: transparent;
     -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
 }
-.play_border:hover .play_button{
-    border-left: 18px solid rgba(0,0,0,0.5);
+.play_border:hover .play_button {
+    border-left: 18px solid rgba(0, 0, 0, 0.5);
 }
-.play_border:active,.play_border:focus{
+.play_border:active,
+.play_border:focus {
     -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 0px 5.play_button:hoverpx 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 5.play_button: hoverpx 2px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
 }
 .play_button {
-    position:relative;
+    position: relative;
     top: 32px;
     left: 45px;
     width: 0;
     height: 0;
     border-top: 18px solid transparent;
     border-bottom: 18px solid transparent;
-    border-left: 18px solid rgba(0,0,0,0.8);
+    border-left: 18px solid rgba(0, 0, 0, 0.8);
 }
-
 .finishScreen {
     z-index: 8;
     background: #fff;
