@@ -2,12 +2,11 @@
 /*global require, define, brackets: true, $, window, navigator */
 
 require.config({
-   // baseUrl: './js',
-   // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
+    // baseUrl: './js',
+    // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
-        d3: 'libs/d3',
-        jquery: 'libs/jquery'
+        d3: 'libs/d3'
     },
     shim: {
         d3: {
@@ -20,12 +19,13 @@ define(function (require, exports, module) {
     "use strict";
 
     //load libs
-    var $ = require('jquery'),
-        ko = require('knockout'),
+    var ko = require('knockout'),
         d3 = require('d3'),
         GraphModel = require('graph/model/graph'),
         Dashboard = require('graph/views/dashboard'),
-        graphsList = require('graph/model/graph-list');
+        graphs = require('graph/model/graph-list'),
+        graphsList = graphs.graphList,
+        tags = graphs.tags;
     /**
      * Description
      */
@@ -62,7 +62,7 @@ define(function (require, exports, module) {
         this.loadGraph = function (id) {
 
             var graphList = this.getGraphList(id);
-            if(graphList.length === 0) {
+            if (graphList.length === 0) {
 
 
             }
@@ -79,6 +79,7 @@ define(function (require, exports, module) {
                 console.error("GO: Cannot load a graph with name " + failedId);
             });
 
+            app.dashboard.tags(tags);
             //setTimeout(this.loadGraph.bind(this), 2000);
 
         };
@@ -92,6 +93,7 @@ define(function (require, exports, module) {
      */
 
     function initKoBinding() {
+
         $(function () {
             ko.applyBindings(App.dashboard, $('html ')[0]);
             App.loadGraph();
@@ -99,7 +101,7 @@ define(function (require, exports, module) {
 
     }
 
-    App.dashboard.init(initKoBinding);
+   App.dashboard.init(initKoBinding);
 
     exports.App = App;
 

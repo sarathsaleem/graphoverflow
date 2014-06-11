@@ -15,6 +15,10 @@ define(['knockout'], function (ko) {
         this.graphs = ko.observableArray().extend({
             notify: 'always'
         });
+        this.tags = ko.observableArray().extend({
+            notify: 'always'
+        });
+
         this.page = ko.observable('home');
 
         this.insideGraphs = window.location.pathname.indexOf('/graphs/') > -1 ? true : false;
@@ -34,6 +38,7 @@ define(['knockout'], function (ko) {
                 description: graph.description,
                 thumbnail: graph.thumbnail,
                 link: graph.htmlTitle,
+                tags: graph.tags.join(' '),
                 show: function () {
 
                     // set this as current graph
@@ -98,6 +103,52 @@ define(['knockout'], function (ko) {
             });
 
         };
+
+        ko.bindingHandlers.initGridView = {
+            init: function (element) {
+                $(function () {
+                    $.bridget('isotope', Isotope);
+                    that.initGridView()
+                });
+            }
+        };
+
+        this.initGridView = function () {
+            var $container = $('#grapsList')[0];
+            /*var iso = new Isotope($container, {
+                filter: '*',
+                itemSelector: '.graplist-item',
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
+                }
+            });*/
+
+            $('#grapsList').isotope({
+                filter: '*',
+                itemSelector: '.graplist-item',
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
+                }
+            });
+            $('#tagList a:first').addClass('selected');
+            $('#tagList a').on('click', function () {
+
+                $('#tagList a').removeClass('selected');
+                $(this).addClass('selected');
+
+                var filter = $(this).attr('filter');
+                filter = filter === 'all' ? '*' : '.' + filter;
+                $('#grapsList').isotope({
+                    filter: filter
+                });
+            });
+
+        };
+
 
 
         this.init = function (cb) {

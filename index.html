@@ -60,13 +60,20 @@
 
         </div>
     </div>
+    <div id="tagList" >
+        <ul data-bind="foreach : tags()"  class="tags container">
+             <li class="tagItem">
+                <a href="javascript:void(0)"  data-bind="text : $data, attr : { filter :  $data }"></a>
+             </li>
+        </ul>
+    </div>
     <div class="container">
 
-        <div class="row" data-bind="foreach : graphs()  ">
-            <div class="graplist-item" data-bind="attr : {id : 'graph-'+id}">
+        <div id="grapsList" class="row" data-bind="foreach : graphs() , initGridView : true ">
+            <div class="graplist-item" data-bind="attr : {id : 'graph-'+id }, css : tags">
                 <!--        <p data-bind="text : description"></p>-->
                 <a data-bind="attr: { href: './graphs/'+link+'.html'}" class="thumbnail">
-                    <img class="img-polaroid" data-bind="attr: { src: thumbnail }" src=" http://placehold.it/200x200 " />
+                    <img class="img-polaroid" data-bind="attr: { src: thumbnail }" src="http://placehold.it/200x200" />
 
                     <h2 data-bind="text : title"></h2>
 
@@ -90,7 +97,7 @@
     <!-- /ko -->
     <footer>
         <p>&copy; 2014</p>
-        <p class="developedBy"> This website is developed and maintained by Sarath Saleem , you can check the source at <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow">Github</a> </p>
+        <p class="developedBy"> This website is developed and maintained by Sarath Saleem , you can check the source code at <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow">Github</a> </p>
     </footer>
     <script>
         var require = {
@@ -99,12 +106,21 @@
     </script>
     <script src="js/libs/jquery.js"></script>
     <script src="theme/js/bootstrap.min.js"></script>
+    <script src="js/libs/isotope.min.js"></script>
 
 
 
-    <script data-main="app"  src="js/libs/require.js"></script>
 
 
+
+    <script  src="js/libs/require.js"></script>
+    <script  src="js/app-min.js"></script>
+    <script type="text/javascript">
+        require(['app'], function (modules) {
+            var application = modules.App;
+            //application.loadGraph();
+        });
+    </script>
 
 
 
