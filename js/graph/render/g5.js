@@ -445,56 +445,51 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             var graph = {
                 "nodes": [
                     {
-                        "name": "Myriel",
+                        "name": "Butch",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/butch.png'
                     },
                     {
-                        "name": "Napoleon",
+                        "name": "Fabine",
                         "group": 1,
-                        "path": './templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/fabine.png'
                     },
                     {
-                        "name": "Baptistine",
+                        "name": "Honey",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/honey.png'
                     },
                     {
-                        "name": "Magloire",
+                        "name": "Honeyhus",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/honeyhus.png'
                     },
                     {
-                        "name": "CountessdeLo",
+                        "name": "Jules",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/jules.png'
                     },
                     {
-                        "name": "Geborand",
+                        "name": "Marsellus",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/marsellus.png'
                     },
                     {
-                        "name": "Champtercier",
+                        "name": "Mia",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s.png'
+                        "path": '../templates/images/g5-pullfic/mia.png'
                     },
                     {
-                        "name": "Cravatte",
+                        "name": "vincent",
                         "group": 1,
-                        "path": '../templates/images/g5-pullfic/s1.png'
-                    },
-                    {
-                        "name": "Count",
-                        "group": 1,
-                        "path": '../templates/images/g5-pullfic/s2.png'
+                        "path": '../templates/images/g5-pullfic/vincent.png'
                     }
   ],
                 "links": []
             };
 
             //add ClipPath Circle
-            _util.addClipPathCircle(Chart.selectAll("svg")[0].parentNode, "clipPathCircle", 50);
+            _util.addClipPathCircle(Chart.selectAll("svg")[0].parentNode, "clipPathCircle", 40);
 
 
 
@@ -587,7 +582,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
             //http://goldfirestudios.com/proj/howlerjs/sounds.mp3
             sound = new audio.Howl({
-                urls: ['http://goldfirestudios.com/proj/howlerjs/sounds.mp3', 'http://goldfirestudios.com/proj/howlerjs/sounds.ogg'],
+                urls: ['../templates/images/g5-pullfic/PulpFiction.mp3','../templates/images/g5-pullfic/PulpFiction.mp4','../templates/images/g5-pullfic/PulpFiction.ogv','../templates/images/g5-pullfic/PulpFiction.webm'],
                 autoplay: false,
                 loop: false,
                 volume: 0.5,
