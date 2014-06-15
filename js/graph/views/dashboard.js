@@ -129,8 +129,8 @@ define(['knockout'], function (ko) {
                 filter: '*',
                 itemSelector: '.graplist-item',
                 animationOptions: {
-                    duration: 750,
-                    easing: 'linear',
+                    duration: 5000,
+                    easing: 'easeInOutQuad',
                     queue: false
                 }
             });
