@@ -1,6 +1,8 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator */
 
+
+
 require.config({
     // baseUrl: './js',
     // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
@@ -29,7 +31,6 @@ define(function (require, exports, module) {
     /**
      * Description
      */
-
     function GraphOverflow() {
 
         var app = this;
@@ -101,7 +102,7 @@ define(function (require, exports, module) {
 
     }
 
-   App.dashboard.init(initKoBinding);
+    App.dashboard.init(initKoBinding);
 
     exports.App = App;
 

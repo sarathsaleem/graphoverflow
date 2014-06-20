@@ -121,6 +121,10 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
     var getColor = d3.scale.linear().domain([0, 1]).range(['rgb(199, 233, 180)', 'rgb(65, 182, 196)']);
 
+    var exploderColor = '#CD1100',//'#F67937',
+        highlightColor = '#CD1100',
+        timelinePanelColor = '#CD7A00';
+
     function convertHex(hex, opacity) {
         hex = hex.replace('#', '');
         var r = parseInt(hex.substring(0, 2), 16),
@@ -158,7 +162,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             this.speed = speed || 1;
             this.cueLines = 0;
             this.intensity = 0;
-            this.timeColor = 'rgb(199, 233, 180)';
+            this.timeColor = timelinePanelColor;
             this.color = 0;
             this.update = function (timeline) {
                 if (this.time < this.duration) {
@@ -210,8 +214,8 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
             ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.strokeStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
-            ctx.fillStyle = "rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
+            ctx.strokeStyle = highlightColor; //"rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
+            ctx.fillStyle = highlightColor ;//"rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
 
             for (; width < len; begin++, width++) {
                 ctx.moveTo(begin, (this.height));
@@ -237,20 +241,20 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 moveToY = getRandomInt(0, 900),
                 fontSize = getRandomInt(12, 40);
 
-            if (dialogue.match(/Bad Motherfucker/g)) {
+            /*if (dialogue.match(/Bad Motherfucker/g)) {
                 fontSize = 80;
                 randomX = 0;
                 randomY = 500;
                 moveToX = 100;
                 moveToY = 800;
-            }
+            }*/
 
             dialogue = dialogue.replace('/-/gi',' ').replace(/ *\[[^)]*\] */g, " ");
 
             this.chart.append("text")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
                 .text(dialogue)
-                .style("fill", d3.hsl((i = (i + 1) % 360), 1, 0.5))
+                .style("fill", '#F67937')//'d3.hsl((i = (i + 1) % 360), 1, 0.5))
                 .style("opacity", 1)
                 .style({
                     'font-size': fontSize + 'px',
@@ -297,12 +301,13 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                     var randomChar = getRandomInt(0, charLen - 1);
                     that.addExplorer(intesity, pos, that.height - 100, {
                         time: 2000,
-                        color: 'rgb(199, 233, 180)',
-                        startX: d3.select(chars[randomChar]).data()[0].x, // FIX me: use d3 filter
-                        startY: d3.select(chars[randomChar]).data()[0].y
+                        color: exploderColor,
+                        startX: d3.select(chars[randomChar]).data()[0].x + 50, // FIX me: use d3 filter
+                        startY: d3.select(chars[randomChar]).data()[0].y + 50
                     });
                     that.explodeTime.splice(i, 1);
-                    forceLayout.alpha(3);
+                    forceLayout.alpha(5);
+
                     that.timeProgressBar.intensity += 0.2;
                     setTimeout(function () {
                         that.drawHiglight(pos, that.timeProgressBar.intensity);
@@ -333,6 +338,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
             //start rendering
             this.animationId = requestAnimationFrame(this.startRendering.bind(this));
+
         };
 
     };
@@ -364,7 +370,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
 
-        var totalFilimDuration = (150 * 60 * 1000); //min
+        var totalFilimDuration = (150 * 60 * 1000); //150 min - 2.30 hr
         var timelineSpeed = 250; // 100x;
 
         var canStartMovie = true;
@@ -518,7 +524,8 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
 
             node.append("image")
-                .attr("width", "100").attr("height", "100")
+                .attr("width", "100")
+                .attr("height", "100")
                 .attr("xlink:href", function (d) {
                     return d.path;
                 })
@@ -585,7 +592,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 urls: ['../templates/images/g5-pullfic/PulpFiction.mp3','../templates/images/g5-pullfic/PulpFiction.mp4','../templates/images/g5-pullfic/PulpFiction.ogv','../templates/images/g5-pullfic/PulpFiction.webm'],
                 autoplay: false,
                 loop: false,
-                volume: 0.5,
+                volume: 1,
                 onload: function () {
                     canStartMovie = true;
                     addPlayScreen();
@@ -614,7 +621,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 timeLine.explodeTime = exploders;
                 sound.play();
             });
-
+            sound.fade(1,0,3000,function(){
+                sound.stop();
+            });
             finishScreen.fadeIn(2000);
 
         };
