@@ -35,8 +35,8 @@ define(function () {
             },
             "g5": {
                 "id": "g5",
-                "title": "Pulp Fiction",
-                "description": "It’s the punch-card visualization of question asked in each day of November-December in 2013",
+                "title": "255 f**k in Pulp Fiction",
+                "description": "The word 'fuck' is used 255 times in the filim Pulp Fiction , checkout the visualization to see when they are",
                 "thumbnail": "templates/images/g5.png",
                 "htmlTitle": "pulp-fiction",
                 "tags": ["random", "filims"]
