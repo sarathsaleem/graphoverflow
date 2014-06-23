@@ -51,8 +51,6 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
             //check data error
             localStorage.setItem(that.id, JSON.stringify(grapData));
 
-            console.log('rendering', grapData);
-
             require(['graph/render/' + that.id], function (render) {
 
                 render(grapData, $(that.graphCanvas)[0]);

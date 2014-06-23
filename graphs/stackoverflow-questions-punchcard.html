@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data visualization and info graphics using JavaScript libraries like D3.js, three.js.has a collection Stackoverflow data visualization and others.">
+    <meta name="keywords" content="data visualisation,infographics,JavaScript Charts,D3.js charts">
+    <meta name="author" content="sarath saleem">
+    <title>GraphOverflow : Did you code on last Christmas day ?</title>
+    <!-- Bootstrap core CSS -->
+    <!--   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
+    <link href="../theme/css/bootstrap-min.css" rel="stylesheet">
+    <link href="../theme/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../theme/css/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="http://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="http://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <h1>
+                        <span>GRAPH</span>
+                        <span>OVERFLOW</span>
+                    </h1>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse"></div>
+            <!--/.navbar-collapse -->
+        </div>
+    </div>
+
+
+    <div class="graphWrapper">
+        <div class="container">
+            <div class="streach"></div>
+            <div class="canvas">
+              <div class="graphCanvas"></div>
+                <div class="specs">
+                </div>
+                <div class="heading">
+                    <h2> Did you code on last Christmas day ? </h2>
+                    <h4>
+                        <small> It’s the punch-card visualization of question asked in each day of November-December in 2013 </small>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="graphContent">
+            <div class="conterntWrapper">
+    <div class="col-md-12">
+        It’s the punch-card visualization of question asked in each day of November-December in 2013. Its not filtered against any tag , ie each circle represents the total question asked on a day in stackoverflow.com.</div>
+    <div class="col-md-12">
+        It was just to see whether we can recognize the weekends from the count of question asked. Saturday and Sunday are cool days with average of 3K-4K question and Wednesday-Thursday are hot with count up yo 8K. The last column is the last week of December , yaa the vacation week :) and still there are people keep active even on those days. can you identify Christmas day ?
+    </div>
+</div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2014</p>
+        <p class="developedBy"> This website is developed and maintained by Sarath Saleem , you can check the source at <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow">Github</a> </p>
+    </footer>
+
+    <script>
+        var require = {
+            baseUrl: '../js'
+        };
+    </script>
+
+    <script src="../js/libs/jquery.js"></script>
+    <script src="../theme/js/bootstrap.min.js"></script>
+
+
+
+    <script data-main="app"  src="../js/libs/require.js"></script>
+    <script type="text/javascript">
+        require(['app','../js/graph/render/g4'], function (modules,render) {
+            var application = modules.App;
+            application.loadGraph('g4');
+            application.dashboard.showGraph('g4');
+
+        });
+    </script>
+
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-49871946-1', 'graphoverflow.com');
+          ga('send', 'pageview');
+    </script>
+</body>
+
+</html>

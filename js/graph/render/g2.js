@@ -1,7 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator */
 
-define(['d3', 'utils/utils'], function (d3, _util) {
+define(['d3', 'utils/utils'], function (ignore, _util) {
 
     "use strict";
 
