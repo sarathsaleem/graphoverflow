@@ -37,7 +37,7 @@ define(function () {
                 "id": "g5",
                 "title": "Pulp Fiction",
                 "description": "It’s the punch-card visualization of question asked in each day of November-December in 2013",
-                "thumbnail": "templates/images/g4.png",
+                "thumbnail": "templates/images/g5.png",
                 "htmlTitle": "pulp-fiction",
                 "tags": ["random", "filims"]
             }

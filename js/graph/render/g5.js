@@ -623,7 +623,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
         var onFinish = function (exploders) {
 
             var finishScreen = $('<div class="loadingScreen finishScreen" />'),
-                imdb = $('<a class="imdbLink" href="http://www.imdb.com" target="_blank"></a>'),
+                imdb = $('<a class="imdbLink" href="http://www.imdb.com/title/tt0110912/" target="_blank"></a>'),
                 restart = $('<div class="restart_button">replay</div>');
             //finishScreen.append(imdb);
 
