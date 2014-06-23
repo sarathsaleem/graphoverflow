@@ -110,6 +110,7 @@ footer {
     position: fixed;
     width: 100%;
     color: #ff1171;
+    z-index: 10;
 }
 footer p {
     font-size: 10px;
@@ -553,15 +554,49 @@ svg {
 }
 .finishScreen {
     z-index: 8;
-    background: #fff;
+    background: url('../../templates/images/g5-pullfic/bg.png') no-repeat 0 0;
+    background-size: 100%;
     display: none;
     height: 90%;
 }
 .restart_button {
     position: absolute;
-    width: 50px;
-    height: 50px;
     z-index: 11;
-    right: 10%;
-    bottom: 20%;
+    right: 2%;
+    bottom: 16%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 10px;
+    text-align: center;
+    color: #424242;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+.restart_button:hover{
+     border: 1px solid #c4c4c4;
+     color: #c4c4c4;
+}
+.imdbLink{
+    z-index: 11;
+    background: url('../../templates/images/g5-pullfic/imdb.png') no-repeat 0 0;
+    background-size: 100%;
+    position: absolute;
+    display: block;
+    bottom: 2%;
+    left: 2%;
+    width: 50px;
+    height: 120px;
+    opacity: .5;
+     -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+.imdbLink:hover{
+    opacity: 1;
 }

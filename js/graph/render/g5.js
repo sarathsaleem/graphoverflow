@@ -489,6 +489,19 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                         "name": "vincent",
                         "group": 1,
                         "path": '../templates/images/g5-pullfic/vincent.png'
+                    },
+                    {
+                        "name": "pum",
+                        "group": 1,
+                        "path": '../templates/images/g5-pullfic/pum.png'
+                    },{
+                        "name": "qunt",
+                        "group": 1,
+                        "path": '../templates/images/g5-pullfic/qunt.png'
+                    },{
+                        "name": "quntWife",
+                        "group": 1,
+                        "path": '../templates/images/g5-pullfic/quntWife.png'
                     }
   ],
                 "links": []
@@ -503,7 +516,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             forceLayout = d3.layout.force()
                 .charge(-300)
                 .linkDistance(250)
-                .size([canvasWidth / 2, gridHeight / 2]);
+                .size([canvasWidth / 2.5, gridHeight / 2.5]);
 
             forceLayout
                 .nodes(graph.nodes)
@@ -577,6 +590,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                         loadingScreen.hide();
                         timeLine.init(totalFilimDuration, timelineSpeed);
                         sound.play();
+                        sound.fade(0,1,2000);
 
                     });
 
@@ -592,7 +606,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 urls: ['../templates/images/g5-pullfic/PulpFiction.mp3','../templates/images/g5-pullfic/PulpFiction.mp4','../templates/images/g5-pullfic/PulpFiction.ogv','../templates/images/g5-pullfic/PulpFiction.webm'],
                 autoplay: false,
                 loop: false,
-                volume: 1,
+                volume: 0,
                 onload: function () {
                     canStartMovie = true;
                     addPlayScreen();
@@ -600,7 +614,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             });
 
             //for local only
-            addPlayScreen();
+            //addPlayScreen();
 
         }
 
@@ -609,22 +623,27 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
         var onFinish = function (exploders) {
 
             var finishScreen = $('<div class="loadingScreen finishScreen" />'),
-                restart = $('<div class="play_border restart_button"></div>');
-            //finishScreen.append(restart);
+                imdb = $('<a class="imdbLink" href="http://www.imdb.com" target="_blank"></a>'),
+                restart = $('<div class="restart_button">replay</div>');
+            //finishScreen.append(imdb);
 
             $(container).append(finishScreen);
             $(container).append(restart);
+            $(container).append(imdb);
 
             restart.on('click', function () {
                 finishScreen.hide();
+                imdb.hide();
+                restart.hide();
                 timeLine.init(totalFilimDuration, timelineSpeed);
                 timeLine.explodeTime = exploders;
                 sound.play();
+                sound.fade(0,1,2000);
             });
             sound.fade(1,0,3000,function(){
                 sound.stop();
             });
-            finishScreen.fadeIn(2000);
+            finishScreen.fadeIn(3000);
 
         };
 
