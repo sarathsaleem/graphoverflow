@@ -1,4 +1,4 @@
-/*! Graphoverflow 2014-06-11 */
+/*! Graphoverflow 2014-06-24 */
 // Knockout JavaScript library v2.3.0
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -4227,8 +4227,8 @@ define('graph/views/dashboard',['knockout'], function (ko) {
                 filter: '*',
                 itemSelector: '.graplist-item',
                 animationOptions: {
-                    duration: 750,
-                    easing: 'linear',
+                    duration: 5000,
+                    easing: 'easeInOutQuad',
                     queue: false
                 }
             });
@@ -4297,9 +4297,9 @@ define('graph/model/graph-list',[],function () {
             },
             "g5": {
                 "id": "g5",
-                "title": "Pulp Fiction",
-                "description": "It’s the punch-card visualization of question asked in each day of November-December in 2013",
-                "thumbnail": "templates/images/g4.png",
+                "title": "255 f**k in Pulp Fiction",
+                "description": "The word 'fuck' is used 255 times in the filim Pulp Fiction , checkout the visualization to see when they are",
+                "thumbnail": "templates/images/g5.png",
                 "htmlTitle": "pulp-fiction",
                 "tags": ["random", "filims"]
             }
@@ -4308,9 +4308,10 @@ define('graph/model/graph-list',[],function () {
     };
     return graphs;
 });
-
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator */
+
+
 
 require.config({
     // baseUrl: './js',
@@ -4340,7 +4341,6 @@ define('app',['require','exports','module','knockout','d3','graph/model/graph','
     /**
      * Description
      */
-
     function GraphOverflow() {
 
         var app = this;
@@ -4412,7 +4412,7 @@ define('app',['require','exports','module','knockout','d3','graph/model/graph','
 
     }
 
-   App.dashboard.init(initKoBinding);
+    App.dashboard.init(initKoBinding);
 
     exports.App = App;
 

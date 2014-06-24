@@ -6,9 +6,9 @@ define(function () {
 
     var graph = {
         id: 'g5',
-        title: 'pullfic?',
+        title: '',
         description: 'pullfic',
-        thumbnail: 'templates/images/' + 'g5-pullfic.png'
+        thumbnail: ''
     };
     return graph;
 
