@@ -1,4 +1,4 @@
-/*! Graphoverflow 2014-06-24 */
+/*! Graphoverflow 2014-06-25 */
 // Knockout JavaScript library v2.3.0
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
