@@ -67,7 +67,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask("graphs", "Generate graph pages", function () {
         var conf = grunt.config('index'),
-            graphList = grunt.config('graphList'),
+            graphList = grunt.config('graphList').graphList,
             tmpl = grunt.file.read(conf.graphTmpl);
 
         Object.keys(graphList).forEach(function (graphId) {
@@ -82,6 +82,8 @@ module.exports = function (grunt) {
                     "graphId": graph.id,
                     "graphContent": graphContent,
                     "title": title,
+                    "thumbnail" : '../'+graph.thumbnail,
+                    "description" : graph.description,
                     "env": env
                 }
             }));

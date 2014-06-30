@@ -2,8 +2,7 @@
     baseUrl: 'GO/js',
     paths: {
         knockout: 'libs/knockout',
-        d3: 'libs/d3',
-        jquery: 'libs/jquery'
+        d3: 'libs/d3'
     },
     shim: {
         d3: {
