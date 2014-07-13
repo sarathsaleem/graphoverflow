@@ -70,9 +70,8 @@ module.exports = function (grunt) {
             graphList = grunt.config('graphList').graphList,
             tmpl = grunt.file.read(conf.graphTmpl);
 
-        Object.keys(graphList).forEach(function (graphId) {
-            var graph = graphList[graphId],
-                fileName = graph.htmlTitle || graph.id,
+        graphList.forEach(function (graph) {
+            var fileName = graph.htmlTitle || graph.id,
                 contentPath = conf.contetnSrc + '/' + graph.id + '.html',
                 graphContent = grunt.file.read(contentPath),
                 title = graph.title;
@@ -82,8 +81,8 @@ module.exports = function (grunt) {
                     "graphId": graph.id,
                     "graphContent": graphContent,
                     "title": title,
-                    "thumbnail" : '../'+graph.thumbnail,
-                    "description" : graph.description,
+                    "thumbnail": '../' + graph.thumbnail,
+                    "description": graph.description,
                     "env": env
                 }
             }));
@@ -94,11 +93,18 @@ module.exports = function (grunt) {
 
     grunt.registerTask("index", "Generate index page", function () {
         var conf = grunt.config('index'),
-            tmpl = grunt.file.read(conf.indexTmpl);
+            tmpl = grunt.file.read(conf.indexTmpl),
+            graphList = grunt.config('graphList').graphList;
+
+        graphList.map(function (graph) {
+            graph.tags = graph.tags.join(' ');
+            return graph;
+        });
 
         grunt.file.write('GO/index.html', grunt.template.process(tmpl, {
             data: {
-                "env": env
+                "env": env,
+                "graphs": graphList
             }
         }));
         grunt.log.writeln('Generated : index.html');
@@ -122,8 +128,8 @@ module.exports = function (grunt) {
 
 
     // Default task(s).
-    grunt.registerTask('default', ['development','graphs', 'index']);
-    grunt.registerTask('build', ['production','graphs', 'index', 'requirejs']);
+    grunt.registerTask('default', ['development', 'graphs', 'index']);
+    grunt.registerTask('build', ['production', 'graphs', 'index', 'requirejs']);
 
 };
 
