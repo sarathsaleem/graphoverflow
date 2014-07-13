@@ -234,8 +234,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             this.exploders.push(exploder);
         };
         this.addDialogue = function (dialogue) {
-            var i = 0,
-                randomX = getRandomInt(0, 400),
+            var randomX = getRandomInt(0, 400),
                 randomY = getRandomInt(0, 900),
                 moveToX = getRandomInt(0, 400),
                 moveToY = getRandomInt(0, 900),
@@ -252,13 +251,13 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             dialogue = dialogue.replace('/-/gi',' ').replace(/ *\[[^)]*\] */g, " ");
 
             this.chart.append("text")
+                .attr("class", "pulpFic")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
                 .text(dialogue)
-                .style("fill", '#F67937')//'d3.hsl((i = (i + 1) % 360), 1, 0.5))
+                .style("fill", '#ff5a08')//'d3.hsl((i = (i + 1) % 360), 1, 0.5))
                 .style("opacity", 1)
                 .style({
-                    'font-size': fontSize + 'px',
-                    'font-weight': 'bold'
+                    'font-size': fontSize + 'px'
                 })
                 .transition()
                 .duration(5000)

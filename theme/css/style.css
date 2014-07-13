@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(OpenSans.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Pulp Fiction M54';
+    font-style: italic;
+    src: local('Pulp Fiction M54'), local('PulpFictionM54'), url(PulpFictionM54.ttf) format('truetype');
+}
+
+/* SVG styles */
+
 rect {
     shape-rendering: crispEdges;
 }
@@ -8,15 +23,19 @@ text {
     stroke-width: 0;
     font-size: 18px;
 }
+
+/*** geometricPrecision cauese perfomance issues, gont use it for animation components */
+text.pulpFic {
+    font-family: 'Pulp Fiction M54';
+    text-rendering: optimizeSpeed;
+    font-style: italic;
+}
 .text-count {
     fill: #8B8B8B;
 }
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Open Sans'), local('OpenSans'), url(cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
-}
+
+/* ------- */
+
 html {
     min-height: 100%;
 }
