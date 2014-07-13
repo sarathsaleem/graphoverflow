@@ -105,6 +105,9 @@ define(['knockout'], function (ko) {
         };
 
         this.initGridView = function () {
+            if(!window.Isotope) {
+                return;
+            }
             $.bridget('isotope', Isotope);
             $('#grapsList').isotope({
                 filter: '*',

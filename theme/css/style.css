@@ -170,8 +170,8 @@ footer .developedBy {
 }
 .graphCanvas {
     position: relative;
-    width: 80%;
-    height: 80%;
+    width: 98%;
+    height: 98%;
     background: #000;
     background: radial-gradient(farthest-side ellipse at 10% 0, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("../images/bg_noise.png");
     float: left;
@@ -188,12 +188,12 @@ footer .developedBy {
     height: 80%;
     color: #ccc;
 }
-.graphWrapper .canvas .heading {
+.graphWrapper .heading {
     clear: both;
-    height: 17%;
     background: #222222;
     margin: 1%;
     color: #FF1171;
+    padding:1%;
 }
 .graphWrapper .canvas .heading h2 {
     font-size: 21px;
@@ -605,10 +605,10 @@ svg {
     background-size: 100%;
     position: absolute;
     display: block;
-    bottom: 2%;
+    bottom: 12%;
     left: 2%;
     width: 50px;
-    height: 120px;
+    height: 58px;
     opacity: .5;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;

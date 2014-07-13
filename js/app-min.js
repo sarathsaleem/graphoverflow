@@ -1,4 +1,4 @@
-/*! Graphoverflow 2014-07-14 */
+/*! Graphoverflow 2014-07-15 */
 // Knockout JavaScript library v2.3.0
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -4203,6 +4203,9 @@ define('graph/views/dashboard',['knockout'], function (ko) {
         };
 
         this.initGridView = function () {
+            if(!window.Isotope) {
+                return;
+            }
             $.bridget('isotope', Isotope);
             $('#grapsList').isotope({
                 filter: '*',
