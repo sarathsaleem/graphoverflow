@@ -572,12 +572,13 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
             var loadingScreen = $('<div class="loadingScreen" />'),
                 loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
-                play = $('<div class="play_border"><div class="play_button"></div></div>');
-
+                play = $('<div class="play_border"><div class="play_button"></div></div>'),
+                timeLineStrip = $('<div class="timeline-bg "><div class="time-1">1 hr</div><div class="time-2">2 hr</div><div class="time-3">2.30 hr</div></div>');
 
             loadingScreen.append(loader);
 
             $(container).append(loadingScreen);
+            $(container).append(timeLineStrip);
 
 
             function addPlayScreen() {
@@ -589,7 +590,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                         loadingScreen.hide();
                         timeLine.init(totalFilimDuration, timelineSpeed);
                         sound.play();
-                        sound.fade(0,1,2000);
+                        sound.fade(0,.5,2000);
 
                     });
 
@@ -637,7 +638,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 timeLine.init(totalFilimDuration, timelineSpeed);
                 timeLine.explodeTime = exploders;
                 sound.play();
-                sound.fade(0,1,2000);
+                sound.fade(0,.5,2000);
             });
             sound.fade(1,0,3000,function(){
                 sound.stop();
