@@ -121,7 +121,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
     var getColor = d3.scale.linear().domain([0, 1]).range(['rgb(199, 233, 180)', 'rgb(65, 182, 196)']);
 
-    var exploderColor = '#CD1100',//'#F67937',
+    var exploderColor = '#CD1100', //'#F67937',
         highlightColor = '#CD1100',
         timelinePanelColor = '#CD7A00';
 
@@ -215,7 +215,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.strokeStyle = highlightColor; //"rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
-            ctx.fillStyle = highlightColor ;//"rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
+            ctx.fillStyle = highlightColor; //"rgba(76, 155, 46, .5)"; //convertHex(getColor(that.timeProgressBar.color), 50); //"rgba(76, 155, 46, .5)";
 
             for (; width < len; begin++, width++) {
                 ctx.moveTo(begin, (this.height));
@@ -248,14 +248,14 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 moveToY = 800;
             }*/
 
-            dialogue = dialogue.replace('/-/gi',' ').replace(/ *\[[^)]*\] */g, " ");
+            dialogue = dialogue.replace('/-/gi', ' ').replace(/ *\[[^)]*\] */g, " ");
 
             this.chart.append("text")
                 .attr("class", "pulpFic")
                 .attr("transform", "translate(" + randomX + "," + randomY + ")")
                 .text(dialogue)
-                .style("fill", '#ff5a08')//'d3.hsl((i = (i + 1) % 360), 1, 0.5))
-                .style("opacity", 1)
+                .style("fill", '#ff5a08') //'d3.hsl((i = (i + 1) % 360), 1, 0.5))
+            .style("opacity", 1)
                 .style({
                     'font-size': fontSize + 'px'
                 })
@@ -332,7 +332,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             this.isPlaying = true;
             this.finishPlayed = false;
 
-            this.ctx.fillStyle = "rgb(0,0,0)";//clear canvas
+            this.ctx.fillStyle = "rgb(0,0,0)"; //clear canvas
             this.ctx.fillRect(0, 0, this.width, this.height);
 
             //start rendering
@@ -493,11 +493,11 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                         "name": "pum",
                         "group": 1,
                         "path": '../templates/images/g5-pullfic/pum.png'
-                    },{
+                    }, {
                         "name": "qunt",
                         "group": 1,
                         "path": '../templates/images/g5-pullfic/qunt.png'
-                    },{
+                    }, {
                         "name": "quntWife",
                         "group": 1,
                         "path": '../templates/images/g5-pullfic/quntWife.png'
@@ -573,7 +573,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
             var loadingScreen = $('<div class="loadingScreen" />'),
                 loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
                 play = $('<div class="play_border"><div class="play_button"></div></div>'),
-                timeLineStrip = $('<div class="timeline-bg "><div class="time-1">1 hr</div><div class="time-2">2 hr</div><div class="time-3">2.30 hr</div></div>');
+                timeLineStrip = $('<div class="timeline-bg "><div class="time-1">1 hr</div><div class="time-2">2 hr</div></div>');
 
             loadingScreen.append(loader);
 
@@ -590,7 +590,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                         loadingScreen.hide();
                         timeLine.init(totalFilimDuration, timelineSpeed);
                         sound.play();
-                        sound.fade(0,.5,2000);
+                        sound.fade(0, 0.5, 2000);
 
                     });
 
@@ -603,7 +603,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
 
             //http://goldfirestudios.com/proj/howlerjs/sounds.mp3
             sound = new audio.Howl({
-                urls: ['../templates/images/g5-pullfic/PulpFiction.mp3','../templates/images/g5-pullfic/PulpFiction.mp4','../templates/images/g5-pullfic/PulpFiction.ogv','../templates/images/g5-pullfic/PulpFiction.webm'],
+                urls: ['../templates/images/g5-pullfic/PulpFiction.mp3', '../templates/images/g5-pullfic/PulpFiction.mp4', '../templates/images/g5-pullfic/PulpFiction.ogv', '../templates/images/g5-pullfic/PulpFiction.webm'],
                 autoplay: false,
                 loop: false,
                 volume: 0,
@@ -638,9 +638,9 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 timeLine.init(totalFilimDuration, timelineSpeed);
                 timeLine.explodeTime = exploders;
                 sound.play();
-                sound.fade(0,.5,2000);
+                sound.fade(0, 0.5, 2000);
             });
-            sound.fade(1,0,3000,function(){
+            sound.fade(1, 0, 3000, function () {
                 sound.stop();
             });
             finishScreen.fadeIn(3000);
