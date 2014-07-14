@@ -104,27 +104,8 @@ define(['knockout'], function (ko) {
 
         };
 
-        ko.bindingHandlers.initGridView = {
-            init: function (element) {
-                $(function () {
-                    $.bridget('isotope', Isotope);
-                    that.initGridView()
-                });
-            }
-        };
-
         this.initGridView = function () {
-            var $container = $('#grapsList')[0];
-            /*var iso = new Isotope($container, {
-                filter: '*',
-                itemSelector: '.graplist-item',
-                animationOptions: {
-                    duration: 750,
-                    easing: 'linear',
-                    queue: false
-                }
-            });*/
-
+            $.bridget('isotope', Isotope);
             $('#grapsList').isotope({
                 filter: '*',
                 itemSelector: '.graplist-item',
@@ -148,7 +129,6 @@ define(['knockout'], function (ko) {
             });
 
         };
-
 
 
         this.init = function (cb) {

@@ -69,32 +69,22 @@
     </div>
     <div class="container">
 
-        <div id="grapsList" class="row" data-bind="foreach : graphs() , initGridView : true ">
-            <div class="graplist-item" data-bind="attr : {id : 'graph-'+id }, css : tags">
-                <!--        <p data-bind="text : description"></p>-->
-                <a data-bind="attr: { href: './graphs/'+link+'.html'}" class="thumbnail">
-                    <img class="img-polaroid" data-bind="attr: { src: thumbnail }" src="templates/images/g1.png" />
-
-                    <h2 data-bind="text : title"></h2>
-
-                    <div class="description" data-bind="text : description"></div>
-                </a>
-            </div>
-        </div>
+        <ul id="grapsList" class="row">
+            <% _.each(graphs, function(graph) { %>
+                <li class="graplist-item <%= graph.tags %>" id="<%= graph.id %>">
+                    <a href="./graphs/<%= graph.htmlTitle %>.html" class="thumbnail">
+                        <img class="img-polaroid"  src="<%= graph.thumbnail %>" />
+                        <h2><%= graph.title %></h2>
+                        <div class="description" ><%= graph.description %></div>
+                    </a>
+                </li>
+             <% }); %>
+        </ul>
 
     </div>
     <hr>
     <!-- /ko -->
 
-    <!-- ko if: page() === 'graph' -->
-    <div class="graphWrapper">
-        <div class="container">
-            <div class="streach"></div>
-            <div class="canvas" data-bind="template: { name: 'graph' , data : currentGraph }"></div>
-        </div>
-        <div class="container" id="graphContent"></div>
-    </div>
-    <!-- /ko -->
     <footer>
         <p>&copy; 2014</p>
         <p class="developedBy"> This website is developed and maintained by Sarath Saleem , you can check the source code at <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow">Github</a> </p>

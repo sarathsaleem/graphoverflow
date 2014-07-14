@@ -45,18 +45,18 @@ define(function (require, exports, module) {
         this.getGraphList = function (id) {
             var list = [];
             if (id) {
-                if (graphsList[id]) {
-                    list.push(graphsList[id]);
+                graphsList.forEach(function (graph) {
+                    if(graph.id == id){
+                        list.push(graph);
+                    }
+                });
+                if (list.length) { // fix me : improve
                     return list;
                 }
-                console.error('cannot find graph with id' + id + ' in graphlist');
+                console.error('cannot find graph with id ' + id + ' in graphlist');
                 // give full graph list for dashboard
             } else {
-
-                Object.keys(graphsList).forEach(function (id) {
-                    list.push(graphsList[id]);
-                });
-                return list;
+                return graphsList;
             }
         };
 
@@ -84,6 +84,10 @@ define(function (require, exports, module) {
             //setTimeout(this.loadGraph.bind(this), 2000);
 
         };
+        this.init = function (){
+            this.loadGraph();
+            app.dashboard.initGridView();
+        };
     }
 
 
@@ -97,7 +101,7 @@ define(function (require, exports, module) {
 
         $(function () {
             ko.applyBindings(App.dashboard, $('html ')[0]);
-            App.loadGraph();
+            App.init();
         });
 
     }

@@ -1,4 +1,4 @@
-/*! Graphoverflow 2014-07-13 */
+/*! Graphoverflow 2014-07-14 */
 // Knockout JavaScript library v2.3.0
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -4202,27 +4202,8 @@ define('graph/views/dashboard',['knockout'], function (ko) {
 
         };
 
-        ko.bindingHandlers.initGridView = {
-            init: function (element) {
-                $(function () {
-                    $.bridget('isotope', Isotope);
-                    that.initGridView()
-                });
-            }
-        };
-
         this.initGridView = function () {
-            var $container = $('#grapsList')[0];
-            /*var iso = new Isotope($container, {
-                filter: '*',
-                itemSelector: '.graplist-item',
-                animationOptions: {
-                    duration: 750,
-                    easing: 'linear',
-                    queue: false
-                }
-            });*/
-
+            $.bridget('isotope', Isotope);
             $('#grapsList').isotope({
                 filter: '*',
                 itemSelector: '.graplist-item',
@@ -4248,7 +4229,6 @@ define('graph/views/dashboard',['knockout'], function (ko) {
         };
 
 
-
         this.init = function (cb) {
 
             this.loadTemplates(cb);
@@ -4262,8 +4242,7 @@ define('graph/views/dashboard',['knockout'], function (ko) {
 
 define('graph/model/graph-list',[],function () {
     var graphs = {
-        "graphList": {
-            "g1": {
+        "graphList": [{
                 "id": "g1",
                 "title": "Relation between tags in stackoverflow",
                 "description": "This grapgh shows the relation between first 60 tags and each tags first 60 related tags.",
@@ -4271,7 +4250,7 @@ define('graph/model/graph-list',[],function () {
                 "htmlTitle": "stackoverflow-tag-relations",
                 "tags": ["stackoverflow", "programming"]
             },
-            "g2": {
+            {
                 "id": "g2",
                 "title": "Which is the trending tag last year?",
                 "description": "You can sort the the data in yearly wise by clicking on the bottom year tab. The tags will be rearranged in descending order",
@@ -4279,7 +4258,7 @@ define('graph/model/graph-list',[],function () {
                 "htmlTitle": "stackoverflow-tag-trending-yearly",
                 "tags": ["stackoverflow", "programming"]
             },
-            "g3": {
+            {
                 "id": "g3",
                 "title": "How tags are growing ?",
                 "description": "This graph shows the growth of tags in each month.The vertical position of circle represent the count of questions in a month.",
@@ -4287,7 +4266,7 @@ define('graph/model/graph-list',[],function () {
                 "htmlTitle": "stackoverflow-tag-growth-rate-montly",
                 "tags": ["stackoverflow", "programming"]
             },
-            "g4": {
+            {
                 "id": "g4",
                 "title": "Did you code on last Christmas day ?",
                 "description": "It’s the punch-card visualization of question asked in each day of November-December in 2013",
@@ -4295,7 +4274,7 @@ define('graph/model/graph-list',[],function () {
                 "htmlTitle": "stackoverflow-questions-punchcard",
                 "tags": ["stackoverflow", "programming"]
             },
-            "g5": {
+            {
                 "id": "g5",
                 "title": "255 f**k in Pulp Fiction",
                 "description": "The word 'fuck' is used 255 times in the filim Pulp Fiction , checkout the visualization to see when they are",
@@ -4303,11 +4282,12 @@ define('graph/model/graph-list',[],function () {
                 "htmlTitle": "pulp-fiction",
                 "tags": ["random", "filims"]
             }
-        },
-        "tags": ["all", "stackoverflow", "random", "filims"]
-    };
+        ],
+            "tags": ["all", "stackoverflow", "random", "filims"]
+        };
     return graphs;
 });
+
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator */
 
@@ -4355,18 +4335,18 @@ define('app',['require','exports','module','knockout','d3','graph/model/graph','
         this.getGraphList = function (id) {
             var list = [];
             if (id) {
-                if (graphsList[id]) {
-                    list.push(graphsList[id]);
+                graphsList.forEach(function (graph) {
+                    if(graph.id == id){
+                        list.push(graph);
+                    }
+                });
+                if (list.length) { // fix me : improve
                     return list;
                 }
-                console.error('cannot find graph with id' + id + ' in graphlist');
+                console.error('cannot find graph with id ' + id + ' in graphlist');
                 // give full graph list for dashboard
             } else {
-
-                Object.keys(graphsList).forEach(function (id) {
-                    list.push(graphsList[id]);
-                });
-                return list;
+                return graphsList;
             }
         };
 
@@ -4394,6 +4374,10 @@ define('app',['require','exports','module','knockout','d3','graph/model/graph','
             //setTimeout(this.loadGraph.bind(this), 2000);
 
         };
+        this.init = function (){
+            this.loadGraph();
+            app.dashboard.initGridView();
+        };
     }
 
 
@@ -4407,7 +4391,7 @@ define('app',['require','exports','module','knockout','d3','graph/model/graph','
 
         $(function () {
             ko.applyBindings(App.dashboard, $('html ')[0]);
-            App.loadGraph();
+            App.init();
         });
 
     }
