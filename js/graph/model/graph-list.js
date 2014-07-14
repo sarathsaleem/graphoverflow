@@ -11,7 +11,7 @@ define(function () {
             {
                 "id": "g2",
                 "title": "Which is the trending tag last year?",
-                "description": "You can sort the the data in yearly wise by clicking on the bottom year tab. The tags will be rearranged in descending order",
+                "description": "You can sort the data in yearly wise by clicking on the bottom year tab. The tags will be rearranged in descending order",
                 "thumbnail": "templates/images/g2.png",
                 "htmlTitle": "stackoverflow-tag-trending-yearly",
                 "tags": ["stackoverflow", "programming"]
