@@ -607,6 +607,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 autoplay: false,
                 loop: false,
                 volume: 0,
+                buffer : true,
                 onload: function () {
                     canStartMovie = true;
                     addPlayScreen();
