@@ -591,7 +591,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                         timeLine.init(totalFilimDuration, timelineSpeed);
                         sound.play();
                         sound.fade(0, 0.5, 2000);
-
+                        ga('send', 'event', 'button', 'click', 'played:pulp-fiction');
                     });
 
                 } else {
