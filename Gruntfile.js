@@ -81,7 +81,7 @@ module.exports = function (grunt) {
                     "graphId": graph.id,
                     "graphContent": graphContent,
                     "title": title,
-                    "thumbnail": '../' + graph.thumbnail,
+                    "thumbnail": graph.thumbnail,
                     "description": graph.description,
                     "env": env
                 }

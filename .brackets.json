@@ -1,0 +1,9 @@
+{
+    "language.fileExtensions": {
+        "ko": "html",
+        "tmpl" : "html"
+    },
+    "language.fileNames": {
+        "less": "css"
+    }
+}
