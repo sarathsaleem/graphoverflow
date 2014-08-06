@@ -1,12 +1,16 @@
 {
-  "name": "Graphoverflow",
-  "version": "0.0.1",
-  "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-contrib-copy": "~0.5.x",
-    "grunt-contrib-uglify": "~0.4.x",
-    "grunt-contrib-watch": "~0.6.x",
-    "grunt-contrib-requirejs": "~0.4.3"
-  }
+    "name": "Graphoverflow",
+    "author": {
+        "name": "Sarath Saleem",
+        "contact" : "https://github.com/sarathsaleem"
+    },
+    "version": "0.0.1",
+    "devDependencies": {
+        "grunt": "~0.4.4",
+        "grunt-contrib-nodeunit": "~0.1.2",
+        "grunt-contrib-copy": "~0.5.x",
+        "grunt-contrib-uglify": "~0.4.x",
+        "grunt-contrib-watch": "~0.6.x",
+        "grunt-contrib-requirejs": "~0.4.3"
+    }
 }

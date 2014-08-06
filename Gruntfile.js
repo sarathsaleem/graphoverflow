@@ -47,7 +47,7 @@ module.exports = function (grunt) {
                         }
                     },
                     wrap: {
-                        "start": '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                        "start": '/*\n\n<%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> (https://github.com/sarathsaleem/graphoverflow)\n    By  \n<%= pkg.author.name %> \n\n*/\n\n\n',
                         "end": ""
                     },
                     name: 'app',
@@ -136,3 +136,5 @@ module.exports = function (grunt) {
 //build cmd
 
 //node r.js -o build.js optimize=none
+
+//
