@@ -3,7 +3,7 @@ define(function () {
         "graphList": [{
                 "id": "g1",
                 "title": "Relation between tags in stackoverflow",
-                "description": "This grapgh shows the relation between first 60 tags and each tags first 60 related tags.",
+                "description": "This graph shows the relation between first 60 tags and each tags first 60 related tags.",
                 "thumbnail": "templates/images/g1.png",
                 "htmlTitle": "stackoverflow-tag-relations",
                 "tags": ["stackoverflow", "programming"]

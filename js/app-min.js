@@ -1,4 +1,4 @@
-/*! Graphoverflow 2014-07-23 */
+/*! Graphoverflow 2014-08-06 */
 // Knockout JavaScript library v2.3.0
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -4248,7 +4248,7 @@ define('graph/model/graph-list',[],function () {
         "graphList": [{
                 "id": "g1",
                 "title": "Relation between tags in stackoverflow",
-                "description": "This grapgh shows the relation between first 60 tags and each tags first 60 related tags.",
+                "description": "This graph shows the relation between first 60 tags and each tags first 60 related tags.",
                 "thumbnail": "templates/images/g1.png",
                 "htmlTitle": "stackoverflow-tag-relations",
                 "tags": ["stackoverflow", "programming"]
