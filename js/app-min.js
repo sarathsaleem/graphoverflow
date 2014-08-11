@@ -1,4 +1,12 @@
-/*! Graphoverflow 2014-08-06 */
+/*
+
+Graphoverflow 2014-08-13 (https://github.com/sarathsaleem/graphoverflow)
+    By  
+Sarath Saleem 
+
+*/
+
+
 // Knockout JavaScript library v2.3.0
 // (c) Steven Sanderson - http://knockoutjs.com/
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
