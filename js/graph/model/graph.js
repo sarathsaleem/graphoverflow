@@ -42,10 +42,8 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
 
         this.renderGraph = function (grapData) {
 
-            if (!grapData) {
-                console.error("GO: Cannot load '" + that.id + "' data");
-                return;
-
+            if (!grapData.length) {
+                console.warn("GO: Cannot load '" + that.id + "' data from data folder");
             }
 
             //check data error

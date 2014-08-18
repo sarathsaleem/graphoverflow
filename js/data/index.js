@@ -56,6 +56,12 @@ define(function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g6') {
+            _u.getData({
+                url: baseUrl + 'git-data.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);

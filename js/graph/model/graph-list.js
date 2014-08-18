@@ -39,9 +39,17 @@ define(function () {
                 "thumbnail": "templates/images/g5.png",
                 "htmlTitle": "pulp-fiction",
                 "tags": ["random", "filims"]
+            },
+            {
+                "id": "g6",
+                "title": "Git",
+                "description": "git",
+                "thumbnail": "templates/images/g6.png",
+                "htmlTitle": "Git",
+                "tags": ["random", "Git"]
             }
         ],
-            "tags": ["all", "stackoverflow", "random", "filims"]
+            "tags": ["all", "stackoverflow", "random", "filims", "git"]
         };
     return graphs;
 });

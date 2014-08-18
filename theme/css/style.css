@@ -77,6 +77,10 @@ h6,
 .navbar a.navbar-brand h1 span:first-child {
     color: #FFFFFF;
 }
+.development h1{
+    display: none;
+}
+
 .titleWrap {
     padding-top: 48px;
     padding-bottom: 48px;
@@ -661,4 +665,17 @@ svg {
 }
 .addthis_sharing_toolbox {
     margin: 3px 0 0 3px;
+}
+
+/* g6 */
+
+.dg.main {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 10000;
+}
+
+
+
 }

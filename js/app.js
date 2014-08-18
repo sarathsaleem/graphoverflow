@@ -8,7 +8,8 @@ require.config({
     // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
-        d3: 'libs/d3'
+        d3: 'libs/d3',
+        gui :'libs/dat.gui'
     },
     shim: {
         d3: {
