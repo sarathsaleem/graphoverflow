@@ -39,13 +39,9 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             canvasHeight = 1000; // $(canvas).height();
 
         var language = {};
-        var timeScale = d3.scale.linear()
-            .domain([60, 1000])
-            .range([1000, 17]);
-
 
         function compare(a, b) {
-            if (Date.parse(a.time) < Date.parse(b.time)) {
+            if (a.time < b.time) {
                 return -1;
             }
             return 1;
@@ -60,11 +56,11 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
         function parseGitData(dataArr) {
             dataArr.forEach(function (data) {
 
-                if (data.language) {
-                    if (language[data.language]) {
-                        language[data.language] += 1;
+                if (data.l) {
+                    if (language[data.l]) {
+                        language[data.l] += 1;
                     } else {
-                        language[data.language] = 1;
+                        language[data.l] = 1;
                     }
                 }
 
@@ -84,31 +80,27 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
         var getColor = d3.scale.linear().domain([0, 100]).range(["#e5f5e0", "#0F772E"]);
+        var text = Chart.append("text")
+            .attr("transform", "translate(200,200)")
+            .text("Start timer");
 
 
 
 
-
-
-
-
-
-        var GitHour = function (duration) {
+        var GitHour = function () {
             var that = this;
-            this.speed = 600;
-            this.speedEvent = gui.add(this, 'speed', 60, 1000);
+            this.speed = 200;
+            this.speedEvent = gui.add(this, 'speed', 10, 1000);
             this.timer = 0;
             this.count = 0;
             this.data = [];
             this.animationId = 0;
             this.time = 0;
             this.progress = 0;
-            this.duration = duration || (4 * 1000);
-            this.cueLines = 0;
-            this.intensity = 0;
-            this.color = 0;
+            this.endTime = 0;
             this.stop = true;
             this.finishPlayed = true;
+            this.isPlaying = false;
 
             this.addAnEvent = function () {
                 var moveToX = rnd(0, 1000),
@@ -128,10 +120,10 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
 
 
             };
-            this.update = function (timeline) {
-                if (this.time < this.duration) {
-                    this.timer += (16.67 * this.speed);
-                    this.time += (16.67 * this.speed); //1000/60 * speed;
+            this.update = function () {
+                if (this.time < this.endTime) {
+                    this.timer += (16 * this.speed);
+                    this.time += (16 * this.speed); //1000/60 * speed;
                 } else {
                     this.stop = true;
                     this.finishPlayed = true;
@@ -142,7 +134,7 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                 }
             };
 
-            this.render = function (progressBar) {
+            this.render = function () {
                 /* that.timer = setInterval(function () {
                     console.log(that.data.arr[that.count].time);
                     that.addAnEvent();
@@ -150,15 +142,22 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                 }, timeScale(that.speed));
                 */
                 this.animationId = requestAnimationFrame(this.render.bind(this));
-                console.log(this.timer)
+
+                var progressTime = new Date(Math.abs(this.time));
+
+                //text.text(progressTime.getHours() + " - " + progressTime.getMinutes() + " - " + progressTime.getSeconds());
+                text.text(progressTime);
+
                 this.update.call(this);
 
                 for (var i = 0; i < this.data.arr.length; i++) {
-                    var dataTime = Date.parse(this.data.arr[i].time);
+                    var dataTime = this.data.arr[i].time * 1000;
 
                     if (dataTime < this.time) {
 
-                        this.addAnEvent();
+                        //this.addAnEvent();
+
+
 
                         this.data.arr.splice(i, 1);
 
@@ -172,9 +171,14 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             this.start = function () {
                 that.data = parseGitData(gitData);
                 //make initial time as git event time
-                that.time = Date.parse(that.data.arr[0].time);
-                that.initTime = Date.parse(that.data.arr[0].time);
-                that.duration = Date.parse(that.data.arr[0].time) + (60 * 1000 * 1000); //+1 hr
+                var startTime = that.data.arr[0].time * 1000; //add milli sec since I removed it from json
+                that.time = startTime;
+                that.initTime = startTime;
+                Date.prototype.addHours = function (h) {
+                    this.setHours(this.getHours() + h);
+                    return this;
+                };
+                that.endTime = Date.parse(new Date(startTime).addHours(1)); //+1 hr
 
                 that.render();
             };
