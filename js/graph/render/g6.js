@@ -84,6 +84,11 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             .attr("transform", "translate(200,200)")
             .text("Start timer");
 
+        var progressBar = Chart.append('g').attr("transform","translate(0,  990)");
+            progressBar.append('rect')
+                    .attr('width',canvasWidth).attr('height',20)
+                    .style('fill', '#59636D');
+        var progressUi = progressBar.append('rect').attr('class','progress').attr('width',500).attr('height',20).style('fill', '#06E58A');
 
 
 
@@ -91,7 +96,8 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             var that = this;
             this.speed = 200;
             this.speedEvent = gui.add(this, 'speed', 10, 1000);
-            this.timer = 0;
+            this.startTime = Date.now();
+            this.timer = Date.now();
             this.count = 0;
             this.data = [];
             this.animationId = 0;
@@ -121,9 +127,11 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
 
             };
             this.update = function () {
+
                 if (this.time < this.endTime) {
-                    this.timer += (16 * this.speed);
-                    this.time += (16 * this.speed); //1000/60 * speed;
+                    var inc = 16 * this.speed;//1000/60 * speed;
+                    this.timer += inc;
+                    this.time += inc;
                 } else {
                     this.stop = true;
                     this.finishPlayed = true;
@@ -146,18 +154,21 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                 var progressTime = new Date(Math.abs(this.time));
 
                 //text.text(progressTime.getHours() + " - " + progressTime.getMinutes() + " - " + progressTime.getSeconds());
-                text.text(progressTime);
+               // text.text(progressTime);
 
                 this.update.call(this);
 
+                var currentCount = 0 ;
+
                 for (var i = 0; i < this.data.arr.length; i++) {
-                    var dataTime = this.data.arr[i].time * 1000;
+                    var data = this.data.arr[i];
+                    var dataTime = data.time * 1000;
 
                     if (dataTime < this.time) {
 
                         //this.addAnEvent();
 
-
+                        currentCount++;
 
                         this.data.arr.splice(i, 1);
 
@@ -165,6 +176,11 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                         break;
                     }
                 }
+
+                var progress = (this.timer- this.startTime) / 60/60/1000;
+
+                progressUi.attr("width",progress*canvasWidth);
+                text.text(progress);
 
             };
 
@@ -174,11 +190,11 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                 var startTime = that.data.arr[0].time * 1000; //add milli sec since I removed it from json
                 that.time = startTime;
                 that.initTime = startTime;
-                Date.prototype.addHours = function (h) {
-                    this.setHours(this.getHours() + h);
-                    return this;
+                var addHours = function (O, h) {
+                    O.setHours(O.getHours() + h);
+                    return O;
                 };
-                that.endTime = Date.parse(new Date(startTime).addHours(1)); //+1 hr
+                that.endTime = Date.parse(addHours(new Date(startTime), 1)); //+1 hr
 
                 that.render();
             };

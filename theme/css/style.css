@@ -672,10 +672,7 @@ svg {
 .dg.main {
     position: absolute;
     top: 0px;
-    right: 0px;
+    left: 0px;
     z-index: 10000;
 }
 
-
-
-}
