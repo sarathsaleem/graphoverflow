@@ -129,7 +129,8 @@ define(function () {
                 "ajax": "#005A9C",
                 "xml": "#005A9C",
                 "django": "#7FB83D,#234F32,#092E20",
-                "linux": "#2E2C2C,#E7E8E9,#FDD23C"
+                "linux": "#2E2C2C,#E7E8E9,#FDD23C",
+                "perl" : "#E9F2FB,#A9CBEE,#5A8ACB"
             };
 
             return colors;

@@ -33,8 +33,6 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
 
     function render(gitData, canvas) {
 
-
-
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000; // $(canvas).height();
 
@@ -79,18 +77,30 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
         var Chart = d3.select(canvas).append("svg");
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
-        var getColor = d3.scale.linear().domain([0, 100]).range(["#e5f5e0", "#0F772E"]);
+
         var text = Chart.append("text")
             .attr("transform", "translate(200,200)")
             .text("Start timer");
 
-        var progressBar = Chart.append('g').attr("transform","translate(0,  990)");
-            progressBar.append('rect')
-                    .attr('width',canvasWidth).attr('height',20)
-                    .style('fill', '#59636D');
-        var progressUi = progressBar.append('rect').attr('class','progress').attr('width',500).attr('height',20).style('fill', '#06E58A');
+        var progressBar = Chart.append('g').attr("transform", "translate(0,  990)");
+        progressBar.append('rect')
+            .attr('width', canvasWidth).attr('height', 20)
+            .style('fill', '#59636D');
+        var progressUi = progressBar.append('rect').attr('class', 'progress').attr('width', 500).attr('height', 20).style('fill', '#06E58A');
 
+        var getColorScale = d3.scale.category20(),
+            colorList = _util.getTagColors();
 
+        //add colors ids
+        var colorNames = Object.keys(colorList);
+        colorNames.forEach(function (tag) {
+            _util.addGradient(Chart.selectAll("svg")[0].parentNode, tag, colorList[tag].split(','));
+
+        });
+
+        function getColor(name) {
+            return colorNames.indexOf(name) > -1 ? "url(#grad-" + name + ")" : getColorScale(rnd(0, 20));
+        }
 
         var GitHour = function () {
             var that = this;
@@ -107,29 +117,31 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             this.stop = true;
             this.finishPlayed = true;
             this.isPlaying = false;
+            this.eventno = 0;
+            this.onFinish = function () {};
 
-            this.addAnEvent = function () {
-                var moveToX = rnd(0, 1000),
+            this.addAnEvent = function (data) {
+                var moveToX = rnd(0, canvasWidth),
                     moveToY = rnd(0, 1000);
                 Chart.append('circle')
                     .attr('class', 'day')
-                    .attr("r", function (d) {
-                        return rnd(10, 70);
+                    .attr("r", function () {
+                        return rnd(2, 10);
                     })
                     .style("fill", function () {
-                        return getColor(rnd(0, 100));
+                        return getColor(data.l.toLowerCase());
                     })
                     .transition().duration(500).ease("easeIn")
-                    .attr("transform", function (d, i) {
+                    .attr("transform", function () {
                         return "translate(" + moveToX + "," + moveToY + ")";
                     }).remove();
-
-
+                this.eventno++;
             };
+
             this.update = function () {
 
                 if (this.time < this.endTime) {
-                    var inc = 16 * this.speed;//1000/60 * speed;
+                    var inc = 16 * this.speed; //1000/60 * speed;
                     this.timer += inc;
                     this.time += inc;
                 } else {
@@ -143,22 +155,14 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             };
 
             this.render = function () {
-                /* that.timer = setInterval(function () {
-                    console.log(that.data.arr[that.count].time);
-                    that.addAnEvent();
-                    that.count++;
-                }, timeScale(that.speed));
-                */
+
                 this.animationId = requestAnimationFrame(this.render.bind(this));
 
                 var progressTime = new Date(Math.abs(this.time));
 
-                //text.text(progressTime.getHours() + " - " + progressTime.getMinutes() + " - " + progressTime.getSeconds());
-               // text.text(progressTime);
-
                 this.update.call(this);
 
-                var currentCount = 0 ;
+                var currentCount = 0;
 
                 for (var i = 0; i < this.data.arr.length; i++) {
                     var data = this.data.arr[i];
@@ -166,7 +170,7 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
 
                     if (dataTime < this.time) {
 
-                        //this.addAnEvent();
+                        this.addAnEvent(data);
 
                         currentCount++;
 
@@ -177,9 +181,9 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                     }
                 }
 
-                var progress = (this.timer- this.startTime) / 60/60/1000;
+                var progress = (this.timer - this.startTime) / 60 / 60 / 1000;
 
-                progressUi.attr("width",progress*canvasWidth);
+                progressUi.attr("width", progress * canvasWidth);
                 text.text(progress);
 
             };
