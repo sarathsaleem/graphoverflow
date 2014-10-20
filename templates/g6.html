@@ -1,6 +1,7 @@
 <div class="conterntWrapper">
 </div>
 <!DOCTYPE html>
+<!DOCTYPE html>
 <!-- saved from url=(0052)http://threejs.org/examples/css3d_periodictable.html -->
 <html>
 
@@ -108,7 +109,7 @@
     <script src="three.min.js"></script>
     <script src="tween.min.js"></script>
     <script src="TrackballControls.js"></script>
-    <script src="CSS3DRenderer.js"></script>
+    <script src="stats.min.js"></script>
 
     <div id="container"></div>
 
@@ -120,7 +121,7 @@
     </div>
 
     <script>
-        var camera, scene, renderer,geometry;
+        var camera, scene, renderer,geometry,stats;
             var controls;
 
             var particeLen = 20000;
@@ -170,8 +171,8 @@
                     materials[i] = new THREE.PointCloudMaterial( { size: size } );
 
                     particleSystem = new THREE.ParticleSystem( particles, materials[i] );
-                    particleSystem.dynamic = true;
-                    particleSystem.sortParticles = true;
+                  
+                    particleSystem.sortParticles = false;
 
                     particleSystem.rotation.x = Math.random() * 6;
                     particleSystem.rotation.y = Math.random() * 6;
@@ -189,33 +190,32 @@
 
 
                 }
+                
+                
+                 // sphere
+                var vector = new THREE.Vector3();               
+                function generateSpheres (n, left, r) { 
+                    var l = n;
+                    r = r || 500;
+                     for ( var i = 0; i < n; i ++ ) {
+                        var phi = Math.acos( -1 + ( 2 * i ) / l );
+                        var theta = Math.sqrt( l * Math.PI ) * phi;
+                        var object = new THREE.Object3D();
+                        object.position.x = left + r * Math.cos( theta ) * Math.sin( phi );
+                        object.position.y = r * Math.sin( theta ) * Math.sin( phi );
+                        object.position.z = r * Math.cos( phi );
+                        object.lookAt( vector );
+                        targets.sphere.push( object );
 
-                // sphere
-                var vector = new THREE.Vector3();
-                for ( var i = 0, l = particeLen/2; i < l; i ++ ) {
-                    var phi = Math.acos( -1 + ( 2 * i ) / l );
-                    var theta = Math.sqrt( l * Math.PI ) * phi;
-                    var object = new THREE.Object3D();
-                    object.position.x = 500 * Math.cos( theta ) * Math.sin( phi );
-                    object.position.y = 500 * Math.sin( theta ) * Math.sin( phi );
-                    object.position.z = 500 * Math.cos( phi );
-                    object.lookAt( vector );
-                    targets.sphere.push( object );
-
+                    }               
                 }
-
-                // sphere
-                var vector = new THREE.Vector3();
-                for ( var i = 0, l = particeLen/2; i < l; i ++ ) {
-                    var phi = Math.acos( -1 + ( 2 * i ) / l );
-                    var theta = Math.sqrt( l * Math.PI ) * phi;
-                    var object = new THREE.Object3D();
-                    object.position.x = 1500 + 500 * Math.cos( theta ) * Math.sin( phi );
-                    object.position.y = 500 * Math.sin( theta ) * Math.sin( phi );
-                    object.position.z = 500 * Math.cos( phi );
-                    object.lookAt( vector );
-                    targets.sphere.push( object );
-                }
+                
+                generateSpheres(10000, -700 , 500);
+                generateSpheres(3000, -500, 1000);
+                generateSpheres(3000, 1000, 200);
+                generateSpheres(3000, 500);
+                generateSpheres(1000, 1500, 100);
+               
 
 
 
@@ -238,18 +238,23 @@
                 var button = document.getElementById( 'sphere' );
                 button.addEventListener( 'click', function ( event ) {
 
-                    transform( targets.sphere, 2000 );
+                    transform( targets.sphere, 5000 );
 
                 }, false );
 
 
                 //
                 window.addEventListener( 'resize', onWindowResize, false );
+                
+                stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				document.getElementById( 'container' ).appendChild( stats.domElement );
 
             }
 
             function transform( shape, duration ) {
-
+              
                 TWEEN.removeAll();
 
                 for ( var i = 0; i < particeLen; i ++ ) {
@@ -285,12 +290,10 @@
             function animate() {
 
                 requestAnimationFrame( animate );
-
-                TWEEN.update();
-                render();
-
+                TWEEN.update();               
                 controls.update();
-
+                stats.update();
+               
             }
 
             function render() {
@@ -306,9 +309,11 @@
                 }
 
                 renderer.render( scene, camera );
+                
+                particleSystem.sortParticles = true;
 
             }
-
+            render();
     </script>
 
 
