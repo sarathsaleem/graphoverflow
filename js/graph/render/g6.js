@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require,d3, define, brackets: true, $, window, clearTimeout , dat, clearInterval , setInterval*/
+/*global require, d3, define, brackets: true, $, window, clearTimeout , dat, THREE, TWEEN, requestAnimationFrame, cancelAnimationFrame*/
 (function () {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -27,7 +27,7 @@
 }());
 
 
-define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
+define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, ignore) {
 
     "use strict";
 
@@ -36,7 +36,6 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000; // $(canvas).height();
 
-        var language = {};
 
         function compare(a, b) {
             if (a.time < b.time) {
@@ -50,22 +49,51 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
+        var language = {},
+            event = {},
+            grid = {};
+        var startBlock = 0,
+            last30Sec = 0;
 
         function parseGitData(dataArr) {
-            dataArr.forEach(function (data) {
+            last30Sec = dataArr[0].time + 30;
+            dataArr.forEach(function (data, index) {
 
                 if (data.l) {
                     if (language[data.l]) {
-                        language[data.l] += 1;
+                        language[data.l].push(index);
                     } else {
-                        language[data.l] = 1;
+                        language[data.l] = [];
+                        language[data.l].push(index);
                     }
+                }
+                if (data.type) {
+                    if (event[data.type]) {
+                        event[data.type].push(index);
+                    } else {
+                        event[data.type] = [];
+                        event[data.type].push(index);
+                    }
+                }
+
+                if (last30Sec < data.time) {
+                    startBlock++;
+                    last30Sec = data.time + 30;
+                }
+
+                if (grid[startBlock]) {
+                    grid[startBlock].push(index);
+                } else {
+                    grid[startBlock] = [];
+                    grid[startBlock].push(index);
                 }
 
             });
             return {
                 arr: gitData,
-                language: language
+                language: language,
+                event: event,
+                grid : grid
             };
         }
         var gui = new dat.GUI({
@@ -170,7 +198,7 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
 
                     if (dataTime < this.time) {
 
-                        this.addAnEvent(data);
+                        // this.addAnEvent(data);
 
                         currentCount++;
 
@@ -201,6 +229,7 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
                 that.endTime = Date.parse(addHours(new Date(startTime), 1)); //+1 hr
 
                 that.render();
+                buildParticleWorld(canvas, that.data);
             };
         };
 
@@ -208,6 +237,107 @@ define(['utils/utils', 'd3', 'gui'], function (_util, ignore) {
 
 
         GIT.start();
+
+    }
+
+
+    function buildParticleWorld(container, data) {
+
+        var containerEle = $(container),
+            camera, scene, renderer, stats, controls;
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
+        renderer.domElement.style.position = 'absolute';
+        containerEle.append(renderer.domElement);
+
+        //set camera
+        camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
+        camera.position.z = 3000;
+
+        controls = new THREE.TrackballControls(camera, renderer.domElement);
+        controls.rotateSpeed = 0.5;
+        controls.minDistance = 0;
+        controls.maxDistance = 100000;
+        controls.addEventListener('change', renderParticles);
+
+
+        function onWindowResize() {
+
+            camera.aspect = containerEle.innerWidth() / containerEle.innerHeight();
+            camera.updateProjectionMatrix();
+            renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
+            renderParticles();
+        }
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.top = '0px';
+        containerEle.append(stats.domElement);
+
+        /*
+        STORY:
+        ------
+
+        Initially all the events will fly to the screen and form a git contribution green style
+
+        One hour data = 60 mins = 30sec * 120
+
+        these 120 blocks will be divided as 24x5 grid
+
+
+        */
+        function init() {
+
+            scene = new THREE.Scene();
+
+            gererateContributionGrid(data);
+
+
+        }
+
+        function animate() {
+
+            requestAnimationFrame(animate);
+            TWEEN.update();
+            controls.update();
+            stats.update();
+
+        }
+
+        function renderParticles() {
+            renderer.render(scene, camera);
+        }
+
+        function gererateContributionGrid(data) {
+
+            var block = 100,
+                margin = 20,
+                len = Object.keys(data.grid).length,
+                mod = len/5,
+                row = 0,
+                left = 0,
+                top = 0;
+
+            for(var i = 0; i < len ; i++) {
+
+                if (i%mod === 0) {
+                    row ++;
+                }
+
+                left = (i%mod) * block + margin;
+                top = row * block;
+
+            }
+
+        }
+
+
+        init();
+        animate();
+
 
     }
 
