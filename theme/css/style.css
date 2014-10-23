@@ -77,10 +77,9 @@ h6,
 .navbar a.navbar-brand h1 span:first-child {
     color: #FFFFFF;
 }
-.development h1{
+.development h1 {
     display: none;
 }
-
 .titleWrap {
     padding-top: 48px;
     padding-bottom: 48px;
@@ -93,8 +92,6 @@ h6,
     -webkit-box-shadow: inset 0 0 10px #000000;
     box-shadow: inset 0 0 10px #000000;
 }
-
-
 .titleWrap h1 {
     position: relative;
     margin: 20px 0;
@@ -197,7 +194,7 @@ footer .developedBy {
     background: #222222;
     margin: 1%;
     color: #FF1171;
-    padding:1%;
+    padding: 1%;
 }
 .graphWrapper .canvas .heading h2 {
     font-size: 21px;
@@ -661,12 +658,11 @@ svg {
     top: 4px;
 }
 .comments {
-   padding: 5px;
+    padding: 5px;
 }
 .addthis_sharing_toolbox {
     margin: 3px 0 0 3px;
 }
-
 /* g6 */
 
 .dg.main {
@@ -675,4 +671,15 @@ svg {
     left: 0px;
     z-index: 10000;
 }
+.button {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 100px;
+    background: red;
+    z-index: 100000;
+}
 
+#laguages{
+    top:50px;
+}

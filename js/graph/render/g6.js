@@ -31,6 +31,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
     "use strict";
 
+    function rnd(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     function render(gitData, canvas) {
 
         var canvasWidth = 1333.33, //$(canvas).width(),
@@ -45,9 +49,6 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         }
         gitData.sort(compare);
 
-        function rnd(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
 
         var language = {},
             event = {},
@@ -93,7 +94,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 arr: gitData,
                 language: language,
                 event: event,
-                grid : grid
+                grid: grid
             };
         }
         var gui = new dat.GUI({
@@ -116,19 +117,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             .style('fill', '#59636D');
         var progressUi = progressBar.append('rect').attr('class', 'progress').attr('width', 500).attr('height', 20).style('fill', '#06E58A');
 
-        var getColorScale = d3.scale.category20(),
-            colorList = _util.getTagColors();
 
-        //add colors ids
-        var colorNames = Object.keys(colorList);
-        colorNames.forEach(function (tag) {
-            _util.addGradient(Chart.selectAll("svg")[0].parentNode, tag, colorList[tag].split(','));
-
-        });
-
-        function getColor(name) {
-            return colorNames.indexOf(name) > -1 ? "url(#grad-" + name + ")" : getColorScale(rnd(0, 20));
-        }
 
         var GitHour = function () {
             var that = this;
@@ -244,7 +233,15 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
     function buildParticleWorld(container, data) {
 
         var containerEle = $(container),
-            camera, scene, renderer, stats, controls;
+            camera, scene, renderer, stats, controls, particles, particleSystem, material,
+            scenes = {
+                gitGrid: [],
+                languages: [],
+                events: []
+            };
+
+        var particleLength = data.arr.length;
+
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
@@ -277,6 +274,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         stats.domElement.style.top = '0px';
         containerEle.append(stats.domElement);
 
+
+        particles = new THREE.Geometry();
+
+
         /*
         STORY:
         ------
@@ -289,11 +290,14 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
 
         */
+
         function init() {
 
             scene = new THREE.Scene();
 
-            gererateContributionGrid(data);
+            generateParticles(particleLength);
+            gererateGitGrid(data);
+            generateLanguage(data)
 
 
         }
@@ -304,6 +308,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             TWEEN.update();
             controls.update();
             stats.update();
+            renderParticles();
 
         }
 
@@ -311,32 +316,170 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             renderer.render(scene, camera);
         }
 
-        function gererateContributionGrid(data) {
+        function generateParticles(particleLen) {
+
+            for (i = 0; i < particleLen; i++) {
+
+                var particle = new THREE.Vector3();
+                particles.vertices.push(particle);
+                particles.vertices[i].x = Math.random() * 1000 - 500;
+                particles.vertices[i].y = Math.random() * 1000 - 500;
+                particles.vertices[i].z = Math.random() * 1000 - 500;
+            }
+
+            material = new THREE.PointCloudMaterial({
+                size: 5,
+                transparent: true,
+                opacity: 1,
+                vertexColors: THREE.VertexColors
+            });
+
+            // vertex colors
+            var colors = [];
+            for (var i = 0; i < particles.vertices.length; i++) {
+
+                // random color
+                colors[i] = new THREE.Color();
+                colors[i].setHSL(Math.random(), 1.0, 0.5);
+
+            }
+            particles.colors = colors;
+
+
+            particleSystem = new THREE.PointCloud(particles, material);
+
+            particleSystem.sortParticles = true;
+
+            scene.add(particleSystem);
+        }
+
+        function gererateGitGrid(data) {
 
             var block = 100,
-                margin = 20,
+                margin = 100,
                 len = Object.keys(data.grid).length,
-                mod = len/5,
+                mod = Math.round(len / 5),
                 row = 0,
                 left = 0,
                 top = 0;
 
-            for(var i = 0; i < len ; i++) {
+            var vector = new THREE.Vector3();
 
-                if (i%mod === 0) {
-                    row ++;
+            for (var i = 0; i < len; i++) {
+
+                if (i % mod === 0) {
+                    row++;
+                    left = 0;
                 }
 
-                left = (i%mod) * block + margin;
-                top = row * block;
+                left = -1000 + ((i % mod) * block);
+                top = -300 + (row * block);
+                var color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+                for (var j = 0, gridLen = data.grid[i].length; j < gridLen; j++) {
+                    var object = {
+                        geo: new THREE.Object3D(),
+                        color: color
+                    };
+
+                    object.geo.position.x = rnd(left, left + 80);
+                    object.geo.position.y = rnd(top, top + 80);
+                    object.geo.position.z = rnd(0, 100);
+
+                    object.color = color;
+
+                    object.geo.lookAt(vector);
+                    scenes.gitGrid.push(object);
+                }
+
+
 
             }
 
         }
 
+        function generateLanguage(data) {
+
+            var vector = new THREE.Vector3();
+
+            function generateSpheres(n, left, top, index, r) {
+                var l = n;
+                r = r || 500;
+                for (var i = 0; i < n; i++) {
+                    var phi = Math.acos(-1 + (2 * i) / l);
+                    var theta = Math.sqrt(l * Math.PI) * phi;
+                    var object = {
+                        geo: new THREE.Object3D(),
+                        color: ''
+                    }
+                    object.geo.position.x = left + r * Math.cos(theta) * Math.sin(phi);
+                    object.geo.position.y = top + r * Math.sin(theta) * Math.sin(phi);
+                    object.geo.position.z = index + r * Math.cos(phi);
+
+                    object.geo.lookAt(vector);
+                    scenes.languages.push(object);
+
+                }
+            }
+
+            var left = -2000,
+                scale = .3;
+
+            Object.keys(data.language).forEach(function (lan) {
+
+                var count = data.language[lan].length,
+                    color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
+                    radius = count * scale;
+                left += 200;
+                generateSpheres(count, rnd(-1000, 1000), rnd(-1000, 1000), rnd(-1000, 1000), radius);
+
+            });
+
+        }
+
+        function changeScene(particeLen, shape, duration) {
+            TWEEN.removeAll();
+
+            for (var i = 0; i < particeLen; i++) {
+
+                var particle = particles.vertices[i];
+
+                particles.colors[i].setStyle(scenes.gitGrid[i].color || '#FF0000');
+
+                var target = shape[i].geo;
+
+                new TWEEN.Tween(particle)
+                    .to({
+                        x: target.position.x,
+                        y: target.position.y,
+                        z: target.position.z
+                    }, Math.random() * duration + duration)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
+
+            }
+
+            new TWEEN.Tween(this)
+                .to({}, duration * 2)
+                .onUpdate(renderParticles)
+                .start();
+        }
+
 
         init();
         animate();
+
+
+
+        var button = $('<div id="grid" class="button">Grid</div>');
+        $(container).append(button);
+        $('body').on('click', "#grid", function (event) {
+            changeScene(particleLength, scenes.gitGrid, 5000);
+        });
+        var button = $('<div id="laguages" class="button">Laguages</div>');
+        $(container).append(button);
+        $('body').on('click', "#laguages", function (event) {
+            changeScene(particleLength, scenes.languages, 5000);
+        });
 
 
     }
