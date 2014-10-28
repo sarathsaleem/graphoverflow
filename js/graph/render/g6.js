@@ -38,7 +38,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
     function render(gitData, canvas) {
 
         var canvasWidth = 1333.33, //$(canvas).width(),
-            canvasHeight = 1000; // $(canvas).height();
+            canvasHeight = 20; // $(canvas).height();
 
 
         function compare(a, b) {
@@ -100,25 +100,14 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         var gui = new dat.GUI({
             autoPlace: false
         });
-        canvas.appendChild(gui.domElement);
+        //canvas.appendChild(gui.domElement);
 
 
         var Chart = d3.select(canvas).append("svg");
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
 
-        var text = Chart.append("text")
-            .attr("transform", "translate(200,200)")
-            .text("Start timer");
-
-        var progressBar = Chart.append('g').attr("transform", "translate(0,  990)");
-        progressBar.append('rect')
-            .attr('width', canvasWidth).attr('height', 20)
-            .style('fill', '#59636D');
-        var progressUi = progressBar.append('rect').attr('class', 'progress').attr('width', 500).attr('height', 20).style('fill', '#06E58A');
-
-
-
+      
         var GitHour = function () {
             var that = this;
             this.speed = 200;
@@ -200,8 +189,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
                 var progress = (this.timer - this.startTime) / 60 / 60 / 1000;
 
-                progressUi.attr("width", progress * canvasWidth);
-                text.text(progress);
+                //progressUi.attr("width", progress * canvasWidth);
+                //text.text(progress);
 
             };
 
@@ -217,7 +206,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 };
                 that.endTime = Date.parse(addHours(new Date(startTime), 1)); //+1 hr
 
-                that.render();
+                //that.render();
                 buildParticleWorld(canvas, that.data);
             };
         };
@@ -233,12 +222,13 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
     function buildParticleWorld(container, data) {
 
         var containerEle = $(container),
-            camera, scene, renderer, stats, controls, particles, particleSystem, material,
+            camera, scene, renderer, stats, controls, particles, values_color, particleSystem, material,
             scenes = {
                 gitGrid: [],
                 languages: [],
                 events: []
-            };
+            },
+            currentSceen;
 
         var particleLength = data.arr.length;
 
@@ -247,6 +237,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
         containerEle.append(renderer.domElement);
+
+        scene = new THREE.Scene();
 
         //set camera
         camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
@@ -257,6 +249,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         controls.minDistance = 0;
         controls.maxDistance = 100000;
         controls.addEventListener('change', renderParticles);
+
 
 
         function onWindowResize() {
@@ -291,13 +284,14 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         */
 
+        var gridColor = d3.scale.linear().domain([0, 20]).range(["#d2f428", "#11bf1d"]);
+
         function init() {
 
-            scene = new THREE.Scene();
 
             generateParticles(particleLength);
             gererateGitGrid(data);
-            generateLanguage(data)
+            generateLanguage(data);
 
 
         }
@@ -308,17 +302,18 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             TWEEN.update();
             controls.update();
             stats.update();
-            renderParticles();
 
         }
 
         function renderParticles() {
             renderer.render(scene, camera);
+            console.log(camera.position)
+            console.log(camera.rotation)
         }
 
         function generateParticles(particleLen) {
 
-            for (i = 0; i < particleLen; i++) {
+            for (var i = 0; i < particleLen; i++) {
 
                 var particle = new THREE.Vector3();
                 particles.vertices.push(particle);
@@ -327,28 +322,64 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 particles.vertices[i].z = Math.random() * 1000 - 500;
             }
 
-            material = new THREE.PointCloudMaterial({
-                size: 5,
-                transparent: true,
-                opacity: 1,
-                vertexColors: THREE.VertexColors
+            var attributes = {
+                size: {
+                    type: 'f',
+                    value: []
+                },
+                customColor: {
+                    type: 'c',
+                    value: []
+                }
+            };
+
+            var uniforms = {
+                amplitude: {
+                    type: "f",
+                    value: 1.0
+                },
+                color: {
+                    type: "c",
+                    value: new THREE.Color("#fff")
+                },
+                texture: {
+                    type: "t",
+                    value: THREE.ImageUtils.loadTexture("../templates/images/g6-git/ball.png")
+                }
+            };
+
+            var shaderMaterial = new THREE.ShaderMaterial({
+
+                uniforms: uniforms,
+                attributes: attributes,
+                vertexShader: document.getElementById('vertexshader1').textContent,
+                fragmentShader: document.getElementById('fragmentshader1').textContent,
+
+                blending: THREE.AdditiveBlending,
+                depthTest: false,
+                transparent: true
+
             });
 
-            // vertex colors
-            var colors = [];
-            for (var i = 0; i < particles.vertices.length; i++) {
 
-                // random color
-                colors[i] = new THREE.Color();
-                colors[i].setHSL(Math.random(), 1.0, 0.5);
-
-            }
-            particles.colors = colors;
+            // particles.colors = colors;
 
 
-            particleSystem = new THREE.PointCloud(particles, material);
+            particleSystem = new THREE.PointCloud(particles, shaderMaterial);
 
             particleSystem.sortParticles = true;
+            particleSystem.dynamic = true;
+
+            values_color = attributes.customColor.value;
+            var values_size = attributes.size.value;
+            for (var v = 0; v < particles.vertices.length; v++) {
+
+                values_size[v] = 40;
+                values_color[v] = new THREE.Color();
+                values_color[v].setHSL(Math.random(), 1.0, 0.5);
+
+            }
+
 
             scene.add(particleSystem);
         }
@@ -356,7 +387,6 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         function gererateGitGrid(data) {
 
             var block = 100,
-                margin = 100,
                 len = Object.keys(data.grid).length,
                 mod = Math.round(len / 5),
                 row = 0,
@@ -374,7 +404,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
                 left = -1000 + ((i % mod) * block);
                 top = -300 + (row * block);
-                var color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+                var color = gridColor(rnd(0, 20));
                 for (var j = 0, gridLen = data.grid[i].length; j < gridLen; j++) {
                     var object = {
                         geo: new THREE.Object3D(),
@@ -401,7 +431,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
             var vector = new THREE.Vector3();
 
-            function generateSpheres(n, left, top, index, r) {
+            function generateSpheres(n, left, top, index, r, color) {
                 var l = n;
                 r = r || 500;
                 for (var i = 0; i < n; i++) {
@@ -409,8 +439,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     var theta = Math.sqrt(l * Math.PI) * phi;
                     var object = {
                         geo: new THREE.Object3D(),
-                        color: ''
-                    }
+                        color: color
+                    };
                     object.geo.position.x = left + r * Math.cos(theta) * Math.sin(phi);
                     object.geo.position.y = top + r * Math.sin(theta) * Math.sin(phi);
                     object.geo.position.z = index + r * Math.cos(phi);
@@ -422,7 +452,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             }
 
             var left = -2000,
-                scale = .3;
+                scale = 0.08;
 
             Object.keys(data.language).forEach(function (lan) {
 
@@ -430,7 +460,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
                     radius = count * scale;
                 left += 200;
-                generateSpheres(count, rnd(-1000, 1000), rnd(-1000, 1000), rnd(-1000, 1000), radius);
+                generateSpheres(count, rnd(-500, 500), rnd(-500, 500), rnd(-500, 500), radius, color);
 
             });
 
@@ -443,7 +473,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
                 var particle = particles.vertices[i];
 
-                particles.colors[i].setStyle(scenes.gitGrid[i].color || '#FF0000');
+                values_color[i].setStyle(shape[i].color || '#FF0000');
 
                 var target = shape[i].geo;
 
@@ -464,6 +494,31 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 .start();
         }
 
+        function changeCameraView(target, duration) {
+
+
+            new TWEEN.Tween(camera.position)
+                .to({
+                    x: target.position.x,
+                    y: target.position.y,
+                    z: target.position.z
+                }, Math.random() * duration + duration)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .start();
+        
+           var pos = camera.position.clone();
+            
+           /*new TWEEN.Tween (pos)
+                .to (new THREE.Vector3 (target.rotation.x, target.rotation.y, target.rotation.z), duration)
+                .easing (TWEEN.Easing.Exponential.InOut)
+                .onUpdate (
+                    function() {
+                        // copy incoming position into capera position
+                        camera.position.copy (pos);
+                    })
+                .start();*/
+        }
+
 
         init();
         animate();
@@ -473,12 +528,46 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         var button = $('<div id="grid" class="button">Grid</div>');
         $(container).append(button);
         $('body').on('click', "#grid", function (event) {
-            changeScene(particleLength, scenes.gitGrid, 5000);
+
+            var target = {
+                position: {
+                    x: 0,
+                    y: -400,
+                    z: 3000
+                },
+                rotation: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }
+            };
+            if (currentSceen !== 'grid') {
+                changeScene(particleLength, scenes.gitGrid, 5000);
+                currentSceen = 'grid';
+            }
+            changeCameraView(target, 5000);
         });
         var button = $('<div id="laguages" class="button">Laguages</div>');
         $(container).append(button);
         $('body').on('click', "#laguages", function (event) {
-            changeScene(particleLength, scenes.languages, 5000);
+
+            var target = {
+                position: {
+                    x: 1000,
+                    y: 1000,
+                    z: 1000
+                },
+                rotation: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }
+            };
+            if (currentSceen !== 'languages') {
+                changeScene(particleLength, scenes.languages, 5000);
+                currentSceen = 'languages';
+            }
+            changeCameraView(target, 3000);
         });
 
 

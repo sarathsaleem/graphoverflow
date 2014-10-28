@@ -676,10 +676,18 @@ svg {
     top: 100px;
     left: 100px;
     width: 100px;
-    background: red;
+    background: rgba(231, 222, 222, 0.1);
+    border: 1px solid rgba(69, 86, 250, 0.86);
     z-index: 100000;
+    padding: 8px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
 }
 
 #laguages{
     top:50px;
+}
+#stats{
+    z-index: 10001;
 }
