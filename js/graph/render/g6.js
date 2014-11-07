@@ -107,7 +107,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
 
-      
+
         var GitHour = function () {
             var that = this;
             this.speed = 200;
@@ -226,7 +226,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             scenes = {
                 gitGrid: [],
                 languages: [],
-                events: []
+                events : []
             },
             currentSceen;
 
@@ -242,10 +242,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         //set camera
         camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
-        camera.position.z = 3000;
+        camera.position.z = 500;
 
         controls = new THREE.TrackballControls(camera, renderer.domElement);
-        controls.rotateSpeed = 0.5;
+        controls.rotateSpeed = 0.8;
         controls.minDistance = 0;
         controls.maxDistance = 100000;
         controls.addEventListener('change', renderParticles);
@@ -261,6 +261,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         }
 
         window.addEventListener('resize', onWindowResize, false);
+        
+        $(containerEle).on('click', '.fullscreenControl', function(){
+            setTimeout(onWindowResize,1000);
+        });
 
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
@@ -288,11 +292,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         function init() {
 
-
             generateParticles(particleLength);
             gererateGitGrid(data);
             generateLanguage(data);
-
+            generateEvents(data);
 
         }
 
@@ -302,13 +305,12 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             TWEEN.update();
             controls.update();
             stats.update();
+            //renderParticles();
 
         }
 
         function renderParticles() {
-            renderer.render(scene, camera);
-            console.log(camera.position)
-            console.log(camera.rotation)
+            renderer.render(scene, camera);           
         }
 
         function generateParticles(particleLen) {
@@ -368,7 +370,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             particleSystem = new THREE.PointCloud(particles, shaderMaterial);
 
             particleSystem.sortParticles = true;
-            particleSystem.dynamic = true;
+            // particleSystem.dynamic = true;
 
             values_color = attributes.customColor.value;
             var values_size = attributes.size.value;
@@ -466,6 +468,46 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         }
 
+        function generateEvents() {
+            var vector = new THREE.Vector3();
+            function f(x) {
+                return 50 * Math.sin(0.05 * x) + 50;
+            }
+
+            function generateEventLayout(n, left, top, index, r, color) {
+               
+                r = r || 500;
+                var a =1,
+                    b =1;
+                for (var i = 0; i < n; i++) {
+                    var angle = 0.2 * i;
+                    var x = left + (a + b * angle) * Math.cos(angle);
+                    var y = top + (a + b * angle) * Math.sin(angle);
+                    var object = {
+                        geo: new THREE.Object3D(),
+                        color: color
+                    };
+                    object.geo.position.x = x;
+                    object.geo.position.y = y;
+                    object.geo.position.z = index;
+
+                    object.geo.lookAt(vector);
+                    scenes.events.push(object);
+
+                }
+            }
+            var left = -2000;   
+            Object.keys(data.event).forEach(function (eve) {
+
+                var count = data.event[eve].length,
+                    color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
+                    radius = 300;
+                left += 200;
+                generateEventLayout(count, rnd(500, 500), rnd(-500, 500), rnd(-500, 500), radius, color);
+
+            });
+        }
+
         function changeScene(particeLen, shape, duration) {
             TWEEN.removeAll();
 
@@ -504,19 +546,24 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     z: target.position.z
                 }, Math.random() * duration + duration)
                 .easing(TWEEN.Easing.Exponential.InOut)
+                .onComplete(function () {
+                    //controls.reset();
+                })
                 .start();
-        
-           var pos = camera.position.clone();
-            
-           /*new TWEEN.Tween (pos)
-                .to (new THREE.Vector3 (target.rotation.x, target.rotation.y, target.rotation.z), duration)
-                .easing (TWEEN.Easing.Exponential.InOut)
-                .onUpdate (
-                    function() {
+
+
+
+            /*var pos = camera.rotation.clone();
+            new TWEEN.Tween(pos)
+                .to(new THREE.Vector3(target.rotation.x, target.rotation.y, target.rotation.z), duration)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .onUpdate(
+                    function () {
                         // copy incoming position into capera position
-                        camera.position.copy (pos);
+                        camera.rotation.copy(pos);
                     })
                 .start();*/
+
         }
 
 
@@ -524,50 +571,74 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         animate();
 
 
+        //add dom elements
+        $(function(){
+            var button = $('<div id="grid" class="button">Grid</div>');
+            $(container).append(button);
+            $('body').on('click', "#grid", function (event) {
 
-        var button = $('<div id="grid" class="button">Grid</div>');
-        $(container).append(button);
-        $('body').on('click', "#grid", function (event) {
-
-            var target = {
-                position: {
-                    x: 0,
-                    y: -400,
-                    z: 3000
-                },
-                rotation: {
-                    x: 0,
-                    y: 0,
-                    z: 0
+                var target = {
+                    position: {
+                        x: 0,
+                        y: 0,
+                        z: 3000
+                    },
+                    rotation: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }
+                };
+                if (currentSceen !== 'grid') {
+                    changeScene(particleLength, scenes.gitGrid, 5000);
+                    currentSceen = 'grid';
                 }
-            };
-            if (currentSceen !== 'grid') {
-                changeScene(particleLength, scenes.gitGrid, 5000);
-                currentSceen = 'grid';
-            }
-            changeCameraView(target, 5000);
-        });
-        var button = $('<div id="laguages" class="button">Laguages</div>');
-        $(container).append(button);
-        $('body').on('click', "#laguages", function (event) {
+                changeCameraView(target, 5000);
+            });
+            var button2 = $('<div id="laguages" class="button">Laguages</div>');
+            $(container).append(button2);
+            $('body').on('click', "#laguages", function (event) {
 
-            var target = {
-                position: {
-                    x: 1000,
-                    y: 1000,
-                    z: 1000
-                },
-                rotation: {
-                    x: 0,
-                    y: 0,
-                    z: 0
+                var target = {
+                    position: {
+                        x: 1000,
+                        y: 1000,
+                        z: 1000
+                    },
+                    rotation: {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }
+                };
+                if (currentSceen !== 'languages') {
+                    changeScene(particleLength, scenes.languages, 5000);
+                    currentSceen = 'languages';
                 }
-            };
-            if (currentSceen !== 'languages') {
-                changeScene(particleLength, scenes.languages, 5000);
-                currentSceen = 'languages';
-            }
-            changeCameraView(target, 3000);
+                changeCameraView(target, 3000);
+            });
+            var button3 = $('<div id="events" class="button">Events</div>');
+            $(container).append(button3);
+            $('body').on('click', "#events", function (event) {
+
+                var target = {
+                    position: {
+                        x: -500,
+                        y: 0,
+                        z: 2000
+                    },
+                    rotation: {
+                        x: 0,
+                        y: 0,
+                        z: 500
+                    }
+                };
+                if (currentSceen !== 'events') {
+                    changeScene(particleLength, scenes.events, 5000);
+                    currentSceen = 'events';
+                }
+                changeCameraView(target, 3000);
+            });
         });
 
 

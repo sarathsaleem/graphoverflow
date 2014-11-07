@@ -691,3 +691,6 @@ svg {
 #stats{
     z-index: 10001;
 }
+#events{
+     top:150px;
+}
