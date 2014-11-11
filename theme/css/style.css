@@ -701,3 +701,20 @@ svg {
     bottom: 0px;
     top: auto !important;
 }
+.info-box {
+    position: absolute;
+    z-index: 10;
+    color: #F0F0F0;
+    font-size: 12px;
+    width: 80%;
+    left: -10%;
+    bottom: 20px;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 1%;
+    transition: all 500ms ease-out 1s;
+}
+.info-box h2{
+    margin: 0px;
+    padding: 10px 0;
+    color: #43FF3C;
+}

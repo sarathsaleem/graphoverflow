@@ -207,7 +207,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 that.endTime = Date.parse(addHours(new Date(startTime), 1)); //+1 hr
 
                 //that.render();
-                var now = Date.now();                
+                var now = Date.now();
                 buildParticleWorld(canvas, that.data);
                 console.log(Date.now() - now)
             };
@@ -222,7 +222,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
 
     function buildParticleWorld(container, data) {
-
+        console.log(data);
         var containerEle = $(container),
             camera, scene, renderer, stats, controls, particles, values_color, particleSystem, material,
             scenes = {
@@ -263,7 +263,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         }
 
         window.addEventListener('resize', onWindowResize, false);
-        
+
         $(containerEle).on('click', '.fullscreenControl', function(){
             setTimeout(onWindowResize,1000);
         });
@@ -312,11 +312,11 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         }
 
         function renderParticles() {
-            renderer.render(scene, camera);           
+            renderer.render(scene, camera);
         }
 
         function generateParticles(particleLen) {
-            
+
               var attributes = {
                 size: {
                     type: 'f',
@@ -342,10 +342,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     value: THREE.ImageUtils.loadTexture("../templates/images/g6-git/ball.png")
                 }
             };
-            
+
             values_color = attributes.customColor.value;
             var values_size = attributes.size.value;
-                    
+
 
             for (var i = 0; i < particleLen; i++) {
 
@@ -354,13 +354,13 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 particles.vertices[i].x = Math.random() * 1000 - 500;
                 particles.vertices[i].y = Math.random() * 1000 - 500;
                 particles.vertices[i].z = Math.random() * 1000 - 500;
-                
+
                 values_size[i] = 40;
                 values_color[i] = new THREE.Color();
                 values_color[i].setHSL(Math.random(), 1.0, 0.5);
             }
 
-          
+
 
             var shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: uniforms,
@@ -381,7 +381,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             particleSystem.sortParticles = true;
             //particleSystem.dynamic = true;
 
-           
+
 
             scene.add(particleSystem);
         }
@@ -398,7 +398,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             var vector = new THREE.Vector3();
 
             for (var i = 0; i < len; i++) {
-                
+
                 //Grid
                 if (i % mod === 0) {
                     row++;
@@ -455,14 +455,14 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             }
 
             var scale = 0.08;
-            
+
             var colors = _util.getTagColors();
             var colorMap = {};
             Object.keys(data.language).forEach(function (lan) {
                 var count = data.language[lan].length,
                     color = colors[lan.toLocaleLowerCase()] ? colors[lan.toLocaleLowerCase()].split(',')[0] : '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
                     radius = count * scale;
-                
+
                 colorMap[lan] = color;
                 generateSpheres(count, rnd(-500, 500), rnd(-500, 500), rnd(-500, 500), radius, color);
 
@@ -477,7 +477,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             }
 
             function generateEventLayout(n, left, top, index, r, color) {
-               
+
                 r = r || 500;
                 var a =1,
                     b =1;
@@ -498,7 +498,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
                 }
             }
-            var left = -2000;   
+            var left = -2000;
             Object.keys(data.event).forEach(function (eve) {
 
                 var count = data.event[eve].length,
@@ -596,6 +596,11 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     currentSceen = 'grid';
                 }
                 changeCameraView(target, 5000);
+
+                var info = '<div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div>';
+                $(container).find('.info-box').remove();
+                $(container).append(info);
+                 $(container).find('.info-box').css('left','10%');
             });
             var button2 = $('<div id="laguages" class="g6-button">Laguages</div>');
             $(container).append(button2);
@@ -641,16 +646,16 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 }
                 changeCameraView(target, 3000);
             });
-            
+
             $('body').on('click', '.g6-button', function(){
                 $('.g6-button').removeClass('active');
                 $(this).addClass('active');
             });
-            
+
             setTimeout(function(){
                 $("#grid").click();
             },2000);
-            
+
         });
 
 
