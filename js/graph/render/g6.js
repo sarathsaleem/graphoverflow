@@ -370,8 +370,9 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         function generateLanguage(data) {
 
             var vector = new THREE.Vector3();
+            var firstObj;
 
-            function generateSpheres(n, left, top, index, r, color) {
+            function generateSpheres(n, left, top, index, r, color, lan) {
                 var l = n;
                 r = r || 500;
                 for (var i = 0; i < n; i++) {
@@ -379,7 +380,9 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     var theta = Math.sqrt(l * Math.PI) * phi;
                     var object = {
                         geo: new THREE.Object3D(),
-                        color: color
+                        color: color,
+                        name : lan
+                        
                     };
                     object.geo.position.x = left + r * Math.cos(theta) * Math.sin(phi);
                     object.geo.position.y = top + r * Math.sin(theta) * Math.sin(phi);
@@ -387,10 +390,13 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
                     object.geo.lookAt(vector);
                     scenes.languages.push(object);
-
+                    
+                    if (i === 0) {
+                        firstObj = object;
+                    }
                 }
 
-                return scenes.languages[scenes.languages.length - 1];
+                return firstObj;
             }
 
 
@@ -399,7 +405,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 var canvas = document.createElement('canvas');
                 var context = canvas.getContext('2d');
                 context.font = "20px Arial";
-                context.fillStyle = "rgba(255,0,0,0.55)";
+                context.fillStyle = "rgba(255,0,0,1)";
                 context.fillText(lan, 0, 50);
 
                 // canvas contents will be used for a texture
@@ -423,21 +429,21 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
             var scale = 0.08;
 
-            var langugeColors = _util.getTagColors();
+            var langugeColors = _util.gitColors();
             var colors = d3.scale.category20();
            
 
             Object.keys(data.language).forEach(function (lan, i) {
                 var count = data.language[lan].length,
-                    color = langugeColors[lan.toLocaleLowerCase()] ? langugeColors[lan.toLocaleLowerCase()].split(',')[0] : colors(i),
+                    color = langugeColors[lan] ? langugeColors[lan].split(',')[0] : colors(i),
                     radius = count * scale;
                 colorMap[count + '-' + lan] = color;
                 var x = rnd(-500, 500),
                     y = rnd(-500, 500),
                     z = rnd(-500, 500);
 
-                var tag = generateSpheres(count, x, y, z, radius, color);
-                tagsElements.add(generateTags(lan, tag));
+                generateSpheres(count, x, y, z, radius, color, lan);
+               
             });
             scene.add(tagsElements);
             tagsElements.visible = false;
@@ -546,6 +552,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         $(function () {
             var button = $('<div id="grid" class="g6-button">Grid</div>');
             $(container).append(button);
+            
+            
             $('body').on('click', "#grid", function (event) {
                 tagsElements.visible = false;
 
@@ -566,16 +574,16 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     currentSceen = 'grid';
                 }
                 changeCameraView(target, 5000);
-                $(container).find('.info-box').remove();
+                $(container).find('.info-box-wrapper').remove();
 
-                var info = '<div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div>';
+                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"> Hide </div></div>';
                 $(container).append(info);
 
                 setTimeout(function () {
-                    $(container).find('.info-box').css({
+                    $(container).find('.info-box-wrapper').css({
                         transform: 'translateX(10%) rotateY(0deg)'
                     });
-                }, 10);           
+                }, 10);        
 
             });
 
@@ -602,8 +610,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     tagsElements.visible = true;
                 }
                 changeCameraView(target, 3000);
-                $(container).find('.info-box').remove();
-                var info = $('<div class="info-box"></div>');
+                $(container).find('.info-box-wrapper').remove();
+                var info = $('<div class="info-box-wrapper"><div class="info-box languages"></div><div class="hideinfo"> Hide </div></div>');
                 var languages = '';
 
                 function sortLan(a, b) {
@@ -613,12 +621,12 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 }
 
                 Object.keys(colorMap).sort(sortLan).forEach(function (lan) {
-                    languages += '<div class="language-color" style="background:' + colorMap[lan] + '">' + lan + '</div>';
+                    languages += '<div class="language-color" style="background:' + _util.convertHex(colorMap[lan],70) + '">' + lan + '</div>';
                 });
-                info.append(languages);
+                info.find('.info-box').append(languages);                               
                 $(container).append(info);
                 setTimeout(function () {
-                    $(container).find('.info-box').css({
+                    $(container).find('.info-box-wrapper').css({
                         transform: 'translateX(10%) rotateY(0deg)'
                     });
                 }, 10);
@@ -648,7 +656,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     currentSceen = 'events';
                 }
                 changeCameraView(target, 3000);
-                $(container).find('.info-box').remove();
+                $(container).find('.info-box-wrapper').remove();
             });
 
             $('body').on('click', '.g6-button', function () {
