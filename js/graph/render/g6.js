@@ -224,11 +224,11 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
     function buildParticleWorld(container, data) {
         console.log(data);
         var containerEle = $(container),
-            camera, scene, renderer, stats, controls, particles, values_color, particleSystem, material,
+            camera, scene, renderer, stats, controls, particles, values_color, particleSystem, colorMap = {},
             scenes = {
                 gitGrid: [],
                 languages: [],
-                events : []
+                events: []
             },
             currentSceen;
 
@@ -264,8 +264,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         window.addEventListener('resize', onWindowResize, false);
 
-        $(containerEle).on('click', '.fullscreenControl', function(){
-            setTimeout(onWindowResize,1000);
+        $(containerEle).on('click', '.fullscreenControl', function () {
+            setTimeout(onWindowResize, 1000);
         });
 
         stats = new Stats();
@@ -307,17 +307,19 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             TWEEN.update();
             controls.update();
             stats.update();
-            //renderParticles();
+            renderParticles();
 
         }
 
         function renderParticles() {
             renderer.render(scene, camera);
+            particleSystem.rotation.y += 0.0005;
+            particleSystem.rotation.x += 0.0005;
         }
 
         function generateParticles(particleLen) {
 
-              var attributes = {
+            var attributes = {
                 size: {
                     type: 'f',
                     value: []
@@ -457,13 +459,13 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             var scale = 0.08;
 
             var colors = _util.getTagColors();
-            var colorMap = {};
+
             Object.keys(data.language).forEach(function (lan) {
                 var count = data.language[lan].length,
                     color = colors[lan.toLocaleLowerCase()] ? colors[lan.toLocaleLowerCase()].split(',')[0] : '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
                     radius = count * scale;
 
-                colorMap[lan] = color;
+                colorMap[count + '-' + lan] = color;
                 generateSpheres(count, rnd(-500, 500), rnd(-500, 500), rnd(-500, 500), radius, color);
 
             });
@@ -472,15 +474,12 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         function generateEvents() {
             var vector = new THREE.Vector3();
-            function f(x) {
-                return 50 * Math.sin(0.05 * x) + 50;
-            }
 
             function generateEventLayout(n, left, top, index, r, color) {
 
                 r = r || 500;
-                var a =1,
-                    b =1;
+                var a = 1,
+                    b = 1;
                 for (var i = 0; i < n; i++) {
                     var angle = 0.2 * i;
                     var x = left + (a + b * angle) * Math.cos(angle);
@@ -500,7 +499,6 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             }
             var left = -2000;
             Object.keys(data.event).forEach(function (eve) {
-
                 var count = data.event[eve].length,
                     color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
                     radius = 300;
@@ -574,7 +572,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
 
         //add dom elements
-        $(function(){
+        $(function () {
+
             var button = $('<div id="grid" class="g6-button">Grid</div>');
             $(container).append(button);
             $('body').on('click', "#grid", function (event) {
@@ -596,12 +595,20 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     currentSceen = 'grid';
                 }
                 changeCameraView(target, 5000);
+                $(container).find('.info-box').remove();
 
                 var info = '<div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div>';
-                $(container).find('.info-box').remove();
                 $(container).append(info);
-                 $(container).find('.info-box').css('left','10%');
+                setTimeout(function () {
+                    $(container).find('.info-box').css({
+                        transform: 'translateX(10%) rotateY(0deg)'
+                    });
+                }, 10);
             });
+
+
+
+
             var button2 = $('<div id="laguages" class="g6-button">Laguages</div>');
             $(container).append(button2);
             $('body').on('click', "#laguages", function (event) {
@@ -623,7 +630,33 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     currentSceen = 'languages';
                 }
                 changeCameraView(target, 3000);
+                $(container).find('.info-box').remove();
+                var info = $('<div class="info-box"></div>');
+                var languages = '';
+
+                function sortLan(a, b) {
+                    var aName = +a.split('-')[0];
+                    var bName = +b.split('-')[0];
+                    return ((aName > bName) ? -1 : ((aName < bName) ? 1 : 0));
+                }
+
+                Object.keys(colorMap).sort(sortLan).forEach(function (lan) {
+                    languages += '<div class="language-color" style="background:' + colorMap[lan] + '">' + lan + '</div>';
+                });
+                info.append(languages);
+                $(container).append(info);
+                setTimeout(function () {
+                    $(container).find('.info-box').css({
+                        transform: 'translateX(10%) rotateY(0deg)'
+                    });
+                }, 10);
+
             });
+
+
+
+
+
             var button3 = $('<div id="events" class="g6-button">Events</div>');
             $(container).append(button3);
             $('body').on('click', "#events", function (event) {
@@ -645,16 +678,17 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     currentSceen = 'events';
                 }
                 changeCameraView(target, 3000);
+                $(container).find('.info-box').remove();
             });
 
-            $('body').on('click', '.g6-button', function(){
+            $('body').on('click', '.g6-button', function () {
                 $('.g6-button').removeClass('active');
                 $(this).addClass('active');
             });
 
-            setTimeout(function(){
+            setTimeout(function () {
                 $("#grid").click();
-            },2000);
+            }, 2000);
 
         });
 

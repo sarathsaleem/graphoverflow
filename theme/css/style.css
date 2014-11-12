@@ -180,6 +180,7 @@ footer .developedBy {
     -webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 8px 6px -6px black;
     box-shadow: 0 8px 6px -6px black;
+    overflow: hidden;
 }
 .graphWrapper .canvas .specs {
     float: left;
@@ -701,20 +702,38 @@ svg {
     bottom: 0px;
     top: auto !important;
 }
+.g6{
+    perspective: 1000px;
+}
 .info-box {
     position: absolute;
     z-index: 10;
     color: #F0F0F0;
     font-size: 12px;
     width: 80%;
-    left: -10%;
+    transform: translateX(-100%) rotateY(90deg);
     bottom: 20px;
     background: rgba(255, 255, 255, 0.07);
     padding: 1%;
-    transition: all 500ms ease-out 1s;
+    transition: all ease-out 2s;
+    transform-style: preserve-3d;
 }
 .info-box h2{
     margin: 0px;
     padding: 10px 0;
     color: #43FF3C;
+    font-size: 20px;
+}
+@media only screen and (max-width : 640px) {
+    .info-box h2{
+        font-size: 16px;
+    }
+    .info-box p {
+        font-size: 9px;
+    }
+}
+
+.language-color {
+    display: inline-block;
+    margin: 1px;
 }
