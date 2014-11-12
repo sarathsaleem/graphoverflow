@@ -100,135 +100,63 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         var gui = new dat.GUI({
             autoPlace: false
         });
+
         //canvas.appendChild(gui.domElement);
-
-
-        var Chart = d3.select(canvas).append("svg");
-        Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
-            .attr("preserveAspectRatio", "xMidYMid");
 
 
         var GitHour = function () {
             var that = this;
-            this.speed = 200;
-            this.speedEvent = gui.add(this, 'speed', 10, 1000);
-            this.startTime = Date.now();
-            this.timer = Date.now();
-            this.count = 0;
-            this.data = [];
-            this.animationId = 0;
-            this.time = 0;
-            this.progress = 0;
-            this.endTime = 0;
-            this.stop = true;
-            this.finishPlayed = true;
-            this.isPlaying = false;
-            this.eventno = 0;
-            this.onFinish = function () {};
+            var loadingScreen = $('<div class="loadingScreen" />'),
+                loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
+                play = $('<div class="play_border"><div class="play_button"></div></div>');
 
-            this.addAnEvent = function (data) {
-                var moveToX = rnd(0, canvasWidth),
-                    moveToY = rnd(0, 1000);
-                Chart.append('circle')
-                    .attr('class', 'day')
-                    .attr("r", function () {
-                        return rnd(2, 10);
-                    })
-                    .style("fill", function () {
-                        return getColor(data.l.toLowerCase());
-                    })
-                    .transition().duration(500).ease("easeIn")
-                    .attr("transform", function () {
-                        return "translate(" + moveToX + "," + moveToY + ")";
-                    }).remove();
-                this.eventno++;
-            };
+            loadingScreen.append(loader);
 
-            this.update = function () {
 
-                if (this.time < this.endTime) {
-                    var inc = 16 * this.speed; //1000/60 * speed;
-                    this.timer += inc;
-                    this.time += inc;
-                } else {
-                    this.stop = true;
-                    this.finishPlayed = true;
-                    if (typeof this.onFinish === 'function') {
-                        this.onFinish(this.initialExploders);
-                        cancelAnimationFrame(this.animationId);
-                    }
-                }
-            };
 
-            this.render = function () {
+            this.build = function () {
 
-                this.animationId = requestAnimationFrame(this.render.bind(this));
+                $(canvas).append(loadingScreen);
+                setTimeout(function () {
 
-                var progressTime = new Date(Math.abs(this.time));
+                    console.log('Start')
+                    var now = Date.now();
+                    that.data = parseGitData(gitData);
+                    buildParticleWorld(canvas, that.data, function () {
 
-                this.update.call(this);
+                        console.log(Date.now() - now)
+                        loadingScreen.css('background', '#FFF');
+                        loadingScreen.html(play);
 
-                var currentCount = 0;
+                        $(play).on('click', function () {
+                            loadingScreen.hide();
+                            $("#grid").click();
+                            //ga('send', 'event', 'button', 'click', 'played:git');
+                        });
 
-                for (var i = 0; i < this.data.arr.length; i++) {
-                    var data = this.data.arr[i];
-                    var dataTime = data.time * 1000;
+                    });
 
-                    if (dataTime < this.time) {
-
-                        // this.addAnEvent(data);
-
-                        currentCount++;
-
-                        this.data.arr.splice(i, 1);
-
-                    } else {
-                        break;
-                    }
-                }
-
-                var progress = (this.timer - this.startTime) / 60 / 60 / 1000;
-
-                //progressUi.attr("width", progress * canvasWidth);
-                //text.text(progress);
-
-            };
-
-            this.start = function () {
-                that.data = parseGitData(gitData);
-                //make initial time as git event time
-                var startTime = that.data.arr[0].time * 1000; //add milli sec since I removed it from json
-                that.time = startTime;
-                that.initTime = startTime;
-                var addHours = function (O, h) {
-                    O.setHours(O.getHours() + h);
-                    return O;
-                };
-                that.endTime = Date.parse(addHours(new Date(startTime), 1)); //+1 hr
-
-                //that.render();
-                var now = Date.now();
-                buildParticleWorld(canvas, that.data);
-                console.log(Date.now() - now)
+                }, 10);
             };
         };
 
         var GIT = new GitHour();
 
 
-        GIT.start();
+        GIT.build();
 
     }
 
 
-    function buildParticleWorld(container, data) {
-        console.log(data);
+    function buildParticleWorld(container, data, done) {
+
         var containerEle = $(container),
             camera, scene, renderer, stats, controls, particles, values_color, particleSystem, material,
+            tagsElements = new THREE.Object3D(),
             scenes = {
                 gitGrid: [],
                 languages: [],
-                events : []
+                events: []
             },
             currentSceen;
 
@@ -240,7 +168,9 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         renderer.domElement.style.position = 'absolute';
         containerEle.append(renderer.domElement);
 
+
         scene = new THREE.Scene();
+
 
         //set camera
         camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
@@ -264,8 +194,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         window.addEventListener('resize', onWindowResize, false);
 
-        $(containerEle).on('click', '.fullscreenControl', function(){
-            setTimeout(onWindowResize,1000);
+        $(containerEle).on('click', '.fullscreenControl', function () {
+            setTimeout(onWindowResize, 1000);
         });
 
         stats = new Stats();
@@ -281,11 +211,15 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         STORY:
         ------
 
-        Initially all the events will fly to the screen and form a git contribution green style
+        1. Initially all the events will fly to the screen and form a git contribution green style
 
         One hour data = 60 mins = 30sec * 120
 
         these 120 blocks will be divided as 24x5 grid
+
+        2. languages as Sphere with text
+
+        3. Events as Spiral ;-) Hi hi , LOL
 
 
         */
@@ -313,11 +247,12 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
         function renderParticles() {
             renderer.render(scene, camera);
+            //tagRenderer.render(tagsScene, camera);
         }
 
         function generateParticles(particleLen) {
 
-              var attributes = {
+            var attributes = {
                 size: {
                     type: 'f',
                     value: []
@@ -452,26 +387,62 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     scenes.languages.push(object);
 
                 }
+
+                return scenes.languages[scenes.languages.length - 1];
+            }
+
+
+            function generateTags(lan, tag) {
+                // create a canvas element
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+                context.font = "20px Arial";
+                context.fillStyle = "rgba(255,0,0,0.55)";
+                context.fillText(lan, 0, 50);
+
+                // canvas contents will be used for a texture
+                var texture = new THREE.Texture(canvas)
+                texture.needsUpdate = true;
+
+                var material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    side: THREE.DoubleSide
+                });
+                material.transparent = true;
+
+                var tagText = new THREE.Mesh(
+                    new THREE.PlaneGeometry(canvas.width, canvas.height),
+                    material
+                );
+                tagText.position.set(tag.geo.position.x, tag.geo.position.y, tag.geo.position.z);
+                return tagText;
+
             }
 
             var scale = 0.08;
 
-            var colors = _util.getTagColors();
+            var langugeColors = _util.getTagColors();
+            var colors = d3.scale.category20();
             var colorMap = {};
             Object.keys(data.language).forEach(function (lan) {
                 var count = data.language[lan].length,
-                    color = colors[lan.toLocaleLowerCase()] ? colors[lan.toLocaleLowerCase()].split(',')[0] : '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
+                    color = langugeColors[lan.toLocaleLowerCase()] ? langugeColors[lan.toLocaleLowerCase()].split(',')[0] : colors(count),
                     radius = count * scale;
 
-                colorMap[lan] = color;
-                generateSpheres(count, rnd(-500, 500), rnd(-500, 500), rnd(-500, 500), radius, color);
+                var x = rnd(-500, 500),
+                    y = rnd(-500, 500),
+                    z = rnd(-500, 500);
 
+                var tag = generateSpheres(count, x, y, z, radius, color);
+                tagsElements.add(generateTags(lan, tag));
             });
-            console.log(colorMap);
+            scene.add(tagsElements);
+            tagsElements.visible = false;
         }
 
         function generateEvents() {
             var vector = new THREE.Vector3();
+
             function f(x) {
                 return 50 * Math.sin(0.05 * x) + 50;
             }
@@ -479,8 +450,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             function generateEventLayout(n, left, top, index, r, color) {
 
                 r = r || 500;
-                var a =1,
-                    b =1;
+                var a = 1,
+                    b = 1;
                 for (var i = 0; i < n; i++) {
                     var angle = 0.2 * i;
                     var x = left + (a + b * angle) * Math.cos(angle);
@@ -574,10 +545,11 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
 
         //add dom elements
-        $(function(){
+        $(function () {
             var button = $('<div id="grid" class="g6-button">Grid</div>');
             $(container).append(button);
             $('body').on('click', "#grid", function (event) {
+                tagsElements.visible = false;
 
                 var target = {
                     position: {
@@ -600,8 +572,10 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 var info = '<div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div>';
                 $(container).find('.info-box').remove();
                 $(container).append(info);
-                 $(container).find('.info-box').css('left','10%');
+                $(container).find('.info-box').css('left', '10%');
             });
+
+
             var button2 = $('<div id="laguages" class="g6-button">Laguages</div>');
             $(container).append(button2);
             $('body').on('click', "#laguages", function (event) {
@@ -621,12 +595,17 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 if (currentSceen !== 'languages') {
                     changeScene(particleLength, scenes.languages, 5000);
                     currentSceen = 'languages';
+                    tagsElements.visible = true;
                 }
                 changeCameraView(target, 3000);
             });
+
+
+
             var button3 = $('<div id="events" class="g6-button">Events</div>');
             $(container).append(button3);
             $('body').on('click', "#events", function (event) {
+                tagsElements.visible = false;
 
                 var target = {
                     position: {
@@ -647,15 +626,12 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 changeCameraView(target, 3000);
             });
 
-            $('body').on('click', '.g6-button', function(){
+            $('body').on('click', '.g6-button', function () {
                 $('.g6-button').removeClass('active');
                 $(this).addClass('active');
             });
 
-            setTimeout(function(){
-                $("#grid").click();
-            },2000);
-
+            done();
         });
 
 

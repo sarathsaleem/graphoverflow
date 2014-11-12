@@ -466,7 +466,7 @@ svg {
     height: 100%;
     z-index: 15;
     background: #000;
-    padding: 30% 0 0 0;
+    padding-top: calc(45% - 100px);
 }
 @-moz-keyframes spin {
     0% {
@@ -678,7 +678,7 @@ svg {
     width: 80px;
     background: rgba(255, 255, 255, 0.09);
     border: 1px solid rgba(255, 255, 255, 0.39);
-    z-index: 100000;
+    z-index: 10;
     padding: 5px;
     color: #fff;
     text-align: center;
@@ -717,4 +717,18 @@ svg {
     margin: 0px;
     padding: 10px 0;
     color: #43FF3C;
+}
+
+.element {
+    width: 120px;
+    height: 160px;
+    box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
+    border: 1px solid rgba(127,255,255,0.25);
+    text-align: center;
+    cursor: default;
+}
+
+.element:hover {
+    box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+    border: 1px solid rgba(127,255,255,0.75);
 }
