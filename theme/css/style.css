@@ -467,7 +467,7 @@ svg {
     height: 100%;
     z-index: 15;
     background: #000;
-    padding: 30% 0 0 0;
+    padding-top: calc(45% - 100px);
 }
 @-moz-keyframes spin {
     0% {
@@ -679,7 +679,7 @@ svg {
     width: 80px;
     background: rgba(255, 255, 255, 0.09);
     border: 1px solid rgba(255, 255, 255, 0.39);
-    z-index: 100000;
+    z-index: 10;
     padding: 5px;
     color: #fff;
     text-align: center;
@@ -737,3 +737,4 @@ svg {
     display: inline-block;
     margin: 1px;
 }
+
