@@ -27,7 +27,7 @@
 }());
 
 
-define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, ignore) {
+define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, ignore) {
 
     "use strict";
 
@@ -36,10 +36,6 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
     }
 
     function render(gitData, canvas) {
-
-        var canvasWidth = 1333.33, //$(canvas).width(),
-            canvasHeight = 20; // $(canvas).height();
-
 
         function compare(a, b) {
             if (a.time < b.time) {
@@ -97,9 +93,6 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 grid: grid
             };
         }
-        var gui = new dat.GUI({
-            autoPlace: false
-        });
 
         //canvas.appendChild(gui.domElement);
 
@@ -246,7 +239,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         }
 
         function renderParticles() {
-            renderer.render(scene, camera);
+            //renderer.render(scene, camera);
             particleSystem.rotation.y += 0.0005;
             particleSystem.rotation.x += 0.0005;
 
@@ -382,7 +375,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                         geo: new THREE.Object3D(),
                         color: color,
                         name : lan
-                        
+
                     };
                     object.geo.position.x = left + r * Math.cos(theta) * Math.sin(phi);
                     object.geo.position.y = top + r * Math.sin(theta) * Math.sin(phi);
@@ -390,7 +383,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
                     object.geo.lookAt(vector);
                     scenes.languages.push(object);
-                    
+
                     if (i === 0) {
                         firstObj = object;
                     }
@@ -431,7 +424,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
 
             var langugeColors = _util.gitColors();
             var colors = d3.scale.category20();
-           
+
 
             Object.keys(data.language).forEach(function (lan, i) {
                 var count = data.language[lan].length,
@@ -443,7 +436,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                     z = rnd(-500, 500);
 
                 generateSpheres(count, x, y, z, radius, color, lan);
-               
+
             });
             scene.add(tagsElements);
             tagsElements.visible = false;
@@ -552,8 +545,8 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
         $(function () {
             var button = $('<div id="grid" class="g6-button">Grid</div>');
             $(container).append(button);
-            
-            
+
+
             $('body').on('click', "#grid", function (event) {
                 tagsElements.visible = false;
 
@@ -576,14 +569,14 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 changeCameraView(target, 5000);
                 $(container).find('.info-box-wrapper').remove();
 
-                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"> Hide </div></div>';
+                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"></div></div>';
                 $(container).append(info);
 
                 setTimeout(function () {
                     $(container).find('.info-box-wrapper').css({
                         transform: 'translateX(10%) rotateY(0deg)'
                     });
-                }, 10);        
+                }, 10);
 
             });
 
@@ -611,7 +604,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 }
                 changeCameraView(target, 3000);
                 $(container).find('.info-box-wrapper').remove();
-                var info = $('<div class="info-box-wrapper"><div class="info-box languages"></div><div class="hideinfo"> Hide </div></div>');
+                var info = $('<div class="info-box-wrapper"><div class="info-box languages"></div><div class="hideinfo"></div></div>');
                 var languages = '';
 
                 function sortLan(a, b) {
@@ -623,7 +616,7 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
                 Object.keys(colorMap).sort(sortLan).forEach(function (lan) {
                     languages += '<div class="language-color" style="background:' + _util.convertHex(colorMap[lan],70) + '">' + lan + '</div>';
                 });
-                info.find('.info-box').append(languages);                               
+                info.find('.info-box').append(languages);
                 $(container).append(info);
                 setTimeout(function () {
                     $(container).find('.info-box-wrapper').css({
@@ -662,6 +655,15 @@ define(['utils/utils', 'd3', 'gui', 'libs/three', 'libs/stats', 'libs/tween'], f
             $('body').on('click', '.g6-button', function () {
                 $('.g6-button').removeClass('active');
                 $(this).addClass('active');
+            });
+
+            $('body').on('click', '.hideinfo', function () {
+                if($(this).hasClass('show')) {
+                    $(this).parent().find('.info-box').slideDown('slow');
+                } else {
+                    $(this).parent().find('.info-box').slideUp('slow');
+                }
+                $(this).toggleClass('show');
             });
 
             done();
