@@ -42,7 +42,7 @@ define(function () {
             },
             {
                 "id": "g6",
-                "title": "Git",
+                "title": "An hour on Git",
                 "description": "git",
                 "thumbnail": "templates/images/g6.png",
                 "htmlTitle": "Git",

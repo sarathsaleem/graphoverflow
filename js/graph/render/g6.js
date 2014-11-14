@@ -144,7 +144,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
     function buildParticleWorld(container, data, done) {
 
         var containerEle = $(container),
-            camera, scene, renderer, stats, controls, particles, values_color, particleSystem, colorMap = {},
+            camera, scene, renderer, stats, controls, particles, values_color, particleSystem, colorMap = {}, eventMap = {},
             tagsElements = new THREE.Object3D(),
             scenes = {
                 gitGrid: [],
@@ -194,10 +194,21 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
-        containerEle.append(stats.domElement);
+       // containerEle.append(stats.domElement);
 
 
         particles = new THREE.Geometry();
+        
+        
+        
+         var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+        hemiLight.color.setHSL( 0.6, 0.75, 0.5 );
+        hemiLight.groundColor.setHSL( 0.095, 0.5, 0.5 );
+        hemiLight.position.set( 0, 500, 0 );
+        scene.add( hemiLight );
+
+       var ambLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambLight);
 
 
         /*
@@ -239,9 +250,10 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         }
 
         function renderParticles() {
-            //renderer.render(scene, camera);
+            renderer.render(scene, camera);
             particleSystem.rotation.y += 0.0005;
             particleSystem.rotation.x += 0.0005;
+            particleSystem.rotation.z += 0.0005;
 
         }
 
@@ -473,7 +485,8 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                     color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
                     radius = 300;
                 left += 200;
-                generateEventLayout(count, rnd(500, 500), rnd(-500, 500), rnd(-500, 500), radius, color);
+                eventMap[count + '-' + eve] = color;
+                generateEventLayout(count, rnd(500, 500), rnd(-500, 500), rnd(-700, 700), radius, color);
 
             });
         }
@@ -543,7 +556,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         //add dom elements
         $(function () {
-            var button = $('<div id="grid" class="g6-button">Grid</div>');
+            var button = $('<div id="grid" class="g6-button">Hour</div>');
             $(container).append(button);
 
 
@@ -650,6 +663,27 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }
                 changeCameraView(target, 3000);
                 $(container).find('.info-box-wrapper').remove();
+                
+                var info = $('<div class="info-box-wrapper"><div class="info-box languages eventlist"></div><div class="hideinfo"></div></div>');
+                var languages = '';
+
+                function sortLan(a, b) {
+                    var aName = +a.split('-')[0];
+                    var bName = +b.split('-')[0];
+                    return ((aName > bName) ? -1 : ((aName < bName) ? 1 : 0));
+                }
+
+                Object.keys(eventMap).sort(sortLan).forEach(function (lan) {
+                    languages += '<div class="language-color" style="background:' + _util.convertHex(eventMap[lan],70) + '">' + lan + '</div>';
+                });
+                info.find('.info-box').append(languages);
+                $(container).append(info);
+                setTimeout(function () {
+                    $(container).find('.info-box-wrapper').css({
+                        transform: 'translateX(10%) rotateY(0deg)'
+                    });
+                }, 10);
+                
             });
 
             $('body').on('click', '.g6-button', function () {
