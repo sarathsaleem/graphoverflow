@@ -42,9 +42,9 @@
         {
             "id": "g6",
             "title": "An hour on Git",
-            "description": "git",
+            "description": "an hour on Git",
             "thumbnail": "templates/images/g6.png",
-            "htmlTitle": "git",
+            "htmlTitle": "an-hour-on-git",
             "tags": ["random", "git"]
             }
         ],

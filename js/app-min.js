@@ -1,6 +1,6 @@
 /*
 
-Graphoverflow 2014-08-13 (https://github.com/sarathsaleem/graphoverflow)
+Graphoverflow 2014-11-16 (https://github.com/sarathsaleem/graphoverflow)
     By  
 Sarath Saleem 
 
@@ -3754,6 +3754,12 @@ define('data/index',['require','knockout'],function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g6') {
+            _u.getData({
+                url: baseUrl + 'git-data.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);
@@ -3939,10 +3945,166 @@ define('utils/utils',[],function () {
                 "ajax": "#005A9C",
                 "xml": "#005A9C",
                 "django": "#7FB83D,#234F32,#092E20",
-                "linux": "#2E2C2C,#E7E8E9,#FDD23C"
+                "linux": "#2E2C2C,#E7E8E9,#FDD23C",
+                "perl": "#E9F2FB,#A9CBEE,#5A8ACB"
             };
 
             return colors;
+        },
+        
+        // corrected values from https://github.com/ozh/github-colors/blob/master/colors.json
+        gitColors: function () {
+            return {
+                "ActionScript": "#e3491a",
+                "Ada": "#02f88c",
+                "Agda": "#467C91",
+                "Alloy": "#cc5c24",
+                "ANTLR": "#9DC3FF",
+                "Arc": "#ca2afe",
+                "Arduino": "#bd79d1",
+                "ASP": "#6a40fd",
+                "AspectJ": "#1957b0",
+                "Assembly": "#a67219",
+                "ATS": "#1ac620",
+                "AutoHotkey": "#6594b9",
+                "AutoIt": "#36699B",
+                "Boo": "#d4bec1",
+                "C": "#555",
+                "C#": "#5a25a2",
+                "C++": "#f34b7d",
+                "Cirru": "#aaaaff",
+                "Clean": "#3a81ad",
+                "Clojure": "#db5855",
+                "CoffeeScript": "#244776",
+                "ColdFusion": "#ed2cd6",
+                "Common Lisp": "#3fb68b",
+                "Component Pascal": "#b0ce4e",
+                "CSS": "#563d7c",
+                "D": "#fcd46d",
+                "Dart": "#98BAD6",
+                "DM": "#075ff1",
+                "Dogescript": "#cca760",
+                "Dylan": "#3ebc27",
+                "E": "#ccce35",
+                "Eagle": "#3994bc",
+                "ECL": "#8a1267",
+                "edn": "#db5855",
+                "Eiffel": "#946d57",
+                "Elixir": "#6e4a7e",
+                "Emacs Lisp": "#c065db",
+                "Erlang": "#0faf8d",
+                "F#": "#b845fc",
+                "Factor": "#636746",
+                "Fancy": "#7b9db4",
+                "Fantom": "#dbded5",
+                "FLUX": "#33CCFF",
+                "Forth": "#341708",
+                "FORTRAN": "#4d41b1",
+                "Frege": "#00cafe",
+                "Game Maker Language": "#8ad353",
+                "Glyph": "#e4cc98",
+                "Gnuplot": "#f0a9f0",
+                "Go": "#375eab",
+                "Gosu": "#82937f",
+                "Grammatical Framework": "#ff0000",
+                "Groovy": "#e69f56",
+                "Harbour": "#0e60e3",
+                "Haskell": "#29b544",
+                "Haxe": "#f7941e",
+                "Hy": "#7891b1",
+                "IDL": "#e3592c",
+                "Io": "#a9188d",
+                "Ioke": "#078193",
+                "Java": "#b07219",
+                "JavaScript": "#f1e05a",
+                "Julia": "#a270ba",
+                "KRL": "#f5c800",
+                "Lasso": "#2584c3",
+                "Latte": "#A8FF97",
+                "LFE": "#004200",
+                "LiveScript": "#499886",
+                "Lua": "#fa1fa1",
+                "Mask": "#f97732",
+                "Matlab": "#bb92ac",
+                "Max": "#ce279c",
+                "Mercury": "#abcdef",
+                "Mirah": "#c7a938",
+                "MTML": "#0095d9",
+                "Nemerle": "#0d3c6e",
+                "nesC": "#ffce3b",
+                "NetLogo": "#ff2b2b",
+                "Nimrod": "#37775b",
+                "Nu": "#c9df40",
+                "Objective-C": "#438eff",
+                "Objective-C++": "#4886FC",
+                "Objective-J": "#ff0c5a",
+                "OCaml": "#3be133",
+                "Omgrofl": "#cabbff",
+                "ooc": "#b0b77e",
+                "Oxygene": "#5a63a3",
+                "Pan": "#cc0000",
+                "Parrot": "#f3ca0a",
+                "Pascal": "#b0ce4e",
+                "PAWN": "#dbb284",
+                "Perl": "#0298c3",
+                "Perl6": "#0298c3",
+                "PHP": "#4F5D95",
+                "Pike": "#066ab2",
+                "PogoScript": "#d80074",
+                "Processing": "#2779ab",
+                "Prolog": "#74283c",
+                "Propeller Spin": "#2b446d",
+                "Puppet": "#cc5555",
+                "Pure Data": "#91de79",
+                "PureScript": "#bcdc53",
+                "Python": "#3581ba",
+                "QML": "#44a51c",
+                "R": "#198ce7",
+                "Racket": "#ae17ff",
+                "Ragel in Ruby Host": "#ff9c2e",
+                "Rebol": "#358a5b",
+                "Red": "#ee0000",
+                "Rouge": "#cc0088",
+                "Ruby": "#701516",
+                "Rust": "#dea584",
+                "SAS": "#1E90FF",
+                "Scala": "#7dd3b0",
+                "Scheme": "#1e4aec",
+                "Self": "#0579aa",
+                "Shell": "#5861ce",
+                "Shen": "#120F14",
+                "Slash": "#007eff",
+                "Smalltalk": "#596706",
+                "SourcePawn": "#f69e1d",
+                "Standard ML": "#dc566d",
+                "SuperCollider": "#46390b",
+                "Swift": "#ffac45",
+                "SystemVerilog": "#343761",
+                "Tcl": "#e4cc98",
+                "TeX": "#3D6117",
+                "Turing": "#45f715",
+                "TypeScript": "#31859c",
+                "Unified Parallel C": "#755223",
+                "UnrealScript": "#a54c4d",
+                "Vala": "#ee7d06",
+                "VCL": "#0298c3",
+                "Verilog": "#848bf3",
+                "VHDL": "#543978",
+                "VimL": "#199c4b",
+                "Visual Basic": "#945db7",
+                "Volt": "#0098db",
+                "wisp": "#7582D1",
+                "xBase": "#3a4040",
+                "XQuery": "#2700e2",
+                "Zephir": "#118f9e"
+            };
+        },
+        convertHex: function (hex, opacity) {
+            hex = hex.replace('#', '');
+            var r = parseInt(hex.substring(0, 2), 16),
+                g = parseInt(hex.substring(2, 4), 16),
+                b = parseInt(hex.substring(4, 6), 16);
+            return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
         }
     };
 
@@ -3951,7 +4113,6 @@ define('utils/utils',[],function () {
     return utils;
 
 });
-
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator,document */
 
@@ -3996,10 +4157,8 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
 
         this.renderGraph = function (grapData) {
 
-            if (!grapData) {
-                console.error("GO: Cannot load '" + that.id + "' data");
-                return;
-
+            if (!grapData.length) {
+                console.warn("GO: Cannot load '" + that.id + "' data from data folder");
             }
 
             //check data error
@@ -4017,6 +4176,9 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
         this.addFullscreenControls = function () {
 
             var fullScreenControl = $('<div class="fullscreenControl"></div>');
+            
+            $(that.graphCanvas).addClass(this.id);
+            
             $(that.graphCanvas).append(fullScreenControl);
 
             fullScreenControl.click(function () {
@@ -4292,9 +4454,17 @@ define('graph/model/graph-list',[],function () {
                 "thumbnail": "templates/images/g5.png",
                 "htmlTitle": "pulp-fiction",
                 "tags": ["random", "filims"]
+            },
+            {
+                "id": "g6",
+                "title": "An hour on Git",
+                "description": "An hour on Git",
+                "thumbnail": "templates/images/g6.png",
+                "htmlTitle": "an-hour-on-git",
+                "tags": ["random", "Git"]
             }
         ],
-            "tags": ["all", "stackoverflow", "random", "filims"]
+            "tags": ["all", "stackoverflow", "random", "filims", "git"]
         };
     return graphs;
 });
@@ -4309,7 +4479,8 @@ require.config({
     // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
     paths: {
         knockout: 'libs/knockout',
-        d3: 'libs/d3'
+        d3: 'libs/d3',
+        gui :'libs/dat.gui'
     },
     shim: {
         d3: {

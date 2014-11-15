@@ -43,9 +43,9 @@ define(function () {
             {
                 "id": "g6",
                 "title": "An hour on Git",
-                "description": "git",
+                "description": "An hour on Git",
                 "thumbnail": "templates/images/g6.png",
-                "htmlTitle": "Git",
+                "htmlTitle": "an-hour-on-git",
                 "tags": ["random", "Git"]
             }
         ],
