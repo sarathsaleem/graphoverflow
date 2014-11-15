@@ -42,10 +42,8 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
 
         this.renderGraph = function (grapData) {
 
-            if (!grapData) {
-                console.error("GO: Cannot load '" + that.id + "' data");
-                return;
-
+            if (!grapData.length) {
+                console.warn("GO: Cannot load '" + that.id + "' data from data folder");
             }
 
             //check data error
@@ -63,6 +61,9 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
         this.addFullscreenControls = function () {
 
             var fullScreenControl = $('<div class="fullscreenControl"></div>');
+            
+            $(that.graphCanvas).addClass(this.id);
+            
             $(that.graphCanvas).append(fullScreenControl);
 
             fullScreenControl.click(function () {
