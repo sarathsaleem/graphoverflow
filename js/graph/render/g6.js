@@ -112,12 +112,8 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 $(canvas).append(loadingScreen);
                 setTimeout(function () {
 
-                    console.log('Start')
-                    var now = Date.now();
                     that.data = parseGitData(gitData);
                     buildParticleWorld(canvas, that.data, function () {
-
-                        console.log(Date.now() - now)
                         loadingScreen.css('background', '#FFF');
                         loadingScreen.html(play);
 
@@ -194,7 +190,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
-       // containerEle.append(stats.domElement);
+        //containerEle.append(stats.domElement); :debug
 
 
         particles = new THREE.Geometry();
@@ -244,8 +240,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             requestAnimationFrame(animate);
             TWEEN.update();
             controls.update();
-            stats.update();
             renderParticles();
+                    
+            //stats.update(); :debug
 
         }
 
@@ -299,16 +296,39 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
                 values_size[i] = 40;
                 values_color[i] = new THREE.Color();
-                values_color[i].setHSL(Math.random(), 1.0, 0.5);
             }
+            
+            
+            var vertexShader = [
+                    "uniform float amplitude;",
+                    "attribute float size;",
+                    "attribute vec3 customColor;",
+                    "varying vec3 vColor;",
+                    "void main() {",
+                        "vColor = customColor;",
+                        "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+                        "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
+                        " gl_Position = projectionMatrix * mvPosition;",
+                    "}"
+					].join("\n"),
+
+                fragmentShader = [                    
+                    "uniform vec3 color;",
+                    "uniform sampler2D texture;",
+                    "varying vec3 vColor;",
+                    "void main() {",
+                        "gl_FragColor = vec4( color * vColor, 1.0 );",
+                        "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
+                    "}"
+                ].join("\n");
 
 
 
             var shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: uniforms,
                 attributes: attributes,
-                vertexShader: document.getElementById('vertexshader1').textContent,
-                fragmentShader: document.getElementById('fragmentshader1').textContent,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
                 blending: THREE.AdditiveBlending,
                 depthTest: false,
                 transparent: true
@@ -582,7 +602,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 changeCameraView(target, 5000);
                 $(container).find('.info-box-wrapper').remove();
 
-                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour. This Grid represents the total 13867 events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds.<br /> This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"></div></div>';
+                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour on github. This Grid represents the total '+ particleLength + ' events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds. This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"></div></div>';
                 $(container).append(info);
 
                 setTimeout(function () {
@@ -685,6 +705,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }, 10);
                 
             });
+            
+            var threeInfo = '<div class="info-link"> grab screen to rotate and scroll to zoom, created with <a href="" target="_blank">three.js</a>';
+            $(container).append(threeInfo);
 
             $('body').on('click', '.g6-button', function () {
                 $('.g6-button').removeClass('active');

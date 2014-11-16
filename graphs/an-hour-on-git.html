@@ -9,8 +9,8 @@
     <meta name="description" content="Data visualization and info graphics using JavaScript libraries like D3.js, three.js.has a collection Stackoverflow data visualization and others.">
     <meta name="keywords" content="data visualisation,infographics,JavaScript Charts,D3.js charts">
     <meta name="author" content="sarath saleem">
-    <meta property="og:image" content="http://graphoverflow.com/templates/images/g6.png" />
-    <meta property="og:description" content="an hour on Git" />
+    <meta property="og:image" content="http://graphoverflow.com/templates/images/visualization-of-an-hour-on-github.png" />
+    <meta property="og:description" content="An hour on github, visualization of events happened in one hour on 12 August 2014 on git hub" />
     <title>GraphOverflow : An hour on Git</title>
     <!-- Bootstrap core CSS -->
     <!--   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
@@ -53,7 +53,7 @@
             <div class="heading">
                 <h2> An hour on Git </h2>
                 <h4>
-                    <small> an hour on Git </small>
+                    <small> An hour on github, visualization of events happened in one hour on 12 August 2014 on git hub </small>
                 </h4>
             </div>
         </div>
@@ -62,7 +62,7 @@
 </div>
 
         </div>
-
+       
         <div class="comments container">
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
@@ -79,51 +79,13 @@
                 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
                 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         </div>
-
+        
     </div>
 
     <footer>
         <div class="addthis_sharing_toolbox"></div>
         <p class="developedBy"> This website is developed and maintained by Sarath Saleem , you can check the source at <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow">Github</a> </p>
     </footer>
-    <script type="x-shader/x-vertex" id="vertexshader1">
-
-        uniform float amplitude;
-        attribute float size;
-        attribute vec3 customColor;
-
-        varying vec3 vColor;
-
-        void main() {
-
-            vColor = customColor;
-
-            vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-            //gl_PointSize = size;
-            gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );
-
-            gl_Position = projectionMatrix * mvPosition;
-
-        }
-
-    </script>
-
-    <script type="x-shader/x-fragment" id="fragmentshader1">
-
-        uniform vec3 color;
-        uniform sampler2D texture;
-
-        varying vec3 vColor;
-
-        void main() {
-
-            gl_FragColor = vec4( color * vColor, 1.0 );
-            gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
-
-        }
-
-    </script>
 
     <script>
         var require = {
