@@ -38,7 +38,7 @@ define(function () {
             "description": "The word 'fuck' is used 255 times in the filim Pulp Fiction , checkout the visualization to see when they are",
             "thumbnail": "templates/images/255-fuck-in-pulp-fiction.png",
             "htmlTitle": "pulp-fiction",
-            "tags": ["random", "filims"]
+            "tags": ["filims"]
             },
         {
             "id": "g6",
@@ -46,10 +46,10 @@ define(function () {
             "description": "An hour on github, visualization of events happened in one hour on 12 August 2014 on github",
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
             "htmlTitle": "an-hour-on-git",
-            "tags": ["random", "git"]
+            "tags": ["git"]
             }
         ],
-            "tags": ["all", "stackoverflow", "random", "filims", "git"]
+            "tags": ["all", "stackoverflow", "filims", "git"]
         };
     return graphs;
 });

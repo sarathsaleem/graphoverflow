@@ -706,7 +706,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 
             });
             
-            var threeInfo = '<div class="info-link"> grab screen to rotate and scroll to zoom, created with <a href="" target="_blank">three.js</a>';
+            var threeInfo = '<div class="info-link"> grab screen to rotate and scroll to zoom, created with <a href="http://threejs.org" target="_blank">three.js</a>';
             $(container).append(threeInfo);
 
             $('body').on('click', '.g6-button', function () {
