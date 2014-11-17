@@ -229,6 +229,10 @@ footer .developedBy {
     height: 260px;
     float: left;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.6s ease;
+}
+.graplist-item:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
 }
 .graplist-item h2 {
     font-size: 14px;
@@ -399,16 +403,12 @@ grapgCanvas,
 }
 #tagList .tagItem a {
     display: block;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
     border-radius: 10px;
     color: #ACACAC;
     height: 20px;
     line-height: 20px;
     padding: 0 10px;
-    background: #804C00;
+    background: rgba(128, 76, 0, 0.3);
     text-transform: capitalize;
     text-decoration: none;
 }
@@ -721,7 +721,7 @@ svg {
     cursor: -moz-grab;
     cursor: -webkit-grab;
 }
-.g6 canvas:active { 
+.g6 canvas:active {
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
@@ -740,7 +740,7 @@ svg {
     transition: all ease-out 2s;
     transform-style: preserve-3d;
     overflow: hidden;
-    min-height: 16px; */
+    min-height: 16px;
 }
 
 .info-box {
@@ -781,6 +781,9 @@ svg {
     .info-box {
         height: 75px;
     }
+    .info-link {
+        display: none;
+    }
 }
 
 .language-color {
@@ -815,7 +818,7 @@ svg {
 .hideinfo.show {
     background: #000 url("../images/show.png") no-repeat center center;
 }
-.info-link{
+.info-link {
     position: absolute;
     z-index: 10;
     font-size: 10px;

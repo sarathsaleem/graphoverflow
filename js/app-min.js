@@ -4435,8 +4435,8 @@ define('graph/model/graph-list',[],function () {
             "id": "g3",
             "title": "How tags are growing ?",
             "description": "This graph shows the growth of tags in each month.The vertical position of circle represent the count of questions in a month.",
-            "thumbnail": "templates/images/stackoverflow-tag-growth-rate-montly.png",
-            "htmlTitle": "stackoverflow-tag-growth-rate-montly",
+            "thumbnail": "templates/images/stackoverflow-tag-growth-rate-monthly.png",
+            "htmlTitle": "stackoverflow-tag-growth-rate-monthly",
             "tags": ["stackoverflow", "programming"]
             },
         {
@@ -4456,11 +4456,11 @@ define('graph/model/graph-list',[],function () {
             "tags": ["filims"]
             },
         {
-            "id": "g6",
-            "title": "An hour on Git",
+           "id": "g6",
+            "title": "An hour on GitHub",
             "description": "An hour on github, visualization of events happened in one hour on 12 August 2014 on github",
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
-            "htmlTitle": "an-hour-on-git",
+            "htmlTitle": "an-hour-on-github",
             "tags": ["git"]
             }
         ],

@@ -120,7 +120,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                         $(play).on('click', function () {
                             loadingScreen.hide();
                             $("#grid").click();
-                            //ga('send', 'event', 'button', 'click', 'played:git');
+                            ga('send', 'event', 'button', 'click', 'played:git');
                         });
 
                     });
@@ -194,9 +194,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
 
         particles = new THREE.Geometry();
-        
-        
-        
+
+
+
          var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
         hemiLight.color.setHSL( 0.6, 0.75, 0.5 );
         hemiLight.groundColor.setHSL( 0.095, 0.5, 0.5 );
@@ -241,7 +241,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             TWEEN.update();
             controls.update();
             renderParticles();
-                    
+
             //stats.update(); :debug
 
         }
@@ -297,8 +297,8 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 values_size[i] = 40;
                 values_color[i] = new THREE.Color();
             }
-            
-            
+
+
             var vertexShader = [
                     "uniform float amplitude;",
                     "attribute float size;",
@@ -310,9 +310,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                         "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
                         " gl_Position = projectionMatrix * mvPosition;",
                     "}"
-					].join("\n"),
+                    ].join("\n"),
 
-                fragmentShader = [                    
+                fragmentShader = [
                     "uniform vec3 color;",
                     "uniform sampler2D texture;",
                     "varying vec3 vColor;",
@@ -683,7 +683,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }
                 changeCameraView(target, 3000);
                 $(container).find('.info-box-wrapper').remove();
-                
+
                 var info = $('<div class="info-box-wrapper"><div class="info-box languages eventlist"></div><div class="hideinfo"></div></div>');
                 var languages = '';
 
@@ -703,9 +703,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                         transform: 'translateX(10%) rotateY(0deg)'
                     });
                 }, 10);
-                
+
             });
-            
+
             var threeInfo = '<div class="info-link"> grab screen to rotate and scroll to zoom, created with <a href="http://threejs.org" target="_blank">three.js</a>';
             $(container).append(threeInfo);
 

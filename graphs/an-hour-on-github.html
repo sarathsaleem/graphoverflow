@@ -11,7 +11,7 @@
     <meta name="author" content="sarath saleem">
     <meta property="og:image" content="http://graphoverflow.com/templates/images/visualization-of-an-hour-on-github.png" />
     <meta property="og:description" content="An hour on github, visualization of events happened in one hour on 12 August 2014 on github" />
-    <title>GraphOverflow : An hour on Git</title>
+    <title>GraphOverflow : An hour on GitHub</title>
     <!-- Bootstrap core CSS -->
     <!--   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
     <link href="../theme/css/bootstrap-min.css" rel="stylesheet">
@@ -51,7 +51,7 @@
         </div>
         <div class="container">
             <div class="heading">
-                <h2> An hour on Git </h2>
+                <h2> An hour on GitHub </h2>
                 <h4>
                     <small> An hour on github, visualization of events happened in one hour on 12 August 2014 on github </small>
                 </h4>
@@ -59,6 +59,23 @@
         </div>
         <div class="container" id="graphContent">
             <div class="conterntWrapper">
+    <div class="col-md-12">
+        <p>
+            <a href="https://github.com" target="_blank">Github</a> the great social coding platform has gained good popularity on last few years. Over seven million people use GitHub to build amazing things together. Here I am visualizing the events happened at Github on 12 August 2014. I used
+            <a href="http://threejs.org/" target="_blank">three.js</a> to create the scenes and animation. All the public activities happen in Github can be fount on
+            <a href="http://www.githubarchive.org/" target="_blank">GitHub Archive</a>. GitHub Archive is a project by
+            <a href="https://github.com/igrigorik" target="_blank">Ilya Grigorik</a> which record the public GitHub timeline, archive it, and make it easily accessible for further analysis. it has some really cool API to get the data in json format. I used those APIs to get the data of that particular date.
+            <p/>
+    </div>
+    <div class="col-md-12">
+        <p>
+            I try to represent each activity as a particle and arrange it in different format to visualize it. Switch the views by top Hour, Languages, Events button to see how each activities relation. Hour is just a representation of events in each 30sec block and I found an average of around 120 events are happening in each 30 seconds. Languages give a clear picture of leading languages in which the activities are tagged to.Out of the total 13K events I found the leading ones are as follows 3017-JavaScript , 1568-Python, 1407-Java, 1142-Ruby, 1032-PHP, 966-CSS, 885-C++, 682-C, 371-C#, 369-Shell .. etc. I used the same colour for spheres what Github used to represent in the website. We can get this colors from the project
+            <a href="https://github.com/ozh/github-colors" target="_blank">github-colors</a>. Events spiral uses random colours to fill it :).
+        </p>
+    </div>
+    <div class="col-md-12">
+        <p>Drag the screen to rotate and scroll to zoom it. Play with it let me know your thoughts, Enjoy :) </p>
+    </div>
 </div>
 
         </div>
