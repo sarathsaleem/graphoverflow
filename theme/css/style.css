@@ -127,7 +127,7 @@ h6,
     text-rendering: optimizeLegibility;
 }
 footer {
-    height: 25px;
+    height: 30px;
     padding: 5px;
     background: #000;
     bottom: 0px;
@@ -150,9 +150,16 @@ footer .developedBy {
     margin: 0px;
     bottom: 3px;
 }
+.developedBy-mobile{
+    display: none;
+    float: right;
+}
 @media (max-width: 500px) {
-    footer {
-        height: 55px;
+    .developedBy-mobile {
+        display: block;
+    }
+    .developedBy {
+        display: none;
     }
 }
 .graphWrapper {
@@ -669,6 +676,7 @@ svg {
 
 .addthis_sharing_toolbox {
     margin: 3px 0 0 3px;
+    float: left;
 }
 /* g6 */
 
