@@ -29,25 +29,25 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
 
         this.getJsonData = function (cb) {
 
-            if (localStorage) {
+            /*if (localStorage) {
                 var data = localStorage.getItem(that.id);
                 if (data) {
                     cb(JSON.parse(data));
                     return;
                 }
-            }
+            }*/
 
             DAL.stackData.get(this.id, cb);
         };
 
         this.renderGraph = function (grapData) {
 
-            if (!grapData.length) {
+            if (!grapData) {
                 console.warn("GO: Cannot load '" + that.id + "' data from data folder");
             }
 
             //check data error
-            localStorage.setItem(that.id, JSON.stringify(grapData));
+            //localStorage.setItem(that.id, JSON.stringify(grapData));
 
             require(['graph/render/' + that.id], function (render) {
 
@@ -61,9 +61,9 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
         this.addFullscreenControls = function () {
 
             var fullScreenControl = $('<div class="fullscreenControl"></div>');
-            
+
             $(that.graphCanvas).addClass(this.id);
-            
+
             $(that.graphCanvas).append(fullScreenControl);
 
             fullScreenControl.click(function () {

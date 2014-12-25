@@ -62,6 +62,12 @@ define(function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g7') {
+            _u.getData({
+                url: baseUrl + 'git-day.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);

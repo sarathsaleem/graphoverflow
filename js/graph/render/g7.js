@@ -9,6 +9,8 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
     function render(data, canvas) {
 
+        console.log(data);
+
     }
 
     return render;
