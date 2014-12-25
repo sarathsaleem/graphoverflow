@@ -47,6 +47,14 @@ define(function () {
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
             "htmlTitle": "an-hour-on-github",
             "tags": ["git"]
+            },
+         {
+           "id": "g7",
+            "title": "A Day on GitHub",
+            "description": "An hour on github, visualization of events logged in one hour on 12 August 2014 on github.",
+            "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
+            "htmlTitle": "a-day-on-github",
+            "tags": ["git"]
             }
         ],
             "tags": ["all", "stackoverflow", "filims", "git"]
