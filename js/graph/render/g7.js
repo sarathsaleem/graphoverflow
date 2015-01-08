@@ -66,6 +66,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         data.language = language;
         data.eventTypes = eventTypes;
+        console.log(data)
         return data;
     }
 
@@ -77,7 +78,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
 
         var containerEle = $(container),
-            camera, scene, renderer, stats, controls, particles, values_color, particleSystem, colorMap = {},
+            camera, scene, renderer, stats, controls, particleSys1, particleSys2, values_color, particleSystem1, particleSystem2, colorMap = {},
             eventMap = {},
             tagsElements = new THREE.Object3D(),
             scenes = {
@@ -131,8 +132,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         containerEle.append(stats.domElement);
 
 
-        particles = new THREE.Geometry();
-    
+        particleSys1 = new THREE.Geometry();
+        particleSys2 = new THREE.Geometry();
+
         var gridColor = d3.scale.linear().domain([0, 20]).range(["#d2f428", "#11bf1d"]);
 
         function init() {
@@ -153,12 +155,14 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         function renderParticles() {
             renderer.render(scene, camera);
-            particleSystem.rotation.y += 0.0005;
-            particleSystem.rotation.x += 0.0005;
-            particleSystem.rotation.z += 0.0005;
+            particleSystem1.rotation.y += 0.0005;
+            particleSystem1.rotation.x += 0.0005;
+            particleSystem1.rotation.z += 0.0005;
+
+            particleSystem2.rotation.y -= 0.0005;
 
         }
-        
+
         var langugeColors = _util.gitColors();
         var colors = d3.scale.category20();
 
@@ -171,7 +175,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         function generateParticles(particleLen) {
 
-            var attributes = {
+               var attributes = {
                 size: {
                     type: 'f',
                     value: []
@@ -197,29 +201,6 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }
             };
 
-            values_color = attributes.customColor.value;
-            var values_size = attributes.size.value;
-
-
-            for (var i = 0; i < particleLen; i++) {
-                
-                var event = gitData.events[i].split(','),
-                lan = gitData.refMap[event[0]],
-                color = gitData.lanColor[lan];
-                
-                var particle = new THREE.Vector3();
-                particles.vertices.push(particle);
-                var range = 1000;
-                particles.vertices[i].x = rnd(-range, range);
-                particles.vertices[i].y = rnd(-range, range);
-                particles.vertices[i].z = rnd(-range, range);
-
-                values_size[i] = 40;
-                values_color[i] = new THREE.Color();
-                values_color[i].setStyle(color);
-            }
-
-
             var vertexShader = [
                     "uniform float amplitude;",
                     "attribute float size;",
@@ -229,7 +210,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                         "vColor = customColor;",
                         "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
                         "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
-                        " gl_Position = projectionMatrix * mvPosition;",
+                        "gl_Position = projectionMatrix * mvPosition;",
                     "}"
                     ].join("\n"),
 
@@ -256,17 +237,57 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             });
 
 
+            var values_color = attributes.customColor.value;
+            var values_size = attributes.size.value;
+
+
+            for (var i = 0; i < particleLen; i++) {
+
+                var event = gitData.events[i].split(','),
+                lan = gitData.refMap[event[0]],
+                color = gitData.lanColor[lan];
+
+                var particle = new THREE.Vector3();
+
+                var range = 1000;
+
+                if (i > 200000) {
+                    range = 3000;
+
+                    particle.x = rnd(-range, range);
+                    particle.y = rnd(-range, range);
+                    particle.z = rnd(-range, range);
+
+                    particleSys1.vertices.push(particle);
+
+                } else {
+
+                    particle.x = rnd(-range, range);
+                    particle.y = rnd(-range, range);
+                    particle.z = rnd(-range, range);
+
+                    particleSys2.vertices.push(particle);
+                }
+
+                values_size[i] = 40;
+                values_color[i] = new THREE.Color();
+                values_color[i].setStyle(color);
+            }
+
+
             // particles.colors = colors;
 
 
-            particleSystem = new THREE.PointCloud(particles, shaderMaterial);
+            particleSystem1 = new THREE.PointCloud(particleSys1, shaderMaterial);
+            particleSystem2 = new THREE.PointCloud(particleSys2, shaderMaterial);
 
             //particleSystem.sortParticles = true;
             //particleSystem.dynamic = true;
 
-            scene.add(particleSystem);
+            scene.add(particleSystem1);
+            scene.add(particleSystem2);
         }
-        
+
         function changeScene(particeLen, shape, duration) {
             TWEEN.removeAll();
 
