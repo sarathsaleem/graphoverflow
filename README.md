@@ -10,7 +10,7 @@ Here you can find a collection of info graphics and data visualization on variou
 Source and build
 ----------------
 
-I am using git [project page][5] for publishing the web content on the domain [graphoverflow.com][6] . The live source files can be found on `gh-graph` branch. [Grunt][7] is used for building the static pages , building scripts can be found at `builder` branch
+I am using git [project page][5] for publishing the web content on the domain [graphoverflow.com][6] . <b>The live source files can be found on `gh-graph` branch.</b> [Grunt][7] is used for building the static pages , building scripts can be found at `builder` branch
 
 
   [1]: http://graphoverflow.com
