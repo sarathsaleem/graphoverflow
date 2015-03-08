@@ -252,9 +252,8 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 var range = 1000;
 
                 if (i > 200000) {
-                    range = 3000;
 
-                    particle.x = rnd(-range, range);
+                    particle.x = i/20;
                     particle.y = rnd(-range, range);
                     particle.z = rnd(-range, range);
 
@@ -262,7 +261,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
                 } else {
 
-                    particle.x = rnd(-range, range);
+                    particle.x = i/20;
                     particle.y = rnd(-range, range);
                     particle.z = rnd(-range, range);
 
@@ -300,8 +299,6 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         init();
         animate();
-
-
 
 
 
