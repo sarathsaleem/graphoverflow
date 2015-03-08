@@ -27,7 +27,7 @@
 }());
 
 
-define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, ignore) {
+define(['utils/utils','libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, FX, ignore) {
 
     "use strict";
 
@@ -70,6 +70,82 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         return data;
     }
 
+
+    var TimeLine = function (canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.width = canvas.width;
+        this.height = canvas.height;
+        this.animationId = 0;
+        this.currentPos = 0;
+
+        this.interval = 1000 / 60;
+        this.isPlaying = false;
+        this.scale = 0; //totalDuration/this.width
+        this.pause = false;
+        this.stop = true;
+        this.finishPlayed = false;
+        this.onFinish = function () {};
+
+        this.time = 0;
+        this.progress = 0;
+
+        this.duration = (1 * 1000); //default
+        this.speed = 1; //default
+
+
+        this.update = function () {
+
+            if (this.time < this.duration) {
+               this.rendering();
+
+
+                //var progressX = FX[this.easing || 'linear'](this.time, 0, this.width, this.duration);
+                //this.progress = progressX;
+                this.time += (16.67 * this.speed); //1000/60 * speed;
+
+            } else {
+
+                this.stop = true;
+                this.finishPlayed = true;
+                if (typeof this.onFinish === 'function') {
+                    //cancelAnimationFrame(timeline.animationId);
+                }
+            }
+        };
+
+        this.rendering = function () {
+            var that = this;
+
+            for (var i = 0; i <  that.data.events.length; i++) {
+                var dataTime = that.data.events[i].split(',')[2] * 1000;
+                if (dataTime < that.time) {
+                    var pos = dataTime * that.scale;
+                    //console.log( that.time, that.data.refMap[that.data.events[i].split(',')[0]]);
+
+                } else {
+                    that.data.events.splice(0, i);
+                    console.log(i);
+                    break;
+                }
+            }
+        };
+        this.init = function (totalDuration, timelineSpeed, data) {
+            this.duration = totalDuration;
+            this.speed = timelineSpeed;
+            this.scale = this.width / this.duration;
+
+            this.data = data;// data.event [language , type, time]
+
+            this.stop = false;
+            this.isPlaying = true;
+            this.finishPlayed = false;
+
+            this.ctx.fillStyle = "rgb(0,0,0)"; //clear canvas
+            this.ctx.fillRect(0, 0, this.width, this.height);
+
+        };
+    };
 
     function render(data, container) {
 
@@ -131,23 +207,34 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         stats.domElement.style.top = '0px';
         containerEle.append(stats.domElement);
 
+        var timelineCanvas = $('<canvas/>');
+        containerEle.append(timelineCanvas);
 
         particleSys1 = new THREE.Geometry();
         particleSys2 = new THREE.Geometry();
 
         var gridColor = d3.scale.linear().domain([0, 20]).range(["#d2f428", "#11bf1d"]);
+        var timeLine = new TimeLine(timelineCanvas[0]);
+
+        var totalDuration = (24 * 60 * 60 * 1000); //24hr
+        var timelineSpeed = 10*1000; // 100x;
+
 
         function init() {
             generateParticles(particleLength);
             changeScene();
+            timeLine.init(totalDuration, timelineSpeed, gitData);
         }
 
         function animate() {
 
             requestAnimationFrame(animate);
+
             TWEEN.update();
             controls.update();
             renderParticles();
+
+            timeLine.update();
 
             stats.update();
 
@@ -175,7 +262,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         function generateParticles(particleLen) {
 
-               var attributes = {
+            var attributes = {
                 size: {
                     type: 'f',
                     value: []
@@ -207,22 +294,21 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                     "attribute vec3 customColor;",
                     "varying vec3 vColor;",
                     "void main() {",
-                        "vColor = customColor;",
-                        "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-                        "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
-                        "gl_Position = projectionMatrix * mvPosition;",
+                    "vColor = customColor;",
+                    "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+                    "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
+                    "gl_Position = projectionMatrix * mvPosition;",
                     "}"
                     ].join("\n"),
-
                 fragmentShader = [
-                    "uniform vec3 color;",
-                    "uniform sampler2D texture;",
-                    "varying vec3 vColor;",
-                    "void main() {",
+                        "uniform vec3 color;",
+                        "uniform sampler2D texture;",
+                        "varying vec3 vColor;",
+                        "void main() {",
                         "gl_FragColor = vec4( color * vColor, 1.0 );",
                         "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
-                    "}"
-                ].join("\n");
+                        "}"
+                    ].join("\n");
 
 
 
@@ -244,8 +330,8 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             for (var i = 0; i < particleLen; i++) {
 
                 var event = gitData.events[i].split(','),
-                lan = gitData.refMap[event[0]],
-                color = gitData.lanColor[lan];
+                    lan = gitData.refMap[event[0]],
+                    color = gitData.lanColor[lan];
 
                 var particle = new THREE.Vector3();
 
@@ -253,7 +339,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
                 if (i > 200000) {
 
-                    particle.x = i/20;
+                    particle.x = i / 20;
                     particle.y = rnd(-range, range);
                     particle.z = rnd(-range, range);
 
@@ -261,7 +347,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
                 } else {
 
-                    particle.x = i/20;
+                    particle.x = i / 20;
                     particle.y = rnd(-range, range);
                     particle.z = rnd(-range, range);
 
