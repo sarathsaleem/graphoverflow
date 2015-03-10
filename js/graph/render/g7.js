@@ -27,7 +27,7 @@
 }());
 
 
-define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, ignore) {
+define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, FX, ignore) {
 
     "use strict";
 
@@ -68,13 +68,106 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         data.eventTypes = eventTypes;
         console.log(data)
         return data;
-    } 
-   
-    function render(data, container) {
+    }
 
 
-        var gitData = processData(data);
+    var TimeLine = function (chart, w, h) {
+        this.canvas = chart;
+        this.width = w;
+        this.height = h;
 
+        this.animationId = 0;
+        this.currentPos = 0;
+
+        this.interval = 1000 / 60;
+        this.isPlaying = false;
+        this.scale = 0; //totalDuration/this.width
+        this.pause = false;
+        this.stop = true;
+        this.finishPlayed = false;
+        this.onFinish = function () {};
+
+        this.time = 0;
+        this.progress = 0;
+
+        this.duration = (1 * 1000); //default
+        this.speed = 1; //default
+
+
+        var maxCountLabel = this.canvas.append('text')
+            .attr('class', 'maxcount-label')
+            .style("font-size", "30px")
+            .attr("transform", "translate(100,45)");
+        
+        var progressBar = this.canvas.append('rect').attr("width", 0)
+                .attr("height", 10).style("fill", "red");
+
+        this.update = function () {
+
+            if (!this.isPlaying) {
+                return; // update may happen in render particle before init so check
+            }
+
+            if (this.time < this.duration) {
+                this.rendering();
+
+                var progressX = FX[this.easing || 'linear'](this.time, 0, this.width, this.duration);
+                this.progress = progressX;
+                this.time += (16.67 * this.speed); //1000/60 * speed;
+
+            } else {
+
+                this.stop = true;
+                this.finishPlayed = true;
+                this.isPlaying = false;
+                if (typeof this.onFinish === 'function') {
+                    //cancelAnimationFrame(timeline.animationId);
+                }
+            }
+        };
+        var jsCount = 0;
+
+        this.rendering = function () {
+            var that = this;
+
+            for (var i = 0; i < that.data.events.length; i++) {
+                var dataTime = that.data.events[i].split(',')[2] * 1000;
+                if (dataTime < that.time) {
+
+                    if (that.data.events[i].split(',')[0] == 10) {
+                        jsCount++;
+                    }
+
+                } else {
+                    that.data.events.splice(0, i);
+
+                    break;
+                }
+            }
+
+            maxCountLabel.text(jsCount);
+            progressBar.attr("width", this.progress);
+
+        };
+        this.init = function (totalDuration, timelineSpeed, data) {
+
+            this.duration = totalDuration;
+            this.speed = timelineSpeed;
+            this.scale = this.width / this.duration;
+            this.timeToComplete = this.duration/this.speed;
+
+            this.data = data; // data.event [language , type, time]
+
+            this.stop = false;
+            this.isPlaying = true;
+            this.finishPlayed = false;
+
+            
+
+        };
+    };
+
+    function renderBgParticleScene(container, gitData, timeLine) {
 
         var containerEle = $(container),
             camera, scene, renderer, stats, controls, particleSys1, particleSys2, values_color, particleSystem1, particleSystem2, colorMap = {},
@@ -136,18 +229,22 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         var gridColor = d3.scale.linear().domain([0, 20]).range(["#d2f428", "#11bf1d"]);
 
+
         function init() {
             generateParticles(particleLength);
-            changeScene();
+            tweenInit();
         }
 
         function animate() {
 
             requestAnimationFrame(animate);
+
             TWEEN.update();
             controls.update();
             renderParticles();
-            
+
+            timeLine.update();
+
             stats.update();
 
         }
@@ -174,7 +271,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         function generateParticles(particleLen) {
 
-               var attributes = {
+            var attributes = {
                 size: {
                     type: 'f',
                     value: []
@@ -206,22 +303,21 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                     "attribute vec3 customColor;",
                     "varying vec3 vColor;",
                     "void main() {",
-                        "vColor = customColor;",
-                        "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-                        "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
-                        "gl_Position = projectionMatrix * mvPosition;",
+                    "vColor = customColor;",
+                    "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+                    "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
+                    "gl_Position = projectionMatrix * mvPosition;",
                     "}"
                     ].join("\n"),
-
                 fragmentShader = [
-                    "uniform vec3 color;",
-                    "uniform sampler2D texture;",
-                    "varying vec3 vColor;",
-                    "void main() {",
+                        "uniform vec3 color;",
+                        "uniform sampler2D texture;",
+                        "varying vec3 vColor;",
+                        "void main() {",
                         "gl_FragColor = vec4( color * vColor, 1.0 );",
                         "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
-                    "}"
-                ].join("\n");
+                        "}"
+                    ].join("\n");
 
 
 
@@ -243,17 +339,16 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             for (var i = 0; i < particleLen; i++) {
 
                 var event = gitData.events[i].split(','),
-                lan = gitData.refMap[event[0]],
-                color = gitData.lanColor[lan];
+                    lan = gitData.refMap[event[0]],
+                    color = gitData.lanColor[lan];
 
                 var particle = new THREE.Vector3();
 
                 var range = 1000;
 
                 if (i > 200000) {
-                    range = 3000;
 
-                    particle.x = rnd(-range, range);
+                    particle.x = i / 20;
                     particle.y = rnd(-range, range);
                     particle.z = rnd(-range, range);
 
@@ -261,7 +356,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
                 } else {
 
-                    particle.x = rnd(-range, range);
+                    particle.x = i / 20;
                     particle.y = rnd(-range, range);
                     particle.z = rnd(-range, range);
 
@@ -287,7 +382,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             scene.add(particleSystem2);
         }
 
-        function changeScene(particeLen, shape, duration) {
+        function tweenInit() {
             TWEEN.removeAll();
 
             new TWEEN.Tween(this)
@@ -301,7 +396,30 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         animate();
 
 
+    }
 
+    function render(data, container) {
+
+        var gitData = processData(data);
+
+
+        var canvasWidth = 1333.33, //$(canvas).width(),
+            canvasHeight = 1000; // $(canvas).height();
+
+        var Chart = d3.select(container).append("svg");
+        Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
+            .attr("preserveAspectRatio", "xMidYMid");
+
+        var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
+        var totalDuration = (24 * 60 * 60 * 1000); //24hr
+        var timelineSpeed = 2 * 1000; // x times;
+
+        //init particles
+        renderBgParticleScene(container, gitData, timeLine);
+
+
+        //init timeline
+        timeLine.init(totalDuration, timelineSpeed, gitData);
 
 
     }
