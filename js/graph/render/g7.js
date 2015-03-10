@@ -68,9 +68,8 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         data.eventTypes = eventTypes;
         console.log(data)
         return data;
-    }
-
-
+    } 
+   
     function render(data, container) {
 
 
@@ -148,7 +147,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             TWEEN.update();
             controls.update();
             renderParticles();
-
+            
             stats.update();
 
         }

@@ -641,7 +641,7 @@ define(['d3', 'utils/utils', 'libs/easing', 'libs/howler'], function (ignore, _u
                 sound.play();
                 sound.fade(0, 0.5, 2000);
             });
-            sound.fade(1, 0, 3000, function () {
+            sound.fade(0.5, 0, 3000, function () {
                 sound.stop();
             });
             finishScreen.fadeIn(3000);
