@@ -834,3 +834,54 @@ svg {
     top: 5px;
     color: #898989;
 }
+
+
+/* g7 */
+
+.g7 text {
+    font-family: inherit;
+}
+.g7 .languagesWrapper {
+    width: 50%;
+    margin: 0 auto;
+    height: 100%;
+}
+.g7 .labelWrap {
+      margin: 1px;
+      width: 15%;
+      padding: 2px;
+      height: 65px;
+      overflow: hidden;
+      float: left;
+      color: #000000;
+      min-width: 95px;
+      position: relative;
+      font-family: inherit;
+      background-color: rgba(12, 190, 123, 0.12);
+}
+.g7 .labelWrap .language {
+    background: rgba(2, 44, 26, 1);
+    font-family: inherit;
+    font-size: 13px;
+    text-align: center;
+    padding: 3%;
+    color: #00FFE2;
+}
+.g7 .labelWrap .count {
+    color: #FFF;
+    font-size: 14px;
+    text-align: center;
+    padding: 3%;
+}
+.g7 .progressBar {
+    position: absolute;
+    bottom: 0px;
+    width: 0;
+    height: 20px;
+    background: #ABDE13;
+}
+.g7 .chartWrapper {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+}

@@ -70,9 +70,11 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         return data;
     }
 
+    var gitData = {};
+
 
     var TimeLine = function (chart, w, h) {
-        this.canvas = chart;
+        this.canvas = $(chart);
         this.width = w;
         this.height = h;
 
@@ -93,14 +95,53 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         this.duration = (1 * 1000); //default
         this.speed = 1; //default
 
+        this.drawDashboard = function () {
 
-        var maxCountLabel = this.canvas.append('text')
-            .attr('class', 'maxcount-label')
-            .style("font-size", "30px")
-            .attr("transform", "translate(100,45)");
-        
-        var progressBar = this.canvas.append('rect').attr("width", 0)
-                .attr("height", 10).style("fill", "red");
+            var chart = this.canvas;
+
+            var languages = Object.keys(gitData.language);
+
+            function drawLabel(lang) {
+                
+                if (lang === "undefined" || !lang) {
+                    return '';
+                }                
+                
+                var label = '<div class="labelWrap"><div class="language ">' + lang.replace("-sharp",'#') + '</div><div class="' + lang + ' count">00000</div></div>';
+                return label;
+            }
+
+            var languagesStr = '';
+
+            languages.forEach(function (lan) {
+                lan = lan.replace("#",'-sharp');
+                languagesStr += drawLabel(lan);
+            });
+            
+            var languagesUi = $('<div class="languagesWrapper">' + languagesStr + '</div>');
+            
+            this.canvas.append(languagesUi);
+
+            var languageCountRef = {};
+            
+            languages.forEach(function (lan) {
+                lan = lan.replace("#",'-sharp');
+                languageCountRef[lan] = languagesUi.find('.' + lan);
+            });
+
+            var maxCountLabel = drawLabel();
+
+            return {
+                languageCountLabel : languageCountRef
+            };
+            
+        };
+
+
+        var UI = this.drawDashboard();
+
+        var progressBar = $('<div class="progressBar"></div>');
+        this.canvas.append(progressBar);
 
         this.update = function () {
 
@@ -145,8 +186,8 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 }
             }
 
-            maxCountLabel.text(jsCount);
-            progressBar.attr("width", this.progress);
+            UI.languageCountLabel['JavaScript'].text(jsCount);
+            progressBar.css("width", this.progress + 'px');
 
         };
         this.init = function (totalDuration, timelineSpeed, data) {
@@ -154,7 +195,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             this.duration = totalDuration;
             this.speed = timelineSpeed;
             this.scale = this.width / this.duration;
-            this.timeToComplete = this.duration/this.speed;
+            this.timeToComplete = this.duration / this.speed;
 
             this.data = data; // data.event [language , type, time]
 
@@ -162,7 +203,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             this.isPlaying = true;
             this.finishPlayed = false;
 
-            
+
 
         };
     };
@@ -400,19 +441,18 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
     function render(data, container) {
 
-        var gitData = processData(data);
 
+        gitData = processData(data);
 
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000; // $(canvas).height();
 
-        var Chart = d3.select(container).append("svg");
-        Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
-            .attr("preserveAspectRatio", "xMidYMid");
+        var Chart = $('<div class="chartWrapper"></div>');
+        $(container).append(Chart);
 
         var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
         var totalDuration = (24 * 60 * 60 * 1000); //24hr
-        var timelineSpeed = 2 * 1000; // x times;
+        var timelineSpeed = 5 * 1000; // x times;
 
         //init particles
         renderBgParticleScene(container, gitData, timeLine);
