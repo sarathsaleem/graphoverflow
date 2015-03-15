@@ -74,6 +74,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
 
     var TimeLine = function (chart, w, h) {
+        var that = this;
         this.canvas = $(chart);
         this.width = w;
         this.height = h;
@@ -97,9 +98,11 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         this.drawDashboard = function () {
 
-            var chart = this.canvas;
-
             var languages = Object.keys(gitData.language);
+            
+            languages.sort(function (a, b) {
+                return gitData.language[b] - gitData.language[a];
+            });
 
             function drawLabel(lang) {
                 
@@ -107,14 +110,13 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     return '';
                 }                
                 
-                var label = '<div class="labelWrap"><div class="language ">' + lang.replace("-sharp",'#') + '</div><div class="' + lang + ' count">00000</div></div>';
+                var label = '<div class="labelWrap"><div class="language ">' + lang + '</div><div class="' + that.data.map[lang] + ' count">0</div></div>';
                 return label;
             }
 
             var languagesStr = '';
 
             languages.forEach(function (lan) {
-                lan = lan.replace("#",'-sharp');
                 languagesStr += drawLabel(lan);
             });
             
@@ -125,11 +127,9 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             var languageCountRef = {};
             
             languages.forEach(function (lan) {
-                lan = lan.replace("#",'-sharp');
-                languageCountRef[lan] = languagesUi.find('.' + lan);
+                var key =  that.data.map[lan];
+                languageCountRef[key] = languagesUi.find('.' + key);
             });
-
-            var maxCountLabel = drawLabel();
 
             return {
                 languageCountLabel : languageCountRef
@@ -138,7 +138,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         };
 
 
-        var UI = this.drawDashboard();
+        var UI = '';
 
         var progressBar = $('<div class="progressBar"></div>');
         this.canvas.append(progressBar);
@@ -166,7 +166,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 }
             }
         };
-        var jsCount = 0;
+        var languageCount = {};
 
         this.rendering = function () {
             var that = this;
@@ -174,9 +174,13 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             for (var i = 0; i < that.data.events.length; i++) {
                 var dataTime = that.data.events[i].split(',')[2] * 1000;
                 if (dataTime < that.time) {
-
-                    if (that.data.events[i].split(',')[0] == 10) {
-                        jsCount++;
+                    
+                    var lang = that.data.events[i].split(',')[0];
+                    
+                    if (languageCount[lang]) {
+                        languageCount[lang]++;
+                    } else {
+                        languageCount[lang] = 1;
                     }
 
                 } else {
@@ -185,8 +189,16 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     break;
                 }
             }
-
-            UI.languageCountLabel['JavaScript'].text(jsCount);
+            
+            var keys = Object.keys(languageCount);
+            
+            keys.forEach(function (key) {
+                if (key === '0') { 
+                    return; //fucking junk data, wasted an hout on this
+                }
+                UI.languageCountLabel[key].text(languageCount[key]);          
+            });
+            
             progressBar.css("width", this.progress + 'px');
 
         };
@@ -195,13 +207,14 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             this.duration = totalDuration;
             this.speed = timelineSpeed;
             this.scale = this.width / this.duration;
-            this.timeToComplete = this.duration / this.speed;
 
             this.data = data; // data.event [language , type, time]
 
             this.stop = false;
             this.isPlaying = true;
             this.finishPlayed = false;
+            
+            UI = this.drawDashboard();
 
 
 
@@ -235,13 +248,20 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         //set camera
         camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
-        camera.position.z = 500;
+        //camera.position.z = 500;
+        
+        camera.position.x = 400;
+        camera.position.y = 50;
+        camera.position.z = -50;
+
 
         controls = new THREE.TrackballControls(camera, renderer.domElement);
         controls.rotateSpeed = 0.8;
         controls.minDistance = 0;
         controls.maxDistance = 100000;
-        controls.addEventListener('change', renderParticles);
+        controls.addEventListener('change', function () {
+            renderParticles(); 
+        });
 
 
 
@@ -266,7 +286,6 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
 
         particleSys1 = new THREE.Geometry();
-        particleSys2 = new THREE.Geometry();
 
         var gridColor = d3.scale.linear().domain([0, 20]).range(["#d2f428", "#11bf1d"]);
 
@@ -292,12 +311,8 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         function renderParticles() {
             renderer.render(scene, camera);
-            particleSystem1.rotation.y += 0.0005;
             particleSystem1.rotation.x += 0.0005;
-            particleSystem1.rotation.z += 0.0005;
-
-            particleSystem2.rotation.y -= 0.0005;
-
+           
         }
 
         var langugeColors = _util.gitColors();
@@ -387,22 +402,12 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
                 var range = 1000;
 
-                if (i > 200000) {
+                particle.x = i / 10;
+                particle.y = rnd(-range, range);
+                particle.z = rnd(-range, range);
 
-                    particle.x = i / 20;
-                    particle.y = rnd(-range, range);
-                    particle.z = rnd(-range, range);
-
-                    particleSys1.vertices.push(particle);
-
-                } else {
-
-                    particle.x = i / 20;
-                    particle.y = rnd(-range, range);
-                    particle.z = rnd(-range, range);
-
-                    particleSys2.vertices.push(particle);
-                }
+                particleSys1.vertices.push(particle);
+               
 
                 values_size[i] = 40;
                 values_color[i] = new THREE.Color();
@@ -414,22 +419,25 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
 
             particleSystem1 = new THREE.PointCloud(particleSys1, shaderMaterial);
-            particleSystem2 = new THREE.PointCloud(particleSys2, shaderMaterial);
+            //particleSystem2 = new THREE.PointCloud(particleSys2, shaderMaterial);
 
             //particleSystem.sortParticles = true;
             //particleSystem.dynamic = true;
 
             scene.add(particleSystem1);
-            scene.add(particleSystem2);
+           // scene.add(particleSystem2);
         }
 
         function tweenInit() {
-            TWEEN.removeAll();
-
-            new TWEEN.Tween(this)
-                .to({}, 2000 * 2)
-                .onUpdate(renderParticles)
-                .start();
+             TWEEN.removeAll();
+             new TWEEN.Tween(camera.position)
+                    .to({
+                        x: 23408,
+                        y: 50,
+                        z: -50
+                    }, 40 * 1000)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
         }
 
 
@@ -452,7 +460,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
         var totalDuration = (24 * 60 * 60 * 1000); //24hr
-        var timelineSpeed = 5 * 1000; // x times;
+        var timelineSpeed = 6 * 1000; // x times; total duration of play is 40sec
 
         //init particles
         renderBgParticleScene(container, gitData, timeLine);

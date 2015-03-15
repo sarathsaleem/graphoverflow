@@ -842,10 +842,27 @@ svg {
     font-family: inherit;
 }
 .g7 .languagesWrapper {
-    width: 50%;
-    margin: 0 auto;
-    height: 100%;
+      width: 43%;
+      margin: 7% 30%;
+      height: 80%;
+      overflow-y: auto;
+      position: absolute;
 }
+
+.g7 .languagesWrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: rgba(245, 245, 245, 0.1);
+}
+
+.g7 .languagesWrapper::-webkit-scrollbar {
+    width: 6px;
+    background-color: rgba(245, 245, 245, 0);
+}
+
+.g7 .languagesWrapper::-webkit-scrollbar-thumb {
+    background-color: #0B5C39;
+}
+
 .g7 .labelWrap {
       margin: 1px;
       width: 15%;
