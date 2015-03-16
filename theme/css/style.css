@@ -717,8 +717,7 @@ svg {
 }
 #stats{
     z-index: 10001;
-    bottom: 0px;
-    top: auto !important;
+    top: 0 !important;
 }
 .g6{
     perspective: 1000px;
@@ -894,8 +893,21 @@ svg {
     position: absolute;
     bottom: 0px;
     width: 0;
-    height: 20px;
-    background: #ABDE13;
+    height: 25px;
+    background: #00D77B;
+}
+.g7 .progressBar .time {
+    position: absolute;
+    width: 3px;
+    height: 25px;
+    background: red;
+}
+.g7 .progressBar .time.one {
+    left: 30%;
+}
+
+.g7 .progressBar .time.two {
+    left: 60%;
 }
 .g7 .chartWrapper {
     position: relative;

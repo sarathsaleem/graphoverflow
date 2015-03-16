@@ -140,7 +140,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         var UI = '';
 
-        var progressBar = $('<div class="progressBar"></div>');
+        var progressBar = $('<div class="progressBar"><div class="time one" /><div class="time two" /></div>');
         that.canvas.append(progressBar);
 
         this.update = function () {
@@ -150,22 +150,26 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             }
 
             if (this.time < this.duration) {
+                
+                var progressX = this.time/this.duration;
+                this.progress = progressX*100;
+                this.time += (16.67 * this.speed); //1000/60 * speed;
+                
                 this.rendering();
 
-                var progressX = FX[this.easing || 'linear'](this.time, 0, this.width, this.duration);
-                this.progress = progressX;
-                this.time += (16.67 * this.speed); //1000/60 * speed;
 
             } else {
-
+                
                 this.stop = true;
                 this.finishPlayed = true;
                 this.isPlaying = false;
+                console.log('Stop ui render', Date.now() - this.startTime)
                 if (typeof this.onFinish === 'function') {
                     //cancelAnimationFrame(timeline.animationId);
                 }
             }
         };
+        
         var languageCount = {};
 
         this.rendering = function () {
@@ -190,7 +194,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 }
             }
 
-            progressBar.css("width", this.progress + 'px');
+            progressBar.css("width", this.progress + '%');
 
         };
 
@@ -232,6 +236,8 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             UI = this.drawDashboard();
 
             this.updatelanguageCount();
+            
+            this.startTime = Date.now();
 
 
 
@@ -472,6 +478,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         console.log('processData took : ', Date.now() - time);
         time = Date.now();
+        
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000; // $(canvas).height();
 
@@ -484,7 +491,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         time = Date.now();
 
         var totalDuration = (24 * 60 * 60 * 1000); //24hr
-        var timelineSpeed = 6 * 1000; // x times; total duration of play is 40sec
+        var timelineSpeed = 3 * 1000; // x times; total duration of play is 40sec
 
         //init timeline
         timeLine.init(totalDuration, timelineSpeed, gitData);
