@@ -99,17 +99,17 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         this.drawDashboard = function () {
 
             var languages = Object.keys(gitData.language);
-            
+
             languages.sort(function (a, b) {
                 return gitData.language[b] - gitData.language[a];
             });
 
             function drawLabel(lang) {
-                
+
                 if (lang === "undefined" || !lang) {
                     return '';
-                }                
-                
+                }
+
                 var label = '<div class="labelWrap"><div class="language ">' + lang + '</div><div class="' + that.data.map[lang] + ' count">0</div></div>';
                 return label;
             }
@@ -119,29 +119,29 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             languages.forEach(function (lan) {
                 languagesStr += drawLabel(lan);
             });
-            
+
             var languagesUi = $('<div class="languagesWrapper">' + languagesStr + '</div>');
-            
+
             this.canvas.append(languagesUi);
 
             var languageCountRef = {};
-            
+
             languages.forEach(function (lan) {
-                var key =  that.data.map[lan];
+                var key = that.data.map[lan];
                 languageCountRef[key] = languagesUi.find('.' + key);
             });
 
             return {
-                languageCountLabel : languageCountRef
+                languageCountLabel: languageCountRef
             };
-            
+
         };
 
 
         var UI = '';
 
         var progressBar = $('<div class="progressBar"></div>');
-        this.canvas.append(progressBar);
+        that.canvas.append(progressBar);
 
         this.update = function () {
 
@@ -174,9 +174,9 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             for (var i = 0; i < that.data.events.length; i++) {
                 var dataTime = that.data.events[i].split(',')[2] * 1000;
                 if (dataTime < that.time) {
-                    
+
                     var lang = that.data.events[i].split(',')[0];
-                    
+
                     if (languageCount[lang]) {
                         languageCount[lang]++;
                     } else {
@@ -189,17 +189,32 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     break;
                 }
             }
-            
-            var keys = Object.keys(languageCount);
-            
-            keys.forEach(function (key) {
-                if (key === '0') { 
-                    return; //fucking junk data, wasted an hout on this
-                }
-                UI.languageCountLabel[key].text(languageCount[key]);          
-            });
-            
+
             progressBar.css("width", this.progress + 'px');
+
+        };
+
+        //run  the dom interaction in lower render rate
+        this.updatelanguageCount = function () {
+
+            var accessMode = 'textContent';
+            if (!UI.languageCountLabel['10'][0].textContent) {
+                accessMode = 'innerHTML';
+            }
+
+            setInterval(function () {
+                var keys = Object.keys(languageCount);
+
+                keys.forEach(function (key) {
+                    if (key === '0') {
+                        return; //fucking junk data, wasted an hout on this
+                    }
+                    //[key][fromJquery][textContent]
+                    UI.languageCountLabel[key][0][accessMode] = languageCount[key];
+                });
+
+            }, 50);
+
 
         };
         this.init = function (totalDuration, timelineSpeed, data) {
@@ -213,8 +228,10 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             this.stop = false;
             this.isPlaying = true;
             this.finishPlayed = false;
-            
+
             UI = this.drawDashboard();
+
+            this.updatelanguageCount();
 
 
 
@@ -249,7 +266,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         //set camera
         camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
         //camera.position.z = 500;
-        
+
         camera.position.x = 400;
         camera.position.y = 50;
         camera.position.z = -50;
@@ -260,7 +277,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         controls.minDistance = 0;
         controls.maxDistance = 100000;
         controls.addEventListener('change', function () {
-            renderParticles(); 
+            renderParticles();
         });
 
 
@@ -312,7 +329,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         function renderParticles() {
             renderer.render(scene, camera);
             particleSystem1.rotation.x += 0.0005;
-           
+
         }
 
         var langugeColors = _util.gitColors();
@@ -407,7 +424,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 particle.z = rnd(-range, range);
 
                 particleSys1.vertices.push(particle);
-               
+
 
                 values_size[i] = 40;
                 values_color[i] = new THREE.Color();
@@ -425,21 +442,20 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             //particleSystem.dynamic = true;
 
             scene.add(particleSystem1);
-           // scene.add(particleSystem2);
+            // scene.add(particleSystem2);
         }
 
         function tweenInit() {
-             TWEEN.removeAll();
-             new TWEEN.Tween(camera.position)
-                    .to({
-                        x: 23408,
-                        y: 50,
-                        z: -50
-                    }, 40 * 1000)
-                    .easing(TWEEN.Easing.Exponential.InOut)
-                    .start();
+            TWEEN.removeAll();
+            new TWEEN.Tween(camera.position)
+                .to({
+                    x: 23408,
+                    y: 50,
+                    z: -50
+                }, 40 * 1000)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .start();
         }
-
 
         init();
         animate();
@@ -448,10 +464,14 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
     }
 
     function render(data, container) {
+        var time = Date.now();
+        console.log('Starting at took : ', Date.now() - time);
 
 
         gitData = processData(data);
 
+        console.log('processData took : ', Date.now() - time);
+        time = Date.now();
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000; // $(canvas).height();
 
@@ -459,15 +479,24 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         $(container).append(Chart);
 
         var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
+
+        console.log('Timeline obj took : ', Date.now() - time);
+        time = Date.now();
+
         var totalDuration = (24 * 60 * 60 * 1000); //24hr
         var timelineSpeed = 6 * 1000; // x times; total duration of play is 40sec
+
+        //init timeline
+        timeLine.init(totalDuration, timelineSpeed, gitData);
+
+        console.log('Timtlint init : ', Date.now() - time);
+        time = Date.now();
 
         //init particles
         renderBgParticleScene(container, gitData, timeLine);
 
-
-        //init timeline
-        timeLine.init(totalDuration, timelineSpeed, gitData);
+        console.log('Particles : ', Date.now() - time);
+        time = Date.now();
 
 
     }
