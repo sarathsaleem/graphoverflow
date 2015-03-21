@@ -120,8 +120,10 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             languages.forEach(function (lan) {
                 languagesStr += drawLabel(lan);
             });
+            
+            var info = "<p class=\"info\" > Average events count on a day at github.com is more than 400K and still growing. Keep building awesomeness :). <br/> Build software better, together. <span class=\"tweetBtn\"> <a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-via=\"sarathsaleem\" data-hashtags=\"graphoverflow\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span></p>";
 
-            var languagesUi = $('<div class="languagesWrapper"><div class="totalCount"><span>Event count : <span><span id="total">1000</span></div><div class="toggleList"></div>' + languagesStr + '</div>');
+            var languagesUi = $('<div class="languagesWrapper"><div class="totalCount"><span>Event count : </span><span id="total">1000</span> ' + info +'</div><div class="toggleList"></div>' + languagesStr + '</div>');
 
             this.canvas.append(languagesUi);
 
@@ -140,12 +142,9 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         };
         this.onFinish = function () {
-            
-            UI.parent.find('.totalCount').animate({
-                height: '30%'
-            }, 2000);
-            
+                      
             UI.parent.find('.toggleList').slideDown("slow");
+            UI.parent.find('.info').slideDown(1500);
             
             UI.parent.find('.labelWrap').fadeOut();
             
@@ -520,7 +519,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         time = Date.now();
 
         var totalDuration = (24 * 60 * 60 * 1000); //24hr
-        var timelineSpeed = 10 * 1000; // x times; total duration of play is 40sec
+        var timelineSpeed = 3 * 1000; // x times; total duration of play is 40sec
 
         //init timeline
         timeLine.init(totalDuration, timelineSpeed, gitData);

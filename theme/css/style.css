@@ -863,7 +863,6 @@ svg {
 }
 .g7 .totalCount {
   background: rgba(0, 173, 98, 0.35);
-  height: 30px;
   padding: 2px;
   text-align: center;
   color: #fff;
@@ -871,7 +870,7 @@ svg {
   z-index: 2;
   top: 0px;
 }
-.g7 .toggleList{
+.g7 .toggleList {
   background: rgba(0, 21, 12, 0.62) url("../images/hide.png") no-repeat center center;
   width: 100%;
   height: 16px;
@@ -956,4 +955,31 @@ svg {
     position: relative;
     z-index: 10;
     height: 100%;
+}
+
+.g7 .totalCount .info {
+  font-size: 18px;
+  padding: 20px 10px 10px 10px;
+  border-top: 1px solid #ccc;
+  margin: 10px 0 0 0;
+  display: none;
+}
+
+.g7 .totalCount .tweetBtn {
+    margin: 5px 0 0 0;
+    display: block;
+}
+.g7 #total {
+ color: rgb(219, 255, 0);
+}
+
+@media only screen and (max-width : 640px) {
+   .g7 .totalCount .info {
+        font-size: 14px;
+        margin: 5px 0 0 0;
+        padding: 10px 5px;
+    }
+    .g7 .totalCount {
+        font-size: 16px;
+    }
 }
