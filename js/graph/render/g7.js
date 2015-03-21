@@ -88,13 +88,14 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         this.pause = false;
         this.stop = true;
         this.finishPlayed = false;
-        this.onFinish = function () {};
-
+      
         this.time = 0;
         this.progress = 0;
 
         this.duration = (1 * 1000); //default
         this.speed = 1; //default
+        
+        var UI = '';
 
         this.drawDashboard = function () {
 
@@ -120,7 +121,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 languagesStr += drawLabel(lan);
             });
 
-            var languagesUi = $('<div class="languagesWrapper">' + languagesStr + '</div>');
+            var languagesUi = $('<div class="languagesWrapper"><div class="totalCount"><span>Event count : <span><span id="total">1000</span></div><div class="toggleList"></div>' + languagesStr + '</div>');
 
             this.canvas.append(languagesUi);
 
@@ -132,16 +133,35 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             });
 
             return {
-                languageCountLabel: languageCountRef
+                languageCountLabel: languageCountRef,
+                totalCount : languagesUi.find('#total'),
+                parent : languagesUi
             };
+
+        };
+        this.onFinish = function () {
+            
+            UI.parent.find('.totalCount').animate({
+                height: '30%'
+            }, 2000);
+            
+            UI.parent.find('.toggleList').slideDown("slow");
+            
+            UI.parent.find('.labelWrap').fadeOut();
+            
+            UI.parent.find('.toggleList').click(function () {
+                UI.parent.find('.labelWrap').toggle();
+                $(this).toggleClass('show');
+            });
+
 
         };
 
 
-        var UI = '';
 
-        var progressBar = $('<div class="progressBar"><div class="time one" /><div class="time two" /></div>');
-        that.canvas.append(progressBar);
+        that.canvas.append($('<div class="timeLineWrapper"><div class="time one">6am</div><div class="time two">12pm</div><div class="time three">6pm</div><div class="progressBar">December 1 2014</div> </div>'));
+        var progressBar = that.canvas.find('.progressBar');
+       
 
         this.update = function () {
 
@@ -165,12 +185,14 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 this.isPlaying = false;
                 console.log('Stop ui render', Date.now() - this.startTime)
                 if (typeof this.onFinish === 'function') {
+                    this.onFinish();
                     //cancelAnimationFrame(timeline.animationId);
                 }
             }
         };
         
         var languageCount = {};
+        var total = 0;
 
         this.rendering = function () {
             var that = this;
@@ -178,7 +200,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             for (var i = 0; i < that.data.events.length; i++) {
                 var dataTime = that.data.events[i].split(',')[2] * 1000;
                 if (dataTime < that.time) {
-
+                    total++;
                     var lang = that.data.events[i].split(',')[0];
 
                     if (languageCount[lang]) {
@@ -200,13 +222,18 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         //run  the dom interaction in lower render rate
         this.updatelanguageCount = function () {
-
+            
             var accessMode = 'textContent';
             if (!UI.languageCountLabel['10'][0].textContent) {
                 accessMode = 'innerHTML';
             }
 
             setInterval(function () {
+                
+                if(that.stop) {
+                    return false;
+                }
+                
                 var keys = Object.keys(languageCount);
 
                 keys.forEach(function (key) {
@@ -216,6 +243,8 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     //[key][fromJquery][textContent]
                     UI.languageCountLabel[key][0][accessMode] = languageCount[key];
                 });
+                
+                UI.totalCount[0][accessMode] = total;
 
             }, 50);
 
@@ -491,7 +520,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         time = Date.now();
 
         var totalDuration = (24 * 60 * 60 * 1000); //24hr
-        var timelineSpeed = 3 * 1000; // x times; total duration of play is 40sec
+        var timelineSpeed = 10 * 1000; // x times; total duration of play is 40sec
 
         //init timeline
         timeLine.init(totalDuration, timelineSpeed, gitData);

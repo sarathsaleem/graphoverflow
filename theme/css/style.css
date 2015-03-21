@@ -861,6 +861,32 @@ svg {
 .g7 .languagesWrapper::-webkit-scrollbar-thumb {
     background-color: #0B5C39;
 }
+.g7 .totalCount {
+  background: rgba(0, 173, 98, 0.35);
+  height: 30px;
+  padding: 2px;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  z-index: 2;
+  top: 0px;
+}
+.g7 .toggleList{
+  background: rgba(0, 21, 12, 0.62) url("../images/hide.png") no-repeat center center;
+  width: 100%;
+  height: 16px;
+  z-index: 10;
+  left: 0px;
+  bottom: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 10px;
+  display: none;
+}
+
+.g7 .toggleList.show {
+    background: rgba(0, 21, 12, 0.62) url("../images/show.png") no-repeat center center;
+}
 
 .g7 .labelWrap {
       margin: 1px;
@@ -890,25 +916,42 @@ svg {
     padding: 3%;
 }
 .g7 .progressBar {
-    position: absolute;
-    bottom: 0px;
     width: 0;
     height: 25px;
     background: #00D77B;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+    padding: 3px 20px;
+    white-space: nowrap;
+    overflow: hidden;
 }
-.g7 .progressBar .time {
+.g7 .time {
     position: absolute;
-    width: 3px;
-    height: 25px;
-    background: red;
+    padding: 1px 0 0 3px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 9px;
 }
-.g7 .progressBar .time.one {
-    left: 30%;
+.g7 .timeLineWrapper {
+    background: rgba(132, 253, 202, 0.2);
+    height: 25px;    
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+.g7 .time.one {
+    left: 25%;
+}
+.g7 .time.two {
+    left: 50%;
+}
+.g7 .time.three {
+    left: 75%;
 }
 
-.g7 .progressBar .time.two {
-    left: 60%;
-}
 .g7 .chartWrapper {
     position: relative;
     z-index: 10;
