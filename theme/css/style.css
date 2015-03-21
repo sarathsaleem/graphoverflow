@@ -480,6 +480,7 @@ svg {
     z-index: 15;
     background: #000;
     padding-top: calc(45% - 100px);
+    top: 0px;
 }
 @-moz-keyframes spin {
     0% {

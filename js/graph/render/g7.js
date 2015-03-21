@@ -512,27 +512,37 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         var Chart = $('<div class="chartWrapper"></div>');
         $(container).append(Chart);
+        
+         var loadingScreen = $('<div class="loadingScreen" />'),
+                loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
+                play = $('<div class="play_border"><div class="play_button"></div></div>');
 
-        var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
+        loadingScreen.append(loader);
+        $(container).append(loadingScreen);
+        
+        setTimeout(function () { 
 
-        console.log('Timeline obj took : ', Date.now() - time);
-        time = Date.now();
+            var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
 
-        var totalDuration = (24 * 60 * 60 * 1000); //24hr
-        var timelineSpeed = 3 * 1000; // x times; total duration of play is 40sec
+            console.log('Timeline obj took : ', Date.now() - time);
+            time = Date.now();
 
-        //init timeline
-        timeLine.init(totalDuration, timelineSpeed, gitData);
+            var totalDuration = (24 * 60 * 60 * 1000); //24hr
+            var timelineSpeed = 3 * 1000; // x times; total duration of play is 40sec
 
-        console.log('Timtlint init : ', Date.now() - time);
-        time = Date.now();
+            //init timeline
+            timeLine.init(totalDuration, timelineSpeed, gitData);
 
-        //init particles
-        renderBgParticleScene(container, gitData, timeLine);
+            console.log('Timtlint init : ', Date.now() - time);
+            time = Date.now();
 
-        console.log('Particles : ', Date.now() - time);
-        time = Date.now();
-
+            //init particles
+            renderBgParticleScene(container, gitData, timeLine);
+            loadingScreen.hide();
+            console.log('Particles : ', Date.now() - time);
+            time = Date.now();
+            
+        }, 10);
 
     }
 
