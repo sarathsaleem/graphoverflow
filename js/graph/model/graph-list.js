@@ -51,7 +51,7 @@ define(function () {
          {
            "id": "g7",
             "title": "A Day on GitHub",
-            "description": "An hour on github, visualization of events logged in one hour on 12 August 2014 on github.",
+            "description": "A day on github, visualization of events logged in a day on github.",
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
             "htmlTitle": "a-day-on-github",
             "tags": ["git"]

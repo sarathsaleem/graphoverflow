@@ -121,7 +121,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 languagesStr += drawLabel(lan);
             });
 
-            var info = "<p class=\"info\" > Average events count on a day at github.com is more than 400K and still growing. Keep building awesomeness :). <br/> Build software better, together. <span class=\"tweetBtn\"> <a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-via=\"sarathsaleem\" data-hashtags=\"graphoverflow\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span></p>";
+            var info = "<p class=\"info\" > Average events count on a day at github.com is more than 400K and still growing. Keep building awesomeness :). <br/> Build software better, together. <span class=\"tweetBtn\"> <a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-via=\"sarathsaleem\" data-hashtags=\"github,datavis\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span></p>";
 
             var languagesUi = $('<div class="languagesWrapper"><div class="totalCount"><span>Event count : </span><span id="total">1000</span> ' + info +'</div><div class="toggleList"></div>' + languagesStr + '</div>');
 
@@ -188,6 +188,8 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     //cancelAnimationFrame(timeline.animationId);
                 }
             }
+            
+            return this.time/1000;
         };
 
         var languageCount = {};
@@ -313,7 +315,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         controls.addEventListener('change', function () {
             renderParticles();
         });
-
+        
 
 
         function onWindowResize() {
@@ -333,7 +335,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
-        containerEle.append(stats.domElement);
+        //containerEle.append(stats.domElement);  :debug
 
 
         particleSys1 = new THREE.Geometry();
@@ -343,18 +345,20 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         function init() {
             generateParticles(particleLength);
-            tweenInit();
+            return tweenInit();
         }
-
+        
         function animate() {
 
             requestAnimationFrame(animate);
-
-            TWEEN.update();
-            controls.update();
+        
             renderParticles();
-
+            
+            controls.update();
+            
             timeLine.update();
+            
+            TWEEN.update();
 
             stats.update();
 
@@ -481,18 +485,20 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         function tweenInit() {
             TWEEN.removeAll();
-            new TWEEN.Tween(camera.position)
+            return new TWEEN.Tween(camera.position)
                 .to({
                     x: 23408,
                     y: 50,
                     z: -50
                 }, 40 * 1000)
-                .easing(TWEEN.Easing.Exponential.InOut)
-                .start();
+                .easing(TWEEN.Easing.Exponential.InOut).start();
         }
 
-        init();
-        return animate;
+        var initTween = init();
+        return function (){
+            initTween.start();
+            animate();
+        };
 
     }
 
@@ -514,7 +520,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
          var loadingScreen = $('<div class="loadingScreen" />'),
                 loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
-                play = $('<p class="gitday-text">An day on Github.</p><div class="play_border"><div class="play_button"></div></div>');
+                play = $('<p class="gitday-text">A day on Github.</p><div class="play_border"><div class="play_button"></div></div>');
 
         loadingScreen.append(loader);
         $(container).append(loadingScreen);
