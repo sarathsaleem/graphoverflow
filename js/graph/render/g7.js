@@ -88,13 +88,13 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         this.pause = false;
         this.stop = true;
         this.finishPlayed = false;
-      
+
         this.time = 0;
         this.progress = 0;
 
         this.duration = (1 * 1000); //default
         this.speed = 1; //default
-        
+
         var UI = '';
 
         this.drawDashboard = function () {
@@ -120,7 +120,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             languages.forEach(function (lan) {
                 languagesStr += drawLabel(lan);
             });
-            
+
             var info = "<p class=\"info\" > Average events count on a day at github.com is more than 400K and still growing. Keep building awesomeness :). <br/> Build software better, together. <span class=\"tweetBtn\"> <a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-via=\"sarathsaleem\" data-hashtags=\"graphoverflow\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span></p>";
 
             var languagesUi = $('<div class="languagesWrapper"><div class="totalCount"><span>Event count : </span><span id="total">1000</span> ' + info +'</div><div class="toggleList"></div>' + languagesStr + '</div>');
@@ -142,12 +142,12 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         };
         this.onFinish = function () {
-                      
+
             UI.parent.find('.toggleList').slideDown("slow");
             UI.parent.find('.info').slideDown(1500);
-            
+
             UI.parent.find('.labelWrap').fadeOut();
-            
+
             UI.parent.find('.toggleList').click(function () {
                 UI.parent.find('.labelWrap').toggle();
                 $(this).toggleClass('show');
@@ -160,7 +160,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         that.canvas.append($('<div class="timeLineWrapper"><div class="time one">6am</div><div class="time two">12pm</div><div class="time three">6pm</div><div class="progressBar">December 1 2014</div> </div>'));
         var progressBar = that.canvas.find('.progressBar');
-       
+
 
         this.update = function () {
 
@@ -169,16 +169,16 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             }
 
             if (this.time < this.duration) {
-                
+
                 var progressX = this.time/this.duration;
                 this.progress = progressX*100;
                 this.time += (16.67 * this.speed); //1000/60 * speed;
-                
+
                 this.rendering();
 
 
             } else {
-                
+
                 this.stop = true;
                 this.finishPlayed = true;
                 this.isPlaying = false;
@@ -189,7 +189,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 }
             }
         };
-        
+
         var languageCount = {};
         var total = 0;
 
@@ -221,18 +221,18 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         //run  the dom interaction in lower render rate
         this.updatelanguageCount = function () {
-            
+
             var accessMode = 'textContent';
             if (!UI.languageCountLabel['10'][0].textContent) {
                 accessMode = 'innerHTML';
             }
 
             setInterval(function () {
-                
+
                 if(that.stop) {
                     return false;
                 }
-                
+
                 var keys = Object.keys(languageCount);
 
                 keys.forEach(function (key) {
@@ -242,7 +242,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     //[key][fromJquery][textContent]
                     UI.languageCountLabel[key][0][accessMode] = languageCount[key];
                 });
-                
+
                 UI.totalCount[0][accessMode] = total;
 
             }, 50);
@@ -264,7 +264,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             UI = this.drawDashboard();
 
             this.updatelanguageCount();
-            
+
             this.startTime = Date.now();
 
 
@@ -492,8 +492,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         }
 
         init();
-        animate();
-
+        return animate;
 
     }
 
@@ -506,21 +505,21 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         console.log('processData took : ', Date.now() - time);
         time = Date.now();
-        
+
         var canvasWidth = 1333.33, //$(canvas).width(),
             canvasHeight = 1000; // $(canvas).height();
 
         var Chart = $('<div class="chartWrapper"></div>');
         $(container).append(Chart);
-        
+
          var loadingScreen = $('<div class="loadingScreen" />'),
                 loader = $('<div class="loader"><div class="spin1 stop" /><div class="spin2 stop"/></div>'),
-                play = $('<div class="play_border"><div class="play_button"></div></div>');
+                play = $('<p class="gitday-text">An day on Github.</p><div class="play_border"><div class="play_button"></div></div>');
 
         loadingScreen.append(loader);
         $(container).append(loadingScreen);
-        
-        setTimeout(function () { 
+
+        setTimeout(function () {
 
             var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
 
@@ -537,12 +536,22 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             time = Date.now();
 
             //init particles
-            renderBgParticleScene(container, gitData, timeLine);
-            loadingScreen.hide();
+            var animate = renderBgParticleScene(container, gitData, timeLine);
             console.log('Particles : ', Date.now() - time);
             time = Date.now();
-            
+
+            loadingScreen.css('background', '#FFF');
+            loadingScreen.html(play);
+
+             $(play).on('click', function () {
+                loadingScreen.hide();
+                animate();
+                ga('send', 'event', 'button', 'click', 'played:gitday');
+            });
+
         }, 10);
+
+
 
     }
 

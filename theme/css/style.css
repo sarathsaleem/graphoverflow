@@ -937,7 +937,7 @@ svg {
 }
 .g7 .timeLineWrapper {
     background: rgba(132, 253, 202, 0.2);
-    height: 25px;    
+    height: 25px;
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -983,4 +983,12 @@ svg {
     .g7 .totalCount {
         font-size: 16px;
     }
+}
+
+.g7 .loadingScreen p.gitday-text{
+    text-align: center;
+    font-size: 30px;
+}
+.g7 .loadingScreen {
+   padding-top: calc(45% - 130px);
 }
