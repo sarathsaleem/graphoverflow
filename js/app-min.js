@@ -1,6 +1,6 @@
 /*
 
-Graphoverflow 2014-12-25 (https://github.com/sarathsaleem/graphoverflow)
+Graphoverflow 2015-03-25 (https://github.com/sarathsaleem/graphoverflow)
     By  
 Sarath Saleem 
 
@@ -3760,6 +3760,12 @@ define('data/index',['require','knockout'],function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g7') {
+            _u.getData({
+                url: baseUrl + 'git-day.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);
@@ -4144,25 +4150,25 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
 
         this.getJsonData = function (cb) {
 
-            if (localStorage) {
+            /*if (localStorage) {
                 var data = localStorage.getItem(that.id);
                 if (data) {
                     cb(JSON.parse(data));
                     return;
                 }
-            }
+            }*/
 
             DAL.stackData.get(this.id, cb);
         };
 
         this.renderGraph = function (grapData) {
 
-            if (!grapData.length) {
+            if (!grapData) {
                 console.warn("GO: Cannot load '" + that.id + "' data from data folder");
             }
 
             //check data error
-            localStorage.setItem(that.id, JSON.stringify(grapData));
+            //localStorage.setItem(that.id, JSON.stringify(grapData));
 
             require(['graph/render/' + that.id], function (render) {
 
@@ -4176,9 +4182,9 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
         this.addFullscreenControls = function () {
 
             var fullScreenControl = $('<div class="fullscreenControl"></div>');
-            
+
             $(that.graphCanvas).addClass(this.id);
-            
+
             $(that.graphCanvas).append(fullScreenControl);
 
             fullScreenControl.click(function () {
@@ -4466,7 +4472,7 @@ define('graph/model/graph-list',[],function () {
          {
            "id": "g7",
             "title": "A Day on GitHub",
-            "description": "An hour on github, visualization of events logged in one hour on 12 August 2014 on github.",
+            "description": "A day on github, visualization of events logged in a day on github.",
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
             "htmlTitle": "a-day-on-github",
             "tags": ["git"]
