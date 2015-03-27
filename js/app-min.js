@@ -1,6 +1,6 @@
 /*
 
-Graphoverflow 2015-03-25 (https://github.com/sarathsaleem/graphoverflow)
+Graphoverflow 2015-03-27 (https://github.com/sarathsaleem/graphoverflow)
     By  
 Sarath Saleem 
 
@@ -4473,7 +4473,7 @@ define('graph/model/graph-list',[],function () {
            "id": "g7",
             "title": "A Day on GitHub",
             "description": "A day on github, visualization of events logged in a day on github.",
-            "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
+            "thumbnail": "templates/images/a-day-on-github.png",
             "htmlTitle": "a-day-on-github",
             "tags": ["git"]
             }

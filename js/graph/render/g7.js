@@ -66,7 +66,6 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
         data.language = language;
         data.eventTypes = eventTypes;
-        console.log(data)
         return data;
     }
 
@@ -504,12 +503,10 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
     function render(data, container) {
         var time = Date.now();
-        console.log('Starting at took : ', Date.now() - time);
 
 
         gitData = processData(data);
 
-        console.log('processData took : ', Date.now() - time);
         time = Date.now();
 
         var canvasWidth = 1333.33, //$(canvas).width(),
@@ -529,7 +526,6 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
             var timeLine = new TimeLine(Chart, canvasWidth, canvasHeight);
 
-            console.log('Timeline obj took : ', Date.now() - time);
             time = Date.now();
 
             var totalDuration = (24 * 60 * 60 * 1000); //24hr
@@ -538,12 +534,10 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             //init timeline
             timeLine.init(totalDuration, timelineSpeed, gitData);
 
-            console.log('Timtlint init : ', Date.now() - time);
             time = Date.now();
 
             //init particles
             var animate = renderBgParticleScene(container, gitData, timeLine);
-            console.log('Particles : ', Date.now() - time);
             time = Date.now();
 
             loadingScreen.css('background', '#FFF');

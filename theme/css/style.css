@@ -992,3 +992,9 @@ svg {
 .g7 .loadingScreen {
    padding-top: calc(45% - 130px);
 }
+.conterntWrapper img {
+    display: block;
+    box-shadow: 1px 1px 1px rgba(215, 212, 212, 1);
+    margin: 5px;
+    max-width: 100%;
+}
