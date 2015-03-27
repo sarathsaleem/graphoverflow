@@ -236,7 +236,7 @@ footer .developedBy {
     height: 260px;
     float: left;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.6s ease;
+    transition-timing-function : ease;
 }
 .graplist-item:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
