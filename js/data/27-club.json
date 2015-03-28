@@ -1,0 +1,64 @@
+{
+    "list": [
+        {
+            "name": "Kurt Cobain",
+            "dod": "08-08-1994",
+            "img": "http://img1.rnkr-static.com/user_node_img/70/1398360/C350/kurt-cobain-recording-artists-and-groups-photo-u8.jpg",
+            "cause": "Suicide by gunshot"
+        },
+        {
+            "name": "Amy Winehouse",
+            "dod": "07-23-2011",
+            "img": "http://img1.rnkr-static.com/user_node_img/23/453556/C350/amy-winehouse-recording-artists-and-groups-photo-u35.jpg",
+            "cause": "Poisoning (alcohol)"
+        },
+        {
+            "name": "Jimi Hendrix",
+            "dod": "09-18-1970",
+            "img": "http://img2.rnkr-static.com/user_node_img/65/1288474/C350/jimi-hendrix-recording-artists-and-groups-photo-u11.jpg",
+            "cause": "Overdose of barbiturates"
+        },
+        {
+            "name": "Janis Joplin",
+            "dod": "10-04-1970",
+            "img": "http://img1.rnkr-static.com/node_img/64/1267603/C350/janis-joplin-recording-artists-and-groups-photo-1.jpg",
+            "cause": "Drug overdose"
+        },
+        {
+            "name": "Jim Morrison",
+            "dod": "06-03-1971",
+            "img": "http://img2.rnkr-static.com/user_node_img/65/1291311/C350/jim-morrison-recording-artists-and-groups-photo-u11.jpg",
+            "cause": "Accidental ingestion of heroin"
+        },
+        {
+            "name": "Robert Johnson",
+            "dod": "08-16-1938",
+            "img": "http://img2.rnkr-static.com/user_node_img/97/1920475/C350/robert-johnson-recording-artists-and-groups-photo-u2.jpg",
+            "cause": "Poisoning strychnine"
+        },
+        {
+            "name": "Alan Wilson",
+            "dod": "09-03-1970",
+            "img": "http://img3.rnkr-static.com/user_node_img/21/419729/C350/alan-wilson-recording-artists-and-groups-photo-u1.jpg",
+            "cause": "Drug overdose"
+        },
+        {
+            "name": "Brian Jones",
+            "dod": "07-03-1969",
+            "img": "http://img2.rnkr-static.com/node_img/32/626150/C350/brian-jones-recording-artists-and-groups-photo-1.jpg",
+            "cause": "Death by misadventure"
+        },
+        {
+            "name": "Kristen Pfaff",
+            "dod": "06-16-1994",
+            "img": "http://img3.rnkr-static.com/user_node_img/70/1393695/C350/kristen-pfaff-recording-artists-and-groups-photo-u1.jpg",
+            "cause": "Drug overdose heroin"
+        },
+        {
+            "name": "Sean McCabe",
+            "dod": "08-28-2000",
+            "img": "http://img2.rnkr-static.com/user_node_img/483/9649041/C350/sean-mccabe-recording-artists-and-groups-photo-u2.jpg",
+            "cause": "Asphyxiation"
+        }
+    ]
+}

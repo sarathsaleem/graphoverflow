@@ -68,6 +68,12 @@ define(function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g8') {
+            _u.getData({
+                url: baseUrl + '27-club.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);

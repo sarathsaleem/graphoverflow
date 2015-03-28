@@ -46,7 +46,7 @@ define(function () {
             "description": "An hour on github, visualization of events logged in one hour on 12 August 2014 on github.",
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
             "htmlTitle": "an-hour-on-github",
-            "tags": ["git"]
+            "tags": ["github"]
             },
          {
            "id": "g7",
@@ -54,10 +54,18 @@ define(function () {
             "description": "A day on github, visualization of events logged in a day on github.",
             "thumbnail": "templates/images/a-day-on-github.png",
             "htmlTitle": "a-day-on-github",
-            "tags": ["git"]
+            "tags": ["github"]
+            },
+         {
+           "id": "g8",
+            "title": "27 Club",
+            "description": "27 Club",
+            "thumbnail": "templates/images/a-day-on-github.png",
+            "htmlTitle": "27-club-visualization",
+            "tags": ["music"]
             }
         ],
-            "tags": ["all", "stackoverflow", "filims", "git"]
+            "tags": ["all", "stackoverflow", "filims", "github", "music"]
         };
     return graphs;
 });
