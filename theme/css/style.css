@@ -998,3 +998,27 @@ svg {
     margin: 5px;
     max-width: 100%;
 }
+
+
+
+
+    
+.node {
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  opacity: .3;
+}
+.link.on {
+  stroke: #F00;
+  opacity: .7;
+}
+
+.node {
+    stroke: none;
+}
+
