@@ -69,7 +69,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             .call(yAxis);
 
         var cy = d3.scale.linear().domain([0, 365]).range([chartH-40, 0]),
-            cx = d3.time.scale().domain([new Date('01/01/1900'), new Date('01/01/2015')]).range([0, chartW]);
+            cx = d3.time.scale().domain([new Date('01/01/1950'), new Date('01/01/2015')]).range([0, chartW]);
 
      var colors = d3.scale.category20();
 
@@ -77,7 +77,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         var stars = Chart.selectAll(".line")
             .data(data)
             .enter()
-            .append('g')
+            .append('rect')
             .attr('x',  function (d) {
                 return cx(d.dod);
             })
