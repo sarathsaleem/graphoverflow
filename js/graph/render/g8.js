@@ -9,7 +9,10 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
     function render(data, canvas) {
 
         var canvasWidth = 1333.33, //$(canvas).width(),
-            canvasHeight = 1000; // $(canvas).height();
+            canvasHeight = 1000, // $(canvas).height();
+            paddingleft = 100, //for label
+            paddingBottom = 70;
+
 
         var Chart = d3.select(canvas).append("svg");
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
@@ -29,11 +32,14 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
         console.log(data)
 
+
+        var chartW = canvasWidth - paddingleft,
+            chartH = canvasHeight - paddingBottom;
         var x = d3.time.scale()
-            .range([0, canvasWidth]);
+            .range([0, chartW]);
 
         var y = d3.scale.linear()
-            .range([canvasHeight, 0]);
+            .range([chartH, 0]);
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -49,26 +55,41 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             return d.dod;
         }));
         y.domain(d3.extent(data, function (d) {
-            return d.dod.getMonth()+1;
+            return d.dod.getMonth() + 1;
         }));
 
 
         Chart.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + (canvasHeight - 40) + ")")
+            .attr("transform", "translate(0," + chartH + ")")
             .call(xAxis);
         Chart.append("g")
             .attr("class", "y axis")
-            .attr("transform", "translate("+  40 +",0)")
+            .attr("transform", "translate(" + 40 + ",0)")
             .call(yAxis);
 
+        var cy = d3.scale.linear().domain([0, 365]).range([chartH-40, 0]),
+            cx = d3.time.scale().domain([new Date('01/01/1900'), new Date('01/01/2015')]).range([0, chartW]);
+
+     var colors = d3.scale.category20();
 
 
-
-
+        var stars = Chart.selectAll(".line")
+            .data(data)
+            .enter()
+            .append('g')
+            .attr('x',  function (d) {
+                return cx(d.dod);
+            })
+            .attr('y',  function (d) {
+               return cy(d.days);
+            })
+            .attr('width', 40)
+            .attr('height', 40)
+            .style("fill", function(d, i) { return colors(i); });
         /*
        var line = d3.svg.line().interpolate('basis');
-      
+
         var drawPath = function (start) {
                 return function (l) {
                     var points = [
