@@ -1001,14 +1001,8 @@ svg {
 
 
 
-.g8 svg {
-    background: #000;
+
     
-}
-.g8 text {
-    color:#fff;
-    font-size: 13px;
-} 
 .node {
   stroke: #fff;
   stroke-width: 2px;
@@ -1016,7 +1010,7 @@ svg {
 
 .link {
   fill: none;
-  stroke: #A66969;
+  stroke: #000;
   opacity: .3;
 }
 .link.on {
@@ -1024,10 +1018,7 @@ svg {
   opacity: .7;
 }
 
-.label-name {
-    font-size: 13px;
-    display: none;
+.node {
+    stroke: none;
 }
-.group:hover .label-name {
-    display: block;
-}
+
