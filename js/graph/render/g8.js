@@ -28,6 +28,27 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             var timeDiff = Math.abs((new Date(parseDate(date).setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             d.days = diffDays;
+            
+            if (d.cause.match(/Drug|Poison/ig)) {
+                d.type = { index : 1, name : "Drug/Alchohol Overdose" };
+            }
+            
+            if (d.cause.match(/Suicide/ig)) {
+                d.type = { index : 2, name : "Suicide" };
+            }
+            
+            if (d.cause.match(/Traffic|accident/ig)) {
+                d.type = { index : 3, name : "Road Accident" };
+            }
+            
+            if (d.cause.match(/Murdered/ig)) {
+                d.type = { index : 4, name : "Murdered" };
+            }
+            
+            if (d.cause.match(/Complications|Heart/ig)) {
+                d.type = { index : 5, name : "Illness" };
+            }   
+            
         });
         
         function sortByDateAscending(a, b) {
@@ -35,7 +56,10 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         }
         data = data.sort(sortByDateAscending);
         
-        console.log(data);
+        
+            
+        
+        console.log(JSON.stringify(data));
 
         var chartW = canvasWidth - 100,
             chartH = 700,
@@ -98,14 +122,22 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         
         stars.append('text').text(function (d) {
             return d.name;
-        }).attr('x',  function (d) {
-                return cx(d.dod);
             })
-            .attr('y',  function (d) {
+            .attr('x',0).attr('y',  function (d) {
                return cy(d.days) - 30;
-            }).attr('class', 'label-name');
+            })
+            .attr('class', 'label-name')
+            .transition()
+            .duration(1000).attr('x',  function (d) {
+                return cx(d.dod);
+            });
        
-       var line = d3.svg.line().interpolate('basis');
+       
+        
+        
+        /*
+        
+        var line = d3.svg.line().interpolate('basis');
 
         
         
@@ -113,7 +145,6 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 
              var ele = d3.select(artists[0][i]),
                 ele2 = d3.select(artists[0][i+1] || artists[0][0]);
-            console.log(ele2.data())
        
             var x1 =  cx(data.dod),
                 y1 =  cy(data.days),
@@ -123,7 +154,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 var d = Math.abs(x1-x2)/2;
                 
                 var points = [
-                        [x1, y1], [d, y1], [d, x2], [x2, y2]
+                        [x1, y1], [x2, y2]
                 ];
                 return line(points);
                 
@@ -137,16 +168,17 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .style('stroke-width', function (l) {
                     return 20;
                 })
-                .attr('d',   drawPath )
+                .attr('d', drawPath )
                 .on('mouseover', function () {
-                    d3.select(this).attr('class', 'link on')
+                    d3.select(this).attr('class', 'link on');
                 })
                 .on('mouseout', function () {
-                    d3.select(this).attr('class', 'link')
+                    d3.select(this).attr('class', 'link');
                 })
                 .transition()
                 .duration(100)
                 .attr('d',  drawPath);
+        */
       
    
 

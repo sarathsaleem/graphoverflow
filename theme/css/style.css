@@ -1002,6 +1002,9 @@ svg {
 
 
 
+.g8 text {
+    font-size: 12px;
+}
     
 .node {
   stroke: #fff;

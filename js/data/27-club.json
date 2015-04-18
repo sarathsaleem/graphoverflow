@@ -1,237 +1,420 @@
 [
-        {
-            "name": "Sean Patrick McCabe",
-            "dod": "August 28, 2000",
-            "cause": "Asphyxiation"
-        },
-        {
-            "name": "Jimi Hendrix",
-            "dod": "September 18, 1970",
-            "cause": "Asphyxiation"
-        },
-        {
-            "name": "Richard Turner",
-            "dod": "August 11, 2011",
-            "cause": "Cardiac arrest"
-        },
-        {
-            "name": "Linda Jones",
-            "dod": "March 14, 1972",
-            "cause": "Complications from diabetes"
-        },
-        {
-            "name": "Nat Jaffe",
-            "dod": "August 5, 1945",
-            "cause": "Complications from high blood pressure"
-        },
-        {
-            "name": "Richey Edwards",
-            "dod": "February 1, 1995",
-            "cause": "Disappeared; officially presumed dead November 23, 2008"
-        },
-        {
-            "name": "Brian Jones",
-            "dod": "July 3, 1969",
-            "cause": "Drowning"
-        },
-        {
-            "name": "Rudy Lewis",
-            "dod": "May 20, 1964",
-            "cause": "Drug overdose"
-        },
-        {
-            "name": "Alan Wilson",
-            "dod": "September 3, 1970",
-            "cause": "Drug overdose (barbiturate), possible suicide"
-        },
-        {
-            "name": "Gary Thain",
-            "dod": "December 8, 1975",
-            "cause": "Drug overdose (heroin)"
-        },
-        {
-            "name": "Kristen Pfaff",
-            "dod": "June 16, 1994",
-            "cause": "Drug overdose (heroin)"
-        },
-        {
-            "name": "Jeremy Michael Ward",
-            "dod": "May 25, 2003",
-            "cause": "Drug overdose (heroin)"
-        },
-        {
-            "name": "Bryan Ottoson",
-            "dod": "April 19, 2005",
-            "cause": "Drug overdose (prescription medication)"
-        },
-        {
-            "name": "Janis Joplin",
-            "dod": "October 4, 1970",
-            "cause": "Drug overdose (probable, heroin)"
-        },
-        {
-            "name": "Dickie Pride",
-            "dod": "March 26, 1969",
-            "cause": "Drug overdose (sleeping pills)"
-        },
-        {
-            "name": "Jean-Michel Basquiat",
-            "dod": "August 12, 1988",
-            "cause": "Drug overdose (Speedball)"
-        },
-        {
-            "name": "Leslie Harvey",
-            "dod": "May 3, 1972",
-            "cause": "Electrocution"
-        },
-        {
-            "name": "Alexander Bashlachev",
-            "dod": "February 17, 1988",
-            "cause": "Fall from a height, probable suicide"
-        },
-        {
-            "name": "Roger Lee Durham",
-            "dod": "July 27, 1973",
-            "cause": "Fell off a horse and died from the injuries"
-        },
-        {
-            "name": "Ron McKernan",
-            "dod": "March 8, 1973",
-            "cause": "Gastrointestinal hemorrhage"
-        },
-        {
-            "name": "Joe Henderson",
-            "dod": "October 24, 1964",
-            "cause": "Heart attack"
-        },
-        {
-            "name": "Jim Morrison",
-            "dod": "July 3, 1971",
-            "cause": "Heart failure"
-        },
-        {
-            "name": "Arlester Christian",
-            "dod": "March 13, 1971",
-            "cause": "Murdered"
-        },
-        {
-            "name": "Mia Zapata",
-            "dod": "July 7, 1993",
-            "cause": "Murdered"
-        },
-        {
-            "name": "Fat Pat",
-            "dod": "February 3, 1998",
-            "cause": "Murdered"
-        },
-        {
-            "name": "Freaky Tah",
-            "dod": "March 28, 1999",
-            "cause": "Murdered"
-        },
-        {
-            "name": "Valentín Elizalde",
-            "dod": "November 26, 2006",
-            "cause": "Murdered"
-        },
-        {
-            "name": "Soroush Farazmand",
-            "dod": "November 11, 2013",
-            "cause": "Murdered"
-        },
-        {
-            "name": "Wallace Yohn",
-            "dod": "August 12, 1974",
-            "cause": "Plane crash"
-        },
-        {
-            "name": "Maria Serrano Serrano",
-            "dod": "November 24, 2001",
-            "cause": "Plane crash"
-        },
-        {
-            "name": "Amy Winehouse",
-            "dod": "July 23, 2011",
-            "cause": "Poisoning (alcohol)"
-        },
-        {
-            "name": "Malcolm Hale",
-            "dod": "October 31, 1968",
-            "cause": "Poisoning (carbon monoxide)"
-        },
-        {
-            "name": "Helmut Köllen",
-            "dod": "May 3, 1977",
-            "cause": "Poisoning (carbon monoxide)"
-        },
-        {
-            "name": "Robert Johnson",
-            "dod": "August 16, 1938",
-            "cause": "Poisoning (strychnine)"
-        },
-        {
-            "name": "Dave Alexander",
-            "dod": "February 10, 1975",
-            "cause": "Pulmonary edema"
-        },
-        {
-            "name": "Slađa Guduraš",
-            "dod": "December 10, 2014",
-            "cause": "Road accident"
-        },
-        {
-            "name": "Kami",
-            "dod": "June 21, 1999",
-            "cause": "Subarachnoid hemorrhage"
-        },
-        {
-            "name": "Kurt Cobain",
-            "dod": "April 5, 1994",
-            "cause": "Suicide by gunshot"
-        },
-        {
-            "name": "Pete Ham",
-            "dod": "April 24, 1975",
-            "cause": "Suicide by hanging"
-        },
-        {
-            "name": "Jesse Belvin",
-            "dod": "February 6, 1960",
-            "cause": "Traffic collision (car)"
-        },
-        {
-            "name": "Cecilia",
-            "dod": "August 2, 1976",
-            "cause": "Traffic collision (car)"
-        },
-        {
-            "name": "Chris Bell",
-            "dod": "December 27, 1978",
-            "cause": "Traffic collision (car)"
-        },
-        {
-            "name": "Jacob Miller",
-            "dod": "March 23, 1980",
-            "cause": "Traffic collision (car)"
-        },
-        {
-            "name": "Rodrigo Bueno",
-            "dod": "June 24, 2000",
-            "cause": "Traffic collision (car)"
-        },
-        {
-            "name": "Pete de Freitas",
-            "dod": "June 14, 1989",
-            "cause": "Traffic collision (motorcycle)"
-        },
-        {
-            "name": "D. Boon",
-            "dod": "December 22, 1985",
-            "cause": "Traffic collision (van)"
-        },
-        {
-            "name": "Nicole Bogner",
-            "dod": "January 6, 2012",
-            "cause": "Undisclosed illness"
+    {
+        "name": "Robert Johnson",
+        "dod": "1938-08-15T20:00:00.000Z",
+        "cause": "Poisoning (strychnine)",
+        "days": 228,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
         }
-    ]
+    },
+    {
+        "name": "Nat Jaffe",
+        "dod": "1945-08-04T20:00:00.000Z",
+        "cause": "Complications from high blood pressure",
+        "days": 217,
+        "type": {
+            "index": 5,
+            "name": "Illness"
+        }
+    },
+    {
+        "name": "Jesse Belvin",
+        "dod": "1960-02-05T20:00:00.000Z",
+        "cause": "Traffic collision (car)",
+        "days": 36,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "Rudy Lewis",
+        "dod": "1964-05-19T20:00:00.000Z",
+        "cause": "Drug overdose",
+        "days": 140,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Joe Henderson",
+        "dod": "1964-10-23T20:00:00.000Z",
+        "cause": "Heart attack",
+        "days": 297,
+        "type": {
+            "index": 5,
+            "name": "Illness"
+        }
+    },
+    {
+        "name": "Malcolm Hale",
+        "dod": "1968-10-30T20:00:00.000Z",
+        "cause": "Poisoning (carbon monoxide)",
+        "days": 304,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Dickie Pride",
+        "dod": "1969-03-25T20:00:00.000Z",
+        "cause": "Drug overdose (sleeping pills)",
+        "days": 85,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Brian Jones",
+        "dod": "1969-07-02T20:00:00.000Z",
+        "cause": "Drowning",
+        "days": 184
+    },
+    {
+        "name": "Alan Wilson",
+        "dod": "1970-09-02T20:00:00.000Z",
+        "cause": "Drug overdose (barbiturate), possible suicide",
+        "days": 246,
+        "type": {
+            "index": 2,
+            "name": "Suicide"
+        }
+    },
+    {
+        "name": "Jimi Hendrix",
+        "dod": "1970-09-17T20:00:00.000Z",
+        "cause": "Asphyxiation",
+        "days": 261
+    },
+    {
+        "name": "Janis Joplin",
+        "dod": "1970-10-03T20:00:00.000Z",
+        "cause": "Drug overdose (probable, heroin)",
+        "days": 277,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Arlester Christian",
+        "dod": "1971-03-12T20:00:00.000Z",
+        "cause": "Murdered",
+        "days": 72,
+        "type": {
+            "index": 4,
+            "name": "Murdered"
+        }
+    },
+    {
+        "name": "Jim Morrison",
+        "dod": "1971-07-02T20:00:00.000Z",
+        "cause": "Heart failure",
+        "days": 184,
+        "type": {
+            "index": 5,
+            "name": "Illness"
+        }
+    },
+    {
+        "name": "Linda Jones",
+        "dod": "1972-03-13T20:00:00.000Z",
+        "cause": "Complications from diabetes",
+        "days": 73,
+        "type": {
+            "index": 5,
+            "name": "Illness"
+        }
+    },
+    {
+        "name": "Leslie Harvey",
+        "dod": "1972-05-02T20:00:00.000Z",
+        "cause": "Electrocution",
+        "days": 123
+    },
+    {
+        "name": "Ron McKernan",
+        "dod": "1973-03-07T20:00:00.000Z",
+        "cause": "Gastrointestinal hemorrhage",
+        "days": 67
+    },
+    {
+        "name": "Roger Lee Durham",
+        "dod": "1973-07-26T20:00:00.000Z",
+        "cause": "Fell off a horse and died from the injuries",
+        "days": 208
+    },
+    {
+        "name": "Wallace Yohn",
+        "dod": "1974-08-11T20:00:00.000Z",
+        "cause": "Plane crash",
+        "days": 224
+    },
+    {
+        "name": "Dave Alexander",
+        "dod": "1975-02-09T20:00:00.000Z",
+        "cause": "Pulmonary edema",
+        "days": 40
+    },
+    {
+        "name": "Pete Ham",
+        "dod": "1975-04-23T20:00:00.000Z",
+        "cause": "Suicide by hanging",
+        "days": 114,
+        "type": {
+            "index": 2,
+            "name": "Suicide"
+        }
+    },
+    {
+        "name": "Gary Thain",
+        "dod": "1975-12-07T20:00:00.000Z",
+        "cause": "Drug overdose (heroin)",
+        "days": 342,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Cecilia",
+        "dod": "1976-08-01T20:00:00.000Z",
+        "cause": "Traffic collision (car)",
+        "days": 214,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "Helmut Köllen",
+        "dod": "1977-05-02T20:00:00.000Z",
+        "cause": "Poisoning (carbon monoxide)",
+        "days": 123,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Chris Bell",
+        "dod": "1978-12-26T20:00:00.000Z",
+        "cause": "Traffic collision (car)",
+        "days": 361,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "Jacob Miller",
+        "dod": "1980-03-22T20:00:00.000Z",
+        "cause": "Traffic collision (car)",
+        "days": 82,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "D. Boon",
+        "dod": "1985-12-21T20:00:00.000Z",
+        "cause": "Traffic collision (van)",
+        "days": 356,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "Alexander Bashlachev",
+        "dod": "1988-02-16T20:00:00.000Z",
+        "cause": "Fall from a height, probable suicide",
+        "days": 47,
+        "type": {
+            "index": 2,
+            "name": "Suicide"
+        }
+    },
+    {
+        "name": "Jean-Michel Basquiat",
+        "dod": "1988-08-11T20:00:00.000Z",
+        "cause": "Drug overdose (Speedball)",
+        "days": 224,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Pete de Freitas",
+        "dod": "1989-06-13T20:00:00.000Z",
+        "cause": "Traffic collision (motorcycle)",
+        "days": 165,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "Mia Zapata",
+        "dod": "1993-07-06T20:00:00.000Z",
+        "cause": "Murdered",
+        "days": 188,
+        "type": {
+            "index": 4,
+            "name": "Murdered"
+        }
+    },
+    {
+        "name": "Kurt Cobain",
+        "dod": "1994-04-04T20:00:00.000Z",
+        "cause": "Suicide by gunshot",
+        "days": 95,
+        "type": {
+            "index": 2,
+            "name": "Suicide"
+        }
+    },
+    {
+        "name": "Kristen Pfaff",
+        "dod": "1994-06-15T20:00:00.000Z",
+        "cause": "Drug overdose (heroin)",
+        "days": 167,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Richey Edwards",
+        "dod": "1995-01-31T20:00:00.000Z",
+        "cause": "Disappeared; officially presumed dead November 23, 2008",
+        "days": 31
+    },
+    {
+        "name": "Fat Pat",
+        "dod": "1998-02-02T20:00:00.000Z",
+        "cause": "Murdered",
+        "days": 33,
+        "type": {
+            "index": 4,
+            "name": "Murdered"
+        }
+    },
+    {
+        "name": "Freaky Tah",
+        "dod": "1999-03-27T20:00:00.000Z",
+        "cause": "Murdered",
+        "days": 87,
+        "type": {
+            "index": 4,
+            "name": "Murdered"
+        }
+    },
+    {
+        "name": "Kami",
+        "dod": "1999-06-20T20:00:00.000Z",
+        "cause": "Subarachnoid hemorrhage",
+        "days": 172
+    },
+    {
+        "name": "Rodrigo Bueno",
+        "dod": "2000-06-23T20:00:00.000Z",
+        "cause": "Traffic collision (car)",
+        "days": 175,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    },
+    {
+        "name": "Sean Patrick McCabe",
+        "dod": "2000-08-27T20:00:00.000Z",
+        "cause": "Asphyxiation",
+        "days": 240
+    },
+    {
+        "name": "Maria Serrano Serrano",
+        "dod": "2001-11-23T20:00:00.000Z",
+        "cause": "Plane crash",
+        "days": 328
+    },
+    {
+        "name": "Jeremy Michael Ward",
+        "dod": "2003-05-24T20:00:00.000Z",
+        "cause": "Drug overdose (heroin)",
+        "days": 145,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Bryan Ottoson",
+        "dod": "2005-04-18T20:00:00.000Z",
+        "cause": "Drug overdose (prescription medication)",
+        "days": 109,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Valentín Elizalde",
+        "dod": "2006-11-25T20:00:00.000Z",
+        "cause": "Murdered",
+        "days": 330,
+        "type": {
+            "index": 4,
+            "name": "Murdered"
+        }
+    },
+    {
+        "name": "Amy Winehouse",
+        "dod": "2011-07-22T20:00:00.000Z",
+        "cause": "Poisoning (alcohol)",
+        "days": 204,
+        "type": {
+            "index": 1,
+            "name": "Drug/Alchohol Overdose"
+        }
+    },
+    {
+        "name": "Richard Turner",
+        "dod": "2011-08-10T20:00:00.000Z",
+        "cause": "Cardiac arrest",
+        "days": 223
+    },
+    {
+        "name": "Nicole Bogner",
+        "dod": "2012-01-05T20:00:00.000Z",
+        "cause": "Undisclosed illness",
+        "days": 5
+    },
+    {
+        "name": "Soroush Farazmand",
+        "dod": "2013-11-10T20:00:00.000Z",
+        "cause": "Murdered",
+        "days": 315,
+        "type": {
+            "index": 4,
+            "name": "Murdered"
+        }
+    },
+    {
+        "name": "Slađa Guduraš",
+        "dod": "2014-12-09T20:00:00.000Z",
+        "cause": "Road accident",
+        "days": 344,
+        "type": {
+            "index": 3,
+            "name": "Road Accident"
+        }
+    }
+]
