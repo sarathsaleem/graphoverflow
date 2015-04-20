@@ -1001,7 +1001,9 @@ svg {
 
 
 
-
+.g8 {
+    background: #000;
+}
 .g8 text {
     font-size: 12px;
 }
@@ -1025,3 +1027,29 @@ svg {
     stroke: none;
 }
 
+.g8 .axis path {
+    fill : none;
+    stroke: #278FCE;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+
+.g8 .categoryMenu {
+      height: 15%;
+      background-color: #A20A40;
+      position: absolute;
+      top: 0px;
+      z-index: 11;
+      left: 0;
+      width: 100%;
+}
+.g8 .categoryMenu div {
+    width: 50%;
+    height: 100%;    
+    float: left;
+    background-color: #10a8c4;    
+}
+.g8 .categoryMenu .cause {    
+    background-color: #A20A40;
+}
