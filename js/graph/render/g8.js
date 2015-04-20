@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval*/
+/*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval, d3*/
 
 define(['d3', 'utils/utils'], function (ignore, _util) {
 
@@ -9,9 +9,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
     function render(data, canvas) {
 
         var canvasWidth = 1333.33, //$(canvas).width(),
-            canvasHeight = 1000, // $(canvas).height();
-            paddingleft = 100, //for label
-            paddingBottom = 70;
+            canvasHeight = 1000; // $(canvas).height();
 
 
         var Chart = d3.select(canvas).append("svg");
@@ -19,13 +17,13 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             .attr("preserveAspectRatio", "xMidYMid");
 
 
-        var parseDate = d3.time.format("%B-%d-%Y").parse;
-
-
         data.forEach(function (d) {
-            var date = d.dod.replace(',', '').replace(/ /gi, '-');
-            d.dod = parseDate(date);
-            var timeDiff = Math.abs((new Date(parseDate(date).setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
+
+            d.dod = new Date(d.dod);
+            /* var date = new Date(d.dod);
+            
+            var timeDiff = Math.abs((new Date(date.setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
+            
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
             d.days = diffDays;
             
@@ -47,94 +45,106 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             
             if (d.cause.match(/Complications|Heart/ig)) {
                 d.type = { index : 5, name : "Illness" };
-            }   
-            
+            } */
+
         });
-        
+
+
         function sortByDateAscending(a, b) {
             return a.dod - b.dod;
         }
         data = data.sort(sortByDateAscending);
-        
-        
-            
-        
-        console.log(JSON.stringify(data));
+
 
         var chartW = canvasWidth - 100,
             chartH = 700,
-            padding = 50;
+            paddingLeft = 70,
+            paddingTop = 250,
+            margin = 20;
+
+        var colors = d3.scale.category20();
+
         
-        var x = d3.time.scale()
-            .range([padding, chartW]);
         
-        var y = d3.scale.linear()
-            .range([chartH, padding]);
-
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left");
+        var menu = $('<div class="categoryMenu"><div class="cause"></div><div class="timeline"></div></div>');
         
-        x.domain(d3.extent(data, function (d) {
-            return d.dod;
-        }));
-        y.domain(d3.extent(data, function (d) {
-            return d.dod.getMonth() + 1;
-        }));
-
-
-        Chart.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + (chartH+10) + ")")
-            .call(xAxis);
-        Chart.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate("+(padding- 20)+", 0)")
-            .call(yAxis);
-
-        var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
-            cx = d3.time.scale().domain([data[0].dod, data[data.length-1].dod]).range(x.range());
-
-     var colors = d3.scale.category20();
+        $(canvas).append(menu);
 
 
         var stars = Chart.selectAll(".line")
             .data(data)
             .enter()
-            .append('g').attr('class', 'group');
+            .append('g');
         
-        var artists = stars.append('circle').attr('cx', 0)
-            .attr('cy',  function (d) {
-               return cy(d.days);
-            })
+         var artists = stars.append('circle')
             .attr("r", 20)
-            .style("fill", function(d, i) { return colors(i); })
-            .transition()
-            .duration(1000)
-            .attr('cx',  function (d) {
-                return cx(d.dod);
+            .style("fill", function (d, i) {
+                return colors(i);
             });
-        
-        
+
+
         stars.append('text').text(function (d) {
             return d.name;
-            })
-            .attr('x',0).attr('y',  function (d) {
-               return cy(d.days) - 30;
-            })
-            .attr('class', 'label-name')
-            .transition()
-            .duration(1000).attr('x',  function (d) {
-                return cx(d.dod);
+        }).attr('x', function () {
+            return 30;
+        })
+        .attr('class', 'label-name')
+        .transition()
+        .duration(1000);
+
+
+        /**************** Timline **********************/
+        
+        function timelineMode() {
+            
+            var x = d3.time.scale()
+                .range([paddingLeft, chartW]);
+
+            var y = d3.scale.linear()
+                .range([chartH + paddingTop - margin, paddingTop]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            x.domain(d3.extent(data, function (d) {
+                return d.dod;
+            }));
+            y.domain(d3.extent(data, function (d) {
+                return d.dod.getMonth() + 1;
+            }));
+
+
+            Chart.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + (chartH + paddingTop) + ")")
+                .call(xAxis);
+            Chart.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + (paddingLeft - margin) + ", 0)")
+                .call(yAxis);
+
+            var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
+                cx = d3.time.scale().domain([data[0].dod, data[data.length - 1].dod]).range(x.range());
+
+
+            stars.attr('class', 'group').attr("transform", function (d) {
+                return "translate(0, " + cy(d.days) + ")";
             });
+
+            stars.transition().duration(1000).attr("transform", function (d) {
+                return "translate(" + cx(d.dod) + ", " + cy(d.days) + ")";
+            });
+        }
        
-       
+        timelineMode();
         
-        
+
+
         /*
         
         var line = d3.svg.line().interpolate('basis');
@@ -179,8 +189,8 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .duration(100)
                 .attr('d',  drawPath);
         */
-      
-   
+
+
 
     }
     return render;
