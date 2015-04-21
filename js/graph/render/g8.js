@@ -66,9 +66,22 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
         
         
-        var menu = $('<div class="categoryMenu"><div class="cause"></div><div class="timeline"></div></div>');
+        var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
         
         $(canvas).append(menu);
+        
+        $('.categoryMenu div').on('click', function () {
+           $('.categoryMenu div').addClass('active');
+           $(this).removeClass('active');
+            
+            if( $(this).hasClass('cause')) {
+                $('.g8').css('background','#0A76A2');
+                cauase();
+            } else {
+                 $('.g8').css('background','#10a8c4');
+                 timelineMode();
+            }
+        });
 
 
         var stars = Chart.selectAll(".line")
@@ -88,14 +101,19 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         }).attr('x', function () {
             return 30;
         })
-        .attr('class', 'label-name')
-        .transition()
-        .duration(1000);
+        .attr('class', 'label-name');
+        
+        
+        stars.attr('class', 'group').attr("transform", function (d, i) {
+            return "translate(-200, " + i * 15 + ")";
+        });
 
 
         /**************** Timline **********************/
         
         function timelineMode() {
+            
+            d3.selectAll('.axis').remove();
             
             var x = d3.time.scale()
                 .range([paddingLeft, chartW]);
@@ -127,23 +145,35 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .attr("class", "y axis")
                 .attr("transform", "translate(" + (paddingLeft - margin) + ", 0)")
                 .call(yAxis);
-
+            
             var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
                 cx = d3.time.scale().domain([data[0].dod, data[data.length - 1].dod]).range(x.range());
-
-
-            stars.attr('class', 'group').attr("transform", function (d) {
-                return "translate(0, " + cy(d.days) + ")";
-            });
 
             stars.transition().duration(1000).attr("transform", function (d) {
                 return "translate(" + cx(d.dod) + ", " + cy(d.days) + ")";
             });
         }
-       
-        timelineMode();
-        
+        function cauase() {
+          
+            d3.selectAll('.axis').remove();
+            
+            var top = 150;
+            var left = 50;
 
+
+            stars.transition().duration(1000).attr("transform", function (d) {
+
+
+                if (d.type) {
+
+                 left = (d.type.index-1) * 200 + 50;
+                 top += 25;
+                }
+
+                return "translate(" + left + ", " + top + ")";
+            });
+
+        }
 
         /*
         
