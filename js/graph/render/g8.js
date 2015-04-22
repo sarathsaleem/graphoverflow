@@ -15,47 +15,50 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         var Chart = d3.select(canvas).append("svg");
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
+          
+        var artistdata = data.data;       
+       
+     
 
+        artistdata.forEach(function (d) {
 
-        data.forEach(function (d) {
-
-            d.dod = new Date(d.dod);
-            /* var date = new Date(d.dod);
+           d.dod = new Date(d.dod);
+           /*var date = new Date(d.dod);
             
             var timeDiff = Math.abs((new Date(date.setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
             
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            d.days = diffDays;
-            
+            d.days = diffDays;                       
+             
             if (d.cause.match(/Drug|Poison/ig)) {
-                d.type = { index : 1, name : "Drug/Alchohol Overdose" };
+                d.type = 1;
             }
             
             if (d.cause.match(/Suicide/ig)) {
-                d.type = { index : 2, name : "Suicide" };
+                d.type = 2;
             }
             
             if (d.cause.match(/Traffic|accident/ig)) {
-                d.type = { index : 3, name : "Road Accident" };
+                d.type = 3;
             }
             
             if (d.cause.match(/Murdered/ig)) {
-                d.type = { index : 4, name : "Murdered" };
+                d.type = 4;
             }
             
             if (d.cause.match(/Complications|Heart/ig)) {
-                d.type = { index : 5, name : "Illness" };
-            } */
-
+                d.type = 5;
+            }*/
         });
-
+        
+        /*
 
         function sortByDateAscending(a, b) {
             return a.dod - b.dod;
         }
         data = data.sort(sortByDateAscending);
-
-
+        */
+       
         var chartW = canvasWidth - 100,
             chartH = 700,
             paddingLeft = 70,
@@ -83,9 +86,8 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             }
         });
 
-
-        var stars = Chart.selectAll(".line")
-            .data(data)
+       var stars = Chart.selectAll(".line")
+            .data(artistdata)
             .enter()
             .append('g');
         
@@ -129,10 +131,10 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .scale(y)
                 .orient("left");
 
-            x.domain(d3.extent(data, function (d) {
+            x.domain(d3.extent(artistdata, function (d) {
                 return d.dod;
             }));
-            y.domain(d3.extent(data, function (d) {
+            y.domain(d3.extent(artistdata, function (d) {
                 return d.dod.getMonth() + 1;
             }));
 
@@ -147,31 +149,53 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .call(yAxis);
             
             var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
-                cx = d3.time.scale().domain([data[0].dod, data[data.length - 1].dod]).range(x.range());
+                cx = d3.time.scale().domain([artistdata[0].dod, artistdata[artistdata.length - 1].dod]).range(x.range());
 
             stars.transition().duration(1000).attr("transform", function (d) {
                 return "translate(" + cx(d.dod) + ", " + cy(d.days) + ")";
             });
         }
+        
+        
+        /**************** Timline **********************/
+       
         function cauase() {
           
             d3.selectAll('.axis').remove();
             
-            var top = 150;
+            var top = 250;
             var left = 50;
 
-
+            var pos = {};
             stars.transition().duration(1000).attr("transform", function (d) {
 
-
                 if (d.type) {
-
-                 left = (d.type.index-1) * 200 + 50;
-                 top += 25;
+                     left = (d.type-1) * 250 + 50;
+                     if (pos[d.type]) { 
+                        pos[d.type] += 50;
+                     } else {
+                        pos[d.type] = 300;
+                     }                  
+                     top = pos[d.type];
                 }
 
                 return "translate(" + left + ", " + top + ")";
             });
+            
+            var rects =  Chart.selectAll(".rects")
+            .data(data.types)
+            .enter()
+            .append('rect')
+            .attr("width", 100)
+            .attr("height", 100)
+            .attr("transform", function (d, i) {
+                return "translate(" + i*100 + ", 500)";
+            })
+            .style("fill", function (d, i) {
+                return colors(i);
+            });
+            
+            
 
         }
 
