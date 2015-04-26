@@ -206,8 +206,6 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             .append('div').attr("class", "bg-cause")           
             .text(function(d){ return d.name;});
             
-           
-            
 
         }
 
