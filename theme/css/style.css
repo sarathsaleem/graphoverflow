@@ -1047,3 +1047,18 @@ svg {
 .g8 .categoryMenu .timeline.active {
     box-shadow: -1px 1px 8px rgba(0, 0, 0, 0.32);
 }
+.g8 .bg-cause {
+    width: 16.66%;
+    height: 67%;
+    margin-top: 25%;
+    float: left;
+    position: relative;
+    bottom: 0px;
+    text-align: center;
+    padding-top: 45%;
+    color: #fff;
+}
+
+.g8 .bg-cause:nth-child(odd) {   
+     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%,#10A8C4 100%);
+}

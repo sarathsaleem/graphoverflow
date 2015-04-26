@@ -62,10 +62,10 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         var chartW = canvasWidth - 100,
             chartH = 700,
             paddingLeft = 70,
-            paddingTop = 250,
-            margin = 20;
+            paddingTop = 260,
+            margin = 30;
 
-        var colors = d3.scale.category20();
+         var colors = d3.scale.category20b();
 
         
         
@@ -115,8 +115,9 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         
         function timelineMode() {
             
-            d3.selectAll('.axis').remove();
-            
+            d3.selectAll('.axis').remove();            
+            d3.selectAll('.bg-cause').remove();
+           
             var x = d3.time.scale()
                 .range([paddingLeft, chartW]);
 
@@ -154,6 +155,8 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             stars.transition().duration(1000).attr("transform", function (d) {
                 return "translate(" + cx(d.dod) + ", " + cy(d.days) + ")";
             });
+            
+            
         }
         
         
@@ -161,40 +164,49 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
        
         function cauase() {
           
-            d3.selectAll('.axis').remove();
+            d3.selectAll('.axis').remove();            
+            d3.selectAll('.bg-cause').remove();
             
-            var top = 250;
-            var left = 50;
+             var tooltip =  d3.select(canvas).data(artistdata)
+                .append("div")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("visibility", "hidden");
+               
+          
+            
+            var top = 200;
+            var left = 50,
+                bWidth = chartW/data.types.length;
+            
+            var lefts = [30,250,475,695,915,1135]
 
             var pos = {};
             stars.transition().duration(1000).attr("transform", function (d) {
 
                 if (d.type) {
-                     left = (d.type-1) * 250 + 50;
+                     left = ((d.type-1) * 220) + 30;
                      if (pos[d.type]) { 
                         pos[d.type] += 50;
                      } else {
-                        pos[d.type] = 300;
+                        pos[d.type] = top;
                      }                  
                      top = pos[d.type];
                 }
-
-                return "translate(" + left + ", " + top + ")";
+                return "translate(" + lefts[d.type-1||0] + ", " + top + ")";
             });
             
-            var rects =  Chart.selectAll(".rects")
+            stars.on("mouseover", function(d){return tooltip.style("visibility", "visible").text(d.cause);})
+	            .on("mousemove", function(){return tooltip.style("top", (event.pageY-100)+"px").style("left",(event.pageX+10)+"px");})
+                .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+            
+            var rects =  d3.select(canvas).selectAll(".bg-cause")
             .data(data.types)
             .enter()
-            .append('rect')
-            .attr("width", 100)
-            .attr("height", 100)
-            .attr("transform", function (d, i) {
-                return "translate(" + i*100 + ", 500)";
-            })
-            .style("fill", function (d, i) {
-                return colors(i);
-            });
+            .append('div').attr("class", "bg-cause")           
+            .text(function(d){ return d.name;});
             
+           
             
 
         }

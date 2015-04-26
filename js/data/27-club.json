@@ -53,7 +53,8 @@
             "name": "Brian Jones",
             "dod": "1969-07-02T20:00:00.000Z",
             "cause": "Drowning",
-            "days": 184
+            "days": 184,
+            "type": 6
         },
         {
             "name": "Alan Wilson",
@@ -66,7 +67,9 @@
             "name": "Jimi Hendrix",
             "dod": "1970-09-17T20:00:00.000Z",
             "cause": "Asphyxiation",
-            "days": 261
+            "days": 261,
+            "type": 6
+            
         },
         {
             "name": "Janis Joplin",
@@ -100,31 +103,36 @@
             "name": "Leslie Harvey",
             "dod": "1972-05-02T20:00:00.000Z",
             "cause": "Electrocution",
-            "days": 123
+            "days": 123,
+            "type": 6
         },
         {
             "name": "Ron McKernan",
             "dod": "1973-03-07T20:00:00.000Z",
             "cause": "Gastrointestinal hemorrhage",
-            "days": 67
+            "days": 67,
+            "type": 5
         },
         {
             "name": "Roger Lee Durham",
             "dod": "1973-07-26T20:00:00.000Z",
             "cause": "Fell off a horse and died from the injuries",
-            "days": 208
+            "days": 208,
+            "type": 6
         },
         {
             "name": "Wallace Yohn",
             "dod": "1974-08-11T20:00:00.000Z",
             "cause": "Plane crash",
-            "days": 224
+            "days": 224,
+            "type": 3
         },
         {
             "name": "Dave Alexander",
             "dod": "1975-02-09T20:00:00.000Z",
             "cause": "Pulmonary edema",
-            "days": 40
+            "days": 40,
+            "type": 5
         },
         {
             "name": "Pete Ham",
@@ -152,7 +160,7 @@
             "dod": "1977-05-02T20:00:00.000Z",
             "cause": "Poisoning (carbon monoxide)",
             "days": 123,
-            "type": 1
+            "type": 6
         },
         {
             "name": "Chris Bell",
@@ -221,7 +229,8 @@
             "name": "Richey Edwards",
             "dod": "1995-01-31T20:00:00.000Z",
             "cause": "Disappeared; officially presumed dead November 23, 2008",
-            "days": 31
+            "days": 31,
+            "type": 6
         },
         {
             "name": "Fat Pat",
@@ -241,7 +250,8 @@
             "name": "Kami",
             "dod": "1999-06-20T20:00:00.000Z",
             "cause": "Subarachnoid hemorrhage",
-            "days": 172
+            "days": 172,
+            "type": 5
         },
         {
             "name": "Rodrigo Bueno",
@@ -254,13 +264,15 @@
             "name": "Sean Patrick McCabe",
             "dod": "2000-08-27T20:00:00.000Z",
             "cause": "Asphyxiation",
-            "days": 240
+            "days": 240,
+            "type": 3
         },
         {
             "name": "Maria Serrano Serrano",
             "dod": "2001-11-23T20:00:00.000Z",
             "cause": "Plane crash",
-            "days": 328
+            "days": 328,
+            "type": 3
         },
         {
             "name": "Jeremy Michael Ward",
@@ -294,13 +306,15 @@
             "name": "Richard Turner",
             "dod": "2011-08-10T20:00:00.000Z",
             "cause": "Cardiac arrest",
-            "days": 223
+            "days": 223,
+            "type": 5
         },
         {
             "name": "Nicole Bogner",
             "dod": "2012-01-05T20:00:00.000Z",
             "cause": "Undisclosed illness",
-            "days": 5
+            "days": 5,
+            "type": 5
         },
         {
             "name": "Soroush Farazmand",
@@ -328,7 +342,7 @@
         },
         {
             "index": 3,
-            "name": "Road Accident"
+            "name": "Accident"
         },
         {
             "index": 4,
@@ -337,6 +351,10 @@
         {
             "index": 5,
             "name": "Illness"
+        },
+        {
+            "index": 6,
+            "name": "Strange/Accidents"
         }
     ]
 }
