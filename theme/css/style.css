@@ -977,25 +977,24 @@ svg {
 
 
 
+
 .g8 {
     background: #10a8c4;
     font-family: 'Special Elite', cursive;
 }
-
 .g8 h1.title {
     position: absolute;
     top: 14%;
-    font-size: 129px;
+    font-size: 130px;
     text-align: center;
     width: 100%;
     color: rgba(255, 255, 255, 0.18);
     display: block;
     font-family: 'Special Elite', cursive;
 }
-
 .g8 text {
     font-size: 15px;
-    fill: #000;
+    fill: #FFF;
 }
 .node {
     stroke: #fff;
@@ -1015,7 +1014,7 @@ svg {
 }
 .g8 .axis path {
     fill: none;
-    stroke: #278FCE;
+    stroke: #FFF;
     stroke-width: 1;
     shape-rendering: crispEdges;
 }
@@ -1028,7 +1027,6 @@ svg {
     left: 0;
     width: 100%;
 }
-
 .g8 .categoryMenu div {
     width: 50%;
     height: 100%;
@@ -1055,10 +1053,76 @@ svg {
     position: relative;
     bottom: 0px;
     text-align: center;
-    padding-top: 45%;
+    padding-top: 40%;
     color: #fff;
 }
+.g8 .bg-cause span {
+    font-size: 20px;
+}
+.g8 .bg-cause:nth-child(odd) {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #10A8C4 100%);
+}
 
-.g8 .bg-cause:nth-child(odd) {   
-     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%,#10A8C4 100%);
+.g8 .tooltip {
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.419608);
+    opacity: 1;
+}
+@media (min-width: 120px) {
+    .g8 .categoryMenu div {
+        font-size: 16px;
+        padding: 10px;
+    }
+    .g8 h1.title {
+        font-size: 80px;
+    }
+    .g8 .bg-cause {
+        font-size: 7px;
+    }
+    .g8 .bg-cause span {
+        font-size: 12px;
+    }
+}
+@media (min-width: 400px) {
+    .g8 .categoryMenu div {
+        font-size: 24px;
+    }
+    .g8 h1.title {
+        font-size: 90px;
+    }
+    .g8 .bg-cause {
+        font-size: 10px;
+    }
+    .g8 .bg-cause span {
+        font-size: 16px;
+    }
+}
+@media (min-width: 550px) {
+    .g8 .categoryMenu div {
+        font-size: 30px;
+    }
+    .g8 h1.title {
+        font-size: 130px;
+    }
+    .g8 .bg-cause {
+        font-size: 12px;
+    }
+    .g8 .bg-cause span {
+        font-size: 20px;
+    }
+}
+@media (min-width: 768px) {
+    .g8 .categoryMenu div {
+        font-size: 40px;
+    }
+}
+@media (min-width: 992px) {
+    .g8 .categoryMenu div {
+        font-size: 50px;
+        padding: 17px;
+    }
+    .g8 .bg-cause {
+        font-size: 14px;
+    }
 }

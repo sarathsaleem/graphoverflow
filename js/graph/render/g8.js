@@ -15,15 +15,15 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         var Chart = d3.select(canvas).append("svg");
         Chart.attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight)
             .attr("preserveAspectRatio", "xMidYMid");
-          
-        var artistdata = data.data;       
-       
-     
+
+        var artistdata = data.data;
+
+
 
         artistdata.forEach(function (d) {
 
-           d.dod = new Date(d.dod);
-           /*var date = new Date(d.dod);
+            d.dod = new Date(d.dod);
+            /*var date = new Date(d.dod);
             
             var timeDiff = Math.abs((new Date(date.setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
             
@@ -50,7 +50,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 d.type = 5;
             }*/
         });
-        
+
         /*
 
         function sortByDateAscending(a, b) {
@@ -58,40 +58,40 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         }
         data = data.sort(sortByDateAscending);
         */
-       
+
         var chartW = canvasWidth - 100,
             chartH = 700,
             paddingLeft = 70,
             paddingTop = 260,
             margin = 30;
 
-         var colors = d3.scale.category20b();
+        var colors = d3.scale.category20b();
 
-        
-        
+
+
         var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
-        
+
         $(canvas).append(menu);
-        
+
         $('.categoryMenu div').on('click', function () {
-           $('.categoryMenu div').addClass('active');
-           $(this).removeClass('active');
-            
-            if( $(this).hasClass('cause')) {
-                $('.g8').css('background','#0A76A2');
+            $('.categoryMenu div').addClass('active');
+            $(this).removeClass('active');
+
+            if ($(this).hasClass('cause')) {
+                $('.g8').css('background', '#0A76A2');
                 cauase();
             } else {
-                 $('.g8').css('background','#10a8c4');
-                 timelineMode();
+                $('.g8').css('background', '#10a8c4');
+                timelineMode();
             }
         });
 
-       var stars = Chart.selectAll(".line")
+        var stars = Chart.selectAll(".group")
             .data(artistdata)
             .enter()
             .append('g');
-        
-         var artists = stars.append('circle')
+
+        var artists = stars.append('circle')
             .attr("r", 20)
             .style("fill", function (d, i) {
                 return colors(i);
@@ -102,22 +102,21 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             return d.name;
         }).attr('x', function () {
             return 30;
-        })
-        .attr('class', 'label-name');
-        
-        
+        }).attr('class', 'label-name');
+
+
         stars.attr('class', 'group').attr("transform", function (d, i) {
             return "translate(-200, " + i * 15 + ")";
         });
 
 
         /**************** Timline **********************/
-        
+
         function timelineMode() {
-            
-            d3.selectAll('.axis').remove();            
+
+            d3.selectAll('.axis').remove();
             d3.selectAll('.bg-cause').remove();
-           
+
             var x = d3.time.scale()
                 .range([paddingLeft, chartW]);
 
@@ -148,64 +147,114 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .attr("class", "y axis")
                 .attr("transform", "translate(" + (paddingLeft - margin) + ", 0)")
                 .call(yAxis);
-            
+
             var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
                 cx = d3.time.scale().domain([artistdata[0].dod, artistdata[artistdata.length - 1].dod]).range(x.range());
 
             stars.transition().duration(1000).attr("transform", function (d) {
+                d.node = {};
+                d.node.x = cx(d.dod);
+                d.node.y = cy(d.days);
+                d.x = cx(d.dod);
+                d.y = cy(d.days);  
                 return "translate(" + cx(d.dod) + ", " + cy(d.days) + ")";
             });
             
+            setTimeout(function(){
+                correctTextRendering();
+            }, 2000)
             
+           
+            
+           
+
+
         }
         
-        
+        function correctTextRendering() {
+            var updateNode = function () {
+                this.attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+            }
+            stars.each(function (d, i) {
+                if (i % 2 == 0) {
+                    d.x = d.node.x;
+                    d.y = d.node.y;
+                } else {
+                    var b = this.childNodes[1].getBBox();
+
+                    var diffX = d.x - d.node.x;
+                    var diffY = d.y - d.node.y;
+
+                    var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+
+                    var shiftX = b.width * (diffX - dist) / (dist * 2);
+                    shiftX = Math.max(-b.width, Math.min(0, shiftX));
+                    var shiftY = 5;
+                    this.childNodes[1].setAttribute("transform", "translate(" + (shiftX || 0) + "," + shiftY + ")");
+                }
+            });
+            stars.call(updateNode);
+        }
+
         /**************** Timline **********************/
-       
+
         function cauase() {
-          
-            d3.selectAll('.axis').remove();            
+
+            d3.selectAll('.axis').remove();
             d3.selectAll('.bg-cause').remove();
-            
-             var tooltip =  d3.select(canvas).data(artistdata)
-                .append("div")
+            d3.selectAll('.tooltip').remove();
+
+            var tooltip = d3.select(canvas)
+                .append("div").attr("class", "tooltip")
                 .style("position", "absolute")
                 .style("z-index", "10")
                 .style("visibility", "hidden");
-               
-          
-            
-            var top = 200;
-            var left = 50,
-                bWidth = chartW/data.types.length;
-            
-            var lefts = [30,250,475,695,915,1135]
 
-            var pos = {};
+
+
+            var topMargain = 200,
+                top = 0,
+                left = 50,
+                lefts = [30, 250, 475, 695, 915, 1135],//corrected lefts
+                pos = {},
+                count = {};
+            
             stars.transition().duration(1000).attr("transform", function (d) {
-
                 if (d.type) {
-                     left = ((d.type-1) * 220) + 30;
-                     if (pos[d.type]) { 
-                        pos[d.type] += 50;
-                     } else {
-                        pos[d.type] = top;
-                     }                  
-                     top = pos[d.type];
+                    left = ((d.type - 1) * 220) + 30;
+                    
+                    pos[d.type] ?  pos[d.type] += 50 : pos[d.type] = topMargain;
+                   
+                    count[d.type] ?  count[d.type] +=1 : count[d.type] = 1;
+                    
+                    top = pos[d.type];
                 }
-                return "translate(" + lefts[d.type-1||0] + ", " + top + ")";
+                return "translate(" + lefts[d.type - 1 || 0] + ", " + top + ")";
             });
-            
-            stars.on("mouseover", function(d){return tooltip.style("visibility", "visible").text(d.cause);})
-	            .on("mousemove", function(){return tooltip.style("top", (event.pageY-100)+"px").style("left",(event.pageX+10)+"px");})
-                .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
-            
-            var rects =  d3.select(canvas).selectAll(".bg-cause")
-            .data(data.types)
-            .enter()
-            .append('div').attr("class", "bg-cause")           
-            .text(function(d){ return d.name;});
-            
+
+            stars.on("mouseover", function (d) {
+                return tooltip.style("visibility", "visible").text(d.cause);
+            })
+                .on("mousemove", function () {                  
+                    var offset = $(canvas).offset();
+                    return tooltip.style("top", (event.pageY - offset.top + 30) + "px").style("left", (event.pageX - offset.left) + "px");
+                })
+                .on("mouseout", function () {
+                    return tooltip.style("visibility", "hidden");
+                });
+
+            var rects = d3.select(canvas).selectAll(".bg-cause")
+                .data(data.types)
+                .enter()
+                .append('div').attr("class", "bg-cause")
+                .html(function (d) {
+                    var percentage =  (count[d.index]/artistdata.length)*100;
+                    return d.name + '<br/><span>'+percentage.toFixed(2) +'%</span>';
+                });
+
 
         }
 
