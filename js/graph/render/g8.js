@@ -34,8 +34,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
         var colors = d3.scale.category20b();
 
-
-        var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
+          var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
 
         $(canvas).append(menu);
 

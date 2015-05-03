@@ -1136,3 +1136,9 @@ svg {
         font-size: 14px;
     }
 }
+.twitter-btn {
+  position: absolute;
+  z-index: 12;
+  top: 40px;
+  right: 20px;
+}
