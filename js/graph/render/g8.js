@@ -22,43 +22,9 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
 
         artistdata.forEach(function (d) {
-
             d.dod = new Date(d.dod);
-            /*var date = new Date(d.dod);
-
-            var timeDiff = Math.abs((new Date(date.setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
-
-            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            d.days = diffDays;
-
-            if (d.cause.match(/Drug|Poison/ig)) {
-                d.type = 1;
-            }
-
-            if (d.cause.match(/Suicide/ig)) {
-                d.type = 2;
-            }
-
-            if (d.cause.match(/Traffic|accident/ig)) {
-                d.type = 3;
-            }
-
-            if (d.cause.match(/Murdered/ig)) {
-                d.type = 4;
-            }
-
-            if (d.cause.match(/Complications|Heart/ig)) {
-                d.type = 5;
-            }*/
         });
 
-        /*
-
-        function sortByDateAscending(a, b) {
-            return a.dod - b.dod;
-        }
-        data = data.sort(sortByDateAscending);
-        */
 
         var chartW = canvasWidth - 100,
             chartH = 700,
@@ -67,7 +33,6 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             margin = 30;
 
         var colors = d3.scale.category20b();
-
 
 
         var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
@@ -113,8 +78,8 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             cx = d3.time.scale().domain([artistdata[0].dod, artistdata[artistdata.length - 1].dod]).range(x.range());
 
         artistdata.forEach(function (d) {
-            d.x =  cx(d.dod);
-            d.y =  cy(d.days);
+            d.x = cx(d.dod);
+            d.y = cy(d.days);
         });
 
         var stars = Chart.selectAll(".group")
@@ -135,34 +100,36 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             return 30;
         }).attr('class', 'label-name');
 
-        var links = stars.append("line").attr("class","link");
+        var links = stars.append("line").attr("class", "link");
 
 
         stars.attr('class', 'group').attr("transform", function (d, i) {
             return "translate(-200, " + i * 15 + ")";
-        }).attr('pos', function(d,i){ return i;});
+        }).attr('pos', function (d, i) {
+            return i;
+        });
 
         var mode = 'timeline';
 
         var tooltip = d3.select(canvas)
-                .append("div").attr("class", "tooltip")
-                .style("position", "absolute")
-                .style("z-index", "10")
-                .style("visibility", "hidden");
+            .append("div").attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("visibility", "hidden");
 
 
         stars.on("mouseover", function (d) {
 
-                var text = '';
+            var text = '';
 
-                if (mode === 'cause') {
-                    text = d.cause;
-                } else {
-                    text = d.name +' <br/>'+ d.dod.getDate() +'/'+ d.dod.getMonth() +'/'+ d.dod.getFullYear();
-                }
+            if (mode === 'cause') {
+                text = d.cause;
+            } else {
+                text = d.name + ' <br/>' + d.dod.getDate() + '/' + d.dod.getMonth() + '/' + d.dod.getFullYear();
+            }
 
-                return tooltip.style("visibility", "visible").html(text);
-            })
+            return tooltip.style("visibility", "visible").html(text);
+        })
             .on("mousemove", function () {
                 var offset = $(canvas).offset();
                 return tooltip.style("top", (event.pageY - offset.top + 30) + "px").style("left", (event.pageX - offset.left) + "px");
@@ -200,17 +167,35 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         }
 
         function arrangeLabels() {
-            var pos = { '4' : [-65,-25], '7': [-115, 5], '23' : [25,-15] , '17':[20, -15], '16':[-150, 5] , '14' : [-110, 10], '19' : [20, 20] , '6': [30,-10], '11' : [-145, 20], '41':[30,5],
-                        '13' : [20, -10] , '28' : [-130,10] , '31' : [-30, 40] , '35' : [-5, 35] , '30' : [20, -20] , '32' : [-130,15] ,'38' : [-180, 10] , '46' : [-50, -25], '45' : [-50, 30]
-                      };
-            var keys= Object.keys(pos);
+            var pos = {
+                '4': [-65, -25],
+                '7': [-115, 5],
+                '23': [25, -15],
+                '17': [20, -15],
+                '16': [-150, 5],
+                '14': [-110, 10],
+                '19': [20, 20],
+                '6': [30, -10],
+                '11': [-145, 20],
+                '41': [30, 5],
+                '13': [20, -10],
+                '28': [-130, 10],
+                '31': [-30, 40],
+                '35': [-5, 35],
+                '30': [20, -20],
+                '32': [-130, 15],
+                '38': [-180, 10],
+                '46': [-50, -25],
+                '45': [-50, 30]
+            };
+            var keys = Object.keys(pos);
             Chart.selectAll(".label-name")
-               .each(function(d, i) {
-                if (keys.indexOf(""+i) > -1) {
-                    $(this).attr('x', pos[i][0]).attr('y', pos[i][1]);
-                }
+                .each(function (d, i) {
+                    if (keys.indexOf("" + i) > -1) {
+                        $(this).attr('x', pos[i][0]).attr('y', pos[i][1]);
+                    }
 
-               });
+                });
         }
 
 
@@ -252,56 +237,11 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                     return d.name + '<br/><span>' + percentage.toFixed(2) + '%</span>';
                 });
 
-             Chart.selectAll(".label-name").attr('x', 30).attr('y', 0);
+            Chart.selectAll(".label-name").attr('x', 30).attr('y', 0);
 
         }
 
         timelineMode();
-
-        /*
-
-        var line = d3.svg.line().interpolate('basis');
-
-
-
-        var drawPath = function (data, i) {
-
-             var ele = d3.select(artists[0][i]),
-                ele2 = d3.select(artists[0][i+1] || artists[0][0]);
-
-            var x1 =  cx(data.dod),
-                y1 =  cy(data.days),
-                x2 =  cx(ele2.data()[0].dod),
-                y2 = cy(ele2.data()[0].days);
-
-                var d = Math.abs(x1-x2)/2;
-
-                var points = [
-                        [x1, y1], [x2, y2]
-                ];
-                return line(points);
-
-            };
-
-
-        var links = Chart.selectAll('path.link')
-                .data(data)
-                .enter().append('svg:path')
-                .attr('class', 'link')
-                .style('stroke-width', function (l) {
-                    return 20;
-                })
-                .attr('d', drawPath )
-                .on('mouseover', function () {
-                    d3.select(this).attr('class', 'link on');
-                })
-                .on('mouseout', function () {
-                    d3.select(this).attr('class', 'link');
-                })
-                .transition()
-                .duration(100)
-                .attr('d',  drawPath);
-        */
 
 
 
