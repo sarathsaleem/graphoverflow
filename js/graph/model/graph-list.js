@@ -59,7 +59,6 @@ define(function () {
          {
            "id": "g8",
             "title": "27 Club",
-            "description": "27 Club",
             "thumbnail": "templates/images/a-day-on-github.png",
             "htmlTitle": "27-club-visualization",
             "tags": ["music"]

@@ -100,9 +100,6 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             return 30;
         }).attr('class', 'label-name');
 
-        var links = stars.append("line").attr("class", "link");
-
-
         stars.attr('class', 'group').attr("transform", function (d, i) {
             return "translate(-200, " + i * 15 + ")";
         }).attr('pos', function (d, i) {

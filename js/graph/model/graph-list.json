@@ -58,11 +58,11 @@
         {
            "id": "g8",
             "title": "27 Club",
-            "description": "27 Club",
+            "description": "Visualization of 27 Club members",
             "thumbnail": "templates/images/a-day-on-github.png",
             "htmlTitle": "27-club-visualization",
             "tags": ["music"]
             }
         ],
-    "tags": ["all", "stackoverflow", "filims", "git", "music"]
+    "tags": ["all", "stackoverflow", "filims", "github", "music"]
 }
