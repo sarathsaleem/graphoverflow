@@ -59,6 +59,7 @@ define(function () {
          {
            "id": "g8",
             "title": "27 Club",
+            "description": "Visualization of 27 Club members",
             "thumbnail": "templates/images/a-day-on-github.png",
             "htmlTitle": "27-club-visualization",
             "tags": ["music"]
