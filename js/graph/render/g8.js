@@ -4,65 +4,7 @@
 define(['d3', 'utils/utils'], function (ignore, _util) {
 
     "use strict";
-    
-    (function() {
-      d3.force_labels = function force_labels() {    
-        var labels = d3.layout.force();
 
-        // Update the position of the anchor based on the center of bounding box
-        function updateAnchor() {
-          if (!labels.selection) return;
-          labels.selection.each(function(d) {
-            var bbox = this.getBBox(),
-                x = bbox.x + bbox.width / 2,
-                y = bbox.y + bbox.height / 2;
-
-            d.anchorPos.x = x;
-            d.anchorPos.y = y;
-
-            // If a label position does not exist, set it to be the anchor position 
-            if (d.labelPos.x == null) {
-              d.labelPos.x = x;
-              d.labelPos.y = y;
-            }
-          });
-        }
-
-        //The anchor position should be updated on each tick
-        labels.on("tick.labels", updateAnchor);
-
-        // This updates all nodes/links - retaining any previous labelPos on updated nodes
-        labels.update = function(selection) {
-          labels.selection = selection;
-          var nodes = [], links = [];
-          selection[0].forEach(function(d) {    
-              console.log(d.__data__)
-            if(d && d.__data__) {
-              var data = d.__data__;
-
-              if (!d.labelPos) d.labelPos = {fixed: false};
-              if (!d.anchorPos) d.anchorPos = {fixed: true};
-
-              // Place position objects in __data__ to make them available through 
-              // d.labelPos/d.anchorPos for different elements
-              data.labelPos = d.labelPos;
-              data.anchorPos = d.anchorPos;
-
-              links.push({target: d.anchorPos, source: d.labelPos});
-              nodes.push(d.anchorPos);
-              nodes.push(d.labelPos);
-            }
-          });
-          labels
-              .stop()
-              .nodes(nodes)
-              .links(links);
-          updateAnchor();
-          labels.start();
-        };
-        return labels;
-      };
-    })();
     //http://bl.ocks.org/ZJONSSON/1691430
 
     function render(data, canvas) {
@@ -83,28 +25,28 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
             d.dod = new Date(d.dod);
             /*var date = new Date(d.dod);
-            
+
             var timeDiff = Math.abs((new Date(date.setYear(2000))).getTime() - (new Date("1/1/2000")).getTime());
-            
+
             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            d.days = diffDays;                       
-             
+            d.days = diffDays;
+
             if (d.cause.match(/Drug|Poison/ig)) {
                 d.type = 1;
             }
-            
+
             if (d.cause.match(/Suicide/ig)) {
                 d.type = 2;
             }
-            
+
             if (d.cause.match(/Traffic|accident/ig)) {
                 d.type = 3;
             }
-            
+
             if (d.cause.match(/Murdered/ig)) {
                 d.type = 4;
             }
-            
+
             if (d.cause.match(/Complications|Heart/ig)) {
                 d.type = 5;
             }*/
@@ -165,7 +107,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         y.domain(d3.extent(artistdata, function (d) {
             return d.dod.getMonth() + 1;
         }));
-        
+
 
         var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
             cx = d3.time.scale().domain([artistdata[0].dod, artistdata[artistdata.length - 1].dod]).range(x.range());
@@ -193,13 +135,15 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             return 30;
         }).attr('class', 'label-name');
 
+        var links = stars.append("line").attr("class","link");
+
 
         stars.attr('class', 'group').attr("transform", function (d, i) {
             return "translate(-200, " + i * 15 + ")";
-        });
-        
+        }).attr('pos', function(d,i){ return i;});
+
         var mode = 'timeline';
-        
+
         var tooltip = d3.select(canvas)
                 .append("div").attr("class", "tooltip")
                 .style("position", "absolute")
@@ -208,15 +152,15 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
 
 
         stars.on("mouseover", function (d) {
-            
+
                 var text = '';
-              
+
                 if (mode === 'cause') {
                     text = d.cause;
                 } else {
-                    text = d.name +' <br/>'+ d.dod.getDate() +'/'+ d.dod.getMonth() +'/'+ d.dod.getFullYear();                    
+                    text = d.name +' <br/>'+ d.dod.getDate() +'/'+ d.dod.getMonth() +'/'+ d.dod.getFullYear();
                 }
-            
+
                 return tooltip.style("visibility", "visible").html(text);
             })
             .on("mousemove", function () {
@@ -226,62 +170,15 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             .on("mouseout", function () {
                 return tooltip.style("visibility", "hidden");
             });
-        
-        
-        
-        
-            var labels = Chart.selectAll(".labels").data(artistdata, function (d, i) {
-                return i;
-            });
-            labels.exit().attr("class", "exit").transition().delay(0).duration(500).style("opacity", 0).remove();
-
-            // Draw the labelbox, caption and the link
-            var newLabels = labels.enter().append("g").attr("class", "labels")
-
-            var newLabelBox = newLabels.append("g").attr("class", "labelbox");
-            newLabelBox.append("circle").attr("r", 10)
-            newLabelBox.append("text").attr("class", "labeltext").attr("y", 6);
-            newLabels.append("line").attr("class", "link");
-
-            var labelBox = Chart.selectAll(".labels").selectAll(".labelbox");
-            var links = Chart.selectAll(".link");
-            labelBox.selectAll("text").text(function (d) {
-                return d.name;
-            });
-        
-       function redrawLabels() {
-            labelBox
-                .attr("transform",function(d) { return "translate("+d.labelPos.x+","+d.labelPos.y+")";});
-
-            links
-                .attr("x1",function(d) { return d.anchorPos.x;})
-                .attr("y1",function(d) { return d.anchorPos.y;})
-                .attr("x2",function(d) { return d.labelPos.x;})
-                .attr("y2",function(d) { return d.labelPos.y;});
-       }    
 
 
-         // Initialize the label-forces
-        var labelForce = d3.force_labels()
-            .linkDistance(0.0)
-            .gravity(0)
-            .nodes([]).links([])
-            .charge(60)
-            .on("tick", redrawLabels);
-        
-        labelForce.charge(60).start();   
-        
-        
-        
-        
-        
-        
-        
+
+
 
         /**************** Timline **********************/
 
         function timelineMode() {
-            
+
             mode = 'timeline';
 
             d3.selectAll('.axis').remove();
@@ -296,24 +193,36 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 .attr("transform", "translate(" + (paddingLeft - margin) + ", 0)")
                 .call(yAxis);
 
-            stars.transition().duration(1000).attr("transform", function (d) {                
-                return "translate(" + d.x + ", " + d.y + ")";                
+            stars.transition().duration(1000).attr("transform", function (d) {
+                return "translate(" + d.x + ", " + d.y + ")";
             });
-            
-            stars.call(labelForce.update);
-
-
+            arrangeLabels();
         }
+
+        function arrangeLabels() {
+            var pos = { '4' : [-65,-25], '7': [-115, 5], '23' : [25,-15] , '17':[20, -15], '16':[-150, 5] , '14' : [-110, 10], '19' : [20, 20] , '6': [30,-10], '11' : [-145, 20], '41':[30,5],
+                        '13' : [20, -10] , '28' : [-130,10] , '31' : [-30, 40] , '35' : [-5, 35] , '30' : [20, -20] , '32' : [-130,15] ,'38' : [-180, 10] , '46' : [-50, -25], '45' : [-50, 30]
+                      };
+            var keys= Object.keys(pos);
+            Chart.selectAll(".label-name")
+               .each(function(d, i) {
+                if (keys.indexOf(""+i) > -1) {
+                    $(this).attr('x', pos[i][0]).attr('y', pos[i][1]);
+                }
+
+               });
+        }
+
 
         /**************** Timline **********************/
 
         function cauase() {
-            
+
             mode = 'cause';
 
             d3.selectAll('.axis').remove();
-            d3.selectAll('.bg-cause').remove();           
-           
+            d3.selectAll('.bg-cause').remove();
+
             var topMargain = 200,
                 top = 0,
                 left = 50,
@@ -343,36 +252,38 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                     return d.name + '<br/><span>' + percentage.toFixed(2) + '%</span>';
                 });
 
+             Chart.selectAll(".label-name").attr('x', 30).attr('y', 0);
+
         }
-        
+
         timelineMode();
 
         /*
-        
+
         var line = d3.svg.line().interpolate('basis');
 
-        
-        
+
+
         var drawPath = function (data, i) {
-                
+
              var ele = d3.select(artists[0][i]),
                 ele2 = d3.select(artists[0][i+1] || artists[0][0]);
-       
+
             var x1 =  cx(data.dod),
                 y1 =  cy(data.days),
                 x2 =  cx(ele2.data()[0].dod),
                 y2 = cy(ele2.data()[0].days);
-            
+
                 var d = Math.abs(x1-x2)/2;
-                
+
                 var points = [
                         [x1, y1], [x2, y2]
                 ];
                 return line(points);
-                
+
             };
 
-        
+
         var links = Chart.selectAll('path.link')
                 .data(data)
                 .enter().append('svg:path')
