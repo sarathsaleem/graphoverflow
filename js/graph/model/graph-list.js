@@ -58,7 +58,7 @@ define(function () {
             },
          {
            "id": "g8",
-            "title": "27 Club",
+            "title": "27 Club Visualization",
             "description": "Visualization of 27 Club members, artists name mapped on timeline and cause of death",
             "thumbnail": "templates/images/visualization-27-Club.png",
             "htmlTitle": "27-club-visualization",
