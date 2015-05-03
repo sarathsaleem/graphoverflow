@@ -1,6 +1,6 @@
 /*
 
-Graphoverflow 2015-03-27 (https://github.com/sarathsaleem/graphoverflow)
+Graphoverflow 2015-05-04 (https://github.com/sarathsaleem/graphoverflow)
     By  
 Sarath Saleem 
 
@@ -3766,6 +3766,12 @@ define('data/index',['require','knockout'],function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g8') {
+            _u.getData({
+                url: baseUrl + '27-club.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);
@@ -4467,7 +4473,7 @@ define('graph/model/graph-list',[],function () {
             "description": "An hour on github, visualization of events logged in one hour on 12 August 2014 on github.",
             "thumbnail": "templates/images/visualization-of-an-hour-on-github.png",
             "htmlTitle": "an-hour-on-github",
-            "tags": ["git"]
+            "tags": ["github"]
             },
          {
            "id": "g7",
@@ -4475,10 +4481,18 @@ define('graph/model/graph-list',[],function () {
             "description": "A day on github, visualization of events logged in a day on github.",
             "thumbnail": "templates/images/a-day-on-github.png",
             "htmlTitle": "a-day-on-github",
-            "tags": ["git"]
+            "tags": ["github"]
+            },
+         {
+           "id": "g8",
+            "title": "27 Club",
+            "description": "Visualization of 27 Club members",
+            "thumbnail": "templates/images/a-day-on-github.png",
+            "htmlTitle": "27-club-visualization",
+            "tags": ["music"]
             }
         ],
-            "tags": ["all", "stackoverflow", "filims", "git"]
+            "tags": ["all", "stackoverflow", "filims", "github", "music"]
         };
     return graphs;
 });

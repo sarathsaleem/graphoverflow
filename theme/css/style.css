@@ -978,6 +978,15 @@ svg {
 
 
 
+/* latin */
+@font-face {
+  font-family: 'Special Elite';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Special Elite'), local('SpecialElite-Regular'), url(http://fonts.gstatic.com/s/specialelite/v6/9-wW4zu3WNoD5Fjka35JmzxObtw73-qQgbr7Be51v5c.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
 .g8 {
     background: #10a8c4;
     font-family: 'Special Elite', cursive;
@@ -1035,6 +1044,7 @@ svg {
     font-size: 50px;
     text-align: center;
     padding: 17px;
+    cursor: pointer;
 }
 .g8 .categoryMenu .cause {
     background-color: #0A76A2;

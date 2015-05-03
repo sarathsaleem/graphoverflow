@@ -59,8 +59,8 @@ define(function () {
          {
            "id": "g8",
             "title": "27 Club",
-            "description": "Visualization of 27 Club members",
-            "thumbnail": "templates/images/a-day-on-github.png",
+            "description": "Visualization of 27 Club members, artists name mapped on timeline and cause of death",
+            "thumbnail": "templates/images/visualization-27-Club.png",
             "htmlTitle": "27-club-visualization",
             "tags": ["music"]
             }
