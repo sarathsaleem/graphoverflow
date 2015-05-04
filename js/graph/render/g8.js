@@ -57,20 +57,24 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         var y = d3.scale.linear()
             .range([chartH + paddingTop - margin, paddingTop]);
 
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left");
-
         x.domain(d3.extent(artistdata, function (d) {
             return d.dod;
         }));
         y.domain(d3.extent(artistdata, function (d) {
-            return d.dod.getMonth() + 1;
-        }));
+            return d.dod.getMonth();
+        }));        
+        
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+        
+        var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left").tickFormat(function(d, i) {
+                return month_names_short[d];
+            });;
 
 
         var cy = d3.scale.linear().domain([0, 365]).range(y.range()),
