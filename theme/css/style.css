@@ -193,6 +193,14 @@ footer .developedBy {
     box-shadow: 0 8px 6px -6px black;
     overflow: hidden;
 }
+.graphCanvas canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+}
 .graphWrapper .canvas .specs {
     float: left;
     background: rgba(34, 34, 34, 0.44);
@@ -450,15 +458,7 @@ grapgCanvas,
 }
 /* pullfic */
 
-canvas {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-}
-svg {
+.g5 svg {
     position: absolute;
     top: 0px;
     left: 0px;
