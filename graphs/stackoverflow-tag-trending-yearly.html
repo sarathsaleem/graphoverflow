@@ -123,7 +123,7 @@
 
     <script data-main="app"  src="../js/libs/require.js"></script>
     <script type="text/javascript">
-        require(['app','../js/graph/render/g2'], function (modules,render) {
+        require(['app'], function (modules,render) {
             var application = modules.App;
             application.loadGraph('g2');
             application.dashboard.showGraph('g2');
