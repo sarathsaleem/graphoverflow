@@ -76,17 +76,80 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             root.radius = 0;
             root.fixed = true;
 
+            /*function (d, i) {
+                    return i ? 0 : -2000;
+                }*/
+            var links = [];
+            for (var i =0; i < nodes.length;i++) {
+                 for (var j =0; j < nodes.length;j++) {
+                    links.push({"source":i,"target":j});
+                 }
+            }
+
             var force = d3.layout.force3d()
                 .gravity(0.05)
                 .charge(function (d, i) {
                     return i ? 0 : -2000;
                 })
+                //.links(links)
                 .nodes(nodes)
+                //.linkDistance(20)
                 .size([SCREEN_WIDTH, SCREEN_HEIGHT]);
 
             force.start();
 
             return nodes;
+        }
+
+        var sphereSize = 50,
+            sphereCenters = [];
+        var R = 1.0;
+
+        function arrange () {
+            for(var i = 0; i < sphereCenters.length; i++) {
+                for(var j = 0; j < sphereCenters.length; j++) {
+                    if(i === j) continue;
+                    //calculate the distance between sphereCenters[i] and sphereCenters[j]
+                    var dist = new THREE.Vector3().copy(sphereCenters[i]).sub(sphereCenters[j]);
+                    if(dist.length() < sphereSize) {
+                         //move the center of this sphere to to compensate
+                         //how far do we have to move?
+                         var mDist = sphereSize - dist.length();
+                         //perturb the sphere in direction of dist magnitude mDist
+                         var mVec = new THREE.Vector3().copy(dist).normalize();
+                         mVec.multiplyScalar(mDist);
+                         //offset the actual sphere
+                         sphereCenters[i].add(mVec).normalize();
+
+                    }
+                }
+            }
+        }
+
+       function spaceMe (nodes) {
+            for(var i = 0; i < nodes.length; i++) {
+                for(var j = 0; j < nodes.length; j++) {
+                    if(i === j) continue;
+                    //calculate the distance between sphereCenters[i] and sphereCenters[j]
+                    var dist = new THREE.Vector3().copy(nodes[i]).sub(nodes[j]);
+                    if(dist.length() < sphereSize) {
+                         //move the center of this sphere to to compensate
+                         //how far do we have to move?
+                         var mDist = sphereSize - dist.length();
+                         //perturb the sphere in direction of dist magnitude mDist
+                         var mVec = new THREE.Vector3().copy(dist).normalize();
+                         mVec.multiplyScalar(mDist);
+                         //offset the actual sphere
+                         nodes[i].add(mVec).normalize().multiplyScalar(R);
+
+                    }
+                }
+
+                spheresNodes[i].position.x = nodes[i].x;
+                spheresNodes[i].position.y = nodes[i].y;
+                spheresNodes[i].position.z = nodes[i].z;
+
+            }
         }
 
 
@@ -112,9 +175,6 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
 
 
             controls = new THREE.TrackballControls(camera, renderer.domElement);
-            controls.rotateSpeed = 0.8;
-            controls.minDistance = 0;
-            controls.maxDistance = 100000;
 
             scene = new THREE.Scene();
             scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
@@ -141,7 +201,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             renderer.gammaOutput = true;
 
 
-            var geo = new THREE.SphereGeometry(radius, 30, 30);
+            var geo = new THREE.SphereGeometry(radius);
 
             var nodes = initSpherePack(canvas);
 
@@ -150,9 +210,16 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                     color: Math.random() * 0xffffff
                 }));
 
-                sphere.position.x = 0;
-                sphere.position.y = 0;
-                sphere.position.z = 0;
+
+                var vec = new THREE.Vector3(nodes[i].x,nodes[i].y,nodes[i].y);//.normalize();
+                var sphereCenter = new THREE.Vector3().copy(vec).multiplyScalar(R);
+                sphereCenter.radius = 50;// nodes[i].radius; // RANDOM SPHERE SIZE, plug in your sizes here
+                sphereCenters.push(sphereCenter);
+
+                for (var attrname in sphereCenter) { nodes[i][attrname] = sphereCenter[attrname]; }
+
+
+                sphere.position.add(vec);
 
                 var scale = nodes[i].radius / radius;
 
@@ -239,15 +306,17 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             // find intersections
 
 
-            var q = d3.geom.quadtree(nodes);
+            //var q = d3.geom.quadtree(nodes);
 
-            for (var i = 1; i < nodes.length; ++i) {
-                q.visit(collide(nodes[i]));
-                spheresNodes[i].position.x = nodes[i].x;
-                spheresNodes[i].position.y = nodes[i].y;
-                spheresNodes[i].position.z = nodes[i].z;
+            //for (var i = 1; i < nodes.length; ++i) {
+                //q.visit(collide(nodes[i]));
+             spaceMe(nodes);
+             //   spheresNodes[i].position.x = nodes[i].x;
+             //   spheresNodes[i].position.y = nodes[i].y;
+             //   spheresNodes[i].position.z = nodes[i].z;
 
-            }
+          //  }
+
 
             renderer.render(scene, camera);
 
