@@ -87,14 +87,13 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             }
 
             var force = d3.layout.force3d()
-                .gravity(0.05)
-                .charge(function (d, i) {
-                    return i ? 0 : -2000;
-                })
+                .gravity(0.3)
+                .charge(-50)
                 //.links(links)
                 .nodes(nodes)
-                //.linkDistance(20)
-                .size([SCREEN_WIDTH, SCREEN_HEIGHT]);
+                //.charge(-50)
+                //.linkDistance(200)
+                .size([200, 200]);
 
             force.start();
 
@@ -130,7 +129,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             for(var i = 0; i < nodes.length; i++) {
                 for(var j = 0; j < nodes.length; j++) {
                     if(i === j) continue;
-                    //calculate the distance between sphereCenters[i] and sphereCenters[j]
+
+
+                    /* //calculate the distance between sphereCenters[i] and sphereCenters[j]
                     var dist = new THREE.Vector3().copy(nodes[i]).sub(nodes[j]);
                     if(dist.length() < sphereSize) {
                          //move the center of this sphere to to compensate
@@ -142,7 +143,28 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                          //offset the actual sphere
                          nodes[i].add(mVec).normalize().multiplyScalar(R);
 
+                    }*/
+
+                    var r = nodes[i].radius + nodes[j].radius;
+                    var x = nodes[i].x - nodes[j].x,
+                        y = nodes[i].y - nodes[j].y,
+                        z = nodes[i].z - nodes[j].z;
+
+                    var dist = Math.sqrt(x * x + y * y + z * z);
+
+                    if (dist < r) {
+                          dist = (dist - r) / dist * .5;
+
+                        nodes[i].x -= x *= dist;
+                        nodes[i].y -= y *= dist;
+                        nodes[i].z -= z *= dist;
+
+                        nodes[j].x += x;
+                        nodes[j].y += y;
+                        nodes[j].z += z;
                     }
+
+
                 }
 
                 spheresNodes[i].position.x = nodes[i].x;
@@ -201,23 +223,21 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             renderer.gammaOutput = true;
 
 
-            var geo = new THREE.SphereGeometry(radius);
-
             var nodes = initSpherePack(canvas);
 
             for (var i = 0; i < nodes.length; i++) {
+
+                var geo = new THREE.SphereGeometry(nodes[i].radius , 20, 20);
+
+
                 var sphere = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({
                     color: Math.random() * 0xffffff
                 }));
 
 
-                var vec = new THREE.Vector3(nodes[i].x,nodes[i].y,nodes[i].y);//.normalize();
-                var sphereCenter = new THREE.Vector3().copy(vec).multiplyScalar(R);
-                sphereCenter.radius = 50;// nodes[i].radius; // RANDOM SPHERE SIZE, plug in your sizes here
-                sphereCenters.push(sphereCenter);
+                var vec = new THREE.Vector3(nodes[i].x,nodes[i].y,nodes[i].z);//.normalize();
 
-                for (var attrname in sphereCenter) { nodes[i][attrname] = sphereCenter[attrname]; }
-
+               // for (var attrname in sphereCenter) { nodes[i][attrname] = sphereCenter[attrname]; }
 
                 sphere.position.add(vec);
 
@@ -299,23 +319,24 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
 
             //camera.position.x = radius * Math.sin(THREE.Math.degToRad(theta));
             //camera.position.y = -100;
-            camera.position.z = 2000;
+            camera.position.z = 1000;
 
             camera.lookAt(scene.position);
 
             // find intersections
 
 
-            //var q = d3.geom.quadtree(nodes);
+            /*var q = d3.geom.quadtree(nodes);
 
-            //for (var i = 1; i < nodes.length; ++i) {
-                //q.visit(collide(nodes[i]));
-             spaceMe(nodes);
-             //   spheresNodes[i].position.x = nodes[i].x;
-             //   spheresNodes[i].position.y = nodes[i].y;
-             //   spheresNodes[i].position.z = nodes[i].z;
+            for (var i = 1; i < nodes.length; ++i) {
+                q.visit(collide(nodes[i]));
+                spheresNodes[i].position.x = nodes[i].x;
+                spheresNodes[i].position.y = nodes[i].y;
+                spheresNodes[i].position.z = nodes[i].z;
 
-          //  }
+            }*/
+
+            spaceMe(nodes);
 
 
             renderer.render(scene, camera);
