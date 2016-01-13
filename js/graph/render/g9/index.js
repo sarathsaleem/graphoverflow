@@ -66,7 +66,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             var SCREEN_HEIGHT = containerEle.innerHeight();
 
 
-            nodes = d3.range(50).map(function () {
+            nodes = d3.range(150).map(function () {
                 return {
                     radius: rnd(radius, 100)
                 };
@@ -87,13 +87,13 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             }
 
             var force = d3.layout.force3d()
-                .gravity(0.3)
-                .charge(-50)
+                .gravity(0.05)
+                .charge(-100)
                 //.links(links)
                 .nodes(nodes)
                 //.charge(-50)
                 //.linkDistance(200)
-                .size([200, 200]);
+                .size([SCREEN_WIDTH/2, SCREEN_HEIGHT/2]);
 
             force.start();
 
@@ -153,7 +153,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                     var dist = Math.sqrt(x * x + y * y + z * z);
 
                     if (dist < r) {
-                          dist = (dist - r) / dist * .5;
+                        dist = (dist - r) / dist * .5;
 
                         nodes[i].x -= x *= dist;
                         nodes[i].y -= y *= dist;
@@ -163,6 +163,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                         nodes[j].y += y;
                         nodes[j].z += z;
                     }
+
 
 
                 }
@@ -247,9 +248,9 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                     scale = .001;
                 }
 
-                sphere.scale.x = scale;
-                sphere.scale.y = scale;
-                sphere.scale.z = scale;
+                //sphere.scale.x = scale;
+               // sphere.scale.y = scale;
+               // sphere.scale.z = scale;
 
 
                 /*tween = new TWEEN.Tween(sphere.position).to({
