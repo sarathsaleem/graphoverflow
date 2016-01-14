@@ -224,7 +224,30 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             renderer.gammaOutput = true;
 
 
-            var nodes = initSpherePack(canvas);
+            var generatePoints = function (point, radius) {
+                var points = [],
+                    radian = Math.PI/180,
+                    vspace = 180/point,
+                    hspace = vspace;
+                for (var i = 0; i < 360; i += vspace) {
+                    for (var angle = 0; angle < 360; angle += hspace) {
+                        var pt = {};
+                        var x = Math.sin(radian * i) * radius;
+                        pt.x = Math.cos(angle * radian) * x;
+                        pt.y = Math.cos(radian * i) * radius;
+                        pt.z = Math.sin(angle * radian) * x;
+
+                        pt.radius = 50;
+                        points.push(pt);
+                    }
+                }
+
+
+                return points;
+            };
+
+
+            nodes = generatePoints(3,1000);//initSpherePack(canvas);
 
             for (var i = 0; i < nodes.length; i++) {
 
