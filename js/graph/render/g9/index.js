@@ -86,14 +86,28 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                  }
             }
 
-            var force = d3.layout.force3d()
-                .gravity(0.05)
-                .charge(-100)
+            var force = d3.layout.force()
+                .gravity(-0.01)
+                .charge(function(d) {
+                  return -Math.pow(d.radius, 2.0) / 8;
+                })
+                .friction(0.9)
                 //.links(links)
                 .nodes(nodes)
                 //.charge(-50)
                 //.linkDistance(200)
-                .size([SCREEN_WIDTH/2, SCREEN_HEIGHT/2]);
+                .size([SCREEN_WIDTH, SCREEN_HEIGHT]);
+
+            var _this = {};
+            _this.center = { x : SCREEN_WIDTH/2 , y : SCREEN_HEIGHT/2 };
+            _this.damper = 0.1;
+
+            force.on("tick", function(e) {
+                nodes.forEach(function(d){
+                    d.x = d.x + (_this.center.x - d.x) * (_this.damper + 0.02) ;
+                    d.y = d.y + (_this.center.y - d.y) * (_this.damper + 0.02) ;
+                });
+            });
 
             force.start();
 
@@ -127,6 +141,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
 
        function spaceMe (nodes) {
             for(var i = 0; i < nodes.length; i++) {
+
                 for(var j = 0; j < nodes.length; j++) {
                     if(i === j) continue;
 
@@ -162,6 +177,13 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                         nodes[j].x += x;
                         nodes[j].y += y;
                         nodes[j].z += z;
+                    } else {
+                        //nodes[i].x -= x *= dist;
+                       // nodes[i].y -= y *= dist;
+                        //nodes[i].z -= z *= dist;
+
+                        //nodes[j].x -= x;
+                       // nodes[j].y -= y;
                     }
 
 
@@ -174,7 +196,6 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
 
             }
         }
-
 
 
         function init(canvas) {
@@ -227,10 +248,10 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             var generatePoints = function (point, radius) {
                 var points = [],
                     radian = Math.PI/180,
-                    vspace = 180/point,
+                    vspace = 360/Math.sqrt(point),
                     hspace = vspace;
-                for (var i = 0; i < 360; i += vspace) {
-                    for (var angle = 0; angle < 360; angle += hspace) {
+                for (var i = 1; i < 360; i += vspace) {
+                    for (var angle = 1; angle < 360; angle += hspace) {
                         var pt = {};
                         var x = Math.sin(radian * i) * radius;
                         pt.x = Math.cos(angle * radian) * x;
@@ -243,11 +264,11 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                 }
 
 
-                return points;
+                return points.slice(points.length - point);
             };
 
 
-            nodes = generatePoints(3,1000);//initSpherePack(canvas);
+            nodes = initSpherePack(canvas);
 
             for (var i = 0; i < nodes.length; i++) {
 
@@ -259,7 +280,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
                 }));
 
 
-                var vec = new THREE.Vector3(nodes[i].x,nodes[i].y,nodes[i].z);//.normalize();
+                var vec = new THREE.Vector3(nodes[i].x,nodes[i].y,0);//.normalize();
 
                // for (var attrname in sphereCenter) { nodes[i][attrname] = sphereCenter[attrname]; }
 
@@ -350,17 +371,17 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'graph/render/g9/d3.for
             // find intersections
 
 
-            /*var q = d3.geom.quadtree(nodes);
+            //var q = d3.geom.quadtree(nodes);
 
-            for (var i = 1; i < nodes.length; ++i) {
-                q.visit(collide(nodes[i]));
-                spheresNodes[i].position.x = nodes[i].x;
-                spheresNodes[i].position.y = nodes[i].y;
-                spheresNodes[i].position.z = nodes[i].z;
+            for (var i = 0; i < nodes.length; ++i) {
+                //q.visit(collide(nodes[i]));
+              spheresNodes[i].position.x = nodes[i].x;
+              spheresNodes[i].position.y = nodes[i].y;
+              spheresNodes[i].position.z = 0;//nodes[i].z;
 
-            }*/
+            }
 
-            spaceMe(nodes);
+            //spaceMe(nodes);
 
 
             renderer.render(scene, camera);
