@@ -6,7 +6,6 @@ define(['libs/three', 'd3'], function (ignore) {
 
     var Atom = function () {
 
-        var nucleons = [];
         var nucelionsPos = [];
         var coolingFactor = 1;
         var nucleusCenter = {
@@ -52,9 +51,9 @@ define(['libs/three', 'd3'], function (ignore) {
                     }
                 }
 
-                nucleons[i].position.x = nodes[i].x;
-                nucleons[i].position.y = nodes[i].y;
-                nucleons[i].position.z = nodes[i].z;
+                nuleionsUi[i].position.x = nodes[i].x;
+                nuleionsUi[i].position.y = nodes[i].y;
+                nuleionsUi[i].position.z = nodes[i].z;
 
             }
 
@@ -118,13 +117,16 @@ define(['libs/three', 'd3'], function (ignore) {
         };
 
         this.moveTo = function (pos) {
-            this.nucleusCenter.x = pos.x;
-            this.nucleusCenter.y = pos.y;
-            this.nucleusCenter.z = pos.z;
+            coolingFactor = 1;
+            nucleusCenter.x = pos.x;
+            nucleusCenter.y = pos.y;
+            nucleusCenter.z = pos.z;
         };
 
+        var that = this;
+
         this.render = function () {
-            this.normalizeNucleus(this.nodes);
+            that.normalizeNucleus(nucelionsPos);
         };
 
         this.renderUpdates = [this.render];

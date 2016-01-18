@@ -94,13 +94,25 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignor
 
     //
 
-    function animate() {
+    var ctx = null;
+
+    function animate(ref) {
+
+        if (typeof ref === "object") {
+            ctx = ref;
+        }
 
         requestAnimationFrame(animate);
 
         render();
         stats.update();
         controls.update();
+
+        if (ctx && ctx.renderUpdates) {
+            ctx.renderUpdates.forEach(function (fns) {
+                fns();
+            });
+        }
 
     }
 
@@ -121,10 +133,12 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignor
 
     return function (canvas) {
         animationInit(canvas);
-        animate();
+
         this.scene = scene;
         this.camera = camera;
-        this.renderUpdates = renderUpdates;
+        this.renderUpdates = [];
+
+         animate(this);
 
     };
 
