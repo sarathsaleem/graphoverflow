@@ -58,7 +58,7 @@ define(['libs/three', 'd3'], function (ignore) {
             }
 
             if (coolingFactor > 0) {
-                coolingFactor -= 0.01;
+                coolingFactor -= 0.001;
             } else {
                 coolingFactor = 0;
             }

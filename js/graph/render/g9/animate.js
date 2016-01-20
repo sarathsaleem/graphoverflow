@@ -50,17 +50,19 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignor
         hemiLight.color.setHSL(0.6, 1, 0.75);
         hemiLight.groundColor.setHSL(0.1, 0.8, 0.7);
         hemiLight.position.y = 500;
-        scene.add(hemiLight);
+        //scene.add(hemiLight);
 
         var light = new THREE.DirectionalLight(0xff9090, 1);
-        light.position.set(0, 1, 0).normalize();
-        //light.castShadow = true;
-        //light.shadowDarkness = 0.5;
-        //light.shadowCameraVisible = true;
+        light.position.set(500, 1, 0).normalize();
         scene.add(light);
-
         var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(0, 0, -1).normalize();
+        light.position.set(0, 0, -500).normalize();
+        scene.add(light);
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(0, -500, 0).normalize();
+        scene.add(light);
+        var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(0, 500, 0).normalize();
         scene.add(light);
 
 

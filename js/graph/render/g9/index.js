@@ -16,7 +16,7 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/atom
 
         App.atom = new Atom();
 
-        App.atom.create(12, App.animate.scene);
+        App.atom.create(10, App.animate.scene);
 
         App.animate.renderUpdates = App.animate.renderUpdates.concat(App.atom.renderUpdates);
 
