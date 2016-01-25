@@ -42,7 +42,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignor
         controls = new THREE.TrackballControls(camera, renderer.domElement);
 
         scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
+        //scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
 
 
         // LIGHTS

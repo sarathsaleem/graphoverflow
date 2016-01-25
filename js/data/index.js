@@ -74,6 +74,12 @@ define(function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g9') {
+            _u.getData({
+                url: baseUrl + 'p-table.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);
