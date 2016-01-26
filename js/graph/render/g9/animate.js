@@ -1,7 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define,THREE, brackets: true, $, window, navigator , clearInterval , setInterval, d3*/
 
-define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignore) {
+define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], function (_util, lightUp, ignore) {
 
     "use strict";
 
@@ -32,7 +32,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignor
         renderer = new THREE.WebGLRenderer({
             antialias: true
         });
-        //renderer.setClearColor(scene.fog.color, 1);
+        renderer.setClearColor( "#efefef" );
 
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
@@ -45,25 +45,18 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats'], function (_util, ignor
         //scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
 
 
-        // LIGHTS
+        var directionalLight = new THREE.DirectionalLight("#d0d0d0", 0.5);
+        directionalLight.position.set(1000, 1000, -1000);
+        scene.add(directionalLight);
+
+
         var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1.25);
         hemiLight.color.setHSL(0.6, 1, 0.75);
         hemiLight.groundColor.setHSL(0.1, 0.8, 0.7);
-        hemiLight.position.y = 500;
+        hemiLight.position.y = 5100;
         //scene.add(hemiLight);
 
-        var light = new THREE.DirectionalLight(0xff9090, 1);
-        light.position.set(500, 1, 0).normalize();
-        scene.add(light);
-        var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(0, 0, -500).normalize();
-        scene.add(light);
-        var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(0, -500, 0).normalize();
-        scene.add(light);
-        var light = new THREE.DirectionalLight(0xffffff);
-        light.position.set(0, 500, 0).normalize();
-        scene.add(light);
+        var lights = new lightUp(scene, containerEle);
 
 
 

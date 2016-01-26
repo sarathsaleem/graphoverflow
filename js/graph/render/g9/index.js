@@ -16,10 +16,13 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/atom
         App.atom = new Atom();
         App.atom.electrons = new Electrons(App.data);
 
-        App.atom.create(10, App.animate.scene);
-        App.atom.electrons.getConfiguration(10);
 
-        App.animate.renderUpdates = App.animate.renderUpdates.concat(App.atom.renderUpdates);
+        App.atom.create(2, App.animate.scene);
+        App.atom.electrons.bhorModel(3, App.animate.scene);
+
+
+        App.animate.renderUpdates = App.animate.renderUpdates.concat(App.atom.renderUpdates , App.atom.electrons.renderUpdates);
+
 
 
     }
