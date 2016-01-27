@@ -193,7 +193,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         //containerEle.append(stats.domElement); :debug
 
 
-        particles = new THREE.Geometry();
+        particles = new THREE.BufferGeometry();
 
 
 
@@ -247,6 +247,10 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         }
 
         function renderParticles() {
+
+            particles.attributes.position.needsUpdate = true;
+            particles.attributes.customColor.needsUpdate = true;
+
             renderer.render(scene, camera);
             particleSystem.rotation.y += 0.0005;
             particleSystem.rotation.x += 0.0005;
@@ -282,20 +286,27 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }
             };
 
-            values_color = attributes.customColor.value;
-            var values_size = attributes.size.value;
+            var positions = new Float32Array( particleLen * 3 );
+            var colors = new Float32Array( particleLen * 3 );
+            var sizes = new Float32Array( particleLen );
 
 
-            for (var i = 0; i < particleLen; i++) {
+            //for (var i = 0; i < particleLen; i++) {
+            var color = new THREE.Color();
 
-                var particle = new THREE.Vector3();
-                particles.vertices.push(particle);
-                particles.vertices[i].x = Math.random() * 1000 - 500;
-                particles.vertices[i].y = Math.random() * 1000 - 500;
-                particles.vertices[i].z = Math.random() * 1000 - 500;
+            for ( var i = 0, i3 = 0; i < particleLen; i ++, i3 += 3 ) {
 
-                values_size[i] = 40;
-                values_color[i] = new THREE.Color();
+               positions[ i3 + 0 ] = Math.random() * 1000 - 500;
+               positions[ i3 + 1 ] = Math.random() * 1000 - 500;
+               positions[ i3 + 2 ] = Math.random() * 1000 - 500;
+
+                color.setHSL( i / particleLen, 1.0, 0.5 );
+
+                colors[ i3 + 0 ] = color.r;
+                colors[ i3 + 1 ] = color.g;
+                colors[ i3 + 2 ] = color.b;
+
+                sizes[ i ] = 20;
             }
 
 
@@ -326,7 +337,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
             var shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: uniforms,
-                attributes: attributes,
+                //attributes: attributes,
                 vertexShader: vertexShader,
                 fragmentShader: fragmentShader,
                 blending: THREE.AdditiveBlending,
@@ -336,6 +347,11 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
 
             // particles.colors = colors;
+
+            particles.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+            particles.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+            particles.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+
 
 
             particleSystem = new THREE.PointCloud(particles, shaderMaterial);
@@ -512,24 +528,50 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         }
 
         function changeScene(particeLen, shape, duration) {
+
             TWEEN.removeAll();
 
-            for (var i = 0; i < particeLen; i++) {
+            var color = new THREE.Color();
+            var positions = particles.attributes.position.array;
+            var colors = particles.attributes.customColor.array;
 
-                var particle = particles.vertices[i];
-
-                values_color[i].setStyle(shape[i].color || '#FF0000');
+            for (var i = 0, i3 = 0; i < particeLen; i++, i3 += 3) {
 
                 var target = shape[i].geo;
+                var pos = {
+                    x: positions[i3 + 0],
+                    y: positions[i3 + 1],
+                    z: positions[i3 + 2]
+                };
 
-                new TWEEN.Tween(particle)
+
+                color.setStyle(shape[i].color || '#FF0000');
+                colors[i3 + 0] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                var tween = new TWEEN.Tween(pos)
                     .to({
                         x: target.position.x,
                         y: target.position.y,
                         z: target.position.z
                     }, Math.random() * duration + duration)
-                    .easing(TWEEN.Easing.Exponential.InOut)
-                    .start();
+                    .easing(TWEEN.Easing.Exponential.InOut);
+
+                tween.onUpdate(function (ind) {
+                         return function () {
+                           // console.log(pos);
+                            positions[ind + 0] = pos.x;
+                            positions[ind + 1] = pos.y;
+                            positions[ind + 2] = pos.z;
+                         }
+                    }(i3));
+
+                tween.start();
+
+                   //positions[i3 + 0] = target.position.x;
+                  // positions[i3 + 1] = target.position.y;
+                  // positions[i3 + 2] = target.position.z;
 
             }
 

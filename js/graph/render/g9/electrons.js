@@ -135,8 +135,8 @@ define(['libs/three', 'd3'], function (ignore) {
         };
 
         this.render = function () {
-
-            var levels = Object.keys(that.electronsPos);
+            return;
+             var levels = Object.keys(that.electronsPos);
              for (var i = 0; i < levels.length; i++) {
 
                 that.spinElectrons(electronsUi[levels[i]], that.electronsPos[levels[i]]);
