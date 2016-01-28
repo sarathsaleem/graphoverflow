@@ -70,10 +70,7 @@ define(['libs/three', 'd3'], function (ignore) {
          */
         this.getSpherePositions = function (steps, radius) {
 
-            var x = 0,
-                y = 0,
-                z = 0,
-                points = [];
+            var points = [];
 
             // Angle is given by Degree Value
             var arcs = (2 * Math.PI) / steps;
@@ -81,9 +78,9 @@ define(['libs/three', 'd3'], function (ignore) {
 
             for (var i = 0; i < steps; i++) {
 
-                var X = x + (radius * Math.cos(alpha));
-                var Y = y + (radius * Math.sin(alpha));
-                var Z = z + (radius * Math.cos(alpha));
+                var X = (radius * Math.cos(alpha));
+                var Y = (radius * Math.sin(alpha));
+                var Z = 0 ;//+ (radius * Math.cos(alpha));
                 var position = {
                     x: X,
                     y: Y,
@@ -124,22 +121,21 @@ define(['libs/three', 'd3'], function (ignore) {
 
         this.spinElectrons = function (elns, pos) {
 
-
             for (var i = 0; i < elns.length; i++) {
                 var t = clock.getElapsedTime() + i+1*1.5;
-                elns[i].position.x = Math.sin(1.5 * t) * pos[i].x;
-                elns[i].position.y = Math.sin(1.5 * t) * pos[i].y;
-                elns[i].position.z = Math.cos(1.5 * t) * pos[i].z;
+                elns[i].position.x = (Math.cos(1.5 * t) * elns[i].position.x);
+                elns[i].position.y = (Math.sin(1.5 * t) * elns[i].position.y);
+                //elns[i].position.z = Math.cos(1.5 * t) * pos[i].z;
             }
 
         };
 
         this.render = function () {
-            return;
+
              var levels = Object.keys(that.electronsPos);
              for (var i = 0; i < levels.length; i++) {
-
-                that.spinElectrons(electronsUi[levels[i]], that.electronsPos[levels[i]]);
+                var level = levels[i];
+                that.spinElectrons(electronsUi[level]);
              }
         };
 
@@ -159,9 +155,12 @@ define(['libs/three', 'd3'], function (ignore) {
 
         for (var i = 0; i < levels.length; i++) {
 
-            this.electronsPos[levels[i]] = this.getSpherePositions(levelConfig[levels[i]], i ? i * 400 : 400);
+            var level = levels[i],
+                radius = i ? i * 400 : 200;
 
-            this.ui_electrons(levels[i], this.electronsPos[levels[i]], scene);
+            this.electronsPos[level] = this.getSpherePositions(levelConfig[level], radius);
+
+            this.ui_electrons(level, this.electronsPos[level], scene);
 
         }
 
@@ -170,7 +169,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
     Orbitals.prototype.updateElectons = function () {
 
-    }
+    };
 
 
 
