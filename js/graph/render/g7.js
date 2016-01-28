@@ -187,7 +187,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                     //cancelAnimationFrame(timeline.animationId);
                 }
             }
-            
+
             return this.time/1000;
         };
 
@@ -314,7 +314,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         controls.addEventListener('change', function () {
             renderParticles();
         });
-        
+
 
 
         function onWindowResize() {
@@ -337,7 +337,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         //containerEle.append(stats.domElement);  :debug
 
 
-        particleSys1 = new THREE.Geometry();
+        particleSys1 = new THREE.BufferGeometry();
 
         var gridColor = d3.scale.linear().domain([0, 20]).range(["#d2f428", "#11bf1d"]);
 
@@ -346,17 +346,17 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
             generateParticles(particleLength);
             return tweenInit();
         }
-        
+
         function animate() {
 
             requestAnimationFrame(animate);
-        
+
             renderParticles();
-            
+
             controls.update();
-            
+
             timeLine.update();
-            
+
             TWEEN.update();
 
             stats.update();
@@ -380,17 +380,6 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
         gitData.lanColor = lanColor;
 
         function generateParticles(particleLen) {
-
-            var attributes = {
-                size: {
-                    type: 'f',
-                    value: []
-                },
-                customColor: {
-                    type: 'c',
-                    value: []
-                }
-            };
 
             var uniforms = {
                 amplitude: {
@@ -433,7 +422,7 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
 
             var shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: uniforms,
-                attributes: attributes,
+                //attributes: attributes,
                 vertexShader: vertexShader,
                 fragmentShader: fragmentShader,
                 blending: THREE.AdditiveBlending,
@@ -441,35 +430,43 @@ define(['utils/utils', 'libs/easing', 'd3', 'libs/three', 'libs/stats', 'libs/tw
                 transparent: true
             });
 
+            var positions = new Float32Array( particleLen * 3 );
+            var colors = new Float32Array( particleLen * 3 );
+            var sizes = new Float32Array( particleLen );
 
-            var values_color = attributes.customColor.value;
-            var values_size = attributes.size.value;
 
 
-            for (var i = 0; i < particleLen; i++) {
+            var color = new THREE.Color();
+
+            for ( var i = 0, i3 = 0; i < particleLen; i ++, i3 += 3 ) {
 
                 var event = gitData.events[i].split(','),
                     lan = gitData.refMap[event[0]],
-                    color = gitData.lanColor[lan];
-
-                var particle = new THREE.Vector3();
+                    lColor = gitData.lanColor[lan];
 
                 var range = 1000;
 
-                particle.x = i / 10;
-                particle.y = rnd(-range, range);
-                particle.z = rnd(-range, range);
+                positions[ i3 + 0 ] = i / 10;
+                positions[ i3 + 1 ] = rnd(-range, range);
+                positions[ i3 + 2 ] = rnd(-range, range);
 
-                particleSys1.vertices.push(particle);
+                color.setStyle(lColor);
 
+                colors[ i3 + 0 ] = color.r;
+                colors[ i3 + 1 ] = color.g;
+                colors[ i3 + 2 ] = color.b;
 
-                values_size[i] = 40;
-                values_color[i] = new THREE.Color();
-                values_color[i].setStyle(color);
+                sizes[ i ] = 20;
+
             }
 
 
             // particles.colors = colors;
+
+            particleSys1.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+            particleSys1.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+            particleSys1.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+
 
 
             particleSystem1 = new THREE.PointCloud(particleSys1, shaderMaterial);

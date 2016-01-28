@@ -558,20 +558,16 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                     }, Math.random() * duration + duration)
                     .easing(TWEEN.Easing.Exponential.InOut);
 
-                tween.onUpdate(function (ind) {
+                tween.onUpdate(function (ind, pos) {
                          return function () {
                            // console.log(pos);
                             positions[ind + 0] = pos.x;
                             positions[ind + 1] = pos.y;
                             positions[ind + 2] = pos.z;
                          }
-                    }(i3));
+                    }(i3, pos));
 
                 tween.start();
-
-                   //positions[i3 + 0] = target.position.x;
-                  // positions[i3 + 1] = target.position.y;
-                  // positions[i3 + 2] = target.position.z;
 
             }
 
