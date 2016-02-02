@@ -1,10 +1,13 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, d3, THREE, define, brackets: true, $, window */
 
-define(['libs/three', 'd3'], function (ignore) {
+define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
     "use strict";
 
-    var Atom = function () {
+    var Atom = function (data) {
+
+
+        this.electrons = new Electrons(data);
 
         var nucelionsPos = [];
         var coolingFactor = 1;
@@ -89,8 +92,8 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
             var sphereRadius = 10;
-
-            nucelionsPos = generatePoints(atomicNumber, sphereRadius, this.protonRadius);
+            var particles = atomicNumber*2;//protons and neutrons
+            nucelionsPos = generatePoints(particles, sphereRadius, this.protonRadius);
         };
 
         this.ui_addNucleus = function (scene) {
@@ -129,7 +132,7 @@ define(['libs/three', 'd3'], function (ignore) {
             that.normalizeNucleus(nucelionsPos);
         };
 
-        this.renderUpdates = [this.render];
+        this.renderUpdates = [this.render].concat(this.electrons.renderUpdates);
 
         this.create = function (atomicNumber, scene) {
             this.createNucleus(atomicNumber);

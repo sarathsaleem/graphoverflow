@@ -15,8 +15,35 @@ define(['libs/three', 'd3'], function (ignore) {
         var electronstring = data.electronstring,
             notations = data.electronstringNotations;
 
-        var electronsUi = {};
+        this.electronsUi = {};
         this.electronsPos = {};
+        this.spin = true;
+
+
+
+        var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20),
+            material = new THREE.MeshLambertMaterial({
+                color: '#00ff1d'
+            }),
+            radius = {
+                'K': 400,
+                'L': 900,
+                'M': 1400,
+                'N': 2000,
+                'O': 2700,
+                'P': 3600,
+                'Q': 4400
+            },
+            speed = {
+                'K': 0.02,
+                'L': 0.022,
+                'M': 0.028,
+                'N': 0.03,
+                'O': 0.035,
+                'P': 0.04,
+                'Q': 0.045
+            };
+
 
         /**
          *
@@ -80,7 +107,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
                 var X = (radius * Math.cos(alpha));
                 var Y = (radius * Math.sin(alpha));
-                var Z = 0 ;//+ (radius * Math.cos(alpha));
+                var Z = 0; //(radius * Math.cos(alpha));
                 var position = {
                     x: X,
                     y: Y,
@@ -95,15 +122,25 @@ define(['libs/three', 'd3'], function (ignore) {
 
         };
 
-        var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20);
+        /**
+         *
+         *
+         */
+        this.getCurrentAngle = function (x, y) {
+            var deltaX = x, //x - 0 ,center is 0
+                deltaY = y,
+                angle = Math.atan2(deltaY, deltaX);
 
-        var material = new THREE.MeshLambertMaterial({
-            color: '#00ff1d'
-        });
+            return angle;
+        };
 
-        this.ui_electrons = function (level, positions, scene) {
+        /**
+         *
+         *
+         */
+        this.addUi_electrons = function (level, positions, scene) {
 
-            electronsUi[level] = [];
+            this.electronsUi[level] = [];
 
             for (var i = 0; i < positions.length; i++) {
 
@@ -111,38 +148,82 @@ define(['libs/three', 'd3'], function (ignore) {
 
                 var vec = new THREE.Vector3(positions[i].x, positions[i].y, positions[i].z);
 
+                sphere.initAngle = this.getCurrentAngle(positions[i].x, positions[i].y);
+                sphere.currentAngle = sphere.initAngle;
+
                 sphere.position.add(vec);
-                electronsUi[level].push(sphere);
+                this.electronsUi[level].push(sphere);
                 scene.add(sphere);
+
+                this.addElectronsLevelPath(scene, level);
             }
         };
 
-        var clock = new THREE.Clock();
+        /**
+         *
+         *
+         */
+        this.addElectronsLevelPath = function (scene, level) {
 
-        this.spinElectrons = function (elns, pos) {
+            var material = new THREE.LineBasicMaterial({
+                color: "#0062e8"
+            });
+            var radius = this.getOribitalRadius(level);
+            var segments = 100;
+
+            var circleGeometry = new THREE.CircleGeometry(radius, segments);
+            // Remove center vertex
+            circleGeometry.vertices.shift();
+
+            var circle = new THREE.Line(circleGeometry, material);
+
+            scene.add(circle);
+        };
+
+        /**
+         *
+         *
+         */
+        this.spinElectrons = function (elns, pos, radius, speed) {
 
             for (var i = 0; i < elns.length; i++) {
-                var t = clock.getElapsedTime() + i+1*1.5;
-                elns[i].position.x = (Math.cos(1.5 * t) * elns[i].position.x);
-                elns[i].position.y = (Math.sin(1.5 * t) * elns[i].position.y);
-                //elns[i].position.z = Math.cos(1.5 * t) * pos[i].z;
+
+
+                elns[i].currentAngle = elns[i].currentAngle - speed;
+
+                elns[i].position.x = (Math.cos(elns[i].currentAngle) * radius); // - pos[i].x;
+                elns[i].position.y = (Math.sin(elns[i].currentAngle) * radius); // - pos[i].y;
+                elns[i].position.z = 0; //(Math.cos(speed * t) * radius);
             }
 
         };
 
-        this.render = function () {
+        this.getOribitalRadius = function (level) {
+            return radius[level];
+        };
 
-             var levels = Object.keys(that.electronsPos);
-             for (var i = 0; i < levels.length; i++) {
+        /**
+         *
+         *
+         */
+        this.render = function () {
+            if (!that.spin) {
+                return;
+            }
+
+            var levels = Object.keys(that.electronsPos);
+            for (var i = 0; i < levels.length; i++) {
                 var level = levels[i];
-                that.spinElectrons(electronsUi[level]);
-             }
+                that.spinElectrons(that.electronsUi[level], that.electronsPos[level], that.getOribitalRadius(level), speed[level]);
+            }
         };
 
         this.renderUpdates = [this.render];
 
 
     };
+
+
 
     Orbitals.prototype.bhorModel = function (atomicNumber, scene) {
 
@@ -156,23 +237,15 @@ define(['libs/three', 'd3'], function (ignore) {
         for (var i = 0; i < levels.length; i++) {
 
             var level = levels[i],
-                radius = i ? i * 400 : 200;
+                radius = this.getOribitalRadius(level);
 
             this.electronsPos[level] = this.getSpherePositions(levelConfig[level], radius);
 
-            this.ui_electrons(level, this.electronsPos[level], scene);
+            this.addUi_electrons(level, this.electronsPos[level], scene);
 
         }
 
-
     };
-
-    Orbitals.prototype.updateElectons = function () {
-
-    };
-
-
-
 
 
     return Orbitals;

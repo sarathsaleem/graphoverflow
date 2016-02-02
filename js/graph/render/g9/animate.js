@@ -32,7 +32,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         renderer = new THREE.WebGLRenderer({
             antialias: true
         });
-        renderer.setClearColor( "#efefef" );
+        renderer.setClearColor( "#000000" );
 
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
