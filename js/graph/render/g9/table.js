@@ -1,7 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define,THREE, brackets: true, $, window, navigator , clearInterval , setInterval, d3, Float32Array*/
 
-define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface','libs/FontUtils','libs/TextGeometry','utils/utils'], function (_util) {
+define(['libs/three'], function () {
 
     "use strict";
 
@@ -23,7 +23,7 @@ define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface
 
 
             function addElementOutterBox(elements, scene) {
-                var geo = new THREE.SphereGeometry(50, 20, 20),
+                var geo = new THREE.SphereGeometry(70, 20, 20),
                     material = new THREE.LineBasicMaterial({
                         color: 0xffffff,
                         opacity: 0.5,
@@ -38,7 +38,7 @@ define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface
                     xMinus = 1330,
                     yPlus = 990;
 
-                Object.keys(elements).forEach(function (aNumber) {
+                Object.keys(elements).forEach(function (aNumber, num) {
                     var sphere = new THREE.Mesh(geo, new THREE.MeshBasicMaterial());
                     sphere.position.x = (elements[aNumber][3] * w) - xMinus;
                     sphere.position.y = -(elements[aNumber][4] * h) + yPlus;
@@ -46,6 +46,7 @@ define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface
 
                     var box = new THREE.BoxHelper(sphere);
                     box.material = material;
+                    box.aNumber = num;
 
                     var positions = box.geometry.attributes.position.array,
                         colors = new Float32Array(positions.length);
@@ -65,47 +66,12 @@ define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface
             }
 
             function createText(elements, scene, elementPos) {
-                var material = new THREE.MeshFaceMaterial( [
-                    new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
-                    new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
-                ] );
 
+
+                var geo = new THREE.PlaneBufferGeometry(100, 100, 1, 1);
                 Object.keys(elements).forEach(function (aNumber,i) {
-                    var text = elements[aNumber][1],
-                        height = 20,
-                        size = 70,
-                        hover = 30,
-                        curveSegments = 4,
-                        bevelThickness = 2,
-                        bevelSize = 1.5,
-                        bevelSegments = 3,
-                        bevelEnabled = true,
-
-                        font = "optimer", // helvetiker, optimer, gentilis, droid sans, droid serif
-                        weight = "bold", // normal bold
-                        style = "normal"; // normal italic
-
-                    var textGeo = new THREE.TextGeometry(text, {
-                        size: size,
-                        height: height,
-                        curveSegments: curveSegments,
-
-                        font: font,
-                        weight: weight,
-                        style: style,
-
-                        bevelThickness: bevelThickness,
-                        bevelSize: bevelSize,
-                        bevelEnabled: bevelEnabled,
-
-                        material: 0,
-                        extrudeMaterial: 1
-
-                    });
-                    textGeo.computeBoundingBox();
-                    textGeo.computeVertexNormals();
-                   // var centerOffset = -0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
-                    var textMesh1 = new THREE.Mesh( textGeo, material );
+                    var material = getMaterial(elements[aNumber], i+1);
+                    var textMesh1 = new THREE.Mesh( geo, material );
 
                     textMesh1.position.x = elementPos[i].x;
                     textMesh1.position.y = elementPos[i].y;
@@ -115,6 +81,41 @@ define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface
 
                 });
             }
+
+            var getMaterial = function (element, n) {
+
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                canvas.width = 128;
+                canvas.height = 128;
+
+                ctx.beginPath();
+                ctx.font = "Bold 64px Arial";
+                ctx.fillStyle = "#FFFFFF";
+                ctx.textAlign = 'center';
+                ctx.fillText(element[0], 64, 70);
+                ctx.font = "Bold 20px Arial";
+                ctx.fillText(element[1], 64, 110);
+                ctx.font = "Bold 15px Arial";
+                ctx.fillStyle = "#00ffd8";
+                ctx.fillText(element[2], 64, 125);
+                ctx.font = "Bold 25px Arial";
+                ctx.fillStyle = "#00ff27";
+                ctx.fillText(n, 105, 20);
+                //ctx.fillText(user.name, 0, 100);
+                // canvas contents will be used for a texture
+                var texture = new THREE.Texture(canvas);
+                texture.needsUpdate = true;
+
+                var material = new THREE.MeshLambertMaterial({
+                    map: texture,
+                    side: THREE.DoubleSide,
+                    depthTest: true,
+                    transparent:true
+                });
+
+                return material;
+            };
 
 
             var elementsPos = addElementOutterBox(elements, scene);
@@ -152,7 +153,6 @@ define(['libs/three','libs/optimer_regular.typeface','libs/optimer_bold.typeface
          */
         this.render = function () {
             //that.lineGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( that.screen.camera.position, that.lineGlow.position );
-
         };
 
         this.renderUpdates = [this.render];
