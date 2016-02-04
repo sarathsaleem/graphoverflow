@@ -30,9 +30,10 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         // RENDERER
 
         renderer = new THREE.WebGLRenderer({
-            antialias: true
+            antialias: true,
+            alpha: true
         });
-        renderer.setClearColor( "#000000" );
+        renderer.setClearColor( 0x000000, 0 );
 
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
@@ -40,6 +41,9 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
 
 
         controls = new THREE.TrackballControls(camera, renderer.domElement);
+        controls.rotateSpeed = 0.8;
+        controls.minDistance = 0;
+        controls.maxDistance = 100000;
 
         scene = new THREE.Scene();
         //scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
@@ -117,9 +121,8 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
 
         //camera.position.x = 500 * Math.sin(THREE.Math.degToRad(theta));
         //camera.position.y = -100;
-        camera.position.z = 2000;
+        //camera.position.z = 2000;
 
-        camera.lookAt(scene.position);
 
         renderer.render(scene, camera);
 
@@ -133,7 +136,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         this.camera = camera;
         this.renderUpdates = [];
 
-         animate(this);
+        animate(this);
 
     };
 
