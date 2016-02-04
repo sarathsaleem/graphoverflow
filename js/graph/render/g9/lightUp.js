@@ -75,7 +75,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         f2.add(light2.position, 'z', -2000, 2000).step(1);
         f2.add(light2, 'visible');
 
-         var light3 = this.addDirectionalLight("#e8e8e8", 0.5, { x: 1 , y : 0 , z : 0});
+         var light3 = this.addDirectionalLight("#e8e8e8", 0.5, { x: 1 , y : 0 , z : 1000});
         var f2 = gui.addFolder('DirectionalLight2');
         f2.addColor({ color : light2.color.getHex() }, 'color').onChange(handleColorChange(light2.color));
         f2.add(light3, 'intensity', 0, 1);

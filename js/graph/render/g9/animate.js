@@ -33,7 +33,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
             antialias: true,
             alpha: true
         });
-        renderer.setClearColor( 0x000000, 0 );
+        renderer.setClearColor( 0x000000);
 
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
