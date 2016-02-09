@@ -1,7 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval, d3*/
 var App = {};
-define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table', '../g9/atom', 'd3', 'libs/three', 'libs/stats'], function (_util, Animate, Screen, Dal, Table, Atom, ignore) {
+define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table', '../g9/atom', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function (_util, Animate, Screen, Dal, Table, Atom, ignore) {
 
     "use strict";
 
@@ -19,11 +19,13 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table
 
         App.animate.renderUpdates = App.animate.renderUpdates.concat(App.atom.renderUpdates , App.table.renderUpdates);
 
-
+        App.table.subscribe(function(ele){
+            console.log(ele);
+        });
         var screen = 0;
         //screen atom
         if (screen) {
-            var atomicNumber = 3;
+            var atomicNumber = 32;
             App.atom.create(atomicNumber, App.animate.scene);
             App.atom.electrons.bhorModel(atomicNumber, App.animate.scene);
         } else {
@@ -33,7 +35,7 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table
         }
 
 
-
+        window.App = App;
 
 
     }

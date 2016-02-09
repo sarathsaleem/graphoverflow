@@ -11,6 +11,21 @@ define(['libs/three'], function () {
 
         this.elements = data.elements;
         this.screen = null;
+        var elementsBox = [],
+            elementsRefs = [],
+            elementsPos = [],
+            elementsGroup = [];
+        var raycaster = new THREE.Raycaster(),
+            mouse = new THREE.Vector2(),
+            INTERSECTED;
+
+        this.activeElement = null;
+        this.activeNumber = 0;
+        var cbs = [];
+        this.subscribe = function (cb) {
+            cbs.push(cb);
+        };
+
         this.addAtomCenterAnimation = function () {
 
 
@@ -18,35 +33,34 @@ define(['libs/three'], function () {
 
 
         this.addElements = function (elements, screen) {
-            var scene = screen.scene;
+            this.screen = screen;
+            var scene = screen.scene,
+                dataelemnts = elements;
 
-
-
-            function addElementOutterBox(elements, scene) {
-                var geo = new THREE.SphereGeometry(70, 20, 20),
-                    material = new THREE.LineBasicMaterial({
-                        color: 0xffffff,
-                        opacity: 0.5,
-                        transparent: true,
-                        linewidth: 1,
-                        vertexColors: THREE.VertexColors
-                    }),
+            var createElementOutterBox = (function () {
+                var geo = new THREE.SphereGeometry(65, 20, 20),
                     color = new THREE.Color(),
-                    elementsPos = [],
                     w = 140,
                     h = 180,
                     xMinus = 1330,
                     yPlus = 990;
 
-                Object.keys(elements).forEach(function (aNumber, num) {
+                return function (aNumber, num) {
                     var sphere = new THREE.Mesh(geo, new THREE.MeshBasicMaterial());
-                    sphere.position.x = (elements[aNumber][3] * w) - xMinus;
-                    sphere.position.y = -(elements[aNumber][4] * h) + yPlus;
+                    sphere.position.x = (dataelemnts[aNumber][3] * w) - xMinus;
+                    sphere.position.y = -(dataelemnts[aNumber][4] * h) + yPlus;
                     sphere.position.z = 0;
+                    sphere.aNumber = num + 1;
 
                     var box = new THREE.BoxHelper(sphere);
-                    box.material = material;
-                    box.aNumber = num;
+                    box.material =  new THREE.LineBasicMaterial({
+                        color: 0xffffff,
+                        opacity: 0.25,
+                        transparent: true,
+                        linewidth: 1,
+                        vertexColors: THREE.VertexColors
+                    });
+                    box.aNumber = num + 1;
 
                     var positions = box.geometry.attributes.position.array,
                         colors = new Float32Array(positions.length);
@@ -58,29 +72,31 @@ define(['libs/three'], function () {
                         colors[i3 + 2] = color.b;
                     }
                     box.geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
-                    scene.add(box);
+
+                    elementsBox.push(box);
+                    elementsRefs.push(sphere);//for mouse hover raycaster
                     elementsPos.push(sphere.position);
-                });
 
-                return elementsPos;
-            }
+                    return box;
+                };
 
-            function createText(elements, scene, elementPos) {
+            }());
 
-
+            var createText = (function () {
                 var geo = new THREE.PlaneBufferGeometry(100, 100, 1, 1);
-                Object.keys(elements).forEach(function (aNumber,i) {
-                    var material = getMaterial(elements[aNumber], i+1);
-                    var textMesh1 = new THREE.Mesh( geo, material );
+                return function (aNumber, i) {
+                    var material = getMaterial(elements[aNumber], i + 1);
+                    var textMesh1 = new THREE.Mesh(geo, material);
 
-                    textMesh1.position.x = elementPos[i].x;
-                    textMesh1.position.y = elementPos[i].y;
+                    textMesh1.position.x = elementsPos[i].x;
+                    textMesh1.position.y = elementsPos[i].y;
                     textMesh1.position.z = 0;
 
-                    scene.add(textMesh1);
+                    //scene.add(textMesh1);
+                    return textMesh1;
 
-                });
-            }
+                };
+            }());
 
             var getMaterial = function (element, n) {
 
@@ -111,17 +127,80 @@ define(['libs/three'], function () {
                     map: texture,
                     side: THREE.DoubleSide,
                     depthTest: true,
-                    transparent:true
+                    transparent: true
                 });
 
                 return material;
             };
 
+            Object.keys(elements).forEach(function (aNumber, i) {
 
-            var elementsPos = addElementOutterBox(elements, scene);
-            createText(elements, scene, elementsPos);
+                var elementGroup = new THREE.Group();
+                elementGroup.aNumber = aNumber;
+
+                var box = createElementOutterBox(aNumber, i);
+                var text = createText(aNumber, i);
+                elementGroup.add(box);
+                elementGroup.add(text);
+
+                elementsGroup.push(elementGroup);
+
+                scene.add(elementGroup);
+            });
 
 
+            var ele = screen.renderer.domElement;
+
+            function onDocumentMouseMove(event) {
+                event.preventDefault();
+                var viewportOffset = ele.getBoundingClientRect();//FIXME: calculate only on resize
+                // these are relative to the viewport
+                var top = viewportOffset.top;
+                var left = viewportOffset.left;
+                var cX = event.clientX - left,
+                    cY = event.clientY - top;
+
+                mouse.x = (cX / viewportOffset.width) * 2 - 1;
+                mouse.y = -(cY / viewportOffset.height) * 2 + 1;
+
+            }
+            ele.addEventListener('mousemove', onDocumentMouseMove, false);
+
+
+
+        };
+        var currentNumber = null;
+        this.hoverElement = function (elementBox) {
+            var that = this;
+            if (elementBox) {
+                this.activeElement = elementBox;
+                this.activeNumber = elementBox.aNumber;
+            } else {
+                this.activeElement = null;
+                this.activeNumber = 0;
+            }
+
+            if (this.activeNumber !== currentNumber) {
+
+
+                this.addHoverEffect(this.activeNumber);
+
+                cbs.forEach(function (cb) {
+                    cb(that.activeNumber);
+                });
+                currentNumber = this.activeNumber;
+            }
+        };
+
+        this.addHoverEffect = function (num) {
+            var aNumber = Number(num);
+            elementsBox.forEach(function(box){
+                 box.material.opacity = 0.25;
+            });
+            if (aNumber !== 0 ) {
+                var box = elementsBox[aNumber -1];
+                box.material.opacity = 1;
+            }
         };
 
         this.atomCenterAnimation = function (screen) {
@@ -153,6 +232,17 @@ define(['libs/three'], function () {
          */
         this.render = function () {
             //that.lineGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( that.screen.camera.position, that.lineGlow.position );
+            raycaster.setFromCamera(mouse, that.screen.camera);
+            var intersects = raycaster.intersectObjects(elementsRefs);
+            if (intersects.length > 0) {
+                if (INTERSECTED != intersects[0].object) {
+                    INTERSECTED = intersects[0].object;
+                    that.hoverElement(INTERSECTED);
+                }
+            } else {
+                that.hoverElement(false);
+                INTERSECTED = null;
+            }
         };
 
         this.renderUpdates = [this.render];

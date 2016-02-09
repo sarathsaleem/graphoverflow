@@ -6,7 +6,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
     "use strict";
 
     var stats,
-        camera, scene, renderer,
+        camera, scene, renderer, containerEle,
         mouse = new THREE.Vector2(),
         controls,
         clock = new THREE.Clock(),
@@ -21,11 +21,11 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
     function animationInit(canvas) {
 
 
-        var containerEle = $(canvas);
+        containerEle = $(canvas);
 
         //set camera
         camera = new THREE.PerspectiveCamera(40, containerEle.innerWidth() / containerEle.innerHeight(), 1, 100000);
-        camera.position.z = 500;
+        camera.position.z = 3000;
 
         // RENDERER
 
@@ -61,7 +61,6 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         //scene.add(hemiLight);
 
         var lights = new lightUp(scene, containerEle);
-
 
 
         stats = new Stats();
@@ -106,6 +105,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         render();
         stats.update();
         controls.update();
+        TWEEN.update();
 
         if (ctx && ctx.renderUpdates) {
             ctx.renderUpdates.forEach(function (fns) {
@@ -134,6 +134,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
 
         this.scene = scene;
         this.camera = camera;
+        this.renderer = renderer;
         this.renderUpdates = [];
 
         animate(this);
