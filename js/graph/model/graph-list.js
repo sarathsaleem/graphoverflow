@@ -72,7 +72,8 @@ define(function () {
             "thumbnail": "templates/images/visualization-27-Club.png",
             "htmlTitle": "3d-periodic-table",
             "twitter" : "",
-            "tags": ["science"]
+            "tags": ["science"],
+            "tmpl": "fullscreen"
             }
         ],
             "tags": ["all", "stackoverflow", "filims", "github", "music", "science"]

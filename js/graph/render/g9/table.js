@@ -66,7 +66,7 @@ define(['libs/three'], function () {
                         colors = new Float32Array(positions.length);
 
                     for (var i = 0, i3 = 0; i < positions.length; i++, i3 += 3) {
-                        color.setHex(Math.random() * 0xffffff);
+                        color.setHex(0xffffff);
                         colors[i3 + 0] = color.r;
                         colors[i3 + 1] = color.g;
                         colors[i3 + 2] = color.b;
@@ -107,16 +107,16 @@ define(['libs/three'], function () {
 
                 ctx.beginPath();
                 ctx.font = "Bold 64px Arial";
-                ctx.fillStyle = "#FFFFFF";
+                ctx.fillStyle = "#FFF183";
                 ctx.textAlign = 'center';
                 ctx.fillText(element[0], 64, 70);
                 ctx.font = "Bold 20px Arial";
                 ctx.fillText(element[1], 64, 110);
                 ctx.font = "Bold 15px Arial";
-                ctx.fillStyle = "#00ffd8";
+                ctx.fillStyle = "#ffffff";
                 ctx.fillText(element[2], 64, 125);
                 ctx.font = "Bold 25px Arial";
-                ctx.fillStyle = "#00ff27";
+                ctx.fillStyle = "#ffffff";
                 ctx.fillText(n, 105, 20);
                 //ctx.fillText(user.name, 0, 100);
                 // canvas contents will be used for a texture

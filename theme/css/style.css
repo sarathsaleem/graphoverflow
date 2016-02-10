@@ -193,6 +193,15 @@ footer .developedBy {
     box-shadow: 0 8px 6px -6px black;
     overflow: hidden;
 }
+.graphCanvas.fullscreen {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
 .graphCanvas canvas {
     position: absolute;
     top: 0px;
@@ -1141,4 +1150,17 @@ grapgCanvas,
   z-index: 12;
   top: 40px;
   right: 20px;
+}
+
+
+/* g9 */
+
+.g9 {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#840216+2,6d0019+47,4c0011+100 */
+background: #840216; /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  #840216 2%, #6d0019 47%, #4c0011 100%); /* FF3.6-15 */
+background: -webkit-radial-gradient(center, ellipse cover,  #840216 2%,#6d0019 47%,#4c0011 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #840216 2%,#6d0019 47%,#4c0011 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#840216', endColorstr='#4c0011',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }
