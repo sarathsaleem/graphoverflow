@@ -42,7 +42,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
 
         controls = new THREE.TrackballControls(camera, renderer.domElement);
         controls.rotateSpeed = 0.8;
-        controls.minDistance = 0;
+        controls.minDistance = 100;
         controls.maxDistance = 100000;
 
         scene = new THREE.Scene();
@@ -105,7 +105,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         render();
         stats.update();
         controls.update();
-        TWEEN.update();
+        //TWEEN.update();
 
         if (ctx && ctx.renderUpdates) {
             ctx.renderUpdates.forEach(function (fns) {
@@ -136,6 +136,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         this.camera = camera;
         this.renderer = renderer;
         this.renderUpdates = [];
+        this.containerEle = containerEle;
 
         animate(this);
 
