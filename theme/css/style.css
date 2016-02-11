@@ -1156,26 +1156,25 @@ grapgCanvas,
 /* g9 */
 
 .g9 {
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#840216+2,6d0019+47,4c0011+100 */
-background: #840216; /* Old browsers */
-background: -moz-radial-gradient(center, ellipse cover,  #840216 2%, #6d0019 47%, #4c0011 100%); /* FF3.6-15 */
-background: -webkit-radial-gradient(center, ellipse cover,  #840216 2%,#6d0019 47%,#4c0011 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #840216 2%,#6d0019 47%,#4c0011 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#840216', endColorstr='#4c0011',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
+background: #a90329; /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6-15 */
+background: -webkit-radial-gradient(center, ellipse cover,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 }
 .elementInfo {
     position: absolute;
     width: 200px;
     height: 200px;
-    background: rgb(103, 0, 23);
-    border-radius: 100px;
+    background: #3498DB;
     z-index: 1001;
     color:#fff;
-    top:100px;
-    left: 100px;
-    box-shadow: 1px 7px 16px rgb(185, 0, 42);
+    bottom: 0;
+    left: 0;
     transition: all ease-out 1.5s;
+    padding-left: 10px;
    /* -webkit-animation-name: fall;*/
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-duration: 1s;
@@ -1190,11 +1189,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#840216', end
 }
 
 .elementInfo .n {
-    font-size: 25px;
+    font-size: 23px;
     top: 105px;
     position: absolute;
     margin: 0 auto;
-    text-align: center;
     display: block;
     width: 100%;
 }
@@ -1203,7 +1201,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#840216', end
     top: 50px;
     position: absolute;
     margin: 0 auto;
-    text-align: center;
     display: block;
     width: 100%;
 }
@@ -1212,7 +1209,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#840216', end
     top: 15px;
     position: absolute;
     margin: 0 auto;
-    text-align: center;
     display: block;
     width: 100%;
 }
@@ -1221,7 +1217,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#840216', end
     top: 140px;
     position: absolute;
     margin: 0 auto;
-    text-align: center;
     display: block;
     width: 100%;
+}
+.elementInfo .lc {
+    float: right;
+    padding: 20px 10px;
+}
+
+.g9 #stats {
+    top: auto !important;
+    bottom: 0px;
+    right: 0px;
 }

@@ -16,12 +16,13 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table
         App.table = new Table(App.data);
 
         App.atom = new Atom(App.data);
-        App.info = new Info(App.data, App.animate);
+
+        App.info = new Info(App);
 
         App.animate.renderUpdates = App.animate.renderUpdates.concat(App.atom.renderUpdates , App.table.renderUpdates);
 
-        App.table.subscribe(function(ele){
-            App.info.addElemntInfo(ele);
+        App.table.subscribe(function(ele,m){
+            App.info.addElemntInfo(ele,m);
         });
         var screen = 0;
         //screen atom

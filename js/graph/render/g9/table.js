@@ -43,7 +43,7 @@ define(['libs/three'], function () {
                     w = 140,
                     h = 180,
                     xMinus = 1330,
-                    yPlus = 990;
+                    yPlus = 1100;
 
                 return function (aNumber, num) {
                     var sphere = new THREE.Mesh(geo, new THREE.MeshBasicMaterial());
@@ -162,6 +162,8 @@ define(['libs/three'], function () {
 
                 mouse.x = (cX / viewportOffset.width) * 2 - 1;
                 mouse.y = -(cY / viewportOffset.height) * 2 + 1;
+                mouse.cx = cX;
+                mouse.cy = cY;
 
             }
             ele.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -170,7 +172,7 @@ define(['libs/three'], function () {
 
         };
         var currentNumber = null;
-        this.hoverElement = function (elementBox) {
+        this.hoverElement = function (elementBox, mouse) {
             var that = this;
             if (elementBox) {
                 this.activeElement = elementBox;
@@ -186,7 +188,7 @@ define(['libs/three'], function () {
                 this.addHoverEffect(this.activeNumber);
 
                 cbs.forEach(function (cb) {
-                    cb(that.activeNumber);
+                    cb(that.activeNumber, mouse);
                 });
                 currentNumber = this.activeNumber;
             }
@@ -237,10 +239,10 @@ define(['libs/three'], function () {
             if (intersects.length > 0) {
                 if (INTERSECTED != intersects[0].object) {
                     INTERSECTED = intersects[0].object;
-                    that.hoverElement(INTERSECTED);
+                    that.hoverElement(INTERSECTED, mouse);
                 }
             } else {
-                that.hoverElement(false);
+                that.hoverElement(false, mouse);
                 INTERSECTED = null;
             }
         };
