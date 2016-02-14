@@ -13,10 +13,13 @@ define(['utils/utils'], function (_util) {
         this.data = app.data;
         //this.screen = screen;
         var ele = app.animate.containerEle;
-        var elemntInfo;
+        var elemntInfo,
+            infoPanel;
         this.addUi = (function () {
             elemntInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
             ele.append(elemntInfo);
+            infoPanel = $('<div class="infoPlanel"></div>');
+            ele.append(infoPanel);
 
         }());
 
@@ -26,7 +29,7 @@ define(['utils/utils'], function (_util) {
 
                 var eConfiguration = app.atom.electrons.getConfiguration(),
                     levelConfig = app.atom.electrons.getLevelConfiguration(eConfiguration[aNumber]);
-                levelConfig = Object.keys(levelConfig).map(function(l){
+                levelConfig = Object.keys(levelConfig).map(function (l) {
                     return levelConfig[l];
                 });
 
@@ -38,11 +41,35 @@ define(['utils/utils'], function (_util) {
                 elemntInfo.find('.num').text(aNumber);
                 elemntInfo.find('.lc').html(levelConfig.join('</br>'));
 
+                var x = mouse.cx,
+                    y = mouse.cy,
+                    sx = ele[0].offsetWidth,
+                    sy = ele[0].offsetHeight;
 
-                elemntInfo.css({zIndex : 30, opacity:1, left: mouse.cx+100+'px', top: mouse.cy+100+'px'});
+                x = x + 250 > sx ? x - 250 : x + 50;
+                y = y + 250 > sy ? y - 250 : y + 50;
+
+                elemntInfo.css({
+                    zIndex: 30,
+                    opacity: 1,
+                    "transform": "translate3d(" + x + "px, " + y + "px, 0px)"
+                });
+
             } else {
-                elemntInfo.css({opacity:0, zIndex: 0});
+                elemntInfo.css({
+                    opacity: 0,
+                    zIndex: 0
+                });
             }
+
+
+            this.addOrbitalInfo(aNumber);
+        };
+
+
+        this.addOrbitalInfo = function (aNumber) {
+             var eConfiguration = app.atom.electrons.getConfiguration();
+            infoPanel.text(eConfiguration[aNumber])
         };
 
 

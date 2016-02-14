@@ -1171,8 +1171,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     background: #3498DB;
     z-index: 1001;
     color:#fff;
-    bottom: 0;
-    left: 0;
+    z-index: 0;
+    opacity: 0;
     transition: all ease-out 1.5s;
     padding-left: 10px;
    /* -webkit-animation-name: fall;*/
@@ -1225,8 +1225,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     padding: 20px 10px;
 }
 
+.elementLine {
+    background: none repeat scroll 0px 0px transparent;
+    border-top: 2px solid rgba(255, 255, 255, 0.5);
+    display: block;
+    position: absolute;
+    z-index: 9;
+    height: 1px;
+    transform: rotate(0deg);
+    left: 0;
+    top: 0;
+    width: 200px;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+.infoPlanel {
+    position: absolute;
+    top: 0px;
+    border: 0px;
+    width: 250px;
+    background: rgba(126, 1, 29, 0.48);
+    left: 0px;
+    bottom: 0px;
+}
+
 .g9 #stats {
     top: auto !important;
     bottom: 0px;
     right: 0px;
 }
+
