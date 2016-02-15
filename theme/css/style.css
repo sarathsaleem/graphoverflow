@@ -1256,4 +1256,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     bottom: 0px;
     right: 0px;
 }
+.infoPlanel .levels {
+
+    border: 1px solid #fff;
+    height: 30px;
+
+}
 

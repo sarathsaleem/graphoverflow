@@ -18,7 +18,23 @@ define(['utils/utils'], function (_util) {
         this.addUi = (function () {
             elemntInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
             ele.append(elemntInfo);
-            infoPanel = $('<div class="infoPlanel"></div>');
+
+            var slevels = [
+                '<div class="1s"><span>1s</span><div class="box"></div></div>'
+            ];
+
+            var levels = '<div> \
+                            <div class="levels K">' + slevels[0] + '</div> \
+                            <div class="levels L"></div> \
+                            <div class="levels M"></div> \
+                            <div class="levels N"></div> \
+                            <div class="levels 0"></div> \
+                            <div class="levels P"></div> \
+                            <div class="levels Q"></div> \
+                        </div>';
+
+            infoPanel = $('<div class="infoPlanel">' + levels + '</div>');
+
             ele.append(infoPanel);
 
         }());
@@ -68,8 +84,10 @@ define(['utils/utils'], function (_util) {
 
 
         this.addOrbitalInfo = function (aNumber) {
-             var eConfiguration = app.atom.electrons.getConfiguration();
-            infoPanel.text(eConfiguration[aNumber])
+            var eConfiguration = app.atom.electrons.getConfiguration();
+
+            console.log(eConfiguration[aNumber])
+            //infoPanel.text(eConfiguration[aNumber])
         };
 
 

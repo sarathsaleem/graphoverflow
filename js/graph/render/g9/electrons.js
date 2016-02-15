@@ -6,6 +6,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
     //data http://www.periodni.com/electronic_configuration_of_the_elements.html
     //http://www.ptable.com/Static/interactivity-2fcd37b.js
+    //http://catalog.flatworldknowledge.com/bookhub/4309?e=averill_1.0-ch06_s05
 
 
     var Orbitals = function (data, s) {
