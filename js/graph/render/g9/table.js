@@ -43,7 +43,7 @@ define(['libs/three'], function () {
                     w = 140,
                     h = 180,
                     xMinus = 1330,
-                    yPlus = 1100;
+                    yPlus = 900;
 
                 return function (aNumber, num) {
                     var sphere = new THREE.Mesh(geo, new THREE.MeshBasicMaterial());
@@ -203,6 +203,19 @@ define(['libs/three'], function () {
                 var box = elementsBox[aNumber -1];
                 box.material.opacity = 1;
             }
+        };
+
+        this.higlightElemnts = function (aNumbers, color) {
+
+            elementsBox.forEach(function(box){
+                 box.material.opacity = 0.25;
+            });
+            aNumbers.forEach(function (aNumber) {
+                var box = elementsBox[aNumber -1];
+                box.material.opacity = 1;
+
+            });
+
         };
 
         this.atomCenterAnimation = function (screen) {

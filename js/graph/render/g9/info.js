@@ -10,12 +10,15 @@ define(['utils/utils'], function (_util) {
         function rnd(min, max) {
             return (Math.random() * (max - min + 1)) + min;
         }
+
+        this.app = app;
+
         this.data = app.data;
         //this.screen = screen;
         var ele = app.animate.containerEle;
         var elemntInfo,
             infoPanel;
-        this.addUi = (function () {
+        this.addUi = (function (that) {
             elemntInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
             ele.append(elemntInfo);
 
@@ -37,7 +40,51 @@ define(['utils/utils'], function (_util) {
 
             ele.append(infoPanel);
 
-        }());
+
+            var tree = that.data.tree,
+                groups = {};
+
+            Object.keys(tree).forEach(function (child) {
+
+                var info = $('<div />').addClass('parent'),
+                    parentName = $('<div class="parentName" />').text(child);
+                info.append(parentName);
+                Object.keys(tree[child]).forEach(function (key) {
+                    var keys = $('<div />').addClass('childs').attr('group-name', key.replace(/ /g, '-').toLowerCase()).text(key);
+                    info.append(keys);
+
+                    groups[key.replace(/ /g, '-').toLowerCase()] = tree[child][key];
+                });
+                infoPanel.append(info);
+            });
+
+            $('.parent .childs').on('mouseover', function () {
+                that.highlghtGroup(groups[$(this).attr('group-name')]);
+            });
+
+        }(this));
+
+        this.highlghtGroup = function (nums) {
+
+            var aNumbers = [];
+
+            if (nums[0] === 'G') {
+
+                var elements = this.data.elements;
+                Object.keys(elements).forEach(function (num) {
+                    if (nums[1] === elements[num][4]) {
+                        aNumbers.push(Number(num));
+                    }
+                });
+
+            } else {
+                aNumbers = nums;
+            }
+
+            this.app.table.higlightElemnts(aNumbers);
+
+
+        };
 
         this.addElemntInfo = function (aNumber, mouse) {
 
@@ -78,16 +125,11 @@ define(['utils/utils'], function (_util) {
                 });
             }
 
-
-            this.addOrbitalInfo(aNumber);
         };
 
 
-        this.addOrbitalInfo = function (aNumber) {
-            var eConfiguration = app.atom.electrons.getConfiguration();
+        this.addTopInfoUi = function () {
 
-            console.log(eConfiguration[aNumber])
-            //infoPanel.text(eConfiguration[aNumber])
         };
 
 

@@ -1229,11 +1229,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     position: absolute;
     top: 0px;
     border: 0px;
-    width: 250px;
     background: rgba(126, 1, 29, 0.48);
     left: 0px;
-    bottom: 0px;
-    border-right: 1px solid rgb(162, 53, 78);
+    right: 0;
+    border-bottom: 1px solid rgb(162, 53, 78);
     z-index: 10;
 }
 
@@ -1247,4 +1246,31 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     height: 30px;
     color: #fff;
 }
-
+.infoPlanel .parent {
+    clear: both;
+    height: 45px;
+    padding: 10px;
+    margin: 0px;
+    box-shadow: inset 0 0 11px rgba(255, 255, 255, 0.16);
+    display: inline-block;
+    float: left;
+}
+.infoPlanel .parent >* {
+    float: left;
+    padding: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 12px;
+    margin: 0 5px;
+    background: rgba(253, 249, 218, 0.09);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.13);
+}
+.infoPlanel .parent .parentName {
+    width: 100px;
+    background: none;
+    text-transform: uppercase;
+    border: 0;
+}
+.infoPlanel .parent .childs:hover {
+    background: #3498DB;
+}
