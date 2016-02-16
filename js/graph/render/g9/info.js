@@ -19,7 +19,7 @@ define(['utils/utils'], function (_util) {
             elemntInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
             ele.append(elemntInfo);
 
-            var slevels = [
+            /*var slevels = [
                 '<div class="1s"><span>1s</span><div class="box"></div></div>'
             ];
 
@@ -32,8 +32,8 @@ define(['utils/utils'], function (_util) {
                             <div class="levels P"></div> \
                             <div class="levels Q"></div> \
                         </div>';
-
-            infoPanel = $('<div class="infoPlanel">' + levels + '</div>');
+            */
+            infoPanel = $('<div class="infoPlanel"></div>');
 
             ele.append(infoPanel);
 

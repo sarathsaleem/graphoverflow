@@ -1173,7 +1173,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     color:#fff;
     z-index: 0;
     opacity: 0;
-    transition: all ease-out 1.5s;
+    transition: all ease-out 0.5s;
     padding-left: 10px;
    /* -webkit-animation-name: fall;*/
     -webkit-animation-iteration-count: infinite;
@@ -1225,22 +1225,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     padding: 20px 10px;
 }
 
-.elementLine {
-    background: none repeat scroll 0px 0px transparent;
-    border-top: 2px solid rgba(255, 255, 255, 0.5);
-    display: block;
-    position: absolute;
-    z-index: 9;
-    height: 1px;
-    transform: rotate(0deg);
-    left: 0;
-    top: 0;
-    width: 200px;
-    -webkit-transform-origin: 0 0;
-    -moz-transform-origin: 0 0;
-    transform-origin: 0 0;
-}
-
 .infoPlanel {
     position: absolute;
     top: 0px;
@@ -1249,6 +1233,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     background: rgba(126, 1, 29, 0.48);
     left: 0px;
     bottom: 0px;
+    border-right: 1px solid rgb(162, 53, 78);
+    z-index: 10;
 }
 
 .g9 #stats {
@@ -1257,9 +1243,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', end
     right: 0px;
 }
 .infoPlanel .levels {
-
-    border: 1px solid #fff;
+    border: 1px solid rgba(255, 255, 255, 0.14);
     height: 30px;
-
+    color: #fff;
 }
 
