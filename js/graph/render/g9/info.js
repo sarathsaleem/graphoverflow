@@ -61,10 +61,18 @@ define(['utils/utils'], function (_util) {
             $('.parent .childs').on('mouseover', function () {
                 that.highlghtGroup(groups[$(this).attr('group-name')]);
             });
+            $('.parent .childs').on('mouseout', function () {
+                that.highlghtGroup(0);
+            });
 
         }(this));
 
         this.highlghtGroup = function (nums) {
+
+            if (!nums) {
+                this.app.table.higlightElemnts(0);
+                return;
+            }
 
             var aNumbers = [];
 

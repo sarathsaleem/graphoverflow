@@ -14,7 +14,8 @@ define(['libs/three'], function () {
         var elementsBox = [],
             elementsRefs = [],
             elementsPos = [],
-            elementsGroup = [];
+            elementsGroup = [],
+            elementsGropPos = [];
         var raycaster = new THREE.Raycaster(),
             mouse = new THREE.Vector2(),
             INTERSECTED;
@@ -25,6 +26,10 @@ define(['libs/three'], function () {
         this.subscribe = function (cb) {
             cbs.push(cb);
         };
+
+        function rnd(min, max) {
+            return (Math.random() * (max - min + 1)) + min;
+        }
 
         this.addAtomCenterAnimation = function () {
 
@@ -53,7 +58,8 @@ define(['libs/three'], function () {
                     sphere.aNumber = num + 1;
 
                     var box = new THREE.BoxHelper(sphere);
-                    box.material =  new THREE.LineBasicMaterial({
+                    box.name = "boxHelper";
+                    box.material = new THREE.LineBasicMaterial({
                         color: 0xffffff,
                         opacity: 0.25,
                         transparent: true,
@@ -74,7 +80,7 @@ define(['libs/three'], function () {
                     box.geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
                     elementsBox.push(box);
-                    elementsRefs.push(sphere);//for mouse hover raycaster
+                    elementsRefs.push(sphere); //for mouse hover raycaster
                     elementsPos.push(sphere.position);
 
                     return box;
@@ -145,15 +151,24 @@ define(['libs/three'], function () {
 
                 elementsGroup.push(elementGroup);
 
+                elementGroup.position.setZ(rnd(-10000, 10000));
                 scene.add(elementGroup);
+
             });
+
+            elementsGroup.forEach(function (group, i) {
+                new TWEEN.Tween(group.position).to({
+                    z: 0
+                }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
+            });
+
 
 
             var ele = screen.renderer.domElement;
 
             function onDocumentMouseMove(event) {
                 event.preventDefault();
-                var viewportOffset = ele.getBoundingClientRect();//FIXME: calculate only on resize
+                var viewportOffset = ele.getBoundingClientRect(); //FIXME: calculate only on resize
                 // these are relative to the viewport
                 var top = viewportOffset.top;
                 var left = viewportOffset.left;
@@ -196,25 +211,70 @@ define(['libs/three'], function () {
 
         this.addHoverEffect = function (num) {
             var aNumber = Number(num);
-            elementsBox.forEach(function(box){
-                 box.material.opacity = 0.25;
+            elementsBox.forEach(function (box) {
+                box.material.opacity = 0.25;
             });
-            if (aNumber !== 0 ) {
-                var box = elementsBox[aNumber -1];
+            if (aNumber !== 0) {
+                var box = elementsBox[aNumber - 1];
                 box.material.opacity = 1;
             }
         };
+        this.higlightElemnts = function (aNumbers) {
+            TWEEN.removeAll();
+            if (aNumbers) {
 
-        this.higlightElemnts = function (aNumbers, color) {
+                elementsGroup.forEach(function (group) {
+                    group.traverse(function (node) {
+                        if (node.material && node.name !== 'boxHelper') {
+                            node.material.opacity = 0.25;
+                        }
+                    });
+                });
 
-            elementsBox.forEach(function(box){
-                 box.material.opacity = 0.25;
-            });
-            aNumbers.forEach(function (aNumber) {
-                var box = elementsBox[aNumber -1];
-                box.material.opacity = 1;
+                aNumbers.forEach(function (aNumber) {
 
-            });
+                    var element = elementsGroup[aNumber - 1];
+                    var z = element.position.z;
+                    new TWEEN.Tween(element.position).to({
+                        z: z + 100
+                    }, 1500).easing(TWEEN.Easing.Exponential.Out).start();
+
+                    element.traverse(function (node) {
+                        if (node.material && node.name !== 'boxHelper') {
+                            var opacity = {
+                                opacity: node.material.opacity
+                            };
+                            new TWEEN.Tween(opacity).to({
+                                opacity: 1
+                            }, 1500).easing(TWEEN.Easing.Exponential.Out).onUpdate(function () {
+                                node.material.opacity = this.opacity;
+                            }).start();
+                        }
+                    });
+
+                });
+            } else {
+                elementsGroup.forEach(function (group) {
+
+                    var element = elementsGroup[group.aNumber - 1];
+                    new TWEEN.Tween(element.position).to({
+                        z: 0
+                    }, 1500).easing(TWEEN.Easing.Exponential.Out).start();
+
+                    group.traverse(function (node) {
+                        if (node.material && node.name !== 'boxHelper') {
+                            var opacity = {
+                                opacity: node.material.opacity
+                            };
+                            new TWEEN.Tween(opacity).to({
+                                opacity: 1
+                            }, 1000).easing(TWEEN.Easing.Exponential.Out).onUpdate(function () {
+                                node.material.opacity = this.opacity;
+                            }).start();
+                        }
+                    });
+                });
+            }
 
         };
 

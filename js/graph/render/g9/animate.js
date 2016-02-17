@@ -105,7 +105,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         render();
         stats.update();
         controls.update();
-        //TWEEN.update();
+        TWEEN.update();
 
         if (ctx && ctx.renderUpdates) {
             ctx.renderUpdates.forEach(function (fns) {
