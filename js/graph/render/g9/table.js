@@ -156,12 +156,13 @@ define(['libs/three'], function () {
 
             });
 
-            elementsGroup.forEach(function (group, i) {
-                new TWEEN.Tween(group.position).to({
-                    z: 0
-                }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
-            });
-
+            setTimeout(function () {
+                elementsGroup.forEach(function (group, i) {
+                    new TWEEN.Tween(group.position).to({
+                        z: 0
+                    }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
+                });
+            }, 1000);
 
 
             var ele = screen.renderer.domElement;

@@ -5,7 +5,7 @@ define(['libs/three', 'd3'], function (ignore) {
     "use strict";
 
     //data http://www.periodni.com/electronic_configuration_of_the_elements.html
-    //http://www.ptable.com/Static/interactivity-2fcd37b.js
+    //https://en.wikipedia.org/wiki/List_of_data_references_for_chemical_elements
     //http://catalog.flatworldknowledge.com/bookhub/4309?e=averill_1.0-ch06_s05
 
 
