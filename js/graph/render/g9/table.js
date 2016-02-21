@@ -279,29 +279,6 @@ define(['libs/three'], function () {
 
         };
 
-        this.atomCenterAnimation = function (screen) {
-
-
-            //var geometry = new THREE.BoxHelper(15,15,15);
-
-            var material = new THREE.LineBasicMaterial({
-                color: 0xffffff,
-                opacity: 1,
-                linewidth: 3,
-                vertexColors: THREE.VertexColors
-            });
-
-
-            //circleGeometry.vertices.shift();
-
-            var sphere = new THREE.SphereGeometry(10);
-            var object = new THREE.Mesh(sphere, material);
-            var box = new THREE.BoxHelper(object);
-
-            screen.scene.add(box);
-
-
-        };
         /**
          *
          *
@@ -328,7 +305,6 @@ define(['libs/three'], function () {
 
     Table.prototype.addTable = function (scene) {
         this.addElements(this.elements, scene);
-        //this.atomCenterAnimation(scene);
     };
 
     return Table;

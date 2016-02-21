@@ -24,16 +24,16 @@ define(['libs/three', 'd3'], function (ignore) {
 
         var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20),
             material = new THREE.MeshLambertMaterial({
-                color: '#00ff1d'
+                color: '#2c9037'
             }),
             radius = {
-                'K': 400,
+                'K': 500,
                 'L': 900,
                 'M': 1400,
                 'N': 2000,
                 'O': 2700,
-                'P': 3600,
-                'Q': 4400
+                'P': 3400,
+                'Q': 4200
             },
             speed = {
                 'K': 0.02,
@@ -167,7 +167,9 @@ define(['libs/three', 'd3'], function (ignore) {
         this.addElectronsLevelPath = function (scene, level) {
 
             var material = new THREE.LineBasicMaterial({
-                color: "#0062e8"
+                color: "#ffffff",
+                opacity: 0.25,
+                transparent: true,
             });
             var radius = this.getOribitalRadius(level);
             var segments = 100;
