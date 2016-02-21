@@ -135,6 +135,16 @@ define(['utils/utils'], function (_util) {
 
         };
 
+        this.switchScreen = function (screen) {
+
+            var infoPanel = $('.infoPlanel');
+            if (screen === 1) {
+                infoPanel.fadeIn();
+            } else {
+                infoPanel.fadeOut();
+            }
+
+        };
 
         this.addTopInfoUi = function () {
 

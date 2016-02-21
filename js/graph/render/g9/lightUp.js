@@ -18,7 +18,6 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
             };
         }
 
-
         this.addAmbientLight = function (color) {
             var light = new THREE.AmbientLight(color);
             scene.add(light);
@@ -28,6 +27,9 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
             var light = new THREE.DirectionalLight(color, intensity);
             light.position.set(pos.x, pos.y, pos.z);
             scene.add(light);
+
+            var helper = new THREE.DirectionalLightHelper( light, 3 );
+            scene.add( helper );
             return light;
         };
         this.addHemisphereLight = function (skyColorHex, groundColorHex, intensity) {
@@ -39,6 +41,9 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
             var light = new THREE.PointLight(hex, intensity, distance, decay);
             light.position.set(pos.x, pos.y, pos.z);
             scene.add(light);
+
+            var pointLightHelper = new THREE.PointLightHelper( light, 1 );
+            scene.add( pointLightHelper );
             return light;
         };
 
@@ -56,41 +61,81 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
             light.shadowCameraFov = 30;
 
             scene.add(light);
+
+            var spotLightHelper = new THREE.SpotLightHelper( light );
+            scene.add( spotLightHelper );
+
             return light;
         };
 
         var gui = new dat.GUI({ autoPlace: false });
 
+        this.lights = [];
 
        /* var light = this.addAmbientLight("#595959");
         var f1 = gui.addFolder('AmbientLight');
         f1.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
 */
-        var light2 = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :1});
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :1});
         var f2 = gui.addFolder('DirectionalLight');
-        f2.addColor({ color : light2.color.getHex() }, 'color').onChange(handleColorChange(light2.color));
-        f2.add(light2, 'intensity', 0, 1);
-        f2.add(light2.position, 'x', -2000, 2000).step(1);
-        f2.add(light2.position, 'y', -2000, 2000).step(1);
-        f2.add(light2.position, 'z', -2000, 2000).step(1);
-        f2.add(light2, 'visible');
+        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+        f2.add(light, 'intensity', 0, 1);
+        f2.add(light.position, 'x', -2000, 2000).step(1);
+        f2.add(light.position, 'y', -2000, 2000).step(1);
+        f2.add(light.position, 'z', -2000, 2000).step(1);
+        f2.add(light, 'visible');
+        this.lights.push(light);
 
-        var light2 = this.addDirectionalLight("#ffffff", 1, { x: 1 , y : 0 , z :1});
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 1 , y : 0 , z :1});
         var f2 = gui.addFolder('DirectionalLight2');
-        f2.addColor({ color : light2.color.getHex() }, 'color').onChange(handleColorChange(light2.color));
-        f2.add(light2, 'intensity', 0, 1);
-        f2.add(light2.position, 'x', -2000, 2000).step(1);
-        f2.add(light2.position, 'y', -2000, 2000).step(1);
-        f2.add(light2.position, 'z', -2000, 2000).step(1);
-        f2.add(light2, 'visible');
+        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+        f2.add(light, 'intensity', 0, 1);
+        f2.add(light.position, 'x', -2000, 2000).step(1);
+        f2.add(light.position, 'y', -2000, 2000).step(1);
+        f2.add(light.position, 'z', -2000, 2000).step(1);
+        f2.add(light, 'visible');
+        this.lights.push(light);
 
 
+
+
+        /***********************************************************************************************/
+
+
+        var light = this.addDirectionalLight("#ffffff", 0.7, { x: 0 , y : 0 , z :1500});
+        var f2 = gui.addFolder('DirectionalLight3');
+        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+        f2.add(light, 'intensity', 0, 0.7);
+        f2.add(light.position, 'x', -2000, 2000).step(1);
+        f2.add(light.position, 'y', -2000, 2000).step(1);
+        f2.add(light.position, 'z', -2000, 2000).step(1);
+        f2.add(light, 'visible');
+        this.lights.push(light);
+
+
+        var light = this.addDirectionalLight("#ffffff", 0.7, { x: 0 , y : 0  , z :-1500});
+        var f2 = gui.addFolder('DirectionalLight4');
+        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+        f2.add(light, 'intensity', 0, 0.7);
+        f2.add(light.position, 'x', -2000, 2000).step(1);
+        f2.add(light.position, 'y', -2000, 2000).step(1);
+        f2.add(light.position, 'z', -2000, 2000).step(1);
+        f2.add(light, 'visible');
+        this.lights.push(light);
+
+
+        var light = this.addSpotLight("#ffffff", { x: 0 , y : 0  , z : 0}, true);
+        var f2 = gui.addFolder('SpotLight');
+        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+        f2.add(light.position, 'x', -2000, 2000).step(1);
+        f2.add(light.position, 'y', -2000, 2000).step(1);
+        f2.add(light.position, 'z', -2000, 2000).step(1);
+        f2.add(light, 'visible');
+        this.lights.push(light);
 
         $(container).append(gui.domElement);
 
         gui.close();
-
-
 
 
     };

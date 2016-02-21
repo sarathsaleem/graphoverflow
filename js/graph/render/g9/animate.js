@@ -10,7 +10,8 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         mouse = new THREE.Vector2(),
         controls,
         clock = new THREE.Clock(),
-        renderUpdates = [];
+        renderUpdates = [],
+        lightMe;
 
 
     function rnd(min, max) {
@@ -33,7 +34,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
             antialias: true,
             alpha: true
         });
-        renderer.setClearColor( 0x000000, 0);
+        renderer.setClearColor(0x000000, 0);
 
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
@@ -60,7 +61,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         hemiLight.position.y = 5100;
         //scene.add(hemiLight);
 
-        var lights = new lightUp(scene, containerEle);
+        lightMe = new lightUp(scene, containerEle);
 
 
         stats = new Stats();
@@ -88,6 +89,25 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
     }
 
 
+    var setScreenLighting = function (screen) {
+
+        lightMe.lights.forEach(function (light) {
+            light.visible = false;
+        });
+
+        if (screen === 1) {
+            lightMe.lights[0].visible = true;
+            lightMe.lights[1].visible = true;
+        } else {
+
+            lightMe.lights[2].visible = true;
+            lightMe.lights[3].visible = true;
+            lightMe.lights[4].visible = true;
+
+        }
+    };
+
+
 
 
     //
@@ -107,9 +127,9 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         controls.update();
         TWEEN.update();
 
-        if (ctx && ctx.renderUpdates) {
+        if (ctx && ctx.renderUpdates && ctx.renderUpdates.length) {
             ctx.renderUpdates.forEach(function (fns) {
-                fns();
+                 fns();
             });
         }
 
@@ -137,6 +157,8 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         this.renderer = renderer;
         this.renderUpdates = [];
         this.containerEle = containerEle;
+
+        this.setScreenLighting = setScreenLighting;
 
         animate(this);
 

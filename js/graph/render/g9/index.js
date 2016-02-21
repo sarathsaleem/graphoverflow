@@ -19,23 +19,27 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table
 
         App.info = new Info(App);
 
-        App.animate.renderUpdates = App.animate.renderUpdates.concat(App.atom.renderUpdates , App.table.renderUpdates);
+        App.animate.renderUpdates = [];
+
 
         App.table.subscribe(function(ele,m){
             App.info.addElemntInfo(ele,m);
         });
-        var screen = 0;
-        //screen atom
-        if (screen) {
+
+        var screen = 2;
+
+        if (screen === 1) {
+            App.table.addTable(App.animate);
+            App.animate.renderUpdates = App.table.renderUpdates;
+        } else {
             var atomicNumber = 32;
             App.atom.create(atomicNumber, App.animate.scene);
             App.atom.electrons.bhorModel(atomicNumber, App.animate.scene);
-        } else {
-
-            App.table.addTable(App.animate);
-
+            App.animate.renderUpdates = App.atom.renderUpdates;
         }
 
+        App.animate.setScreenLighting(screen);
+        App.info.switchScreen(screen);
 
         window.App = App;
 
