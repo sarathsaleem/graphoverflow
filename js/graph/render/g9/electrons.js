@@ -139,116 +139,8 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
-
-        var particles = new THREE.BufferGeometry(),
-            particleSystem;
-        this.generateParticles = function (positions, scene) {
-
-            var particleLen = positions.lenth;
-            var attributes = {
-                size: {
-                    type: 'f',
-                    value: []
-                },
-                customColor: {
-                    type: 'c',
-                    value: []
-                }
-            };
-
-            var uniforms = {
-                amplitude: {
-                    type: "f",
-                    value: 1.0
-                },
-                color: {
-                    type: "c",
-                    value: new THREE.Color("#fff")
-                },
-                texture: {
-                    type: "t",
-                    value: THREE.ImageUtils.loadTexture("../templates/images/g6-git/ball.png")
-                }
-            };
-
-            var positions = new Float32Array(particleLen * 3);
-            var colors = new Float32Array(particleLen * 3);
-            var sizes = new Float32Array(particleLen);
-
-
-            //for (var i = 0; i < particleLen; i++) {
-            var color = new THREE.Color();
-
-            for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
-
-                positions[i3 + 0] = positions[i].x;
-                positions[i3 + 1] = positions[i].y;
-                positions[i3 + 2] = positions[i].z;
-
-                color.setHSL(i / particleLen, 1.0, 0.5);
-
-                colors[i3 + 0] = color.r;
-                colors[i3 + 1] = color.g;
-                colors[i3 + 2] = color.b;
-
-                sizes[i] = 20;
-            }
-
-
-            var vertexShader = [
-                    "uniform float amplitude;",
-                    "attribute float size;",
-                    "attribute vec3 customColor;",
-                    "varying vec3 vColor;",
-                    "void main() {",
-                        "vColor = customColor;",
-                        "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-                        "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
-                        " gl_Position = projectionMatrix * mvPosition;",
-                    "}"
-                    ].join("\n"),
-
-                fragmentShader = [
-                    "uniform vec3 color;",
-                    "uniform sampler2D texture;",
-                    "varying vec3 vColor;",
-                    "void main() {",
-                        "gl_FragColor = vec4( color * vColor, 1.0 );",
-                        "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
-                    "}"
-                ].join("\n");
-
-
-
-            var shaderMaterial = new THREE.ShaderMaterial({
-                uniforms: uniforms,
-                //attributes: attributes,
-                vertexShader: vertexShader,
-                fragmentShader: fragmentShader,
-                blending: THREE.AdditiveBlending,
-                depthTest: false,
-                transparent: true
-            });
-
-
-            // particles.colors = colors;
-
-            particles.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particles.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
-            particles.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-
-
-            particleSystem = new THREE.PointCloud(particles, shaderMaterial);
-
-            particleSystem.sortParticles = true;
-            //particleSystem.dynamic = true;
-
-
-
-            scene.add(particleSystem);
-        };
-
+        var texture = new THREE.TextureLoader().load( '../templates/images/g9/glow.png' );
+        material = new THREE.MeshBasicMaterial( { map: texture , overdraw: true} );
         this.addUi_electrons = function (level, positions, scene) {
 
             this.electronsUi[level] = [];
@@ -264,12 +156,10 @@ define(['libs/three', 'd3'], function (ignore) {
 
                 sphere.position.add(vec);
                 this.electronsUi[level].push(sphere);
-                //scene.add(sphere);
+                scene.add(sphere);
 
                 this.addElectronsLevelPath(scene, level);
             }
-
-            this.generateParticles(positions, scene);
         };
 
         /**

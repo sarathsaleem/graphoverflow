@@ -259,16 +259,6 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         function generateParticles(particleLen) {
 
-            var attributes = {
-                size: {
-                    type: 'f',
-                    value: []
-                },
-                customColor: {
-                    type: 'c',
-                    value: []
-                }
-            };
 
             var uniforms = {
                 amplitude: {
@@ -281,7 +271,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 },
                 texture: {
                     type: "t",
-                    value: THREE.ImageUtils.loadTexture("../templates/images/g6-git/ball.png")
+                    value: new THREE.TextureLoader().load("../templates/images/g6-git/ball.png")
                 }
             };
 
