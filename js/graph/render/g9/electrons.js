@@ -139,8 +139,10 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
-        var texture = new THREE.TextureLoader().load( '../templates/images/g9/glow.png' );
-        material = new THREE.MeshBasicMaterial( { map: texture , overdraw: true} );
+        var texture = new THREE.TextureLoader().load( '../templates/images/g9/glow.jpg' );
+
+
+        material = new THREE.MeshLambertMaterial( { map: texture , overdraw: true} );
         this.addUi_electrons = function (level, positions, scene) {
 
             this.electronsUi[level] = [];
@@ -166,22 +168,36 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
+        var levelColors = {};
         this.addElectronsLevelPath = function (scene, level) {
 
-            var material = new THREE.LineBasicMaterial({
-                color: "#ffffff",
-                opacity: 0.25,
-                transparent: true,
-            });
+
             var radius = this.getOribitalRadius(level);
-            var segments = 100;
+            var segments = radius/4;
 
             var circleGeometry = new THREE.CircleGeometry(radius, segments);
+
+            var material = new THREE.LineBasicMaterial({
+                    opacity: 1.55,
+                    transparent: true,
+                    vertexColors: THREE.VertexColors
+                });
+
             // Remove center vertex
             circleGeometry.vertices.shift();
 
+            var positions = circleGeometry.vertices,
+                colors = [];
+            var colorRange = d3.scale.linear().domain([0, positions.length]).range(["#ffffff","#8f0222"]);
+            for (var i = 0; i < positions.length; i++) {
+                var color = new THREE.Color(colorRange(i));
+                colors.push(color);
+            }
+            circleGeometry.colors = colors;
+            circleGeometry.verticesNeedUpdate = true;
             var circle = new THREE.Line(circleGeometry, material);
 
+            levelColors[level] = circle;
             scene.add(circle);
         };
 
@@ -202,6 +218,22 @@ define(['libs/three', 'd3'], function (ignore) {
             }
 
         };
+        function arrayRotate(arr, reverse){
+            if(reverse)
+            arr.unshift(arr.pop());
+            else
+            arr.push(arr.shift());
+        }
+
+        this.spinColors = function (level, speed) {
+            var circle = levelColors[level];
+            for (var i = 0; i < circle.geometry.colors.length; i++) {
+                arrayRotate(circle.geometry.colors);
+                circle.geometry.colors[i] = new THREE.Color();
+            }
+            circle.geometry.verticesNeedUpdate = true;
+
+        };
 
         this.getOribitalRadius = function (level) {
             return radius[level];
@@ -220,6 +252,7 @@ define(['libs/three', 'd3'], function (ignore) {
             for (var i = 0; i < levels.length; i++) {
                 var level = levels[i];
                 //that.spinElectrons(that.electronsUi[level], that.electronsPos[level], that.getOribitalRadius(level), speed[level]);
+                that.spinColors(level);
             }
         };
 

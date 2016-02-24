@@ -124,15 +124,6 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         this.lights.push(light);
 
 
-        var light = this.addSpotLight("#ffffff", { x: 0 , y : 0  , z : 0}, true);
-        var f2 = gui.addFolder('SpotLight');
-        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
-        f2.add(light.position, 'x', -2000, 2000).step(1);
-        f2.add(light.position, 'y', -2000, 2000).step(1);
-        f2.add(light.position, 'z', -2000, 2000).step(1);
-        f2.add(light, 'visible');
-        this.lights.push(light);
-
         $(container).append(gui.domElement);
 
         gui.close();

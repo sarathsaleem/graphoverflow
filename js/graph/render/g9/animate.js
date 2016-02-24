@@ -102,7 +102,6 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
 
             lightMe.lights[2].visible = true;
             lightMe.lights[3].visible = true;
-            lightMe.lights[4].visible = true;
 
         }
     };

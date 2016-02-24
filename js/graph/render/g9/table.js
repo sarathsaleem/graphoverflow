@@ -62,13 +62,11 @@ define(['libs/three'], function () {
                     box.material = new THREE.LineBasicMaterial({
                         color: 0xffffff,
                         opacity: 0.25,
-                        transparent: true,
-                        linewidth: 1,
-                        vertexColors: THREE.VertexColors
+                        transparent: true
                     });
                     box.aNumber = num + 1;
 
-                    var positions = box.geometry.attributes.position.array,
+                   /* var positions = box.geometry.attributes.position.array,
                         colors = new Float32Array(positions.length);
 
                     for (var i = 0, i3 = 0; i < positions.length; i++, i3 += 3) {
@@ -77,7 +75,7 @@ define(['libs/three'], function () {
                         colors[i3 + 1] = color.g;
                         colors[i3 + 2] = color.b;
                     }
-                    box.geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
+                    box.geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));*/
 
                     elementsBox.push(box);
                     elementsRefs.push(sphere); //for mouse hover raycaster
