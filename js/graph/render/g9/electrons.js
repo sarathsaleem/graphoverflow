@@ -22,7 +22,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
 
-        var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20),
+        var geo = new THREE.SphereGeometry(30, 20, 20),
             material = new THREE.MeshLambertMaterial({
                 color: '#2c9037'
             }),
@@ -159,9 +159,9 @@ define(['libs/three', 'd3'], function (ignore) {
                 sphere.position.add(vec);
                 this.electronsUi[level].push(sphere);
                 scene.add(sphere);
-
-                this.addElectronsLevelPath(scene, level);
             }
+
+            this.addElectronsLevelPath(scene, level);
         };
 
         /**
@@ -172,13 +172,14 @@ define(['libs/three', 'd3'], function (ignore) {
         this.addElectronsLevelPath = function (scene, level) {
 
 
-            var radius = this.getOribitalRadius(level);
-            var segments = radius/4;
+            var radius = this.getOribitalRadius(level),
+                breaks = this.electronsUi[level].length,
+                segments = radius*(breaks > 10 ? 8 : 2.5);
 
             var circleGeometry = new THREE.CircleGeometry(radius, segments);
 
             var material = new THREE.LineBasicMaterial({
-                    opacity: 1.55,
+                    opacity: 1,
                     transparent: true,
                     vertexColors: THREE.VertexColors
                 });
@@ -187,11 +188,17 @@ define(['libs/three', 'd3'], function (ignore) {
             circleGeometry.vertices.shift();
 
             var positions = circleGeometry.vertices,
-                colors = [];
-            var colorRange = d3.scale.linear().domain([0, positions.length]).range(["#ffffff","#8f0222"]);
-            for (var i = 0; i < positions.length; i++) {
-                var color = new THREE.Color(colorRange(i));
+                colors = [],
+                breakPoints = positions.length/breaks,
+                colorRange = d3.scale.linear().domain([0, breakPoints]).range(["#04f5ff","#a90329"]);
+
+            for (var i = 0, br = 0; i < positions.length; i++,br++) {
+                if (br >= breakPoints) {
+                    br = 0;
+                }
+                var color = new THREE.Color(colorRange(br));
                 colors.push(color);
+
             }
             circleGeometry.colors = colors;
             circleGeometry.verticesNeedUpdate = true;
@@ -209,7 +216,6 @@ define(['libs/three', 'd3'], function (ignore) {
 
             for (var i = 0; i < elns.length; i++) {
 
-
                 elns[i].currentAngle = elns[i].currentAngle - speed;
 
                 elns[i].position.x = (Math.cos(elns[i].currentAngle) * radius); // - pos[i].x;
@@ -218,21 +224,11 @@ define(['libs/three', 'd3'], function (ignore) {
             }
 
         };
-        function arrayRotate(arr, reverse){
-            if(reverse)
-            arr.unshift(arr.pop());
-            else
-            arr.push(arr.shift());
-        }
+
 
         this.spinColors = function (level, speed) {
             var circle = levelColors[level];
-            for (var i = 0; i < circle.geometry.colors.length; i++) {
-                arrayRotate(circle.geometry.colors);
-                circle.geometry.colors[i] = new THREE.Color();
-            }
-            circle.geometry.verticesNeedUpdate = true;
-
+            circle.rotation.z -= speed;
         };
 
         this.getOribitalRadius = function (level) {
@@ -251,8 +247,8 @@ define(['libs/three', 'd3'], function (ignore) {
             var levels = Object.keys(that.electronsPos);
             for (var i = 0; i < levels.length; i++) {
                 var level = levels[i];
-                //that.spinElectrons(that.electronsUi[level], that.electronsPos[level], that.getOribitalRadius(level), speed[level]);
-                that.spinColors(level);
+                that.spinElectrons(that.electronsUi[level], that.electronsPos[level], that.getOribitalRadius(level), speed[level]);
+                that.spinColors(level, speed[level]);
             }
         };
 
@@ -268,7 +264,7 @@ define(['libs/three', 'd3'], function (ignore) {
         var eConfiguration = this.getConfiguration();
 
         var levelConfig = this.getLevelConfiguration(eConfiguration[atomicNumber]);
-
+        console.log(levelConfig)
 
         var levels = Object.keys(levelConfig);
 

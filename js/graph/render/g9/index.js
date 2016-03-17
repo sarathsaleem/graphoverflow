@@ -26,13 +26,13 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal','../g9/table
             App.info.addElemntInfo(ele,m);
         });
 
-        var screen = 2;
+        var screen = 1;
 
         if (screen === 1) {
             App.table.addTable(App.animate);
             App.animate.renderUpdates = App.table.renderUpdates;
         } else {
-            var atomicNumber = 18;
+            var atomicNumber = 6;
             App.atom.create(atomicNumber, App.animate.scene);
             App.atom.electrons.bhorModel(atomicNumber, App.animate.scene);
             App.animate.renderUpdates = App.atom.renderUpdates;
