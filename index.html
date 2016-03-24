@@ -29,7 +29,7 @@
 
 </head>
 
-<body class="home development">
+<body class="home production">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -77,7 +77,7 @@
     <div class="container">
 
         <ul id="grapsList" class="row">
-            
+
                 <li class="graplist-item stackoverflow programming" id="g1">
                     <a href="./graphs/stackoverflow-tag-relations.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/stackoverflow-tag-relations.png" />
@@ -85,7 +85,7 @@
                         <div class="description" >This graph shows the relation between first 60 tags and each tags first 60 related tags.</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item stackoverflow programming" id="g2">
                     <a href="./graphs/stackoverflow-tag-trending-yearly.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/stackoverflow-tag-trending-yearly.png" />
@@ -93,7 +93,7 @@
                         <div class="description" >You can sort the data in yearly wise by clicking on the bottom year tab. The tags will be rearranged in descending order</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item stackoverflow programming" id="g3">
                     <a href="./graphs/stackoverflow-tag-growth-rate-monthly.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/stackoverflow-tag-growth-rate-monthly.png" />
@@ -101,7 +101,7 @@
                         <div class="description" >This graph shows the growth of tags in each month.The vertical position of circle represent the count of questions in a month.</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item stackoverflow programming" id="g4">
                     <a href="./graphs/stackoverflow-questions-punchcard.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/stackoverflow-questions-punchcard.png" />
@@ -109,7 +109,7 @@
                         <div class="description" >It’s the punch-card visualization of question asked in each day of November-December in 2013</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item filims" id="g5">
                     <a href="./graphs/pulp-fiction.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/255-fuck-in-pulp-fiction.png" />
@@ -117,7 +117,7 @@
                         <div class="description" >The word 'fuck' is used 255 times in the filim Pulp Fiction , checkout the visualization to see when they are</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item github" id="g6">
                     <a href="./graphs/an-hour-on-github.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/visualization-of-an-hour-on-github.png" />
@@ -125,7 +125,7 @@
                         <div class="description" >An hour on github, visualization of events logged in one hour on 12 August 2014 on github.</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item github" id="g7">
                     <a href="./graphs/a-day-on-github.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/a-day-on-github.png" />
@@ -133,7 +133,7 @@
                         <div class="description" >A day on github, visualization of events logged in a day on github.</div>
                     </a>
                 </li>
-             
+
                 <li class="graplist-item music" id="g8">
                     <a href="./graphs/27-club-visualization.html" class="thumbnail">
                         <img class="img-polaroid"  src="templates/images/visualization-27-Club.png" />
@@ -141,15 +141,6 @@
                         <div class="description" >Visualization of 27 Club members, artists name mapped on timeline and cause of death</div>
                     </a>
                 </li>
-             
-                <li class="graplist-item science" id="g9">
-                    <a href="./graphs/3d-periodic-table.html" class="thumbnail">
-                        <img class="img-polaroid"  src="templates/images/visualization-27-Club.png" />
-                        <h2>Periodic table</h2>
-                        <div class="description" >periodic table</div>
-                    </a>
-                </li>
-             
         </ul>
 
     </div>
@@ -173,9 +164,26 @@
 
 
 
-    <script data-main="app"  src="js/libs/require.js"></script>
 
 
+    <script  src="js/libs/require.js"></script>
+    <script  src="js/app-min.js"></script>
+    <script type="text/javascript">
+        require(['app'], function (modules) {
+            var application = modules.App;
+            //application.loadGraph();
+        });
+    </script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-49871946-1', 'graphoverflow.com');
+          ga('send', 'pageview');
+    </script>
 
 
 

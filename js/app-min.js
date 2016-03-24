@@ -1,6 +1,6 @@
 /*
 
-Graphoverflow 2016-02-10 (https://github.com/sarathsaleem/graphoverflow)
+Graphoverflow 2016-03-24 (https://github.com/sarathsaleem/graphoverflow)
     By  
 Sarath Saleem 
 
@@ -4186,6 +4186,7 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
             require(['graph/render/' + that.id], function (render) {
 
                 render(grapData, $(that.graphCanvas)[0]);
+                $(that.graphCanvas).addClass(that.grapSpec.id);
                 if (that.grapSpec.tmpl !== "fullscreen") {
                     that.addFullscreenControls();
                 }
@@ -4196,8 +4197,6 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
         this.addFullscreenControls = function () {
 
             var fullScreenControl = $('<div class="fullscreenControl"></div>');
-
-            $(that.graphCanvas).addClass(this.id);
 
             $(that.graphCanvas).append(fullScreenControl);
 
