@@ -458,7 +458,7 @@ grapgCanvas,
 }
 /* pullfic */
 
-.g5 svg {
+.graphCanvas  svg {
     position: absolute;
     top: 0px;
     left: 0px;
