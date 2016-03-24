@@ -193,19 +193,18 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         //containerEle.append(stats.domElement); :debug
 
 
-        particles = new THREE.Geometry();
+        particles = new THREE.BufferGeometry();
 
 
 
-         var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-        hemiLight.color.setHSL( 0.6, 0.75, 0.5 );
-        hemiLight.groundColor.setHSL( 0.095, 0.5, 0.5 );
-        hemiLight.position.set( 0, 500, 0 );
-        scene.add( hemiLight );
+        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+        hemiLight.color.setHSL(0.6, 0.75, 0.5);
+        hemiLight.groundColor.setHSL(0.095, 0.5, 0.5);
+        hemiLight.position.set(0, 500, 0);
+        scene.add(hemiLight);
 
-       var ambLight = new THREE.AmbientLight(0x404040);
+        var ambLight = new THREE.AmbientLight(0x404040);
         scene.add(ambLight);
-
 
         /*
         STORY:
@@ -247,6 +246,10 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         }
 
         function renderParticles() {
+
+            particles.attributes.position.needsUpdate = true;
+            particles.attributes.customColor.needsUpdate = true;
+
             renderer.render(scene, camera);
             particleSystem.rotation.y += 0.0005;
             particleSystem.rotation.x += 0.0005;
@@ -256,16 +259,6 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
         function generateParticles(particleLen) {
 
-            var attributes = {
-                size: {
-                    type: 'f',
-                    value: []
-                },
-                customColor: {
-                    type: 'c',
-                    value: []
-                }
-            };
 
             var uniforms = {
                 amplitude: {
@@ -278,24 +271,31 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 },
                 texture: {
                     type: "t",
-                    value: THREE.ImageUtils.loadTexture("../templates/images/g6-git/ball.png")
+                    value: new THREE.TextureLoader().load("../templates/images/g6-git/ball.png")
                 }
             };
 
-            values_color = attributes.customColor.value;
-            var values_size = attributes.size.value;
+            var positions = new Float32Array(particleLen * 3);
+            var colors = new Float32Array(particleLen * 3);
+            var sizes = new Float32Array(particleLen);
 
 
-            for (var i = 0; i < particleLen; i++) {
+            //for (var i = 0; i < particleLen; i++) {
+            var color = new THREE.Color();
 
-                var particle = new THREE.Vector3();
-                particles.vertices.push(particle);
-                particles.vertices[i].x = Math.random() * 1000 - 500;
-                particles.vertices[i].y = Math.random() * 1000 - 500;
-                particles.vertices[i].z = Math.random() * 1000 - 500;
+            for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
 
-                values_size[i] = 40;
-                values_color[i] = new THREE.Color();
+                positions[i3 + 0] = Math.random() * 1000 - 500;
+                positions[i3 + 1] = Math.random() * 1000 - 500;
+                positions[i3 + 2] = Math.random() * 1000 - 500;
+
+                color.setHSL(i / particleLen, 1.0, 0.5);
+
+                colors[i3 + 0] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                sizes[i] = 20;
             }
 
 
@@ -326,7 +326,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
             var shaderMaterial = new THREE.ShaderMaterial({
                 uniforms: uniforms,
-                attributes: attributes,
+                //attributes: attributes,
                 vertexShader: vertexShader,
                 fragmentShader: fragmentShader,
                 blending: THREE.AdditiveBlending,
@@ -336,6 +336,11 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
 
             // particles.colors = colors;
+
+            particles.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particles.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+            particles.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
 
 
             particleSystem = new THREE.PointCloud(particles, shaderMaterial);
@@ -406,7 +411,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                     var object = {
                         geo: new THREE.Object3D(),
                         color: color,
-                        name : lan
+                        name: lan
 
                     };
                     object.geo.position.x = left + r * Math.cos(theta) * Math.sin(phi);
@@ -512,24 +517,46 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         }
 
         function changeScene(particeLen, shape, duration) {
+
             TWEEN.removeAll();
 
-            for (var i = 0; i < particeLen; i++) {
+            var color = new THREE.Color();
+            var positions = particles.attributes.position.array;
+            var colors = particles.attributes.customColor.array;
 
-                var particle = particles.vertices[i];
-
-                values_color[i].setStyle(shape[i].color || '#FF0000');
+            for (var i = 0, i3 = 0; i < particeLen; i++, i3 += 3) {
 
                 var target = shape[i].geo;
+                var pos = {
+                    x: positions[i3 + 0],
+                    y: positions[i3 + 1],
+                    z: positions[i3 + 2]
+                };
 
-                new TWEEN.Tween(particle)
+
+                color.setStyle(shape[i].color || '#FF0000');
+                colors[i3 + 0] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                var tween = new TWEEN.Tween(pos)
                     .to({
                         x: target.position.x,
                         y: target.position.y,
                         z: target.position.z
                     }, Math.random() * duration + duration)
-                    .easing(TWEEN.Easing.Exponential.InOut)
-                    .start();
+                    .easing(TWEEN.Easing.Exponential.InOut);
+
+                tween.onUpdate(function (ind, pos) {
+                    return function () {
+                        // console.log(pos);
+                        positions[ind + 0] = pos.x;
+                        positions[ind + 1] = pos.y;
+                        positions[ind + 2] = pos.z;
+                    }
+                }(i3, pos));
+
+                tween.start();
 
             }
 
@@ -602,7 +629,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 changeCameraView(target, 5000);
                 $(container).find('.info-box-wrapper').remove();
 
-                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour on github. This Grid represents the total '+ particleLength + ' events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds. This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"></div></div>';
+                var info = '<div class="info-box-wrapper"><div class="info-box"><h2>An hour on git</h2> <p> Visualizing the actives in an hour on github. This Grid represents the total ' + particleLength + ' events an average of around 120 events in each 30 sec. Each block is the collected event in each 30 seconds. This consists of all events types , check the events buttons for event sorted visualization. </div><div class="hideinfo"></div></div>';
                 $(container).append(info);
 
                 setTimeout(function () {
@@ -647,7 +674,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }
 
                 Object.keys(colorMap).sort(sortLan).forEach(function (lan) {
-                    languages += '<div class="language-color" style="background:' + _util.convertHex(colorMap[lan],70) + '">' + lan + '</div>';
+                    languages += '<div class="language-color" style="background:' + _util.convertHex(colorMap[lan], 70) + '">' + lan + '</div>';
                 });
                 info.find('.info-box').append(languages);
                 $(container).append(info);
@@ -694,7 +721,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 }
 
                 Object.keys(eventMap).sort(sortLan).forEach(function (lan) {
-                    languages += '<div class="language-color" style="background:' + _util.convertHex(eventMap[lan],70) + '">' + lan + '</div>';
+                    languages += '<div class="language-color" style="background:' + _util.convertHex(eventMap[lan], 70) + '">' + lan + '</div>';
                 });
                 info.find('.info-box').append(languages);
                 $(container).append(info);
@@ -715,7 +742,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             });
 
             $('body').on('click', '.hideinfo', function () {
-                if($(this).hasClass('show')) {
+                if ($(this).hasClass('show')) {
                     $(this).parent().find('.info-box').slideDown('slow');
                 } else {
                     $(this).parent().find('.info-box').slideUp('slow');

@@ -28,7 +28,7 @@
 </head>
 
 <body class="<%= env %>">
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
@@ -45,23 +45,8 @@
 
 
     <div class="graphWrapper">
-        <div class="container">
-            <div class="streach"></div>
-            <div class="canvas">
-              <div class="graphCanvas"></div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="heading">
-                <h2> <%= title %> </h2>
-                <%= twitter %>
-                <h4>
-                    <small> <%= description %> </small>
-                </h4>
-            </div>
-        </div>
-        <div class="container" id="graphContent">
-            <%= graphContent %>
+        <div class="canvas">
+          <div class="graphCanvas fullscreen"></div>
         </div>
        <% if (env === "production") { %>
         <div class="comments container">
@@ -102,7 +87,7 @@
 
     <script data-main="app"  src="../js/libs/require.js"></script>
     <script type="text/javascript">
-        require(['app','../js/graph/render/<%= graphId %>'], function (modules,render) {
+        require(['app'], function (modules,render) {
             var application = modules.App;
             application.loadGraph('<%= graphId %>');
             application.dashboard.showGraph('<%= graphId %>');
@@ -115,7 +100,7 @@
     <script src="../js/libs/require.js"></script>
     <script src="../js/app-min.js"></script>
     <script type="text/javascript">
-        require(['app','../js/graph/render/<%= graphId %>'], function (modules,render) {
+        require(['app'], function (modules,render) {
             var application = modules.App;
             application.loadGraph('<%= graphId %>');
             application.dashboard.showGraph('<%= graphId %>');

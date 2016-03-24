@@ -1,6 +1,6 @@
 /*
 
-Graphoverflow 2016-01-04 (https://github.com/sarathsaleem/graphoverflow)
+Graphoverflow 2016-02-10 (https://github.com/sarathsaleem/graphoverflow)
     By  
 Sarath Saleem 
 
@@ -3772,6 +3772,12 @@ define('data/index',['require','knockout'],function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g9') {
+            _u.getData({
+                url: baseUrl + 'p-table.json'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);
@@ -4150,9 +4156,10 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
         this.thumbnail = 'templates/images' + this.id;
         this.description = '';
         this.tags = [];
-        this.date = '01/01/2014';
+        this.date = '01/01/2016';
         this.graphCanvas = '.graphCanvas';
         this.infullScreen = false;
+        this.grapSpec = graph;
 
         this.getJsonData = function (cb) {
 
@@ -4179,8 +4186,9 @@ define('graph/model/graph',['dal/index', 'utils/utils'], function (DAL, _utils) 
             require(['graph/render/' + that.id], function (render) {
 
                 render(grapData, $(that.graphCanvas)[0]);
-
-                that.addFullscreenControls();
+                if (that.grapSpec.tmpl !== "fullscreen") {
+                    that.addFullscreenControls();
+                }
 
             });
         };
@@ -4491,9 +4499,19 @@ define('graph/model/graph-list',[],function () {
             "htmlTitle": "27-club-visualization",
             "twitter" : "<span class=\"twitter-btn\"> <a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-via=\"sarathsaleem\" data-hashtags=\"dataviz,infographics,27club\">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span>",
             "tags": ["music"]
+            },
+          {
+           "id": "g9",
+            "title": "Periodic table",
+            "description": "periodic table",
+            "thumbnail": "templates/images/visualization-27-Club.png",
+            "htmlTitle": "3d-periodic-table",
+            "twitter" : "",
+            "tags": ["science"],
+            "tmpl": "fullscreen"
             }
         ],
-            "tags": ["all", "stackoverflow", "filims", "github", "music"]
+            "tags": ["all", "stackoverflow", "filims", "github", "music", "science"]
         };
     return graphs;
 });
@@ -4514,6 +4532,18 @@ require.config({
     shim: {
         d3: {
             exports: 'd3'
+        },
+        'libs/optimer_bold.typeface': {
+            deps : ['libs/three']
+        },
+        'libs/optimer_regular.typeface': {
+            deps : ['libs/three']
+        },
+        'libs/FontUtils': {
+            deps : ['libs/three']
+        },
+        'libs/TextGeometry': {
+            deps : ['libs/three','libs/FontUtils']
         }
     }
 });

@@ -193,6 +193,15 @@ footer .developedBy {
     box-shadow: 0 8px 6px -6px black;
     overflow: hidden;
 }
+.graphCanvas.fullscreen {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
 .graphCanvas canvas {
     position: absolute;
     top: 0px;
@@ -682,7 +691,7 @@ grapgCanvas,
 .dg.main {
     position: absolute;
     top: 0px;
-    left: 0px;
+    right: 0px;
     z-index: 10000;
 }
 .g6-button {
@@ -1141,4 +1150,127 @@ grapgCanvas,
   z-index: 12;
   top: 40px;
   right: 20px;
+}
+
+
+/* g9 */
+
+.g9 {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
+background: #a90329; /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6-15 */
+background: -webkit-radial-gradient(center, ellipse cover,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+.elementInfo {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: #3498DB;
+    z-index: 1001;
+    color:#fff;
+    z-index: 0;
+    opacity: 0;
+    transition: all ease-out 0.5s;
+    padding-left: 10px;
+   /* -webkit-animation-name: fall;*/
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in;
+}
+@-webkit-keyframes fall {
+  0% { margin:  1px;}
+  25% { margin: 2px; }
+  50% { margin: 3px; }
+  75% { margin: 2px;}
+  100% { margin: 1px; }
+}
+
+.elementInfo .n {
+    font-size: 23px;
+    top: 105px;
+    position: absolute;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+}
+.elementInfo .s {
+    font-size: 40px;
+    top: 50px;
+    position: absolute;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+}
+.elementInfo .num {
+    font-size: 25px;
+    top: 15px;
+    position: absolute;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+}
+.elementInfo .w {
+    font-size: 20px;
+    top: 140px;
+    position: absolute;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+}
+.elementInfo .lc {
+    float: right;
+    padding: 20px 10px;
+}
+
+.infoPlanel {
+    position: absolute;
+    top: 0px;
+    border: 0px;
+    background: rgba(126, 1, 29, 0.48);
+    left: 0px;
+    right: 0;
+    border-bottom: 1px solid rgb(162, 53, 78);
+    z-index: 10;
+}
+
+.g9 #stats {
+    top: auto !important;
+    bottom: 0px;
+    right: 0px;
+}
+.infoPlanel .levels {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    height: 30px;
+    color: #fff;
+}
+.infoPlanel .parent {
+    clear: both;
+    height: 45px;
+    padding: 10px;
+    margin: 0px;
+    box-shadow: inset 0 0 11px rgba(255, 255, 255, 0.16);
+    display: inline-block;
+    float: left;
+}
+.infoPlanel .parent >* {
+    float: left;
+    padding: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 12px;
+    margin: 0 5px;
+    background: rgba(253, 249, 218, 0.09);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.13);
+}
+.infoPlanel .parent .parentName {
+    width: 100px;
+    background: none;
+    text-transform: uppercase;
+    border: 0;
+}
+.infoPlanel .parent .childs:hover {
+    background: #3498DB;
 }

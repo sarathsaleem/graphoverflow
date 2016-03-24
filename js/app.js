@@ -14,6 +14,18 @@ require.config({
     shim: {
         d3: {
             exports: 'd3'
+        },
+        'libs/optimer_bold.typeface': {
+            deps : ['libs/three']
+        },
+        'libs/optimer_regular.typeface': {
+            deps : ['libs/three']
+        },
+        'libs/FontUtils': {
+            deps : ['libs/three']
+        },
+        'libs/TextGeometry': {
+            deps : ['libs/three','libs/FontUtils']
         }
     }
 });

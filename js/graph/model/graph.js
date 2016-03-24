@@ -23,9 +23,10 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
         this.thumbnail = 'templates/images' + this.id;
         this.description = '';
         this.tags = [];
-        this.date = '01/01/2014';
+        this.date = '01/01/2016';
         this.graphCanvas = '.graphCanvas';
         this.infullScreen = false;
+        this.grapSpec = graph;
 
         this.getJsonData = function (cb) {
 
@@ -52,8 +53,10 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
             require(['graph/render/' + that.id], function (render) {
 
                 render(grapData, $(that.graphCanvas)[0]);
-
-                that.addFullscreenControls();
+                $(that.graphCanvas).addClass(that.grapSpec.id);
+                if (that.grapSpec.tmpl !== "fullscreen") {
+                    that.addFullscreenControls();
+                }
 
             });
         };
@@ -61,8 +64,6 @@ define(['dal/index', 'utils/utils'], function (DAL, _utils) {
         this.addFullscreenControls = function () {
 
             var fullScreenControl = $('<div class="fullscreenControl"></div>');
-
-            $(that.graphCanvas).addClass(this.id);
 
             $(that.graphCanvas).append(fullScreenControl);
 

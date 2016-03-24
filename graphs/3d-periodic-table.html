@@ -10,8 +10,8 @@
     <meta name="keywords" content="data visualisation,infographics,JavaScript Charts,D3.js charts">
     <meta name="author" content="sarath saleem">
     <meta property="og:image" content="http://graphoverflow.com/templates/images/visualization-27-Club.png" />
-    <meta property="og:description" content="Visualization of 27 Club members, artists name mapped on timeline and cause of death" />
-    <title>GraphOverflow : 27 Club Visualization</title>
+    <meta property="og:description" content="periodic table" />
+    <title>GraphOverflow : Periodic table</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../theme/images/favicon.ico">
     <!-- Bootstrap core CSS -->
@@ -28,7 +28,7 @@
 </head>
 
 <body class="development">
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
@@ -45,32 +45,10 @@
 
 
     <div class="graphWrapper">
-        <div class="container">
-            <div class="streach"></div>
-            <div class="canvas">
-              <div class="graphCanvas"></div>
-            </div>
+        <div class="canvas">
+          <div class="graphCanvas fullscreen"></div>
         </div>
-        <div class="container">
-            <div class="heading">
-                <h2> 27 Club Visualization </h2>
-                <span class="twitter-btn"> <a href="https://twitter.com/share" class="twitter-share-button" data-via="sarathsaleem" data-hashtags="dataviz,infographics,27club">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span>
-                <h4>
-                    <small> Visualization of 27 Club members, artists name mapped on timeline and cause of death </small>
-                </h4>
-            </div>
-        </div>
-        <div class="container" id="graphContent">
-            <div class="conterntWrapper">
-    <div class="col-md-12">
-        <p>
-            The 27 Club is a term that refers to a number of popular musicians who died at age 27, often as a result of drug and alcohol abuse, or violent means such as homicide or suicide. The number of musicians who have died at this age and the circumstances of many of those deaths have given rise to the idea that premature deaths at this age are unusually common. <a href="http://en.wikipedia.org/wiki/27_Club" target="_blank">[27 Club]</a>
-        </p>
-        <p>This visualization shows the artists name mapped on timeline and cause of death , created with <a href="http://d3js.org/" target="_blank">D3.js</a> </p>
-    </div>
-</div>
-        </div>
-       
+
     </div>
 
     <footer>
@@ -94,12 +72,11 @@
     <script type="text/javascript">
         require(['app'], function (modules,render) {
             var application = modules.App;
-            application.loadGraph('g8');
-            application.dashboard.showGraph('g8');
+            application.loadGraph('g9');
+            application.dashboard.showGraph('g9');
 
         });
     </script>
-
 
 
 
