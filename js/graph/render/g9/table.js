@@ -11,6 +11,7 @@ define(['libs/three'], function () {
 
         this.elements = data.elements;
         this.screen = null;
+        this.stage =  new THREE.Group()
         var elementsBox = [],
             elementsRefs = [],
             elementsPos = [],
@@ -18,7 +19,8 @@ define(['libs/three'], function () {
             elementsGropPos = [];
         var raycaster = new THREE.Raycaster(),
             mouse = new THREE.Vector2(),
-            INTERSECTED;
+            INTERSECTED,
+            currentNumber = null;
 
         this.activeElement = null;
         this.activeNumber = 0;
@@ -40,7 +42,8 @@ define(['libs/three'], function () {
         this.addElements = function (elements, screen) {
             this.screen = screen;
             var scene = screen.scene,
-                dataelemnts = elements;
+                dataelemnts = elements,
+                that = this;
 
             var createElementOutterBox = (function () {
                 var geo = new THREE.SphereGeometry(65, 20, 20),
@@ -66,7 +69,7 @@ define(['libs/three'], function () {
                     });
                     box.aNumber = num + 1;
 
-                   /* var positions = box.geometry.attributes.position.array,
+                    /* var positions = box.geometry.attributes.position.array,
                         colors = new Float32Array(positions.length);
 
                     for (var i = 0, i3 = 0; i < positions.length; i++, i3 += 3) {
@@ -150,9 +153,10 @@ define(['libs/three'], function () {
                 elementsGroup.push(elementGroup);
 
                 elementGroup.position.setZ(rnd(-10000, 10000));
-                scene.add(elementGroup);
-
+                that.stage.add(elementGroup);
             });
+
+            scene.add(this.stage);
 
             setTimeout(function () {
                 elementsGroup.forEach(function (group, i) {
@@ -180,20 +184,29 @@ define(['libs/three'], function () {
                 mouse.cy = cY;
 
             }
-            ele.addEventListener('mousemove', onDocumentMouseMove, false);
 
+
+            function onDocumentClick() {
+                if (currentNumber) {
+                    that.clickElement(currentNumber);
+                }
+            }
+
+            $(ele).on('mousemove', onDocumentMouseMove);
+            $(ele).on('click', onDocumentClick);
 
 
         };
-        var currentNumber = null;
         this.hoverElement = function (elementBox, mouse) {
             var that = this;
             if (elementBox) {
                 this.activeElement = elementBox;
                 this.activeNumber = elementBox.aNumber;
+                document.body.style.cursor = 'pointer';
             } else {
                 this.activeElement = null;
                 this.activeNumber = 0;
+                document.body.style.cursor = 'default';
             }
 
             if (this.activeNumber !== currentNumber) {
@@ -275,6 +288,23 @@ define(['libs/three'], function () {
                 });
             }
 
+        };
+
+        var inScreenChnage = false;
+        this.clickElement = function (currentElement) {
+            if (inScreenChnage) {
+                return;
+            }
+
+            inScreenChnage = true;
+            elementsGroup.forEach(function (group, i) {
+                new TWEEN.Tween(group.position).to({
+                    z: 5000
+                }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
+            });
+            setTimeout(function() {
+                that.stage.visible = false;
+            }, 5000);
         };
 
         /**

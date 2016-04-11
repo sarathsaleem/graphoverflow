@@ -5,6 +5,20 @@ define(['utils/utils'], function (_util) {
 
     "use strict";
 
-    return function(){};
+    return function () {
+
+        this.changeScreen = function (screen) {
+            if (this.OnScreenChange && typeof this.OnScreenChange === 'function') {
+                this.OnScreenChange(screen);
+            }
+        };
+
+        this.initScreen = function () {
+            this.changeScreen(1);
+        };
+
+
+
+    };
 
 });
