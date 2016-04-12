@@ -299,17 +299,25 @@ define(['libs/three'], function () {
             if (inScreenChnage) {
                 return;
             }
-
             inScreenChnage = true;
-            elementsGroup.forEach(function (group, i) {
-                new TWEEN.Tween(group.position).to({
-                    z: 5000
-                }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
+            that.app.screen.changeScreen(2);
+            inScreenChnage = false;
+            that.hoverElement(false);
+        };
+
+        this.show = function () {
+            this.stage.visible = true;
+            new TWEEN.Tween(this.stage.position).to({
+                z: 0
+            }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
+        };
+
+        this.hide = function () {
+            new TWEEN.Tween(this.stage.position).to({
+                z: -50000
+            }, 2000).easing(TWEEN.Easing.Exponential.Out).start().onComplete(function () {
+                 that.stage.visible = false;
             });
-            setTimeout(function() {
-                that.stage.visible = false;
-                that.app.screen.changeScreen(2);
-            }, 2000);
         };
 
         /**

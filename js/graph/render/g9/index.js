@@ -26,14 +26,22 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
             App.info.addElemntInfo(ele, m);
         });
 
+        App.table.addTable(App.animate);
+        var atomicNumber = 48;
+        App.atom.create(atomicNumber, App.animate.scene);
+        App.atom.electrons.bhorModel(atomicNumber, App.animate.scene);
+
+
+
+
         App.screen.OnScreenChange = function (screenNum) {
             if (screenNum === 1) {
-                App.table.addTable(App.animate);
+                App.table.show();
+                App.atom.hide();
                 App.animate.renderUpdates = App.table.renderUpdates;
             } else {
-                var atomicNumber = 6;
-                App.atom.create(atomicNumber, App.animate.scene);
-                App.atom.electrons.bhorModel(atomicNumber, App.animate.scene);
+                App.atom.show();
+                App.table.hide();
                 App.animate.renderUpdates = App.atom.renderUpdates;
             }
 

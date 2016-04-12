@@ -22,7 +22,7 @@ define(['utils/utils'], function (_util) {
             elementScreen;
 
         setTimeout(function () {
-            that.ele.css('transition','background ease-in 1s');
+
         }, 1000);
 
         this.addUi = (function (that) {
@@ -147,11 +147,15 @@ define(['utils/utils'], function (_util) {
             var infoPanel = $('.infoPlanel');
             if (screen === 1) {
                 infoPanel.fadeIn();
-                elementInfo.fadeIn();
+                this.ele.css('background','#a90329');
             } else {
-                infoPanel.fadeOut();
-                elementInfo.fadeOut();
-                this.ele.css('background','radial-gradient(ellipse at center,  #000 0%,#000 44%,#000 100%);');
+                 this.ele.css('background','#a90329');
+                 infoPanel.fadeOut();
+                 this.addElemntInfo(0);
+                setTimeout(function(){
+                    that.ele.css('transition','background ease-in 2s');
+                    that.ele.css('background','#000');
+                },10);
             }
 
         };

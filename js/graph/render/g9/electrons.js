@@ -11,7 +11,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
     var Orbitals = function (data, s) {
 
-        this.scene = s;
+        this.stage = s;
         var that = this;
         var electronstring = data.electronstring,
             notations = data.electronstringNotations;
@@ -158,9 +158,8 @@ define(['libs/three', 'd3'], function (ignore) {
 
                 sphere.position.add(vec);
                 this.electronsUi[level].push(sphere);
-                scene.add(sphere);
+                this.stage.add(sphere);
             }
-
             this.addElectronsLevelPath(scene, level);
         };
 
@@ -205,7 +204,8 @@ define(['libs/three', 'd3'], function (ignore) {
             var circle = new THREE.Line(circleGeometry, material);
 
             levelColors[level] = circle;
-            scene.add(circle);
+            this.stage.add(circle);
+            scene.add(this.stage);
         };
 
         /**
@@ -264,7 +264,6 @@ define(['libs/three', 'd3'], function (ignore) {
         var eConfiguration = this.getConfiguration();
 
         var levelConfig = this.getLevelConfiguration(eConfiguration[atomicNumber]);
-        console.log(levelConfig)
 
         var levels = Object.keys(levelConfig);
 

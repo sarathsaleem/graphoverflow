@@ -7,7 +7,9 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
     var Atom = function (data) {
 
 
-        this.electrons = new Electrons(data);
+        this.stage =  new THREE.Group();
+
+        this.electrons = new Electrons(data, this.stage);
 
         var nucelionsPos = [];
         var coolingFactor = 1;
@@ -113,10 +115,29 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
                 sphere.position.add(vec);
 
                 nuleionsUi.push(sphere);
-                scene.add(sphere);
+                this.stage.add(sphere);
             }
 
+            scene.add(this.stage);
 
+            this.stage.position.z = -10000;
+            this.stage.visible = false;
+
+        };
+
+        this.show = function () {
+            this.stage.visible = true;
+            new TWEEN.Tween(this.stage.position).to({
+                z: 0
+            }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
+        };
+
+        this.hide = function () {
+            new TWEEN.Tween(this.stage.position).to({
+                z: -50000
+            }, 2000).easing(TWEEN.Easing.Exponential.Out).start().onComplete(function () {
+                 that.stage.visible = false;
+            });
         };
 
         this.moveTo = function (pos) {
