@@ -12,15 +12,22 @@ define(['utils/utils'], function (_util) {
         }
 
         this.app = app;
+        var that = this;
 
         this.data = app.data;
         //this.screen = screen;
-        var ele = app.animate.containerEle;
-        var elemntInfo,
-            infoPanel;
+        var ele = this.ele = app.animate.containerEle;
+        var elementInfo,
+            infoPanel,
+            elementScreen;
+
+        setTimeout(function () {
+            that.ele.css('transition','background ease-in 1s');
+        }, 1000);
+
         this.addUi = (function (that) {
-            elemntInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
-            ele.append(elemntInfo);
+            elementInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
+            ele.append(elementInfo);
 
             /*var slevels = [
                 '<div class="1s"><span>1s</span><div class="box"></div></div>'
@@ -106,11 +113,11 @@ define(['utils/utils'], function (_util) {
 
 
                 var element = this.data.elements[aNumber];
-                elemntInfo.find('.n').text(element[1]);
-                elemntInfo.find('.s').text(element[0]);
-                elemntInfo.find('.w').text(element[2]);
-                elemntInfo.find('.num').text(aNumber);
-                elemntInfo.find('.lc').html(levelConfig.join('</br>'));
+                elementInfo.find('.n').text(element[1]);
+                elementInfo.find('.s').text(element[0]);
+                elementInfo.find('.w').text(element[2]);
+                elementInfo.find('.num').text(aNumber);
+                elementInfo.find('.lc').html(levelConfig.join('</br>'));
 
                 var x = mouse.cx,
                     y = mouse.cy,
@@ -120,14 +127,14 @@ define(['utils/utils'], function (_util) {
                 x = x + 250 > sx ? x - 250 : x + 50;
                 y = y + 250 > sy ? y - 250 : y + 50;
 
-                elemntInfo.css({
+                elementInfo.css({
                     zIndex: 30,
                     opacity: 1,
                     "transform": "translate3d(" + x + "px, " + y + "px, 0px)"
                 });
 
             } else {
-                elemntInfo.css({
+                elementInfo.css({
                     opacity: 0,
                     zIndex: 0
                 });
@@ -140,13 +147,18 @@ define(['utils/utils'], function (_util) {
             var infoPanel = $('.infoPlanel');
             if (screen === 1) {
                 infoPanel.fadeIn();
+                elementInfo.fadeIn();
             } else {
                 infoPanel.fadeOut();
+                elementInfo.fadeOut();
+                this.ele.css('background','radial-gradient(ellipse at center,  #000 0%,#000 44%,#000 100%);');
             }
 
         };
 
-        this.addTopInfoUi = function () {
+        this.addElemntPanel = function (aNumnber) {
+
+            elementScreen =  $('<div class="elementScreen"><div class="leftArr"></div><div class="rightArr"></div><div class="backToScreen"></div>"</div>');
 
         };
 

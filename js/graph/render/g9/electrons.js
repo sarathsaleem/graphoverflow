@@ -190,7 +190,7 @@ define(['libs/three', 'd3'], function (ignore) {
             var positions = circleGeometry.vertices,
                 colors = [],
                 breakPoints = positions.length/breaks,
-                colorRange = d3.scale.linear().domain([0, breakPoints]).range(["#04f5ff","#a90329"]);
+                colorRange = d3.scale.linear().domain([0, breakPoints]).range(["#04f5ff","#000000"]);
 
             for (var i = 0, br = 0; i < positions.length; i++,br++) {
                 if (br >= breakPoints) {

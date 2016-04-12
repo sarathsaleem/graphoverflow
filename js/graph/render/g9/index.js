@@ -13,7 +13,7 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.screen = new Screen();
         App.dal = new Dal();
 
-        App.table = new Table(App.data);
+        App.table = new Table(App);
 
         App.atom = new Atom(App.data);
 

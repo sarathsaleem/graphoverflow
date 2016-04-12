@@ -5,13 +5,16 @@ define(['libs/three'], function () {
 
     "use strict";
 
-    var Table = function (data) {
+    var Table = function (app) {
 
         var that = this;
 
+        this.app = app;
+        var data = app.data;
+
         this.elements = data.elements;
         this.screen = null;
-        this.stage =  new THREE.Group()
+        this.stage =  new THREE.Group();
         var elementsBox = [],
             elementsRefs = [],
             elementsPos = [],
@@ -25,6 +28,7 @@ define(['libs/three'], function () {
         this.activeElement = null;
         this.activeNumber = 0;
         var cbs = [];
+
         this.subscribe = function (cb) {
             cbs.push(cb);
         };
@@ -300,11 +304,12 @@ define(['libs/three'], function () {
             elementsGroup.forEach(function (group, i) {
                 new TWEEN.Tween(group.position).to({
                     z: 5000
-                }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
+                }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
             });
             setTimeout(function() {
                 that.stage.visible = false;
-            }, 5000);
+                that.app.screen.changeScreen(2);
+            }, 2000);
         };
 
         /**
