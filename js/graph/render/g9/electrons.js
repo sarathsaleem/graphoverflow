@@ -265,6 +265,7 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          */
         var levelColors = {};
+        var circle,alphas;
         this.addElectronsLevelPath = function (scene, level) {
 
 
@@ -274,16 +275,47 @@ define(['libs/three', 'd3'], function (ignore) {
 
             var circleGeometry = new THREE.CircleGeometry(radius, segments);
 
+             // add an attribute
+            var numVertices = circleGeometry.vertices.count;
+            alphas = new Float32Array( numVertices * 1 ); // 1 values per vertex
+
+            for( var i = 0; i < numVertices; i ++ ) {
+
+                // set alpha randomly
+                alphas[ i ] = Math.random();
+
+            }
+
+            circleGeometry.addAttribute( 'alpha', new THREE.BufferAttribute( alphas, 1 ) );
+
+            // uniforms
+            uniforms = {
+
+                color: { type: "c", value: new THREE.Color( 0x00ff00 ) },
+
+            };
+
+            // point cloud material
+            var shaderMaterial = new THREE.ShaderMaterial( {
+
+                uniforms:       uniforms,
+                vertexShader:   document.getElementById( 'vertexshader' ).textContent,
+                fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+                transparent:    true
+
+            });
+
+/*
             var material = new THREE.LineBasicMaterial({
                     opacity: 1,
                     transparent: true,
                     vertexColors: THREE.VertexColors
-                });
+                });*/
 
             // Remove center vertex
             circleGeometry.vertices.shift();
 
-            var positions = circleGeometry.vertices,
+           /* var positions = circleGeometry.vertices,
                 colors = [],
                 breakPoints = positions.length/breaks,
                 colorRange = d3.scale.linear().domain([0, breakPoints/2, breakPoints]).range(["#04f5ff", "#3498DB" ,  "#3498DB"]);
@@ -297,8 +329,8 @@ define(['libs/three', 'd3'], function (ignore) {
 
             }
             circleGeometry.colors = colors;
-            circleGeometry.verticesNeedUpdate = true;
-            var circle = new THREE.Line(circleGeometry, material);
+            circleGeometry.verticesNeedUpdate = true;*/
+            circle = new THREE.Line(circleGeometry, shaderMaterial);
 
             levelColors[level] = circle;
             this.stage.add(circle);
@@ -368,6 +400,23 @@ define(['libs/three', 'd3'], function (ignore) {
             that.spinElectrons();
             particles.attributes.position.needsUpdate = true;
             particles.attributes.customColor.needsUpdate = true;
+
+
+            var alphas = circle.geometry.attributes.alpha;
+            var count = alphas.count;
+
+            for( var i = 0; i < count; i ++ ) {
+
+                // dynamically change alphas
+                alphas.array[ i ] *= 0.95;
+
+                if ( alphas.array[ i ] < 0.01 ) {
+                    alphas.array[ i ] = 1.0;
+                }
+
+            }
+
+            alphas.needsUpdate = true; // important!
 
         };
 
