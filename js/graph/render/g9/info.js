@@ -154,7 +154,7 @@ define(['utils/utils'], function (_util) {
                  this.addElemntInfo(0);
                 setTimeout(function(){
                     that.ele.css('transition','background ease-in 2s');
-                    that.ele.css('background','#000');
+                    that.ele.css('background','#3498DB');
                 },10);
             }
 

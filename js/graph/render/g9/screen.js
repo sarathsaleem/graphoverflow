@@ -14,7 +14,7 @@ define(['utils/utils'], function (_util) {
         };
 
         this.initScreen = function () {
-            this.changeScreen(1);
+            this.changeScreen(2);
         };
 
 
