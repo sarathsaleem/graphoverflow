@@ -22,7 +22,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
 
-        var geo = new THREE.SphereGeometry(30, 20, 20),
+        var geo = new THREE.SphereGeometry(10, 20, 20),
             material = new THREE.MeshLambertMaterial({
                 color: '#2c9037'
             }),
@@ -139,28 +139,125 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
-        var texture = new THREE.TextureLoader().load( '../templates/images/g9/glow.jpg' );
+        var uniforms = {
+            amplitude: {
+                type: "f",
+                value: 1.0
+            },
+            color: {
+                type: "c",
+                value: new THREE.Color("#fff")
+            },
+            texture: {
+                type: "t",
+                value:  new THREE.TextureLoader().load( '../templates/images/g9/electron.png' )
+            }
+        };
+
+        var vertexShader = [
+                "uniform float amplitude;",
+                "attribute float size;",
+                "attribute vec3 customColor;",
+                "varying vec3 vColor;",
+                "void main() {",
+                    "vColor = customColor;",
+                    "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+                    "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
+                    " gl_Position = projectionMatrix * mvPosition;",
+                "}"
+                ].join("\n"),
+
+            fragmentShader = [
+                "uniform vec3 color;",
+                "uniform sampler2D texture;",
+                "varying vec3 vColor;",
+                "void main() {",
+                    "gl_FragColor = vec4( color * vColor, 1.0 );",
+                    "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
+                "}"
+            ].join("\n");
 
 
-        material = new THREE.MeshLambertMaterial( { map: texture , overdraw: true} );
+
+       var shaderMaterial = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            //attributes: attributes,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            blending: THREE.AdditiveBlending,
+            //depthTest:false,
+            transparent: true
+        });
+
+
+
+        var particles = new THREE.BufferGeometry(),
+            totoalPos = 0,
+            positionsArr = [],
+            posArr;
+
+
+        material = new THREE.MeshBasicMaterial( {color: '#005f0b'} );
         this.addUi_electrons = function (level, positions, scene) {
 
             this.electronsUi[level] = [];
 
-            for (var i = 0; i < positions.length; i++) {
 
-                var sphere = new THREE.Mesh(geo, material);
+            var particleLen = positions.length;
+            totoalPos += particleLen;
+            positionsArr = positionsArr.concat(positions);
 
+
+            for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
+                var sphere = new THREE.Mesh(geo,  material);
                 var vec = new THREE.Vector3(positions[i].x, positions[i].y, positions[i].z);
+                sphere.position.add(vec);
 
                 sphere.initAngle = this.getCurrentAngle(positions[i].x, positions[i].y);
                 sphere.currentAngle = sphere.initAngle;
 
-                sphere.position.add(vec);
                 this.electronsUi[level].push(sphere);
                 this.stage.add(sphere);
             }
+
             this.addElectronsLevelPath(scene, level);
+        };
+
+        this.addElectronsToScreen = function () {
+
+            posArr = new Float32Array(totoalPos * 3);
+            var colors = new Float32Array(totoalPos * 3);
+            var sizes = new Float32Array(totoalPos);
+
+            var color = new THREE.Color();
+
+            for (var i = 0, i3 = 0; i < totoalPos; i++, i3 += 3) {
+
+                posArr[i3 + 0] = positionsArr[i].x;
+                posArr[i3 + 1] = positionsArr[i].y;
+                posArr[i3 + 2] = 0;
+
+                color.setStyle('#008e10');
+                colors[i3 + 0] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                sizes[i] = 500;
+            }
+
+
+            var particleSystem = new THREE.Points(particles, shaderMaterial);
+
+            particleSystem.sortParticles = true;
+
+
+            particles.addAttribute('position', new THREE.BufferAttribute(posArr, 3));
+            particles.addAttribute('customColor', new THREE.BufferAttribute(colors, 3));
+            particles.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+
+            this.stage.add(particleSystem);
+
         };
 
         /**
@@ -189,7 +286,7 @@ define(['libs/three', 'd3'], function (ignore) {
             var positions = circleGeometry.vertices,
                 colors = [],
                 breakPoints = positions.length/breaks,
-                colorRange = d3.scale.linear().domain([0, breakPoints]).range(["#04f5ff","#000000"]);
+                colorRange = d3.scale.linear().domain([0, breakPoints/2, breakPoints]).range(["#04f5ff", "#3498DB" ,  "#3498DB"]);
 
             for (var i = 0, br = 0; i < positions.length; i++,br++) {
                 if (br >= breakPoints) {
@@ -212,15 +309,33 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
-        this.spinElectrons = function (elns, pos, radius, speed) {
+        this.spinElectrons = function () {
 
-            for (var i = 0; i < elns.length; i++) {
+            var levels = Object.keys(that.electronsPos),
+                i3 = 0;
 
-                elns[i].currentAngle = elns[i].currentAngle - speed;
+            for (var i = 0; i < levels.length; i++) {
 
-                elns[i].position.x = (Math.cos(elns[i].currentAngle) * radius); // - pos[i].x;
-                elns[i].position.y = (Math.sin(elns[i].currentAngle) * radius); // - pos[i].y;
-                elns[i].position.z = 0; //(Math.cos(speed * t) * radius);
+                var level = levels[i];
+                var elns = that.electronsUi[level],
+                    radius = that.getOribitalRadius(level),
+                    sp = speed[level];
+
+                for (var j = 0; j < elns.length; j++, i3 += 3) {
+
+                    elns[j].currentAngle = elns[j].currentAngle - sp;
+
+                    elns[j].position.x = (Math.cos(elns[j].currentAngle) * radius); // - pos[i].x;
+                    elns[j].position.y = (Math.sin(elns[j].currentAngle) * radius); // - pos[i].y;
+                    elns[j].position.z = 0;
+
+
+                    posArr[i3 + 0] = (Math.cos(elns[j].currentAngle) * radius); // - pos[i].x;
+                    posArr[i3 + 1] = (Math.sin(elns[j].currentAngle) * radius); // - pos[i].y;
+                    posArr[i3 + 2] = 0;
+
+                }
+
             }
 
         };
@@ -245,11 +360,15 @@ define(['libs/three', 'd3'], function (ignore) {
             }
 
             var levels = Object.keys(that.electronsPos);
+
             for (var i = 0; i < levels.length; i++) {
                 var level = levels[i];
-                that.spinElectrons(that.electronsUi[level], that.electronsPos[level], that.getOribitalRadius(level), speed[level]);
                 that.spinColors(level, speed[level]);
             }
+            that.spinElectrons();
+            particles.attributes.position.needsUpdate = true;
+            particles.attributes.customColor.needsUpdate = true;
+
         };
 
         this.renderUpdates = [this.render];
@@ -271,12 +390,12 @@ define(['libs/three', 'd3'], function (ignore) {
 
             var level = levels[i],
                 radius = this.getOribitalRadius(level);
-
             this.electronsPos[level] = this.getSpherePositions(levelConfig[level], radius);
-
             this.addUi_electrons(level, this.electronsPos[level], scene);
 
         }
+
+        this.addElectronsToScreen();
 
     };
 
