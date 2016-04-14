@@ -18,7 +18,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
         this.electronsUi = {};
         this.electronsPos = {};
-        this.spin = true;
+        this.spin = false;
 
 
 
@@ -265,7 +265,7 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          */
         var levelColors = {};
-        var circle,alphas;
+        var circle;
         this.addElectronsLevelPath = function (scene, level) {
 
 
@@ -273,16 +273,19 @@ define(['libs/three', 'd3'], function (ignore) {
                 breaks = this.electronsUi[level].length,
                 segments = radius*(breaks > 10 ? 8 : 2.5);
 
-            var circleGeometry = new THREE.CircleGeometry(radius, segments);
+            var geom = new THREE.CircleGeometry(radius, segments);
+            geom.vertices.shift();
+
+            var circleGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.CircleGeometry(radius, segments));
 
              // add an attribute
-            var numVertices = circleGeometry.vertices.count;
-            alphas = new Float32Array( numVertices * 1 ); // 1 values per vertex
+            var numVertices = circleGeometry.attributes.position.length;
+            var alphas = new Float32Array( numVertices ); // 1 values per vertex
 
-            for( var i = 0; i < numVertices; i ++ ) {
+            for ( var i = 0; i < numVertices; i ++ ) {
 
                 // set alpha randomly
-                alphas[ i ] = Math.random();
+                alphas[i] = 1;
 
             }
 
@@ -291,7 +294,7 @@ define(['libs/three', 'd3'], function (ignore) {
             // uniforms
             uniforms = {
 
-                color: { type: "c", value: new THREE.Color( 0x00ff00 ) },
+                color: { type: "c", value: new THREE.Color( "#004548" ) },
 
             };
 
@@ -313,7 +316,6 @@ define(['libs/three', 'd3'], function (ignore) {
                 });*/
 
             // Remove center vertex
-            circleGeometry.vertices.shift();
 
            /* var positions = circleGeometry.vertices,
                 colors = [],
@@ -330,7 +332,7 @@ define(['libs/three', 'd3'], function (ignore) {
             }
             circleGeometry.colors = colors;
             circleGeometry.verticesNeedUpdate = true;*/
-            circle = new THREE.Line(circleGeometry, shaderMaterial);
+            circle = new THREE.Points(circleGeometry, shaderMaterial);
 
             levelColors[level] = circle;
             this.stage.add(circle);
@@ -408,10 +410,10 @@ define(['libs/three', 'd3'], function (ignore) {
             for( var i = 0; i < count; i ++ ) {
 
                 // dynamically change alphas
-                alphas.array[ i ] *= 0.95;
+               // alphas.array[ i ] *= 0.95;
 
                 if ( alphas.array[ i ] < 0.01 ) {
-                    alphas.array[ i ] = 1.0;
+               //     alphas.array[ i ] = 1.0;
                 }
 
             }
