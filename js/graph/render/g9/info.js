@@ -165,8 +165,12 @@ define(['utils/utils'], function (_util) {
 
         };
 
-        this.showElemntInfo = function (aNumber, mouse) {
-            elementInfo.addClass('active');
+        this.showElementInfo = function (aNumber, mouse) {
+            elementInfo.addClass('active').css({
+                    zIndex: 30,
+                    opacity: 1,
+                    "transform": "translate3d(50%, 50%, 0)"
+                });
         };
 
         this.switchScreen = function (screen) {
