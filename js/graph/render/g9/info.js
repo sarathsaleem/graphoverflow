@@ -26,7 +26,30 @@ define(['utils/utils'], function (_util) {
         }, 1000);
 
         this.addUi = (function (that) {
-            elementInfo = $('<div class="elementInfo"><span class="n"></span><span class="s"></span><span class="num"></span><span class="w"></span><span class="lc"></span></div>');
+            var htmlTmpl = ' \
+                     <div class="elementInfo"> \
+                        <p> \
+                            <span class="label">Atomic number :</span> \
+                            <span class="prop num"></span> \
+                        </p> \
+                        <p> \
+                            <span class="label">Name :</span> \
+                            <span class="prop n"></span> \
+                        </p> \
+                        <p> \
+                            <span class="label">Symbol :</span> \
+                            <span class="prop s"></span> \
+                         </p> \
+                        <p> \
+                            <span class="label">Atomic weight :</span> \
+                            <span class="prop w"></span> \
+                        </p> \
+                        <p class="eConfig"> \
+                            <span class="label">Electronic configuration</span>  \
+                            <span class="prop lc"></span> \
+                        </p> \
+                    </div>';
+            elementInfo = $(htmlTmpl);
             ele.append(elementInfo);
 
             /*var slevels = [
@@ -142,12 +165,16 @@ define(['utils/utils'], function (_util) {
 
         };
 
+        this.showElemntInfo = function (aNumber, mouse) {
+            elementInfo.addClass('active');
+        };
+
         this.switchScreen = function (screen) {
 
             var infoPanel = $('.infoPlanel');
             if (screen === 1) {
                 infoPanel.fadeIn();
-                this.ele.css('background','#a90329');
+                this.ele.css('background','radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%)');
             } else {
                  this.ele.css('background','#a90329');
                  infoPanel.fadeOut();

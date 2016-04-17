@@ -14,11 +14,12 @@ define(['libs/three', 'd3'], function (ignore) {
         this.stage = s;
         var that = this;
         var electronstring = data.electronstring,
-            notations = data.electronstringNotations;
+            notations = data.electronstringNotations,
+            levelColors = {};
 
         this.electronsUi = {};
         this.electronsPos = {};
-        this.spin = false;
+        this.spin = true;
 
 
 
@@ -237,7 +238,7 @@ define(['libs/three', 'd3'], function (ignore) {
                 posArr[i3 + 1] = positionsArr[i].y;
                 posArr[i3 + 2] = 0;
 
-                color.setStyle('#008e10');
+                color.setStyle('#3498DB');
                 colors[i3 + 0] = color.r;
                 colors[i3 + 1] = color.g;
                 colors[i3 + 2] = color.b;
@@ -264,8 +265,7 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
-        var levelColors = {};
-        var circle;
+
         this.addElectronsLevelPath = function (scene, level) {
 
 
@@ -273,54 +273,20 @@ define(['libs/three', 'd3'], function (ignore) {
                 breaks = this.electronsUi[level].length,
                 segments = radius*(breaks > 10 ? 8 : 2.5);
 
-            var geom = new THREE.CircleGeometry(radius, segments);
-            geom.vertices.shift();
+            var circleGeometry = new THREE.CircleGeometry(radius, segments);
+            circleGeometry.vertices.shift();
 
-            var circleGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.CircleGeometry(radius, segments));
-
-             // add an attribute
-            var numVertices = circleGeometry.attributes.position.length;
-            var alphas = new Float32Array( numVertices ); // 1 values per vertex
-
-            for ( var i = 0; i < numVertices; i ++ ) {
-
-                // set alpha randomly
-                alphas[i] = 1;
-
-            }
-
-            circleGeometry.addAttribute( 'alpha', new THREE.BufferAttribute( alphas, 1 ) );
-
-            // uniforms
-            uniforms = {
-
-                color: { type: "c", value: new THREE.Color( "#004548" ) },
-
-            };
-
-            // point cloud material
-            var shaderMaterial = new THREE.ShaderMaterial( {
-
-                uniforms:       uniforms,
-                vertexShader:   document.getElementById( 'vertexshader' ).textContent,
-                fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
-                transparent:    true
-
-            });
-
-/*
             var material = new THREE.LineBasicMaterial({
                     opacity: 1,
                     transparent: true,
                     vertexColors: THREE.VertexColors
-                });*/
+                });
 
-            // Remove center vertex
 
-           /* var positions = circleGeometry.vertices,
+           var positions = circleGeometry.vertices,
                 colors = [],
                 breakPoints = positions.length/breaks,
-                colorRange = d3.scale.linear().domain([0, breakPoints/2, breakPoints]).range(["#04f5ff", "#3498DB" ,  "#3498DB"]);
+                colorRange = d3.scale.linear().domain([0, breakPoints]).range(["#04f5ff", "#3498DB"]);
 
             for (var i = 0, br = 0; i < positions.length; i++,br++) {
                 if (br >= breakPoints) {
@@ -331,8 +297,8 @@ define(['libs/three', 'd3'], function (ignore) {
 
             }
             circleGeometry.colors = colors;
-            circleGeometry.verticesNeedUpdate = true;*/
-            circle = new THREE.Points(circleGeometry, shaderMaterial);
+            circleGeometry.verticesNeedUpdate = true;
+            var circle = new THREE.Line(circleGeometry, material);
 
             levelColors[level] = circle;
             this.stage.add(circle);
@@ -402,24 +368,6 @@ define(['libs/three', 'd3'], function (ignore) {
             that.spinElectrons();
             particles.attributes.position.needsUpdate = true;
             particles.attributes.customColor.needsUpdate = true;
-
-
-            var alphas = circle.geometry.attributes.alpha;
-            var count = alphas.count;
-
-            for( var i = 0; i < count; i ++ ) {
-
-                // dynamically change alphas
-               // alphas.array[ i ] *= 0.95;
-
-                if ( alphas.array[ i ] < 0.01 ) {
-               //     alphas.array[ i ] = 1.0;
-                }
-
-            }
-
-            alphas.needsUpdate = true; // important!
-
         };
 
         this.renderUpdates = [this.render];

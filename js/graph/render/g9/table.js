@@ -27,10 +27,15 @@ define(['libs/three'], function () {
 
         this.activeElement = null;
         this.activeNumber = 0;
-        var cbs = [];
+        var cbs = [],
+            clickCbs = [];
 
         this.subscribe = function (cb) {
             cbs.push(cb);
+        };
+
+        this.subscribeClick = function (cb) {
+            clickCbs.push(cb);
         };
 
         function rnd(min, max) {
@@ -300,9 +305,11 @@ define(['libs/three'], function () {
                 return;
             }
             inScreenChnage = true;
-            that.app.screen.changeScreen(2);
-            inScreenChnage = false;
             that.hoverElement(false);
+            clickCbs.forEach(function (cb) {
+                cb(that.activeNumber, mouse);
+            });
+            inScreenChnage = false;
         };
 
         this.show = function () {

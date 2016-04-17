@@ -1177,6 +1177,15 @@ grapgCanvas,
     -webkit-animation-duration: 1s;
     -webkit-animation-timing-function: ease-in;
 }
+
+.elementInfo.active {
+    width: 50%;
+    height: 50%;
+    opacity: 1;
+    z-index: 100;
+    transform: translate3d(50%, 50%, 0);
+}
+
 @-webkit-keyframes fall {
   0% { margin:  1px;}
   25% { margin: 2px; }
@@ -1187,39 +1196,41 @@ grapgCanvas,
 
 .elementInfo .n {
     font-size: 23px;
-    top: 105px;
-    position: absolute;
-    margin: 0 auto;
-    display: block;
-    width: 100%;
 }
 .elementInfo .s {
     font-size: 40px;
-    top: 50px;
-    position: absolute;
-    margin: 0 auto;
-    display: block;
-    width: 100%;
 }
 .elementInfo .num {
     font-size: 25px;
-    top: 15px;
-    position: absolute;
-    margin: 0 auto;
-    display: block;
-    width: 100%;
 }
 .elementInfo .w {
     font-size: 20px;
-    top: 140px;
-    position: absolute;
-    margin: 0 auto;
-    display: block;
-    width: 100%;
 }
 .elementInfo .lc {
     float: right;
     padding: 20px 10px;
+}
+.elementInfo p {
+    padding: 0px;
+    margin: 0px;
+}
+.elementInfo .label {
+    width: 95px;
+    display: none;
+    text-align: right;
+}
+.elementInfo.active .label {
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+.elementInfo .eConfig {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+}
+.elementInfo .eConfig .label {
+    transform: translateY(75px) rotateZ(-90deg);
 }
 
 .infoPlanel {

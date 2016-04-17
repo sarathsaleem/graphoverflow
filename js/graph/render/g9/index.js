@@ -25,6 +25,9 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.table.subscribe(function (ele, m) {
             App.info.addElemntInfo(ele, m);
         });
+        App.table.subscribeClick(function (ele, m) {
+            App.info.showElemntInfo(ele, m);
+        });
 
         App.table.addTable(App.animate);
         var atomicNumber = 28;
