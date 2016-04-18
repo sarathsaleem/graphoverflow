@@ -65,7 +65,7 @@ define(['utils/utils'], function (_util) {
                         </div>';
 
             var levelsPanel = $(levels);
-            elementInfo.append(levelsPanel);
+            elementInfo.find('.eConfig').append(levelsPanel);
 
 
             infoPanel = $('<div class="infoPlanel"></div>');

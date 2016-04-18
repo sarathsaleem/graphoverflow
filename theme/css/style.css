@@ -1236,10 +1236,13 @@ grapgCanvas,
     position: absolute;
     top: 13px;
     right: 0;
-    width: 90px;
+    width:50%;
+    height: 150px;
 }
 .elementInfo .eConfig .label {
-    transform: translateY(85px) rotateZ(-90deg);
+    transform: translate(0,110px) rotateZ(-90deg);
+    width: 20px;
+    position: absolute;
 }
 .elementInfoWrapper {
     position: absolute;
@@ -1274,23 +1277,28 @@ grapgCanvas,
 
 .elementInfo.active .aName-w {
     position: absolute;
-    top: 50%;
+    top: 26%;
 }
 .elementInfo.active .aSymbol-w {
     position: absolute;
-    top: 60%;
+    top: 33%;
 }
 .elementInfo.active .aNumber-w {
     margin: 25px 0 0 0 ;
 }
 .elementInfo.active .eConfig {
-    left: 42%;
+    left: 52%;
+}
+.elementInfo.active .lc {
+    float: none;
+    padding: 0 25px;
+    display: inline-block;
 }
 
 .levelsPath {
     position: absolute;
-    top: 31px;
-    left: 60%;
+    top: 0px;
+    left: 50px;
     font-size: 12px;
     display: none;
 }
@@ -1307,7 +1315,7 @@ grapgCanvas,
     display: block;
 }
 .goDetail-icon {
-    width: 236px;
+    width: 96%;
     height: 160px;
     box-sizing: border-box;
     position: absolute;
@@ -1337,9 +1345,28 @@ grapgCanvas,
     background-size: 300px;
 }
 
+
+
+
+
 .elementInfo.inScreen .goDetail-icon {
     display: none;
 }
+
+.elementInfo.inScreen .eConfig {
+    left: 270px;
+}
+.elementInfo.inScreen .aName-w {
+    top: 90px;
+}
+.elementInfo.inScreen .aSymbol-w {
+    top: 118px;
+}
+
+
+
+
+
 
 .infoPlanel {
     position: absolute;
