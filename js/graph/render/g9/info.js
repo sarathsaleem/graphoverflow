@@ -1,5 +1,5 @@
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define,THREE, brackets: true, $, window, navigator , clearInterval , setInterval, d3*/
+/*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 , multistr: true */
+/*global require, define,THREE, brackets: true, $, window, navigator , clearInterval , setTimeout, d3*/
 
 define(['utils/utils'], function (_util) {
 
@@ -19,28 +19,26 @@ define(['utils/utils'], function (_util) {
         var ele = this.ele = app.animate.containerEle;
         var elementInfo,
             infoPanel,
-            elementScreen;
-
-        setTimeout(function () {
-
-        }, 1000);
+            elementInfoWrapper,
+            elementScreen,
+            inShowScreen = false;
 
         this.addUi = (function (that) {
             var htmlTmpl = ' \
                      <div class="elementInfo"> \
-                        <p> \
+                        <p class="aNumber-w"> \
                             <span class="label">Atomic number :</span> \
                             <span class="prop num"></span> \
                         </p> \
-                        <p> \
+                        <p class="aName-w"> \
                             <span class="label">Name :</span> \
                             <span class="prop n"></span> \
                         </p> \
-                        <p> \
+                        <p class="aSymbol-w"> \
                             <span class="label">Symbol :</span> \
                             <span class="prop s"></span> \
                          </p> \
-                        <p> \
+                        <p class="aWeight-w"> \
                             <span class="label">Atomic weight :</span> \
                             <span class="prop w"></span> \
                         </p> \
@@ -48,26 +46,31 @@ define(['utils/utils'], function (_util) {
                             <span class="label">Electronic configuration</span>  \
                             <span class="prop lc"></span> \
                         </p> \
+                        <div class="close-icon"></div> \
+                        <div class="goDetail-icon"></div> \
                     </div>';
             elementInfo = $(htmlTmpl);
             ele.append(elementInfo);
 
-            /*var slevels = [
-                '<div class="1s"><span>1s</span><div class="box"></div></div>'
-            ];
 
-            var levels = '<div> \
-                            <div class="levels K">' + slevels[0] + '</div> \
+
+            var levels = '<div class="levelsPath"> \
+                            <div class="levels K"></div> \
                             <div class="levels L"></div> \
                             <div class="levels M"></div> \
                             <div class="levels N"></div> \
-                            <div class="levels 0"></div> \
+                            <div class="levels O"></div> \
                             <div class="levels P"></div> \
                             <div class="levels Q"></div> \
                         </div>';
-            */
-            infoPanel = $('<div class="infoPlanel"></div>');
 
+            var levelsPanel = $(levels);
+            elementInfo.append(levelsPanel);
+
+
+            infoPanel = $('<div class="infoPlanel"></div>');
+            elementInfoWrapper = $('<div class="elementInfoWrapper"></div>');
+            ele.append(elementInfoWrapper);
             ele.append(infoPanel);
 
 
@@ -94,6 +97,27 @@ define(['utils/utils'], function (_util) {
             $('.parent .childs').on('mouseout', function () {
                 that.highlghtGroup(0);
             });
+
+            $(elementInfo).find('.close-icon').on('click', function () {
+                $(elementInfo).removeClass('active');
+                inShowScreen = false;
+                that.addElemntInfo(0);
+                elementInfoWrapper.hide();
+            });
+
+            $(elementInfo).find('.goDetail-icon').on('click', function () {
+                inShowScreen = false;
+                that.addElemntInfo(0);
+                elementInfoWrapper.hide();
+                app.screen.changeScreen(2);
+                $(elementInfo).addClass('inScreen').css({
+                    zIndex: 0,
+                    opacity: 1,
+                    "transform": "translate3d(0,0,0)"
+                });
+            });
+
+
 
         }(this));
 
@@ -126,14 +150,18 @@ define(['utils/utils'], function (_util) {
 
         this.addElemntInfo = function (aNumber, mouse) {
 
+            if (inShowScreen) {
+                return;
+            }
+
             if (aNumber) {
 
                 var eConfiguration = app.atom.electrons.getConfiguration(),
                     levelConfig = app.atom.electrons.getLevelConfiguration(eConfiguration[aNumber]);
+
                 levelConfig = Object.keys(levelConfig).map(function (l) {
                     return levelConfig[l];
                 });
-
 
                 var element = this.data.elements[aNumber];
                 elementInfo.find('.n').text(element[1]);
@@ -166,11 +194,23 @@ define(['utils/utils'], function (_util) {
         };
 
         this.showElementInfo = function (aNumber, mouse) {
+
+            var eConfiguration = app.atom.electrons.getConfiguration(),
+                levelSplitConfig = app.atom.electrons.getLevelSplitConfiguration(eConfiguration[aNumber]);
+
+            elementInfo.find('.levels').hide();
+            Object.keys(levelSplitConfig).forEach(function (level) {
+                elementInfo.find('.'+level).text(levelSplitConfig[level].join().split(',').join(', ')).show();
+            });
+
+
             elementInfo.addClass('active').css({
-                    zIndex: 30,
-                    opacity: 1,
-                    "transform": "translate3d(50%, 50%, 0)"
-                });
+                zIndex: 30,
+                opacity: 1,
+                "transform": "translate3d(-50%, 50%, 0)"
+            });
+            elementInfoWrapper.show();
+            inShowScreen = true;
         };
 
         this.switchScreen = function (screen) {
@@ -178,22 +218,21 @@ define(['utils/utils'], function (_util) {
             var infoPanel = $('.infoPlanel');
             if (screen === 1) {
                 infoPanel.fadeIn();
-                this.ele.css('background','radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%)');
+                this.ele.css('background', 'radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%)');
             } else {
-                 this.ele.css('background','#a90329');
-                 infoPanel.fadeOut();
-                 this.addElemntInfo(0);
-                setTimeout(function(){
-                    that.ele.css('transition','background ease-in 2s');
-                    that.ele.css('background','#3498DB');
-                },10);
+                this.ele.css('background', '#a90329');
+                infoPanel.fadeOut();
+                this.addElemntInfo(0);
+                setTimeout(function () {
+                    that.ele.css('transition', 'background ease-in 2s');
+                    that.ele.css('background', '#3498DB');
+                }, 10);
             }
 
         };
 
         this.addElemntPanel = function (aNumnber) {
-
-            elementScreen =  $('<div class="elementScreen"><div class="leftArr"></div><div class="rightArr"></div><div class="backToScreen"></div>"</div>');
+            elementScreen = $('<div class="elementScreen"><div class="leftArr"></div><div class="rightArr"></div><div class="backToScreen"></div>"</div>');
 
         };
 

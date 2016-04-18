@@ -1172,18 +1172,27 @@ grapgCanvas,
     opacity: 0;
     transition: all ease-out 0.5s;
     padding-left: 10px;
-   /* -webkit-animation-name: fall;*/
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-timing-function: ease-in;
+    left: 0%;
 }
 
 .elementInfo.active {
-    width: 50%;
-    height: 50%;
+    width: 500px;
+    height: 350px;
     opacity: 1;
-    z-index: 100;
-    transform: translate3d(50%, 50%, 0);
+    z-index: 30;
+    left: 50%;
+}
+
+.elementInfo.inScreen {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 1;
 }
 
 @-webkit-keyframes fall {
@@ -1208,7 +1217,7 @@ grapgCanvas,
 }
 .elementInfo .lc {
     float: right;
-    padding: 20px 10px;
+    padding: 0px 10px;
 }
 .elementInfo p {
     padding: 0px;
@@ -1225,12 +1234,111 @@ grapgCanvas,
 }
 .elementInfo .eConfig {
     position: absolute;
-    top: 0;
+    top: 13px;
     right: 0;
     width: 90px;
 }
 .elementInfo .eConfig .label {
-    transform: translateY(75px) rotateZ(-90deg);
+    transform: translateY(85px) rotateZ(-90deg);
+}
+.elementInfoWrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.49);
+    z-index: 15;
+    display: none;
+    transition: all ease-out 0.5s;
+}
+
+.elementInfo .close-icon {
+    width: 32px;
+    height: 32px;
+    background: url('../../templates/images/g9/close.svg') no-repeat 0 0;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: none;
+    opacity: 0.5;
+    transition: all ease-out 0.5s;
+    cursor: pointer;
+}
+.elementInfo .close-icon:hover{
+    opacity: 1;
+}
+.elementInfo.active .close-icon {
+    display: block;
+}
+
+.elementInfo.active .aName-w {
+    position: absolute;
+    top: 50%;
+}
+.elementInfo.active .aSymbol-w {
+    position: absolute;
+    top: 60%;
+}
+.elementInfo.active .aNumber-w {
+    margin: 25px 0 0 0 ;
+}
+.elementInfo.active .eConfig {
+    left: 42%;
+}
+
+.levelsPath {
+    position: absolute;
+    top: 31px;
+    left: 60%;
+    font-size: 12px;
+    display: none;
+}
+
+.levelsPath .levels {
+    padding: 1.5px 0 0 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.elementInfo.active .levelsPath {
+    display: block;
+}
+.elementInfo.active .goDetail-icon {
+    display: block;
+}
+.goDetail-icon {
+    width: 236px;
+    height: 160px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: none;
+    border: 0 solid;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+    outline: 1px solid;
+    outline-color: rgba(255, 255, 255, .5);
+    outline-offset: 0px;
+    text-shadow: none;
+    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+    background: url('../../templates/images/g9/4.png') no-repeat 49% 40%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    background-size: 400px;
+}
+
+.goDetail-icon:hover {
+    border: 0.5px solid;
+    /*box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);*/
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px;
+    text-shadow: 1px 1px 2px #427388;
+    background-size: 300px;
+}
+
+.elementInfo.inScreen .goDetail-icon {
+    display: none;
 }
 
 .infoPlanel {

@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, d3, THREE, define, brackets: true, $, window */
+/*global require, d3, THREE, define, brackets: true, $, window , Float32Array */
 
 define(['libs/three', 'd3'], function (ignore) {
     "use strict";
@@ -15,7 +15,9 @@ define(['libs/three', 'd3'], function (ignore) {
         var that = this;
         var electronstring = data.electronstring,
             notations = data.electronstringNotations,
-            levelColors = {};
+            levelColors = {},
+            eConfiguration = null,
+            levelNotatins = [null, 'K', 'L', 'M', 'N', 'O', 'P', 'Q'];
 
         this.electronsUi = {};
         this.electronsPos = {};
@@ -53,8 +55,12 @@ define(['libs/three', 'd3'], function (ignore) {
          */
         this.getConfiguration = function () {
 
-            var eConfiguration = {},
-                atomicNumbers = Object.keys(electronstring);
+            if(eConfiguration) {
+                return eConfiguration;
+            }
+
+            eConfiguration = {};
+            var atomicNumbers = Object.keys(electronstring);
 
             atomicNumbers.forEach(function (num) {
                 var eString = electronstring[num],
@@ -70,13 +76,31 @@ define(['libs/three', 'd3'], function (ignore) {
 
         };
 
+        this.getLevelSplitConfiguration = function (eConfugration) {
+            var eC = eConfugration;
+
+            var levels = eC.split(' '),
+                levelConfigs = {};
+
+            levels.forEach(function (level){
+                var sL = level[0],
+                    sLName = levelNotatins[sL];
+                if (levelConfigs[sLName]) {
+                    levelConfigs[sLName].push(level);
+                } else {
+                    levelConfigs[sLName] = [level];
+                }
+            });
+
+            return levelConfigs;
+        };
+
         /**
          *
          *
          */
         this.getLevelConfiguration = function (string) {
             var levelsConfigs = {},
-                levelNotatins = [null, 'K', 'L', 'M', 'N', 'O', 'P', 'Q'], // start from one
                 levels = string.split(' ');
 
             levels.forEach(function (level) {
@@ -382,6 +406,8 @@ define(['libs/three', 'd3'], function (ignore) {
         var eConfiguration = this.getConfiguration();
 
         var levelConfig = this.getLevelConfiguration(eConfiguration[atomicNumber]);
+
+        console.log(this.getLevelSplitConfiguration(eConfiguration[atomicNumber]));
 
         var levels = Object.keys(levelConfig);
 

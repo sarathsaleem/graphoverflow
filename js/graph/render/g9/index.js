@@ -30,7 +30,7 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         });
 
         App.table.addTable(App.animate);
-        var atomicNumber = 28;
+        var atomicNumber = 68;
         App.atom.create(atomicNumber, App.animate.scene);
         App.atom.electrons.bhorModel(atomicNumber, App.animate.scene);
 

@@ -29,7 +29,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
             scene.add(light);
 
             var helper = new THREE.DirectionalLightHelper( light, 3 );
-            scene.add( helper );
+            //scene.add( helper );
             return light;
         };
         this.addHemisphereLight = function (skyColorHex, groundColorHex, intensity) {

@@ -99,7 +99,7 @@ define(['libs/three'], function () {
             }());
 
             var createText = (function () {
-                var geo = new THREE.PlaneBufferGeometry(100, 100, 1, 1);
+                var geo = new THREE.PlaneGeometry(100, 100, 1, 1);
                 return function (aNumber, i) {
                     var material = getMaterial(elements[aNumber], i + 1);
                     var textMesh1 = new THREE.Mesh(geo, material);
@@ -108,7 +108,6 @@ define(['libs/three'], function () {
                     textMesh1.position.y = elementsPos[i].y;
                     textMesh1.position.z = 0;
 
-                    //scene.add(textMesh1);
                     return textMesh1;
 
                 };
@@ -307,7 +306,7 @@ define(['libs/three'], function () {
             inScreenChnage = true;
             that.hoverElement(false);
             clickCbs.forEach(function (cb) {
-                cb(that.activeNumber, mouse);
+                cb(currentElement, mouse);
             });
             inScreenChnage = false;
         };
