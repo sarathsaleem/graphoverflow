@@ -55,7 +55,7 @@ define(['libs/three', 'd3'], function (ignore) {
          */
         this.getConfiguration = function () {
 
-            if(eConfiguration) {
+            if (eConfiguration) {
                 return eConfiguration;
             }
 
@@ -82,7 +82,7 @@ define(['libs/three', 'd3'], function (ignore) {
             var levels = eC.split(' '),
                 levelConfigs = {};
 
-            levels.forEach(function (level){
+            levels.forEach(function (level) {
                 var sL = level[0],
                     sLName = levelNotatins[sL];
                 if (levelConfigs[sLName]) {
@@ -164,65 +164,14 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          *
          */
-        var uniforms = {
-            amplitude: {
-                type: "f",
-                value: 1.0
-            },
-            color: {
-                type: "c",
-                value: new THREE.Color("#fff")
-            },
-            texture: {
-                type: "t",
-                value:  new THREE.TextureLoader().load( '../templates/images/g9/electron.png' )
-            }
-        };
-
-        var vertexShader = [
-                "uniform float amplitude;",
-                "attribute float size;",
-                "attribute vec3 customColor;",
-                "varying vec3 vColor;",
-                "void main() {",
-                    "vColor = customColor;",
-                    "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-                    "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
-                    " gl_Position = projectionMatrix * mvPosition;",
-                "}"
-                ].join("\n"),
-
-            fragmentShader = [
-                "uniform vec3 color;",
-                "uniform sampler2D texture;",
-                "varying vec3 vColor;",
-                "void main() {",
-                    "gl_FragColor = vec4( color * vColor, 1.0 );",
-                    "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
-                "}"
-            ].join("\n");
-
-
-
-       var shaderMaterial = new THREE.ShaderMaterial({
-            uniforms: uniforms,
-            //attributes: attributes,
-            vertexShader: vertexShader,
-            fragmentShader: fragmentShader,
-            blending: THREE.AdditiveBlending,
-            //depthTest:false,
-            transparent: true
-        });
-
-
 
         var particles = new THREE.BufferGeometry(),
             totoalPos = 0,
             positionsArr = [],
             posArr;
-
-
-        material = new THREE.MeshBasicMaterial( {color: '#005f0b'} );
+        material = new THREE.MeshBasicMaterial({
+            color: '#005f0b'
+        });
         this.addUi_electrons = function (level, positions, scene) {
 
             this.electronsUi[level] = [];
@@ -234,7 +183,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
             for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
-                var sphere = new THREE.Mesh(geo,  material);
+                var sphere = new THREE.Mesh(geo, material);
                 var vec = new THREE.Vector3(positions[i].x, positions[i].y, positions[i].z);
                 sphere.position.add(vec);
 
@@ -249,6 +198,55 @@ define(['libs/three', 'd3'], function (ignore) {
         };
 
         this.addElectronsToScreen = function () {
+            var uniforms = {
+                amplitude: {
+                    type: "f",
+                    value: 1.0
+                },
+                color: {
+                    type: "c",
+                    value: new THREE.Color("#fff")
+                },
+                texture: {
+                    type: "t",
+                    value: new THREE.TextureLoader().load('../templates/images/g9/electron.png')
+                }
+            };
+
+            var vertexShader = [
+                "uniform float amplitude;",
+                "attribute float size;",
+                "attribute vec3 customColor;",
+                "varying vec3 vColor;",
+                "void main() {",
+                    "vColor = customColor;",
+                    "vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+                    "gl_PointSize = size * ( 300.0 / length( mvPosition.xyz ) );",
+                    " gl_Position = projectionMatrix * mvPosition;",
+                "}"
+                ].join("\n"),
+
+                fragmentShader = [
+                "uniform vec3 color;",
+                "uniform sampler2D texture;",
+                "varying vec3 vColor;",
+                "void main() {",
+                    "gl_FragColor = vec4( color * vColor, 1.0 );",
+                    "gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );",
+                "}"
+            ].join("\n");
+
+
+
+            var shaderMaterial = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                //attributes: attributes,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                blending: THREE.AdditiveBlending,
+                //depthTest:false,
+                transparent: true
+            });
 
             posArr = new Float32Array(totoalPos * 3);
             var colors = new Float32Array(totoalPos * 3);
@@ -295,24 +293,24 @@ define(['libs/three', 'd3'], function (ignore) {
 
             var radius = this.getOribitalRadius(level),
                 breaks = this.electronsUi[level].length,
-                segments = radius*(breaks > 10 ? 8 : 2.5);
+                segments = radius * (breaks > 10 ? 8 : 2.5);
 
             var circleGeometry = new THREE.CircleGeometry(radius, segments);
             circleGeometry.vertices.shift();
 
             var material = new THREE.LineBasicMaterial({
-                    opacity: 1,
-                    transparent: true,
-                    vertexColors: THREE.VertexColors
-                });
+                opacity: 1,
+                transparent: true,
+                vertexColors: THREE.VertexColors
+            });
 
 
-           var positions = circleGeometry.vertices,
+            var positions = circleGeometry.vertices,
                 colors = [],
-                breakPoints = positions.length/breaks,
+                breakPoints = positions.length / breaks,
                 colorRange = d3.scale.linear().domain([0, breakPoints]).range(["#04f5ff", "#3498DB"]);
 
-            for (var i = 0, br = 0; i < positions.length; i++,br++) {
+            for (var i = 0, br = 0; i < positions.length; i++, br++) {
                 if (br >= breakPoints) {
                     br = 0;
                 }
@@ -328,6 +326,115 @@ define(['libs/three', 'd3'], function (ignore) {
             this.stage.add(circle);
             scene.add(this.stage);
         };
+
+        var positionLine = { x: 600, y : 500, z : 300};
+
+        this.addElectronGuidLine = function (animate) {
+
+            var camera = animate.camera;
+
+            var canvas = animate.renderer.domElement;
+
+            var sphere = new THREE.Mesh(new THREE.SphereGeometry(50, 20, 20),
+            new THREE.MeshLambertMaterial({
+                color: '#ffb100'
+            }));
+
+            sphere.position.add(new THREE.Vector3(100, 100, 0));
+
+            var geometry = new THREE.Geometry();
+            geometry.vertices.push(
+                sphere.position,
+                new THREE.Vector3(500, 0, 0)
+            );
+
+            var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+                color: "#00cad3",
+                transparent : true,
+                opacity: 0.3
+            }));
+
+            this.stage.add(line);
+            //this.stage.add(sphere);
+
+            var viewportOffset = canvas.getBoundingClientRect(); //FIXME: calculate only on resize
+            // these are relative to the viewport
+            var top = viewportOffset.top;
+            var left = viewportOffset.left;
+            var cX = 395 - left,
+                cY = 30 - top;
+
+            var x = (cX / viewportOffset.width) * 2 - 1;
+            var y = -(cY / viewportOffset.height) * 2 + 1;
+            var z = 0.5;
+
+            var vectorTemp = new THREE.Vector3();
+
+            //vectorTemp.set(x,y,z);
+
+           /* var vector = new THREE.Vector3(sphere.position.x, sphere.position.y, sphere.position.z);
+            // map to normalized device coordinate (NDC) space
+            vector.project(camera);
+
+            // map to 2D screen space
+            vector.x = Math.round((vector.x + 1) * canvas.width / 2);
+            vector.y = Math.round((-vector.y + 1) * canvas.height / 2);
+            vector.z = 0;
+            var elementInfo = $('<div class="marker" />');
+            elementInfo.css({
+                    zIndex: 30,
+                    opacity: 1,
+                    "transform": "translate3d(" + vector.x + "px, " + vector.y + "px, 0px)"
+                });
+            animate.containerEle.append(elementInfo);*/
+            var prevPos = 0, needsRender = true;
+
+            var showLine = function (posTo) {
+                 //line.geometry.vertices[0].copy(line.geometry.vertices[1]);
+                 new TWEEN.Tween(line.geometry.vertices[0]).to(posTo, 2000).easing(TWEEN.Easing.Exponential.Out).start();
+                 line.visible = true;
+            };
+
+            this.onResize = function () {
+                viewportOffset = canvas.getBoundingClientRect(); //FIXME: calculate only on resize
+                // these are relative to the viewport
+                top = viewportOffset.top;
+                left = viewportOffset.left;
+                cX = 395 - left,
+                cY = 30 - top;
+
+                x = (cX / viewportOffset.width) * 2 - 1;
+                y = -(cY / viewportOffset.height) * 2 + 1;
+                z = 0.5;
+            };
+
+            this.update = function() {
+
+                vectorTemp.set(x,y,z);
+                vectorTemp.unproject( camera );
+                var dir = vectorTemp.sub( camera.position ).normalize();
+                var distance = - camera.position.z / dir.z;
+                var pos = camera.position.clone().add( dir.multiplyScalar( distance ) );
+                //vector.set(pos.x, pos.y, pos.z);
+                //sphere.position.set(pos.x, pos.y, pos.z);
+
+                if ( prevPos !== pos.x) {
+                    line.visible = false;
+                    needsRender = true;
+                    line.geometry.vertices[0] = new THREE.Vector3(500, 0, 0);
+                } else {
+                    showLine(pos);
+                    needsRender = false;
+                }
+
+                prevPos = pos.x;
+
+                line.geometry.verticesNeedUpdate = true;
+            };
+
+            return this;
+        };
+
 
         /**
          *
@@ -379,6 +486,9 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          */
         this.render = function () {
+
+            that.guidlines.update();
+
             if (!that.spin) {
                 return;
             }
@@ -392,6 +502,7 @@ define(['libs/three', 'd3'], function (ignore) {
             that.spinElectrons();
             particles.attributes.position.needsUpdate = true;
             particles.attributes.customColor.needsUpdate = true;
+
         };
 
         this.renderUpdates = [this.render];
@@ -401,7 +512,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
 
-    Orbitals.prototype.bhorModel = function (atomicNumber, scene) {
+    Orbitals.prototype.bhorModel = function (atomicNumber, animate) {
 
         var eConfiguration = this.getConfiguration();
 
@@ -416,11 +527,15 @@ define(['libs/three', 'd3'], function (ignore) {
             var level = levels[i],
                 radius = this.getOribitalRadius(level);
             this.electronsPos[level] = this.getSpherePositions(levelConfig[level], radius);
-            this.addUi_electrons(level, this.electronsPos[level], scene);
+            this.addUi_electrons(level, this.electronsPos[level], animate.scene);
 
         }
 
         this.addElectronsToScreen();
+
+        this.guidlines = this.addElectronGuidLine(animate);
+
+        window.addEventListener('resize', this.guidlines.onResize, false);
 
     };
 

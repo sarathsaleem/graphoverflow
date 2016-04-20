@@ -47,7 +47,7 @@ define(['utils/utils'], function (_util) {
                             <span class="prop lc"></span> \
                         </p> \
                         <div class="close-icon"></div> \
-                        <div class="goDetail-icon"></div> \
+                        <div class="goDetail-icon"><span>Explore atom</span></div> \
                     </div>';
             elementInfo = $(htmlTmpl);
             ele.append(elementInfo);

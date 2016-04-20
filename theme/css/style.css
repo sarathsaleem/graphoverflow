@@ -1224,7 +1224,6 @@ grapgCanvas,
     margin: 0px;
 }
 .elementInfo .label {
-    width: 95px;
     display: none;
     text-align: right;
 }
@@ -1277,14 +1276,14 @@ grapgCanvas,
 
 .elementInfo.active .aName-w {
     position: absolute;
-    top: 26%;
+    top: 21%;
 }
 .elementInfo.active .aSymbol-w {
     position: absolute;
-    top: 33%;
+    top: 28%;
 }
 .elementInfo.active .aNumber-w {
-    margin: 25px 0 0 0 ;
+    margin: 10px 0 0 0 ;
 }
 .elementInfo.active .eConfig {
     left: 52%;
@@ -1322,6 +1321,25 @@ grapgCanvas,
     bottom: 10px;
     right: 10px;
     display: none;
+    text-shadow: none;
+    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+    background: url('../../templates/images/g9/4.png') no-repeat 49% 40%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    background-size: 300px;
+}
+
+.goDetail-icon span {
+    background: rgba(255, 255, 255, 0.18);
+    padding: 10px 20px;
+    font-size: 16px;
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+}
+
+.explodeEff {
     border: 0 solid;
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
     outline: 1px solid;
@@ -1329,24 +1347,13 @@ grapgCanvas,
     outline-offset: 0px;
     text-shadow: none;
     transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-    background: url('../../templates/images/g9/4.png') no-repeat 49% 40%;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    background-size: 400px;
 }
-
-.goDetail-icon:hover {
-    border: 0.5px solid;
-    /*box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);*/
+.explodeEff:hover {
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
     outline-color: rgba(255, 255, 255, 0);
     outline-offset: 15px;
     text-shadow: 1px 1px 2px #427388;
-    background-size: 300px;
 }
-
-
-
 
 
 .elementInfo.inScreen .goDetail-icon {
@@ -1364,6 +1371,14 @@ grapgCanvas,
 }
 
 
+.marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #d534db;
+    z-index: 1001;
+    transition: all ease-out 0.5s;
+}
 
 
 
