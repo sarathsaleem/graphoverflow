@@ -372,7 +372,6 @@ define(['libs/three', 'd3'], function (ignore) {
                 }
 
                 points.forEach(function(point) {
-
                     vector = new THREE.Vector3(radius[point.level], 0, 0);
                     vector.project(camera);
 
