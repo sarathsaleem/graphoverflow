@@ -67,7 +67,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
-        //containerEle.append(stats.domElement);
+        containerEle.append(stats.domElement);
         var axes = new THREE.AxisHelper(1000);
         //scene.add(axes);
 

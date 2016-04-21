@@ -22,6 +22,7 @@ define(['libs/three', 'd3'], function (ignore) {
         this.electronsUi = {};
         this.electronsPos = {};
         this.spin = true;
+        this.showGuidLines = true;
 
 
 
@@ -324,112 +325,70 @@ define(['libs/three', 'd3'], function (ignore) {
 
             levelColors[level] = circle;
             this.stage.add(circle);
+
             scene.add(this.stage);
         };
 
-        var positionLine = { x: 600, y : 500, z : 300};
 
-        this.addElectronGuidLine = function (animate) {
+        this.addElectronGuidLine = function (levels, animate) {
 
             var camera = animate.camera;
 
             var canvas = animate.renderer.domElement;
 
-            var sphere = new THREE.Mesh(new THREE.SphereGeometry(50, 20, 20),
-            new THREE.MeshLambertMaterial({
-                color: '#ffb100'
-            }));
+            function connect(pos, color, thickness) {
 
-            sphere.position.add(new THREE.Vector3(100, 100, 0));
+                // bottom right
+                var x1 = pos.x1;
+                var y1 = pos.y1;
+                // top right
+                var x2 = pos.x2;
+                var y2 = pos.y2;
+                // distance
+                var length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+                // center
+                var cx = ((x1 + x2) / 2) - (length / 2);
+                var cy = ((y1 + y2) / 2) - (thickness / 2);
+                // angle
+                var angle = Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI);
+                // make hr
+                var htmlLine = "<div style='padding:0px; margin:0px; height:" + thickness + "px; background-color:" + color + "; line-height:1px; position:absolute; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);' />";
 
-            var geometry = new THREE.Geometry();
-            geometry.vertices.push(
-                sphere.position,
-                new THREE.Vector3(500, 0, 0)
-            );
+                document.body.innerHTML += htmlLine;
+            }
 
-            var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({
-                color: "#00cad3",
-                transparent : true,
-                opacity: 0.3
-            }));
+            var vector = new THREE.Vector3(0, 0, 0);
+            var points = [];
 
-            this.stage.add(line);
-            //this.stage.add(sphere);
+            levels.forEach(function (level) {
+                var elementInfo = $('<div class="marker" />');
+                animate.containerEle.append(elementInfo);
+                points.push({level :level , element: elementInfo});
+            });
 
-            var viewportOffset = canvas.getBoundingClientRect(); //FIXME: calculate only on resize
-            // these are relative to the viewport
-            var top = viewportOffset.top;
-            var left = viewportOffset.left;
-            var cX = 395 - left,
-                cY = 30 - top;
-
-            var x = (cX / viewportOffset.width) * 2 - 1;
-            var y = -(cY / viewportOffset.height) * 2 + 1;
-            var z = 0.5;
-
-            var vectorTemp = new THREE.Vector3();
-
-            //vectorTemp.set(x,y,z);
-
-           /* var vector = new THREE.Vector3(sphere.position.x, sphere.position.y, sphere.position.z);
-            // map to normalized device coordinate (NDC) space
-            vector.project(camera);
-
-            // map to 2D screen space
-            vector.x = Math.round((vector.x + 1) * canvas.width / 2);
-            vector.y = Math.round((-vector.y + 1) * canvas.height / 2);
-            vector.z = 0;
-            var elementInfo = $('<div class="marker" />');
-            elementInfo.css({
-                    zIndex: 30,
-                    opacity: 1,
-                    "transform": "translate3d(" + vector.x + "px, " + vector.y + "px, 0px)"
-                });
-            animate.containerEle.append(elementInfo);*/
-            var prevPos = 0, needsRender = true;
-
-            var showLine = function (posTo) {
-                 //line.geometry.vertices[0].copy(line.geometry.vertices[1]);
-                 new TWEEN.Tween(line.geometry.vertices[0]).to(posTo, 2000).easing(TWEEN.Easing.Exponential.Out).start();
-                 line.visible = true;
-            };
-
-            this.onResize = function () {
-                viewportOffset = canvas.getBoundingClientRect(); //FIXME: calculate only on resize
-                // these are relative to the viewport
-                top = viewportOffset.top;
-                left = viewportOffset.left;
-                cX = 395 - left,
-                cY = 30 - top;
-
-                x = (cX / viewportOffset.width) * 2 - 1;
-                y = -(cY / viewportOffset.height) * 2 + 1;
-                z = 0.5;
-            };
-
-            this.update = function() {
-
-                vectorTemp.set(x,y,z);
-                vectorTemp.unproject( camera );
-                var dir = vectorTemp.sub( camera.position ).normalize();
-                var distance = - camera.position.z / dir.z;
-                var pos = camera.position.clone().add( dir.multiplyScalar( distance ) );
-                //vector.set(pos.x, pos.y, pos.z);
-                //sphere.position.set(pos.x, pos.y, pos.z);
-
-                if ( prevPos !== pos.x) {
-                    line.visible = false;
-                    needsRender = true;
-                    line.geometry.vertices[0] = new THREE.Vector3(500, 0, 0);
-                } else {
-                    showLine(pos);
-                    needsRender = false;
+            this.update = function () {
+                if (!this.showGuidLines) {
+                    return;
                 }
 
-                prevPos = pos.x;
+                points.forEach(function(point) {
 
-                line.geometry.verticesNeedUpdate = true;
+                    vector = new THREE.Vector3(radius[point.level], 0, 0);
+                    vector.project(camera);
+
+                    // map to 2D screen space
+                    vector.x = Math.round((vector.x + 1) * canvas.width / 2);
+                    vector.y = Math.round((-vector.y + 1) * canvas.height / 2);
+                    vector.z = 0;
+                    point.element.css({
+                        zIndex: 30,
+                        opacity: 1,
+                        "transform": "translate3d(" + vector.x + "px, " + vector.y + "px, 0px)"
+                    });
+
+                });
+
+
             };
 
             return this;
@@ -533,7 +492,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
         this.addElectronsToScreen();
 
-        this.guidlines = this.addElectronGuidLine(animate);
+        this.guidlines = this.addElectronGuidLine(levels, animate);
 
         window.addEventListener('resize', this.guidlines.onResize, false);
 
