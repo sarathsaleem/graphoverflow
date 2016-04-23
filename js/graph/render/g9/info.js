@@ -117,7 +117,9 @@ define(['utils/utils'], function (_util) {
                 });
             });
 
+            var eleInfoCntrls = $('<div class="eleInfo leftArr"></div><div class="eleInfo rightArr"></div><div class="eleInfo  backToScreen"></div><div class="eleInfo showLines  onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked><label class="onoffswitch-label" for="myonoffswitch"></label></div>');
 
+            ele.append(eleInfoCntrls);
 
         }(this));
 
@@ -219,6 +221,7 @@ define(['utils/utils'], function (_util) {
             if (screen === 1) {
                 infoPanel.fadeIn();
                 this.ele.css('background', 'radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%)');
+                $('.eleInfo').hide();
             } else {
                 this.ele.css('background', '#a90329');
                 infoPanel.fadeOut();
@@ -226,13 +229,9 @@ define(['utils/utils'], function (_util) {
                 setTimeout(function () {
                     that.ele.css('transition', 'background ease-in 2s');
                     that.ele.css('background', '#3498DB');
+                    $('.eleInfo').show(1000);
                 }, 10);
             }
-
-        };
-
-        this.addElemntPanel = function (aNumnber) {
-            elementScreen = $('<div class="elementScreen"><div class="leftArr"></div><div class="rightArr"></div><div class="backToScreen"></div>"</div>');
 
         };
 

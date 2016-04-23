@@ -336,7 +336,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
             var canvas = animate.renderer.domElement;
 
-            function connect(pos, color, thickness) {
+            function connect(pos, ele) {
 
                 // bottom right
                 var x1 = pos.x1;
@@ -348,22 +348,30 @@ define(['libs/three', 'd3'], function (ignore) {
                 var length = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
                 // center
                 var cx = ((x1 + x2) / 2) - (length / 2);
-                var cy = ((y1 + y2) / 2) - (thickness / 2);
+                var cy = ((y1 + y2) / 2) - (1 / 2);
                 // angle
                 var angle = Math.atan2((y1 - y2), (x1 - x2)) * (180 / Math.PI);
                 // make hr
-                var htmlLine = "<div style='padding:0px; margin:0px; height:" + thickness + "px; background-color:" + color + "; line-height:1px; position:absolute; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);' />";
-
-                document.body.innerHTML += htmlLine;
+                ele.css({
+                    'transform':"rotate(" + angle + "deg)",
+                    left: cx + "px",
+                    top: cy + "px",
+                    width: length + "px"
+                });
             }
 
             var vector = new THREE.Vector3(0, 0, 0);
-            var points = [];
+            var points = [],
+                lines = [];
 
             levels.forEach(function (level) {
-                var elementInfo = $('<div class="marker" />');
+                var elementInfo = $('<div class="marker">'+level+'</div>');
                 animate.containerEle.append(elementInfo);
                 points.push({level :level , element: elementInfo});
+
+                var line = $('<div class="line" />');
+                animate.containerEle.append(line);
+                lines.push(line);
             });
 
             this.update = function () {
@@ -371,7 +379,7 @@ define(['libs/three', 'd3'], function (ignore) {
                     return;
                 }
 
-                points.forEach(function(point) {
+                points.forEach(function(point, i) {
                     vector = new THREE.Vector3(radius[point.level], 0, 0);
                     vector.project(camera);
 
@@ -379,12 +387,15 @@ define(['libs/three', 'd3'], function (ignore) {
                     vector.x = Math.round((vector.x + 1) * canvas.width / 2);
                     vector.y = Math.round((-vector.y + 1) * canvas.height / 2);
                     vector.z = 0;
+
+                    var x1 = vector.x + 50,
+                        y1 = vector.y - 150;
                     point.element.css({
                         zIndex: 30,
                         opacity: 1,
-                        "transform": "translate3d(" + vector.x + "px, " + vector.y + "px, 0px)"
+                        "transform": "translate3d(" + x1 + "px, " + y1 + "px, 0px)"
                     });
-
+                    connect({x1: x1, y1: y1+42, x2:vector.x, y2: vector.y  }, lines[i]);
                 });
 
 

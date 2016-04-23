@@ -35,8 +35,6 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.atom.electrons.bhorModel(atomicNumber, App.animate);
 
 
-
-
         App.screen.OnScreenChange = function (screenNum) {
             if (screenNum === 1) {
                 App.table.show();
