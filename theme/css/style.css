@@ -1373,9 +1373,6 @@ grapgCanvas,
     top: 118px;
 }
 
-
-
-
 .marker {
     position: absolute;
     background: rgba(255, 255, 255, 0.18);
@@ -1399,8 +1396,6 @@ grapgCanvas,
     -moz-user-select: none;
     -ms-user-select: none;
 }
-
-
 
 .infoPlanel {
     position: absolute;
@@ -1450,7 +1445,6 @@ grapgCanvas,
 .infoPlanel .parent .childs:hover {
     background: #3498DB;
 }
-<<<<<<< HEAD
 .onoffswitch {
     position: relative;
     width: 30px;
@@ -1505,11 +1499,9 @@ grapgCanvas,
     top: 50px;
     z-index: 15;
 }
-=======
 
 .tableScreen .marker,
-.tableScreen .lines,
+.tableScreen .line,
 .tableScreen .clsoeAtomScreen {
     display: none;
 }
->>>>>>> origin/table

@@ -6,7 +6,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
     var Atom = function (data) {
 
-        this.stage =  new THREE.Group();
+        this.stage = new THREE.Group();
 
         var nucelionsPos = [];
         var coolingFactor = 1;
@@ -19,6 +19,18 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
         var nuleionsUi = [];
 
         this.protonRadius = 50;
+
+        this.resetVars = function () {
+            nucelionsPos = [];
+            coolingFactor = 1;
+            nucleusCenter = {
+                x: 0,
+                y: 0,
+                z: 0
+            };
+
+            nuleionsUi = [];
+        };
 
         this.normalizeNucleus = function (nodes) {
             if (coolingFactor === 0) {
@@ -91,7 +103,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
 
             var sphereRadius = 10;
-            var particles = atomicNumber*2;//protons and neutrons
+            var particles = atomicNumber * 2; //protons and neutrons
             nucelionsPos = generatePoints(particles, sphereRadius, this.protonRadius);
         };
 
@@ -132,7 +144,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
             new TWEEN.Tween(this.stage.position).to({
                 z: -50000
             }, 2000).easing(TWEEN.Easing.Exponential.Out).start().onComplete(function () {
-                 that.stage.visible = false;
+                that.stage.visible = false;
             });
         };
 
@@ -154,8 +166,9 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
         this.reset = function (scene) {
             scene.remove(this.stage);
-            this.stage =  new THREE.Group();
+            this.stage = new THREE.Group();
             this.electrons.stage = this.stage;
+            this.resetVars();
         };
 
         this.create = function (atomicNumber, scene) {

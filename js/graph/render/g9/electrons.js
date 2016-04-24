@@ -411,8 +411,6 @@ define(['libs/three', 'd3'], function (ignore) {
                     var x1 = vector.x + 50,
                         y1 = vector.y - 150;
                     point.element.css({
-                        zIndex: 30,
-                        opacity: 1,
                         "transform": "translate3d(" + x1 + "px, " + y1 + "px, 0px)"
                     });
                     connect({x1: x1, y1: y1+42, x2:vector.x, y2: vector.y  }, lines[i]);

@@ -234,6 +234,8 @@ define(['utils/utils'], function (_util) {
                 infoPanel.fadeIn();
                 $('.eleInfo').hide();
                 ele.addClass('tableScreen').removeClass('atomScreen');
+                $('.line').remove();
+                $('.marker').remove();
 
             } else {
                 infoPanel.fadeOut();
