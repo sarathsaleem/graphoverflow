@@ -25,15 +25,12 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.table.subscribe(function (ele, m) {
             App.info.addElemntInfo(ele, m);
         });
-        App.table.subscribeClick(function (ele, m) {
-            App.info.showElementInfo(ele, m);
+        App.table.subscribeClick(function (aNumber, m) {
+            App.atomicNumber = aNumber;
+            App.info.showElementInfo(aNumber, m);
         });
 
         App.table.addTable(App.animate);
-        var atomicNumber = 118;
-        App.atom.create(atomicNumber, App.animate.scene);
-        App.atom.electrons.bhorModel(atomicNumber, App.animate);
-
 
         App.screen.OnScreenChange = function (screenNum) {
             if (screenNum === 1) {
@@ -41,9 +38,13 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
                 App.atom.hide();
                 App.animate.renderUpdates = App.table.renderUpdates;
             } else {
-                App.atom.show();
                 App.table.hide();
+
+                App.atom.create(App.atomicNumber, App.animate.scene);
+                App.atom.electrons.bhorModel(App.atomicNumber, App.animate);
+                App.atom.show();
                 App.animate.renderUpdates = App.atom.renderUpdates;
+                App.animate.scene.add(App.atom.stage);
             }
 
             App.animate.setScreenLighting(screenNum);

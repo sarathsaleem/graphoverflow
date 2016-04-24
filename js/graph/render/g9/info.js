@@ -117,9 +117,20 @@ define(['utils/utils'], function (_util) {
                 });
             });
 
+
             var eleInfoCntrls = $('<div class="eleInfo leftArr"></div><div class="eleInfo rightArr"></div><div class="eleInfo  backToScreen"></div><div class="eleInfo showLines  onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked><label class="onoffswitch-label" for="myonoffswitch"></label></div>');
 
             ele.append(eleInfoCntrls);
+
+            var backToScreenOne = $('<div class="close-icon clsoeAtomScreen"></div>');
+            ele.append(backToScreenOne);
+            $(backToScreenOne).on('click', function () {
+                inShowScreen = false;
+                that.addElemntInfo(0);
+                elementInfoWrapper.hide();
+                app.screen.changeScreen(1);
+                $(elementInfo).removeClass('active').removeClass('inScreen');
+            });
 
         }(this));
 
@@ -218,19 +229,17 @@ define(['utils/utils'], function (_util) {
         this.switchScreen = function (screen) {
 
             var infoPanel = $('.infoPlanel');
+
             if (screen === 1) {
                 infoPanel.fadeIn();
-                this.ele.css('background', 'radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%)');
                 $('.eleInfo').hide();
+                ele.addClass('tableScreen').removeClass('atomScreen');
+
             } else {
-                this.ele.css('background', '#a90329');
                 infoPanel.fadeOut();
                 this.addElemntInfo(0);
-                setTimeout(function () {
-                    that.ele.css('transition', 'background ease-in 2s');
-                    that.ele.css('background', '#3498DB');
-                    $('.eleInfo').show(1000);
-                }, 10);
+                $('.eleInfo').show(1000);
+                ele.removeClass('tableScreen').addClass('atomScreen');
             }
 
         };
