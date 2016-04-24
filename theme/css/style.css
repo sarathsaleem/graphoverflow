@@ -1255,18 +1255,22 @@ grapgCanvas,
     transition: all ease-out 0.5s;
 }
 
-.elementInfo .close-icon {
+.close-icon {
     width: 32px;
     height: 32px;
     background: url('../../templates/images/g9/close.svg') no-repeat 0 0;
     position: absolute;
     top: 2px;
     right: 2px;
-    display: none;
     opacity: 0.5;
     transition: all ease-out 0.5s;
     cursor: pointer;
+    z-index: 15;
 }
+.elementInfo .close-icon {
+    display: none;
+}
+
 .elementInfo .close-icon:hover{
     opacity: 1;
 }
@@ -1359,6 +1363,9 @@ grapgCanvas,
 .elementInfo.inScreen .goDetail-icon {
     display: none;
 }
+.elementInfo.inScreen .close-icon {
+    display: none;
+}
 
 .elementInfo.inScreen .eConfig {
     left: 270px;
@@ -1369,6 +1376,8 @@ grapgCanvas,
 .elementInfo.inScreen .aSymbol-w {
     top: 118px;
 }
+
+
 
 
 .marker {
@@ -1431,4 +1440,10 @@ grapgCanvas,
 }
 .infoPlanel .parent .childs:hover {
     background: #3498DB;
+}
+
+.tableScreen .marker,
+.tableScreen .lines,
+.tableScreen .clsoeAtomScreen {
+    display: none;
 }

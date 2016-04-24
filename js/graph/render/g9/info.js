@@ -117,7 +117,15 @@ define(['utils/utils'], function (_util) {
                 });
             });
 
-
+            var backToScreenOne = $('<div class="close-icon clsoeAtomScreen"></div>');
+            ele.append(backToScreenOne);
+            $(backToScreenOne).on('click', function () {
+                inShowScreen = false;
+                that.addElemntInfo(0);
+                elementInfoWrapper.hide();
+                app.screen.changeScreen(1);
+                $(elementInfo).removeClass('active').removeClass('inScreen');
+            });
 
         }(this));
 
@@ -216,17 +224,14 @@ define(['utils/utils'], function (_util) {
         this.switchScreen = function (screen) {
 
             var infoPanel = $('.infoPlanel');
+
             if (screen === 1) {
                 infoPanel.fadeIn();
-                this.ele.css('background', 'radial-gradient(ellipse at center,  #a90329 0%,#8f0222 44%,#6d0019 100%)');
+                ele.addClass('tableScreen').removeClass('atomScreen');
             } else {
-                this.ele.css('background', '#a90329');
                 infoPanel.fadeOut();
                 this.addElemntInfo(0);
-                setTimeout(function () {
-                    that.ele.css('transition', 'background ease-in 2s');
-                    that.ele.css('background', '#3498DB');
-                }, 10);
+                ele.removeClass('tableScreen').addClass('atomScreen');
             }
 
         };

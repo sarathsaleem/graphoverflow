@@ -49,11 +49,36 @@ define(['libs/three', 'd3'], function (ignore) {
                 'Q': 0.045
             };
 
+        var particles = new THREE.BufferGeometry(),
+            totoalPos = 0,
+            positionsArr = [],
+            posArr,
+            materialParticle = new THREE.MeshBasicMaterial({
+                color: '#005f0b'
+            });
 
         /**
          *
          *
          */
+        this.resetVars = function () {
+
+            levelColors = {};
+            eConfiguration = null;
+
+            this.electronsUi = {};
+            this.electronsPos = {};
+            this.spin = true;
+            this.showGuidLines = true;
+
+            particles = new THREE.BufferGeometry();
+            totoalPos = 0;
+            positionsArr = [];
+            posArr = [];
+
+
+        };
+
         this.getConfiguration = function () {
 
             if (eConfiguration) {
@@ -166,14 +191,8 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          */
 
-        var particles = new THREE.BufferGeometry(),
-            totoalPos = 0,
-            positionsArr = [],
-            posArr;
-        material = new THREE.MeshBasicMaterial({
-            color: '#005f0b'
-        });
-        this.addUi_electrons = function (level, positions, scene) {
+
+        this.addUi_electrons = function (level, positions) {
 
             this.electronsUi[level] = [];
 
@@ -184,7 +203,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
             for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
-                var sphere = new THREE.Mesh(geo, material);
+                var sphere = new THREE.Mesh(geo, materialParticle);
                 var vec = new THREE.Vector3(positions[i].x, positions[i].y, positions[i].z);
                 sphere.position.add(vec);
 
@@ -195,7 +214,7 @@ define(['libs/three', 'd3'], function (ignore) {
                 this.stage.add(sphere);
             }
 
-            this.addElectronsLevelPath(scene, level);
+            this.addElectronsLevelPath(level);
         };
 
         this.addElectronsToScreen = function () {
@@ -289,7 +308,7 @@ define(['libs/three', 'd3'], function (ignore) {
          *
          */
 
-        this.addElectronsLevelPath = function (scene, level) {
+        this.addElectronsLevelPath = function (level) {
 
 
             var radius = this.getOribitalRadius(level),
@@ -326,7 +345,6 @@ define(['libs/three', 'd3'], function (ignore) {
             levelColors[level] = circle;
             this.stage.add(circle);
 
-            scene.add(this.stage);
         };
 
 
@@ -363,7 +381,10 @@ define(['libs/three', 'd3'], function (ignore) {
             levels.forEach(function (level) {
                 var elementInfo = $('<div class="marker" />');
                 animate.containerEle.append(elementInfo);
-                points.push({level :level , element: elementInfo});
+                points.push({
+                    level: level,
+                    element: elementInfo
+                });
             });
 
             this.update = function () {
@@ -371,7 +392,7 @@ define(['libs/three', 'd3'], function (ignore) {
                     return;
                 }
 
-                points.forEach(function(point) {
+                points.forEach(function (point) {
                     vector = new THREE.Vector3(radius[point.level], 0, 0);
                     vector.project(camera);
 
@@ -472,11 +493,11 @@ define(['libs/three', 'd3'], function (ignore) {
 
     Orbitals.prototype.bhorModel = function (atomicNumber, animate) {
 
+        this.resetVars();
+
         var eConfiguration = this.getConfiguration();
 
         var levelConfig = this.getLevelConfiguration(eConfiguration[atomicNumber]);
-
-        console.log(this.getLevelSplitConfiguration(eConfiguration[atomicNumber]));
 
         var levels = Object.keys(levelConfig);
 
@@ -485,7 +506,7 @@ define(['libs/three', 'd3'], function (ignore) {
             var level = levels[i],
                 radius = this.getOribitalRadius(level);
             this.electronsPos[level] = this.getSpherePositions(levelConfig[level], radius);
-            this.addUi_electrons(level, this.electronsPos[level], animate.scene);
+            this.addUi_electrons(level, this.electronsPos[level]);
 
         }
 

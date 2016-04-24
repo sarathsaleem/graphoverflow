@@ -6,10 +6,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
     var Atom = function (data) {
 
-
         this.stage =  new THREE.Group();
-
-        this.electrons = new Electrons(data, this.stage);
 
         var nucelionsPos = [];
         var coolingFactor = 1;
@@ -98,6 +95,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
             nucelionsPos = generatePoints(particles, sphereRadius, this.protonRadius);
         };
 
+
         this.ui_addNucleus = function (scene) {
 
             var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20);
@@ -117,8 +115,6 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
                 nuleionsUi.push(sphere);
                 this.stage.add(sphere);
             }
-
-            scene.add(this.stage);
 
             this.stage.position.z = -10000;
             this.stage.visible = false;
@@ -153,11 +149,23 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
             that.normalizeNucleus(nucelionsPos);
         };
 
+        this.electrons = new Electrons(data, this.stage);
         this.renderUpdates = [this.render].concat(this.electrons.renderUpdates);
 
+        this.reset = function (scene) {
+            scene.remove(this.stage);
+            this.stage =  new THREE.Group();
+            this.electrons.stage = this.stage;
+        };
+
         this.create = function (atomicNumber, scene) {
+
+            this.reset(scene);
+
             this.createNucleus(atomicNumber);
             this.ui_addNucleus(scene);
+
+
         };
 
     };
