@@ -141,11 +141,8 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
         };
 
         this.hide = function () {
-            new TWEEN.Tween(this.stage.position).to({
-                z: -50000
-            }, 2000).easing(TWEEN.Easing.Exponential.Out).start().onComplete(function () {
-                that.stage.visible = false;
-            });
+            that.stage.visible = false;
+            that.stage.position.z = -50000;
         };
 
         this.moveTo = function (pos) {
@@ -172,6 +169,11 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
         };
 
         this.create = function (atomicNumber, scene) {
+
+            if (!atomicNumber) {
+                console.log('Error loading atomic data', atomicNumber);
+                return;
+            }
 
             this.reset(scene);
 

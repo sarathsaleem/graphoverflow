@@ -1367,10 +1367,10 @@ grapgCanvas,
     left: 270px;
 }
 .elementInfo.inScreen .aName-w {
-    top: 90px;
+    top: 75px;
 }
 .elementInfo.inScreen .aSymbol-w {
-    top: 118px;
+    top: 102px;
 }
 
 .marker {
@@ -1404,11 +1404,10 @@ grapgCanvas,
     background: rgba(126, 1, 29, 0.48);
     left: 0px;
     right: 0;
-    border-bottom: 1px solid rgb(162, 53, 78);
+    border-bottom:1px solid rgba(255, 255, 255, 0.1);
     z-index: 10;
 }
 .g9 #stats {
-    top: auto !important;
     bottom: 0px;
     right: 0px;
 }
@@ -1502,6 +1501,36 @@ grapgCanvas,
 
 .tableScreen .marker,
 .tableScreen .line,
-.tableScreen .clsoeAtomScreen {
+.tableScreen .clsoeAtomScreen,
+.tableScreen .eleInfo{
     display: none;
+}
+
+.atomScreen .leftArr {
+    position: absolute;
+    left: 0px;
+    top: 35%;
+    height: 25%;
+    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/back.svg') no-repeat 50%;
+    width: 50px;
+    transition: all ease-out 0.5s;
+    z-index: 15;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.atomScreen .rightArr {
+    position: absolute;
+    right: 0px;
+    top: 35%;
+    height: 25%;
+    width: 50px;
+    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/next.svg') no-repeat 50%;
+    z-index: 15;
+    transition: all ease-out 0.5s;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.atomScreen .leftArr:hover, .atomScreen .rightArr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    opacity: 1;
 }

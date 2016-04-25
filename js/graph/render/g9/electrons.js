@@ -26,7 +26,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
 
-        var geo = new THREE.SphereGeometry(10, 20, 20),
+        var geo = new THREE.SphereGeometry(10, 100, 100),
             material = new THREE.MeshLambertMaterial({
                 color: '#2c9037'
             }),
@@ -500,6 +500,12 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
     Orbitals.prototype.bhorModel = function (atomicNumber, animate) {
+
+
+        if (!atomicNumber) {
+            console.log('Error loading atomic data', atomicNumber);
+            return;
+        }
 
         this.resetVars();
 

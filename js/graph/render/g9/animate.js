@@ -88,6 +88,9 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         });
     }
 
+    function resetControls () {
+        controls.reset();
+    }
 
     var setScreenLighting = function (screen) {
 
@@ -156,6 +159,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         this.renderer = renderer;
         this.renderUpdates = [];
         this.containerEle = containerEle;
+        this.resetControls = resetControls;
 
         this.setScreenLighting = setScreenLighting;
 

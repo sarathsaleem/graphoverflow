@@ -122,7 +122,7 @@ define(['libs/three'], function () {
 
                 ctx.beginPath();
                 ctx.font = "Bold 64px Arial";
-                ctx.fillStyle = "#FFF183";
+                ctx.fillStyle = "#fffdc7";
                 ctx.textAlign = 'center';
                 ctx.fillText(element[0], 64, 70);
                 ctx.font = "Bold 20px Arial";
@@ -319,11 +319,8 @@ define(['libs/three'], function () {
         };
 
         this.hide = function () {
-            new TWEEN.Tween(this.stage.position).to({
-                z: -50000
-            }, 2000).easing(TWEEN.Easing.Exponential.Out).start().onComplete(function () {
-                 that.stage.visible = false;
-            });
+            that.stage.visible = false;
+            that.stage.position.z = -5000;
         };
 
         /**

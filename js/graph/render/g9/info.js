@@ -242,6 +242,11 @@ define(['utils/utils'], function (_util) {
                 this.addElemntInfo(0);
                 $('.eleInfo').show(1000);
                 ele.removeClass('tableScreen').addClass('atomScreen');
+                $(elementInfo).addClass('active').addClass('inScreen').css({
+                    zIndex: 0,
+                    opacity: 1,
+                    "transform": "translate3d(0,0,0)"
+                });
             }
 
         };
