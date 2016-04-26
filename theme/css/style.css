@@ -1169,10 +1169,11 @@ grapgCanvas,
     transition: all ease-out 0.5s;
     padding-left: 10px;
     left: 0%;
+    text-shadow: 1px 1px 2px #427388;
 }
 .elementInfo.active {
     width: 500px;
-    height: 350px;
+    height: 250px;
     opacity: 1;
     z-index: 30;
     left: 50%;
@@ -1282,11 +1283,11 @@ grapgCanvas,
 }
 .elementInfo.active .aName-w {
     position: absolute;
-    top: 21%;
+    top: 72px;
 }
 .elementInfo.active .aSymbol-w {
     position: absolute;
-    top: 28%;
+    top: 95px;
 }
 .elementInfo.active .aNumber-w {
     margin: 10px 0 0 0;
@@ -1317,28 +1318,24 @@ grapgCanvas,
     display: block;
 }
 .goDetail-icon {
-    width: 96%;
-    height: 160px;
+    width: 100%;
     box-sizing: border-box;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 0px;
+    right: 0px;
     display: none;
-    text-shadow: none;
-    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
-    background: url('../../templates/images/g9/4.png') no-repeat 49% 40%;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    background-size: 300px;
+    height: 54px;
 }
 .goDetail-icon span {
-    background: rgba(255, 255, 255, 0.18);
-    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.18) url('../../templates/images/g9/next.svg') no-repeat 100%;
+    padding: 10px 44px 10px 20px;
     font-size: 16px;
-    position: absolute;
     bottom: 8px;
     right: 10px;
+    float: right;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    background-size: 22%;
 }
 .explodeEff {
     border: 0 solid;
@@ -1350,7 +1347,6 @@ grapgCanvas,
     transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 .explodeEff:hover {
-    box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
     outline-color: rgba(255, 255, 255, 0);
     outline-offset: 15px;
     text-shadow: 1px 1px 2px #427388;
@@ -1384,6 +1380,7 @@ grapgCanvas,
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    text-shadow: 1px 1px 2px #427388;
 }
 .line {
     padding: 0px;
@@ -1408,8 +1405,8 @@ grapgCanvas,
     z-index: 10;
 }
 .g9 #stats {
-    bottom: 0px;
-    right: 0px;
+    bottom: 50px;
+    top: auto !important;
 }
 .infoPlanel .levels {
     border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1463,7 +1460,7 @@ grapgCanvas,
     line-height: 16px;
     border: 0px solid #CCCCCC;
     border-radius: 20px;
-    background-color: #76bdec;
+    background-color: #2584C5;
     margin: 0px;
 }
 .onoffswitch-label:before {
@@ -1471,7 +1468,7 @@ grapgCanvas,
     display: block;
     width: 15px;
     margin: 1px;
-    background: #2f74a5;
+    background: #f1f1f1;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -1479,7 +1476,7 @@ grapgCanvas,
     border-radius: 24px;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label {
-    background-color: #76bdec;
+    background-color: #0C67A5;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label,
 .onoffswitch-checkbox:checked + .onoffswitch-label:before {
@@ -1490,13 +1487,19 @@ grapgCanvas,
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label:before {
     right: 0px;
-    background-color: #006bb3;
+    background-color: #FFFFFF;
 }
 .showLines {
     position: absolute;
-    right: 50px;
-    top: 50px;
+    right:10%;
+    top:18px;
     z-index: 15;
+    color: #fff;
+    font-size: 10px;
+}
+.showLines .onoffswitch {
+    float: left;
+    margin-right: 5px;
 }
 
 .tableScreen .marker,
@@ -1511,7 +1514,7 @@ grapgCanvas,
     left: 0px;
     top: 35%;
     height: 25%;
-    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/back.svg') no-repeat 50%;
+    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/prev.svg') no-repeat 50%;
     width: 50px;
     transition: all ease-out 0.5s;
     z-index: 15;

@@ -47,7 +47,7 @@ define(['utils/utils'], function (_util) {
                             <span class="prop lc"></span> \
                         </p> \
                         <div class="close-icon"></div> \
-                        <div class="goDetail-icon"><span>Explore atom</span></div> \
+                        <div class="goDetail-icon"><span class="explodeEff">Explore atom</span></div> \
                     </div>';
             elementInfo = $(htmlTmpl);
             ele.append(elementInfo);
@@ -118,7 +118,7 @@ define(['utils/utils'], function (_util) {
             });
 
 
-            var eleInfoCntrls = $('<div class="eleInfo leftArr"></div><div class="eleInfo rightArr"></div><div class="eleInfo  backToScreen"></div><div class="eleInfo showLines  onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked><label class="onoffswitch-label" for="myonoffswitch"></label></div>');
+            var eleInfoCntrls = $('<div class="eleInfo leftArr"></div><div class="eleInfo rightArr"></div><div class="eleInfo  backToScreen"></div><div class="eleInfo showLines"><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch"><label class="onoffswitch-label" for="myonoffswitch"></label></div><span>Show electrons shell info</span></div>');
 
             ele.append(eleInfoCntrls);
 

@@ -44,7 +44,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         controls = new THREE.TrackballControls(camera, renderer.domElement);
         controls.rotateSpeed = 0.8;
         controls.minDistance = 100;
-        controls.maxDistance = 100000;
+        controls.maxDistance = 15000;
 
         scene = new THREE.Scene();
         //scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
@@ -67,7 +67,9 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         stats = new Stats();
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
+        stats.domElement.id = 'stats';
         containerEle.append(stats.domElement);
+
         var axes = new THREE.AxisHelper(1000);
         //scene.add(axes);
 
@@ -88,9 +90,6 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         });
     }
 
-    function resetControls () {
-        controls.reset();
-    }
 
     var setScreenLighting = function (screen) {
 
@@ -159,7 +158,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         this.renderer = renderer;
         this.renderUpdates = [];
         this.containerEle = containerEle;
-        this.resetControls = resetControls;
+        this.controls = controls;
 
         this.setScreenLighting = setScreenLighting;
 

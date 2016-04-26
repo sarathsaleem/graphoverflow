@@ -499,7 +499,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
 
 
-    Orbitals.prototype.bhorModel = function (atomicNumber, animate) {
+    Orbitals.prototype.bhorModel = function (atomicNumber, app) {
 
 
         if (!atomicNumber) {
@@ -513,7 +513,11 @@ define(['libs/three', 'd3'], function (ignore) {
 
         var levelConfig = this.getLevelConfiguration(eConfiguration[atomicNumber]);
 
+        app.atomicConfig = levelConfig;
+
         var levels = Object.keys(levelConfig);
+
+
 
         for (var i = 0; i < levels.length; i++) {
 
@@ -526,7 +530,7 @@ define(['libs/three', 'd3'], function (ignore) {
 
         this.addElectronsToScreen();
 
-        this.guidlines = this.addElectronGuidLine(levels, animate);
+        this.guidlines = this.addElectronGuidLine(levels, app.animate);
 
         window.addEventListener('resize', this.guidlines.onResize, false);
 

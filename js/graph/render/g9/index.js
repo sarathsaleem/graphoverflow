@@ -24,6 +24,7 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.animate.renderUpdates = [];
 
         App.atomicNumber = 38;//test
+        App.atomicConfig = null;
 
         App.table.subscribe(function (ele, m) {
             App.info.addElemntInfo(ele, m);
@@ -36,19 +37,25 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.table.addTable(App.animate);
 
         App.screen.OnScreenChange = function (screenNum) {
+
             if (screenNum === 1) {
+
                 App.table.show();
                 App.atom.hide();
                 App.animate.renderUpdates = App.table.renderUpdates;
+
             } else {
 
                 App.table.hide();
 
                 App.atom.create(App.atomicNumber, App.animate.scene);
-                App.atom.electrons.bhorModel(App.atomicNumber, App.animate);
+                App.atom.electrons.bhorModel(App.atomicNumber, App);
                 App.atom.show();
+                App.screen.setZoom(App.atomicNumber);
                 App.animate.renderUpdates = App.atom.renderUpdates;
                 App.animate.scene.add(App.atom.stage);
+
+
             }
 
             App.animate.setScreenLighting(screenNum);

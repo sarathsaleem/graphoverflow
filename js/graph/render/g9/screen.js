@@ -15,7 +15,7 @@ define(function () {
             if (this.OnScreenChange && typeof this.OnScreenChange === 'function') {
                 this.OnScreenChange(screen);
             }
-            this.setCamera(1);
+            this.setCamera(screen);
         };
 
         this.initScreen = function () {
@@ -24,12 +24,24 @@ define(function () {
 
         this.logTime = function (me, t) {
             var logTime = t || gTime;
-            console.log(me +' : ', Date.now() - logTime);
+            console.log(me + ' : ', Date.now() - logTime);
         };
 
         this.setCamera = function (screen) {
 
-           animate.resetControls();
+            animate.controls.reset();
+
+            if (screen === 2) {
+                var target = new THREE.Vector3();
+                var position = new THREE.Vector3(-2196.9444248900513, -5783.6378311519475, 4047.1373557078664);
+                var up = new THREE.Vector3(0.20125934594291095, 0.5091274844898959, 0.8368296602102624);
+                animate.controls.resetTo(target, position, up);
+            }
+
+
+        };
+
+        this.setZoom = function () {
 
         };
 

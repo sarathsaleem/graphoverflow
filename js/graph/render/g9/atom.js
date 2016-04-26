@@ -128,7 +128,8 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
                 this.stage.add(sphere);
             }
 
-            this.stage.position.z = -10000;
+            this.stage.position.x = 5000;
+            this.stage.position.y = 10000;
             this.stage.visible = false;
 
         };
@@ -136,13 +137,17 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
         this.show = function () {
             this.stage.visible = true;
             new TWEEN.Tween(this.stage.position).to({
-                z: 0
+                x: 0,
+                y: 0
             }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
         };
 
         this.hide = function () {
             that.stage.visible = false;
-            that.stage.position.z = -50000;
+            that.stage.position.z = 0;
+            that.stage.position.x = 5000;
+            that.stage.position.y = 10000;
+
         };
 
         this.moveTo = function (pos) {
