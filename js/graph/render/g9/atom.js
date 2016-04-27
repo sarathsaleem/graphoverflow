@@ -4,19 +4,22 @@
 define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
     "use strict";
 
-    var Atom = function (data) {
+    var Atom = function (app) {
+
+        this.app = app;
 
         this.stage = new THREE.Group();
 
-        var nucelionsPos = [];
-        var coolingFactor = 1;
-        var nucleusCenter = {
-            x: 0,
-            y: 0,
-            z: 0
-        };
-
-        var nuleionsUi = [];
+        var nucelionsPos = [],
+            coolingFactor = 1,
+            nucleusCenter = {
+                x: 0,
+                y: 0,
+                z: 0
+            },
+            data = app.data,
+            nuleionsUi = [],
+            that = this;
 
         this.protonRadius = 50;
 
@@ -171,6 +174,24 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
             this.stage = new THREE.Group();
             this.electrons.stage = this.stage;
             this.resetVars();
+        };
+
+        this.showNext = function () {
+
+            if (that.app.atomicNumber >= 118) {
+                return;
+            }
+            that.app.atomicNumber = that.app.atomicNumber + 1;
+            that.app.setAtomScreen();
+        };
+
+        this.showPrevious = function () {
+
+            if (that.app.atomicNumber >= 0) {
+                return;
+            }
+            that.app.atomicNumber = that.app.atomicNumber - 1;
+            that.app.setAtomScreen();
         };
 
         this.create = function (atomicNumber, scene) {

@@ -22,7 +22,16 @@ define(['libs/three', 'd3'], function (ignore) {
         this.electronsUi = {};
         this.electronsPos = {};
         this.spin = true;
-        this.showGuidLines = true;
+        this.showShellsLabel = false;
+        this.shellsLabel = function (show) {
+            if (show) {
+                $('.shellInfo').fadeIn(400);
+                that.showShellsLabel = true;
+            } else {
+                $('.shellInfo').hide();
+                that.showShellsLabel = false;
+            }
+        };
 
 
 
@@ -69,7 +78,6 @@ define(['libs/three', 'd3'], function (ignore) {
             this.electronsUi = {};
             this.electronsPos = {};
             this.spin = true;
-            this.showGuidLines = true;
 
             particles = new THREE.BufferGeometry();
             totoalPos = 0;
@@ -383,18 +391,18 @@ define(['libs/three', 'd3'], function (ignore) {
                 lines = [];
 
             levels.forEach(function (level) {
-                var elementInfo = $('<div class="marker">'+level+'</div>');
+                var elementInfo = $('<div class="marker shellInfo">'+level+'</div>');
                 animate.containerEle.append(elementInfo);
                 points.push({level :level , element: elementInfo});
 
-                var line = $('<div class="line" />');
+                var line = $('<div class="line shellInfo" />');
                 animate.containerEle.append(line);
                 lines.push(line);
 
             });
 
             this.update = function () {
-                if (!this.showGuidLines) {
+                if (!this.showShellsLabel) {
                     return;
                 }
 
