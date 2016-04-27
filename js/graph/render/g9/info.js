@@ -7,12 +7,7 @@ define(['utils/utils'], function (_util) {
 
     return function (app) {
 
-        function rnd(min, max) {
-            return (Math.random() * (max - min + 1)) + min;
-        }
-
         this.app = app;
-        var that = this;
 
         this.data = app.data;
         //this.screen = screen;
@@ -20,7 +15,6 @@ define(['utils/utils'], function (_util) {
         var elementInfo,
             infoPanel,
             elementInfoWrapper,
-            elementScreen,
             inShowScreen = false;
 
         this.addUi = (function (that) {
@@ -118,9 +112,16 @@ define(['utils/utils'], function (_util) {
             });
 
 
-            var eleInfoCntrls = $('<div class="eleInfo leftArr"></div><div class="eleInfo rightArr"></div><div class="eleInfo  backToScreen"></div><div class="eleInfo showLines"><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch"><label class="onoffswitch-label" for="myonoffswitch"></label></div><span>Show electrons shell info</span></div>');
+            var controls = $('<div class="eleInfo leftArr"></div><div class="eleInfo rightArr"></div>');
+            var eleInfoCntrls = ' \
+                        <div class="controls eleInfo"> \
+                            <div class="cntlrRow"><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="showShellsLabel"><label class="onoffswitch-label" for="showShellsLabel"></label></div><span>Show electrons shell info</span></div> \
+                            <div class="cntlrRow"><div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="spinElectrons" checked><label class="onoffswitch-label" for="spinElectrons"></label></div><span>Spin electrons</span></div> \
+                        </div>';
+            eleInfoCntrls = $(eleInfoCntrls);
 
             ele.append(eleInfoCntrls);
+            ele.append(controls);
 
             var backToScreenOne = $('<div class="close-icon clsoeAtomScreen"></div>');
             ele.append(backToScreenOne);
@@ -131,6 +132,30 @@ define(['utils/utils'], function (_util) {
                 app.screen.changeScreen(1);
                 $(elementInfo).removeClass('active').removeClass('inScreen');
             });
+
+            $("#spinElectrons").on('change', function () {
+                if ($(this).is(':checked')) {
+                    that.app.atom.electrons.spin = true;
+                } else {
+                    that.app.atom.electrons.spin = false;
+                }
+            });
+
+            $("#showShellsLabel").on('change', function () {
+                if ($(this).is(':checked')) {
+                    that.app.atom.electrons.shellsLabel(true);
+                } else {
+                    that.app.atom.electrons.shellsLabel(false);
+                }
+            });
+
+            $(ele).find('.leftArr').on('click', function () {
+                that.app.atom.showPrevious();
+            });
+            $(ele).find('.rightArr').on('click', function () {
+                that.app.atom.showNext();
+            });
+
 
         }(this));
 
@@ -158,6 +183,10 @@ define(['utils/utils'], function (_util) {
 
             this.app.table.higlightElemnts(aNumbers);
 
+
+        };
+
+        this.setAtomicData = function () {
 
         };
 
@@ -206,14 +235,14 @@ define(['utils/utils'], function (_util) {
 
         };
 
-        this.showElementInfo = function (aNumber, mouse) {
+        this.showElementInfo = function (aNumber) {
 
             var eConfiguration = app.atom.electrons.getConfiguration(),
                 levelSplitConfig = app.atom.electrons.getLevelSplitConfiguration(eConfiguration[aNumber]);
 
             elementInfo.find('.levels').hide();
             Object.keys(levelSplitConfig).forEach(function (level) {
-                elementInfo.find('.'+level).text(levelSplitConfig[level].join().split(',').join(', ')).show();
+                elementInfo.find('.' + level).text(levelSplitConfig[level].join().split(',').join(', ')).show();
             });
 
 
@@ -226,27 +255,39 @@ define(['utils/utils'], function (_util) {
             inShowScreen = true;
         };
 
+
+        this.showInfoPanel = function () {
+            if (this.app.screen.isTableLoaded) {
+                $('.infoPlanel').fadeIn(1000);
+            }
+        };
+
+        this.hideInfoPanel = function () {
+            $('.infoPlanel').fadeOut();
+        };
+
         this.switchScreen = function (screen) {
 
-            var infoPanel = $('.infoPlanel');
+            $('.line').remove();
+            $('.marker').remove();
 
             if (screen === 1) {
-                infoPanel.fadeIn();
+                this.showInfoPanel();
                 $('.eleInfo').hide();
                 ele.addClass('tableScreen').removeClass('atomScreen');
-                $('.line').remove();
-                $('.marker').remove();
 
             } else {
-                infoPanel.fadeOut();
+                this.hideInfoPanel();
                 this.addElemntInfo(0);
-                $('.eleInfo').show(1000);
+                $('.eleInfo').show();
                 ele.removeClass('tableScreen').addClass('atomScreen');
                 $(elementInfo).addClass('active').addClass('inScreen').css({
                     zIndex: 0,
                     opacity: 1,
                     "transform": "translate3d(0,0,0)"
                 });
+                $("#spinElectrons").prop('checked', true);
+                $("#showShellsLabel").prop('checked', false);
             }
 
         };

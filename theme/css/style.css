@@ -1166,7 +1166,7 @@ grapgCanvas,
     color: #fff;
     z-index: 0;
     opacity: 0;
-    transition: all ease-out 0.5s;
+    transition: all ease-out 0.3s;
     padding-left: 10px;
     left: 0%;
     text-shadow: 1px 1px 2px #427388;
@@ -1403,6 +1403,7 @@ grapgCanvas,
     right: 0;
     border-bottom:1px solid rgba(255, 255, 255, 0.1);
     z-index: 10;
+    display: none;
 }
 .g9 #stats {
     bottom: 50px;
@@ -1489,7 +1490,7 @@ grapgCanvas,
     right: 0px;
     background-color: #FFFFFF;
 }
-.showLines {
+.controls {
     position: absolute;
     right:10%;
     top:18px;
@@ -1497,9 +1498,17 @@ grapgCanvas,
     color: #fff;
     font-size: 10px;
 }
-.showLines .onoffswitch {
+.controls .onoffswitch {
     float: left;
     margin-right: 5px;
+}
+.controls .cntlrRow {
+    clear: both;
+    margin: 10px 0;
+}
+.shellInfo {
+    display: none;
+    opacity: 1;
 }
 
 .tableScreen .marker,

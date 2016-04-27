@@ -5,21 +5,27 @@ define(function () {
 
     "use strict";
 
-    return function (animate) {
+    return function (app) {
 
-        var camera = animate.camera;
+
+        var animate = app.animate,
+            that = this;
+
+
+        animate.controls.enabled = false;
 
         var gTime = Date.now();
+
+        this.isTableLoaded = false;
 
         this.changeScreen = function (screen) {
             if (this.OnScreenChange && typeof this.OnScreenChange === 'function') {
                 this.OnScreenChange(screen);
             }
-            this.setCamera(screen);
         };
 
         this.initScreen = function () {
-            this.changeScreen(2);
+            this.changeScreen(1);
         };
 
         this.logTime = function (me, t) {
@@ -43,6 +49,12 @@ define(function () {
 
         this.setZoom = function () {
 
+        };
+
+        this.onFinshTableAnimation = function () {
+            that.isTableLoaded = true;
+            animate.controls.enabled = true;
+            app.info.switchScreen(1);
         };
 
 

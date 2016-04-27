@@ -1,5 +1,5 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define,THREE, brackets: true, $, window, navigator , clearInterval , setInterval, d3, Float32Array*/
+/*global require, define,THREE, brackets: true, $, window, navigator, document, clearInterval , setTimeout, TWEEN, d3, Float32Array*/
 
 define(['libs/three'], function () {
 
@@ -18,8 +18,7 @@ define(['libs/three'], function () {
         var elementsBox = [],
             elementsRefs = [],
             elementsPos = [],
-            elementsGroup = [],
-            elementsGropPos = [];
+            elementsGroup = [];
         var raycaster = new THREE.Raycaster(),
             mouse = new THREE.Vector2(),
             INTERSECTED,
@@ -48,7 +47,7 @@ define(['libs/three'], function () {
         };
 
 
-        this.addElements = function (elements, screen) {
+        this.addElements = function (elements, screen, cb) {
             this.screen = screen;
             var scene = screen.scene,
                 dataelemnts = elements,
@@ -56,7 +55,6 @@ define(['libs/three'], function () {
 
             var createElementOutterBox = (function () {
                 var geo = new THREE.SphereGeometry(65, 20, 20),
-                    color = new THREE.Color(),
                     w = 140,
                     h = 180,
                     xMinus = 1330,
@@ -166,11 +164,20 @@ define(['libs/three'], function () {
 
             scene.add(this.stage);
 
+            var isFinished = 0;
+
+            function inc () {
+                isFinished++;
+                if (isFinished == elementsGroup.length) {
+                    cb();
+                }
+            }
+
             setTimeout(function () {
-                elementsGroup.forEach(function (group, i) {
+                elementsGroup.forEach(function (group) {
                     new TWEEN.Tween(group.position).to({
                         z: 0
-                    }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
+                    }, 0).easing(TWEEN.Easing.Exponential.Out).onComplete(inc).start();
                 });
             }, 1000);
 
@@ -347,8 +354,8 @@ define(['libs/three'], function () {
 
     };
 
-    Table.prototype.addTable = function (scene) {
-        this.addElements(this.elements, scene);
+    Table.prototype.addTable = function (scene, cb) {
+        this.addElements(this.elements, scene, cb);
     };
 
     return Table;
