@@ -178,19 +178,21 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
         this.showNext = function () {
 
+            that.app.atomicNumber = that.app.atomicNumber + 1;
             if (that.app.atomicNumber >= 118) {
+                that.app.atomicNumber = 118;
                 return;
             }
-            that.app.atomicNumber = that.app.atomicNumber + 1;
             that.app.setAtomScreen();
         };
 
         this.showPrevious = function () {
 
-            if (that.app.atomicNumber >= 0) {
+            that.app.atomicNumber = that.app.atomicNumber - 1;
+            if (that.app.atomicNumber <= 1) {
+                that.app.atomicNumber = 1;
                 return;
             }
-            that.app.atomicNumber = that.app.atomicNumber - 1;
             that.app.setAtomScreen();
         };
 

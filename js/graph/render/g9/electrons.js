@@ -56,7 +56,9 @@ define(['libs/three', 'd3'], function (ignore) {
                 'O': 0.035,
                 'P': 0.04,
                 'Q': 0.045
-            };
+            },
+            electronTexture = new THREE.TextureLoader().load('../templates/images/g9/electron.png');
+
 
         var particles = new THREE.BufferGeometry(),
             totoalPos = 0,
@@ -237,7 +239,7 @@ define(['libs/three', 'd3'], function (ignore) {
                 },
                 texture: {
                     type: "t",
-                    value: new THREE.TextureLoader().load('../templates/images/g9/electron.png')
+                    value: electronTexture
                 }
             };
 

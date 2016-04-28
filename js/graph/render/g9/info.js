@@ -123,7 +123,7 @@ define(['utils/utils'], function (_util) {
             ele.append(eleInfoCntrls);
             ele.append(controls);
 
-            var backToScreenOne = $('<div class="close-icon clsoeAtomScreen"></div>');
+            var backToScreenOne = $('<div class="eleInfo close-icon closeAtomScreen"></div>');
             ele.append(backToScreenOne);
             $(backToScreenOne).on('click', function () {
                 inShowScreen = false;
@@ -151,9 +151,13 @@ define(['utils/utils'], function (_util) {
 
             $(ele).find('.leftArr').on('click', function () {
                 that.app.atom.showPrevious();
+                that.setAtomicData(that.app.atomicNumber);
+                that.addShellInfo(that.app.atomicNumber);
             });
             $(ele).find('.rightArr').on('click', function () {
                 that.app.atom.showNext();
+                that.setAtomicData(that.app.atomicNumber);
+                that.addShellInfo(that.app.atomicNumber);
             });
 
 
@@ -186,9 +190,36 @@ define(['utils/utils'], function (_util) {
 
         };
 
-        this.setAtomicData = function () {
+        this.setAtomicData = function (aNumber) {
+
+            var eConfiguration = app.atom.electrons.getConfiguration(),
+                levelConfig = app.atom.electrons.getLevelConfiguration(eConfiguration[aNumber]);
+
+            levelConfig = Object.keys(levelConfig).map(function (l) {
+                return levelConfig[l];
+            });
+
+            var element = this.data.elements[aNumber];
+            elementInfo.find('.n').text(element[1]);
+            elementInfo.find('.s').text(element[0]);
+            elementInfo.find('.w').text(element[2]);
+            elementInfo.find('.num').text(aNumber);
+            elementInfo.find('.lc').html(levelConfig.join('</br>'));
 
         };
+
+         this.addShellInfo = function (aNumber) {
+
+            var eConfiguration = app.atom.electrons.getConfiguration(),
+                levelSplitConfig = app.atom.electrons.getLevelSplitConfiguration(eConfiguration[aNumber]);
+
+            elementInfo.find('.levels').hide();
+            Object.keys(levelSplitConfig).forEach(function (level) {
+                elementInfo.find('.' + level).text(levelSplitConfig[level].join().split(',').join(', ')).show();
+            });
+
+
+         };
 
         this.addElemntInfo = function (aNumber, mouse) {
 
@@ -197,21 +228,7 @@ define(['utils/utils'], function (_util) {
             }
 
             if (aNumber) {
-
-                var eConfiguration = app.atom.electrons.getConfiguration(),
-                    levelConfig = app.atom.electrons.getLevelConfiguration(eConfiguration[aNumber]);
-
-                levelConfig = Object.keys(levelConfig).map(function (l) {
-                    return levelConfig[l];
-                });
-
-                var element = this.data.elements[aNumber];
-                elementInfo.find('.n').text(element[1]);
-                elementInfo.find('.s').text(element[0]);
-                elementInfo.find('.w').text(element[2]);
-                elementInfo.find('.num').text(aNumber);
-                elementInfo.find('.lc').html(levelConfig.join('</br>'));
-
+                this.setAtomicData(aNumber);
                 var x = mouse.cx,
                     y = mouse.cy,
                     sx = ele[0].offsetWidth,
@@ -237,23 +254,16 @@ define(['utils/utils'], function (_util) {
 
         this.showElementInfo = function (aNumber) {
 
-            var eConfiguration = app.atom.electrons.getConfiguration(),
-                levelSplitConfig = app.atom.electrons.getLevelSplitConfiguration(eConfiguration[aNumber]);
-
-            elementInfo.find('.levels').hide();
-            Object.keys(levelSplitConfig).forEach(function (level) {
-                elementInfo.find('.' + level).text(levelSplitConfig[level].join().split(',').join(', ')).show();
-            });
-
-
+            this.addShellInfo(aNumber);
             elementInfo.addClass('active').css({
                 zIndex: 30,
                 opacity: 1,
                 "transform": "translate3d(-50%, 50%, 0)"
             });
-            elementInfoWrapper.show();
             inShowScreen = true;
+            elementInfoWrapper.show();
         };
+
 
 
         this.showInfoPanel = function () {
@@ -290,6 +300,21 @@ define(['utils/utils'], function (_util) {
                 $("#showShellsLabel").prop('checked', false);
             }
 
+        };
+
+        this.loadingScreen = (function () {
+            return {
+             'remove' : function () {
+                  $('.loader').remove();
+             }
+
+            };
+        }());
+
+        this.hideAll= function () {
+            this.hideInfoPanel();
+            this.addElemntInfo(0);
+            $('.eleInfo').hide();
         };
 
 

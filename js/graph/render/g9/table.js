@@ -47,7 +47,7 @@ define(['libs/three'], function () {
         };
 
 
-        this.addElements = function (elements, screen, cb) {
+        this.addElements = function (elements, screen) {
             this.screen = screen;
             var scene = screen.scene,
                 dataelemnts = elements,
@@ -163,24 +163,6 @@ define(['libs/three'], function () {
             });
 
             scene.add(this.stage);
-
-            var isFinished = 0;
-
-            function inc () {
-                isFinished++;
-                if (isFinished == elementsGroup.length) {
-                    cb();
-                }
-            }
-
-            setTimeout(function () {
-                elementsGroup.forEach(function (group) {
-                    new TWEEN.Tween(group.position).to({
-                        z: 0
-                    }, 0).easing(TWEEN.Easing.Exponential.Out).onComplete(inc).start();
-                });
-            }, 1000);
-
 
             var ele = screen.renderer.domElement;
 
@@ -328,6 +310,25 @@ define(['libs/three'], function () {
         this.hide = function () {
             that.stage.visible = false;
             that.stage.position.z = -5000;
+        };
+
+        this.startTableAniamtion = function (cb) {
+
+            var isFinished = 0;
+            function inc () {
+                isFinished++;
+                if (isFinished == elementsGroup.length) {
+                    cb();
+                }
+            }
+
+            elementsGroup.forEach(function (group) {
+                new TWEEN.Tween(group.position).to({
+                    z: 0
+                }, 3000).easing(TWEEN.Easing.Exponential.Out).onComplete(inc).start();
+            });
+
+
         };
 
         /**
