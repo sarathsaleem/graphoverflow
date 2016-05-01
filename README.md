@@ -12,6 +12,12 @@ Source and build
 
 I am using git [project page][5] for publishing the web content on the domain [graphoverflow.com][6] . <b>Source files can be found on `gh-pages` branch.</b> [Grunt][7] is used for building the static pages , building scripts can be found at `builder` branch
 
+LICENSE
+
+*Open source license* **:**
+The open source license is designed for you to use any content in [graphoverflow.com][6]  to build open source and personal projects. The graphoverflow open source license is [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html).
+*Commercial license* **:**
+The commercial license is designed to for you to use use any content in [graphoverflow.com][6]  in commercial products and applications, without the provisions of the GPLv3. Contact me for commercial license.
 
   [1]: http://graphoverflow.com
   [2]: http://stackoverflow.com/
