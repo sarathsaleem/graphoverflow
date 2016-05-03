@@ -139,7 +139,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         this.lights.push(light);
 
 
-        $(container).append(gui.domElement);
+        //$(container).append(gui.domElement);
 
         gui.close();
 
