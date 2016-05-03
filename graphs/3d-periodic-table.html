@@ -39,14 +39,20 @@
                 </a>
             </div>
             <div class="navbar-collapse collapse"></div>
-            <!--/.navbar-collapse -->
         </div>
     </div>
 
 
     <div class="graphWrapper">
         <div class="canvas">
-          <div class="graphCanvas fullscreen"></div>
+          <div class="graphCanvas fullscreen g9"></div>
+           <div class="loader">
+    <h1 data-title="3D periodic table, Created with Three.js" class="loaderInfo">Periodic Table of Elements</h1>
+    <div class="inner one"></div>
+    <div class="inner two"></div>
+    <div class="inner three"></div>
+</div>
+
         </div>
     </div>
 
@@ -69,6 +75,7 @@
 
     <script src="../js/libs/require.js"></script>
     <script src="../js/app-min.js"></script>
+    <script src="../js/builds/g9-min.js"></script>
     <script type="text/javascript">
         require(['app'], function (modules,render) {
             var application = modules.App;

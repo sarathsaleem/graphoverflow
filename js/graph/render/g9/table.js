@@ -1,30 +1,40 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
-/*global require, define,THREE, brackets: true, $, window, navigator , clearInterval , setInterval, d3, Float32Array*/
+/*global require, define,THREE, brackets: true, $, window, navigator, document, clearInterval , setTimeout, TWEEN, d3, Float32Array*/
 
 define(['libs/three'], function () {
 
     "use strict";
 
-    var Table = function (data) {
+    var Table = function (app) {
 
         var that = this;
 
+        this.app = app;
+        var data = app.data;
+
         this.elements = data.elements;
         this.screen = null;
+        this.stage =  new THREE.Group();
         var elementsBox = [],
             elementsRefs = [],
             elementsPos = [],
-            elementsGroup = [],
-            elementsGropPos = [];
+            elementsGroup = [];
         var raycaster = new THREE.Raycaster(),
             mouse = new THREE.Vector2(),
-            INTERSECTED;
+            INTERSECTED,
+            currentNumber = null;
 
         this.activeElement = null;
         this.activeNumber = 0;
-        var cbs = [];
+        var cbs = [],
+            clickCbs = [];
+
         this.subscribe = function (cb) {
             cbs.push(cb);
+        };
+
+        this.subscribeClick = function (cb) {
+            clickCbs.push(cb);
         };
 
         function rnd(min, max) {
@@ -40,11 +50,11 @@ define(['libs/three'], function () {
         this.addElements = function (elements, screen) {
             this.screen = screen;
             var scene = screen.scene,
-                dataelemnts = elements;
+                dataelemnts = elements,
+                that = this;
 
             var createElementOutterBox = (function () {
                 var geo = new THREE.SphereGeometry(65, 20, 20),
-                    color = new THREE.Color(),
                     w = 140,
                     h = 180,
                     xMinus = 1330,
@@ -66,7 +76,7 @@ define(['libs/three'], function () {
                     });
                     box.aNumber = num + 1;
 
-                   /* var positions = box.geometry.attributes.position.array,
+                    /* var positions = box.geometry.attributes.position.array,
                         colors = new Float32Array(positions.length);
 
                     for (var i = 0, i3 = 0; i < positions.length; i++, i3 += 3) {
@@ -87,7 +97,7 @@ define(['libs/three'], function () {
             }());
 
             var createText = (function () {
-                var geo = new THREE.PlaneBufferGeometry(100, 100, 1, 1);
+                var geo = new THREE.PlaneGeometry(100, 100, 1, 1);
                 return function (aNumber, i) {
                     var material = getMaterial(elements[aNumber], i + 1);
                     var textMesh1 = new THREE.Mesh(geo, material);
@@ -96,7 +106,6 @@ define(['libs/three'], function () {
                     textMesh1.position.y = elementsPos[i].y;
                     textMesh1.position.z = 0;
 
-                    //scene.add(textMesh1);
                     return textMesh1;
 
                 };
@@ -111,7 +120,7 @@ define(['libs/three'], function () {
 
                 ctx.beginPath();
                 ctx.font = "Bold 64px Arial";
-                ctx.fillStyle = "#FFF183";
+                ctx.fillStyle = "#fdfdfd";
                 ctx.textAlign = 'center';
                 ctx.fillText(element[0], 64, 70);
                 ctx.font = "Bold 20px Arial";
@@ -150,18 +159,10 @@ define(['libs/three'], function () {
                 elementsGroup.push(elementGroup);
 
                 elementGroup.position.setZ(rnd(-10000, 10000));
-                scene.add(elementGroup);
-
+                that.stage.add(elementGroup);
             });
 
-            setTimeout(function () {
-                elementsGroup.forEach(function (group, i) {
-                    new TWEEN.Tween(group.position).to({
-                        z: 0
-                    }, 5000).easing(TWEEN.Easing.Exponential.Out).start();
-                });
-            }, 1000);
-
+            scene.add(this.stage);
 
             var ele = screen.renderer.domElement;
 
@@ -180,20 +181,29 @@ define(['libs/three'], function () {
                 mouse.cy = cY;
 
             }
-            ele.addEventListener('mousemove', onDocumentMouseMove, false);
 
+
+            function onDocumentClick() {
+                if (currentNumber) {
+                    that.clickElement(currentNumber);
+                }
+            }
+
+            $(ele).on('mousemove', onDocumentMouseMove);
+            $(ele).on('click', onDocumentClick);
 
 
         };
-        var currentNumber = null;
         this.hoverElement = function (elementBox, mouse) {
             var that = this;
             if (elementBox) {
                 this.activeElement = elementBox;
                 this.activeNumber = elementBox.aNumber;
+                document.body.style.cursor = 'pointer';
             } else {
                 this.activeElement = null;
                 this.activeNumber = 0;
+                document.body.style.cursor = 'default';
             }
 
             if (this.activeNumber !== currentNumber) {
@@ -277,6 +287,50 @@ define(['libs/three'], function () {
 
         };
 
+        var inScreenChnage = false;
+        this.clickElement = function (currentElement) {
+            if (inScreenChnage) {
+                return;
+            }
+            inScreenChnage = true;
+            that.hoverElement(false);
+            clickCbs.forEach(function (cb) {
+                cb(currentElement, mouse);
+            });
+            inScreenChnage = false;
+        };
+
+        this.show = function () {
+            this.stage.visible = true;
+            new TWEEN.Tween(this.stage.position).to({
+                z: 0
+            }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
+        };
+
+        this.hide = function () {
+            that.stage.visible = false;
+            that.stage.position.z = -5000;
+        };
+
+        this.startTableAniamtion = function (cb) {
+
+            var isFinished = 0;
+            function inc () {
+                isFinished++;
+                if (isFinished == elementsGroup.length) {
+                    cb();
+                }
+            }
+
+            elementsGroup.forEach(function (group) {
+                new TWEEN.Tween(group.position).to({
+                    z: 0
+                }, 3500).easing(TWEEN.Easing.Exponential.InOut).onComplete(inc).start();
+            });
+
+
+        };
+
         /**
          *
          *
@@ -285,7 +339,7 @@ define(['libs/three'], function () {
             //that.lineGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( that.screen.camera.position, that.lineGlow.position );
             raycaster.setFromCamera(mouse, that.screen.camera);
             var intersects = raycaster.intersectObjects(elementsRefs);
-            if (intersects.length > 0) {
+            if (intersects.length > 0 && that.app.screen.isTableLoaded) {
                 if (INTERSECTED != intersects[0].object) {
                     INTERSECTED = intersects[0].object;
                     that.hoverElement(INTERSECTED, mouse);
@@ -301,8 +355,8 @@ define(['libs/three'], function () {
 
     };
 
-    Table.prototype.addTable = function (scene) {
-        this.addElements(this.elements, scene);
+    Table.prototype.addTable = function (scene, cb) {
+        this.addElements(this.elements, scene, cb);
     };
 
     return Table;

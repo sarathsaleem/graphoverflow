@@ -39,14 +39,14 @@
                 </a>
             </div>
             <div class="navbar-collapse collapse"></div>
-            <!--/.navbar-collapse -->
         </div>
     </div>
 
 
     <div class="graphWrapper">
         <div class="canvas">
-          <div class="graphCanvas fullscreen"></div>
+          <div class="graphCanvas fullscreen <%= graphId %>"></div>
+          <%= loadScreen %>
         </div>
     </div>
 
@@ -81,6 +81,7 @@
 <% if (env === "production") { %>
     <script src="../js/libs/require.js"></script>
     <script src="../js/app-min.js"></script>
+    <script src="../js/builds/<%= graphId %>-min.js"></script>
     <script type="text/javascript">
         require(['app'], function (modules,render) {
             var application = modules.App;

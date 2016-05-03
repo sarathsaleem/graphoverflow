@@ -29,7 +29,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
             scene.add(light);
 
             var helper = new THREE.DirectionalLightHelper( light, 3 );
-            scene.add( helper );
+            //scene.add( helper );
             return light;
         };
         this.addHemisphereLight = function (skyColorHex, groundColorHex, intensity) {
@@ -75,8 +75,19 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
        /* var light = this.addAmbientLight("#595959");
         var f1 = gui.addFolder('AmbientLight');
         f1.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+
 */
-        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :1});
+
+        var hemiLight = this.addHemisphereLight(0xffffff, 0xffffff, 1.25);
+        hemiLight.color.setHSL(0.6, 1, 0.75);
+        hemiLight.groundColor.setHSL(0.1, 0.8, 0.7);
+        hemiLight.position.y = 5100;
+        var f2 = gui.addFolder('HemisphereLight');
+        f2.add(hemiLight, 'visible');
+        this.lights.push(hemiLight);
+
+
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :10});
         var f2 = gui.addFolder('DirectionalLight');
         f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
         f2.add(light, 'intensity', 0, 1);
@@ -86,8 +97,8 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         f2.add(light, 'visible');
         this.lights.push(light);
 
-        var light = this.addDirectionalLight("#ffffff", 1, { x: 1 , y : 0 , z :1});
-        var f2 = gui.addFolder('DirectionalLight2');
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z : -10});
+        var f2 = gui.addFolder('DirectionalLight11');
         f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
         f2.add(light, 'intensity', 0, 1);
         f2.add(light.position, 'x', -2000, 2000).step(1);
@@ -97,12 +108,10 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         this.lights.push(light);
 
 
-
-
         /***********************************************************************************************/
 
 
-        var light = this.addDirectionalLight("#ffffff", 0.7, { x: 0 , y : 0 , z :1500});
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :1500});
         var f2 = gui.addFolder('DirectionalLight3');
         f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
         f2.add(light, 'intensity', 0, 1);
@@ -113,7 +122,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         this.lights.push(light);
 
 
-        var light = this.addDirectionalLight("#ffffff", 0.7, { x: 0 , y : 0  , z :-1500});
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0  , z :-1500});
         var f2 = gui.addFolder('DirectionalLight4');
         f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
         f2.add(light, 'intensity', 0, 1);
@@ -123,8 +132,14 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         f2.add(light, 'visible');
         this.lights.push(light);
 
+        var light = new THREE.AmbientLight( 0x404040 ); // soft white light
+        var f2 = gui.addFolder('AmbientLight');
+        f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
+        f2.add(light, 'visible');
+        this.lights.push(light);
 
-        $(container).append(gui.domElement);
+
+        //$(container).append(gui.domElement);
 
         gui.close();
 

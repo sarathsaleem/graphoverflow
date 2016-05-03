@@ -4,22 +4,36 @@
 define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
     "use strict";
 
-    var Atom = function (data) {
+    var Atom = function (app) {
 
+        this.app = app;
 
-        this.electrons = new Electrons(data);
+        this.stage = new THREE.Group();
 
-        var nucelionsPos = [];
-        var coolingFactor = 1;
-        var nucleusCenter = {
-            x: 0,
-            y: 0,
-            z: 0
-        };
-
-        var nuleionsUi = [];
+        var nucelionsPos = [],
+            coolingFactor = 1,
+            nucleusCenter = {
+                x: 0,
+                y: 0,
+                z: 0
+            },
+            data = app.data,
+            nuleionsUi = [],
+            that = this;
 
         this.protonRadius = 50;
+
+        this.resetVars = function () {
+            nucelionsPos = [];
+            coolingFactor = 1;
+            nucleusCenter = {
+                x: 0,
+                y: 0,
+                z: 0
+            };
+
+            nuleionsUi = [];
+        };
 
         this.normalizeNucleus = function (nodes) {
             if (coolingFactor === 0) {
@@ -92,15 +106,16 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
 
             var sphereRadius = 10;
-            var particles = atomicNumber*2;//protons and neutrons
+            var particles = atomicNumber * 2; //protons and neutrons
             nucelionsPos = generatePoints(particles, sphereRadius, this.protonRadius);
         };
+
 
         this.ui_addNucleus = function (scene) {
 
             var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20);
 
-            var colors = ['#FF0000', '#004DFF'];
+            var colors = ['#ff6060', '#5c81d6'];
 
             for (var i = 0; i < nucelionsPos.length; i++) {
 
@@ -113,9 +128,28 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
                 sphere.position.add(vec);
 
                 nuleionsUi.push(sphere);
-                scene.add(sphere);
+                this.stage.add(sphere);
             }
 
+            this.stage.position.x = 5000;
+            this.stage.position.y = 10000;
+            this.stage.visible = false;
+
+        };
+
+        this.show = function () {
+            this.stage.visible = true;
+            new TWEEN.Tween(this.stage.position).to({
+                x: 0,
+                y: 0
+            }, 2000).easing(TWEEN.Easing.Exponential.Out).start();
+        };
+
+        this.hide = function () {
+            that.stage.visible = false;
+            that.stage.position.z = 0;
+            that.stage.position.x = 5000;
+            that.stage.position.y = 10000;
 
         };
 
@@ -132,11 +166,49 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
             that.normalizeNucleus(nucelionsPos);
         };
 
+        this.electrons = new Electrons(data, this.stage);
         this.renderUpdates = [this.render].concat(this.electrons.renderUpdates);
 
+        this.reset = function (scene) {
+            scene.remove(this.stage);
+            this.stage = new THREE.Group();
+            this.electrons.stage = this.stage;
+            this.resetVars();
+        };
+
+        this.showNext = function () {
+
+            that.app.atomicNumber = that.app.atomicNumber + 1;
+            if (that.app.atomicNumber >= 118) {
+                that.app.atomicNumber = 118;
+                return;
+            }
+            that.app.setAtomScreen();
+        };
+
+        this.showPrevious = function () {
+
+            that.app.atomicNumber = that.app.atomicNumber - 1;
+            if (that.app.atomicNumber <= 1) {
+                that.app.atomicNumber = 1;
+                return;
+            }
+            that.app.setAtomScreen();
+        };
+
         this.create = function (atomicNumber, scene) {
+
+            if (!atomicNumber) {
+                console.log('Error loading atomic data', atomicNumber);
+                return;
+            }
+
+            this.reset(scene);
+
             this.createNucleus(atomicNumber);
             this.ui_addNucleus(scene);
+
+
         };
 
     };
