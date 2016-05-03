@@ -120,7 +120,7 @@ define(['libs/three'], function () {
 
                 ctx.beginPath();
                 ctx.font = "Bold 64px Arial";
-                ctx.fillStyle = "#fffdc7";
+                ctx.fillStyle = "#fdfdfd";
                 ctx.textAlign = 'center';
                 ctx.fillText(element[0], 64, 70);
                 ctx.font = "Bold 20px Arial";
@@ -325,7 +325,7 @@ define(['libs/three'], function () {
             elementsGroup.forEach(function (group) {
                 new TWEEN.Tween(group.position).to({
                     z: 0
-                }, 3000).easing(TWEEN.Easing.Exponential.Out).onComplete(inc).start();
+                }, 3500).easing(TWEEN.Easing.Exponential.InOut).onComplete(inc).start();
             });
 
 
@@ -339,7 +339,7 @@ define(['libs/three'], function () {
             //that.lineGlow.material.uniforms.viewVector.value = new THREE.Vector3().subVectors( that.screen.camera.position, that.lineGlow.position );
             raycaster.setFromCamera(mouse, that.screen.camera);
             var intersects = raycaster.intersectObjects(elementsRefs);
-            if (intersects.length > 0) {
+            if (intersects.length > 0 && that.app.screen.isTableLoaded) {
                 if (INTERSECTED != intersects[0].object) {
                     INTERSECTED = intersects[0].object;
                     that.hoverElement(INTERSECTED, mouse);

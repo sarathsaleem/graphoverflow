@@ -76,7 +76,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         var f1 = gui.addFolder('AmbientLight');
         f1.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
 */
-        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :1});
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z :10});
         var f2 = gui.addFolder('DirectionalLight');
         f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
         f2.add(light, 'intensity', 0, 1);
@@ -86,8 +86,8 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         f2.add(light, 'visible');
         this.lights.push(light);
 
-        var light = this.addDirectionalLight("#ffffff", 1, { x: 1 , y : 0 , z :1});
-        var f2 = gui.addFolder('DirectionalLight2');
+        var light = this.addDirectionalLight("#ffffff", 1, { x: 0 , y : 0 , z : -10});
+        var f2 = gui.addFolder('DirectionalLight11');
         f2.addColor({ color : light.color.getHex() }, 'color').onChange(handleColorChange(light.color));
         f2.add(light, 'intensity', 0, 1);
         f2.add(light.position, 'x', -2000, 2000).step(1);
@@ -95,7 +95,6 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         f2.add(light.position, 'z', -2000, 2000).step(1);
         f2.add(light, 'visible');
         this.lights.push(light);
-
 
 
 
@@ -124,7 +123,7 @@ define(['libs/three', 'libs/dat.gui'], function (ignore) {
         this.lights.push(light);
 
 
-        //$(container).append(gui.domElement);
+        $(container).append(gui.domElement);
 
         gui.close();
 

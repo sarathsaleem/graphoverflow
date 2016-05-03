@@ -1660,9 +1660,9 @@ grapgCanvas,
 
 [data-title]:after {
   position: absolute;
-  bottom: 150%;
+  bottom: 153%;
   left: 50%;
-  margin-left: -5px;
+  margin-left: -5px;z-index:
   width: 0;
   border-top: 5px solid #3498DB;
   border-right: 5px solid transparent;

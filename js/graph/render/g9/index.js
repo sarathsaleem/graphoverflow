@@ -27,11 +27,15 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.atomicConfig = null;
 
         App.table.subscribe(function (ele, m) {
-            App.info.addElemntInfo(ele, m);
+            if (App.screen.isTableLoaded) {
+                App.info.addElemntInfo(ele, m);
+            }
         });
         App.table.subscribeClick(function (aNumber) {
-            App.atomicNumber = aNumber;
-            App.info.showElementInfo(App.atomicNumber);
+            if (App.screen.isTableLoaded) {
+                App.atomicNumber = aNumber;
+                App.info.showElementInfo(App.atomicNumber);
+            }
         });
 
         App.table.addTable(App.animate);
@@ -42,7 +46,12 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         App.setTableScreen = function () {
             App.info.switchScreen(1);
             App.screen.setCamera(1);
-            App.table.show();
+            if (App.screen.isTableLoaded) {
+                App.table.show();
+            } else {
+                App.table.stage.visible = true;
+                App.table.stage.position.z = 0;
+            }
             App.atom.hide();
             App.animate.renderUpdates = App.table.renderUpdates;
         };
@@ -73,10 +82,10 @@ define(['utils/utils', '../g9/animate', '../g9/screen', '../g9/dal', '../g9/tabl
         window.App = App;
 
         setTimeout(function () {
-            //App.info.loadingScreen.remove();
-           // App.screen.initScreen();
-            //App.table.startTableAniamtion(App.screen.onFinshTableAnimation);
-        },1);
+            App.info.loadingScreen.remove();
+            App.screen.initScreen();
+            App.table.startTableAniamtion(App.screen.onFinshTableAnimation);
+        },10);
 
     }
     return render;
