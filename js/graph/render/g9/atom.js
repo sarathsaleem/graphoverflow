@@ -115,7 +115,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
             var geo = new THREE.SphereGeometry(this.protonRadius, 20, 20);
 
-            var colors = ['#FF0000', '#004DFF'];
+            var colors = ['#ff6060', '#5c81d6'];
 
             for (var i = 0; i < nucelionsPos.length; i++) {
 

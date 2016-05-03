@@ -42,6 +42,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
 
 
         controls = new THREE.TrackballControls(camera, renderer.domElement);
+        controls.noPan = true;
         controls.rotateSpeed = 0.8;
         controls.minDistance = 100;
         controls.maxDistance = 15000;
@@ -49,17 +50,6 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         scene = new THREE.Scene();
         //scene.fog = new THREE.Fog(0xffffff, 1000, 10000);
 
-
-        var directionalLight = new THREE.DirectionalLight("#d0d0d0", 0.5);
-        directionalLight.position.set(1000, 1000, -1000);
-        scene.add(directionalLight);
-
-
-        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1.25);
-        hemiLight.color.setHSL(0.6, 1, 0.75);
-        hemiLight.groundColor.setHSL(0.1, 0.8, 0.7);
-        hemiLight.position.y = 5100;
-        //scene.add(hemiLight);
 
         lightMe = new lightUp(scene, containerEle);
 
@@ -100,11 +90,10 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         if (screen === 1) {
             lightMe.lights[0].visible = true;
             lightMe.lights[1].visible = true;
-        } else {
-
             lightMe.lights[2].visible = true;
+        } else {
             lightMe.lights[3].visible = true;
-
+            lightMe.lights[4].visible = true;
         }
     };
 
