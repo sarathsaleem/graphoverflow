@@ -7,12 +7,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        graphList: grunt.file.readJSON('GO/js/graph/model/graph-list.json'),
+        graphList: grunt.file.readJSON('graphoverflow/js/graph/model/graph-list.json'),
         // options for index.html builder task
         index: {
-            graphTmpl: 'GO/graphs/__graph.tmpl',
-            indexTmpl: 'GO/graphs/__index.tmpl',
-            contetnSrc: 'GO/templates' // source template file
+            graphTmpl: 'graphoverflow/graphs/__graph.html',
+            graphFullScreenTmpl: 'graphoverflow/graphs/__graph-fullscreen.html',
+            indexTmpl: 'graphoverflow/graphs/__index.html',
+            contetnSrc: 'graphoverflow/templates' // source template file
         },
         tester: {
             options: {
@@ -25,7 +26,7 @@ module.exports = function (grunt) {
         },
         watch: {
             scripts: {
-                files: ['GO/**'],
+                files: ['graphoverflow/**'],
                 tasks: ['default'],
                 options: {
                     spawn: false,
@@ -35,7 +36,7 @@ module.exports = function (grunt) {
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: 'GO/js',
+                    baseUrl: 'graphoverflow/js',
                     paths: {
                         knockout: 'libs/knockout',
                         d3: 'libs/d3',
@@ -51,8 +52,8 @@ module.exports = function (grunt) {
                         "end": ""
                     },
                     name: 'app',
-                    out: "GO/js/app-min.js",
-                    optimize: "none"
+                    out: "graphoverflow/js/app-min.js",
+                    optimize: "uglify"
                 }
             }
         }
@@ -68,22 +69,32 @@ module.exports = function (grunt) {
     grunt.registerTask("graphs", "Generate graph pages", function () {
         var conf = grunt.config('index'),
             graphList = grunt.config('graphList').graphList,
-            tmpl = grunt.file.read(conf.graphTmpl);
+            tmpl = grunt.file.read(conf.graphTmpl),
+            tmplFullScreen = grunt.file.read(conf.graphFullScreenTmpl);
 
         graphList.forEach(function (graph) {
             var fileName = graph.htmlTitle || graph.id,
                 contentPath = conf.contetnSrc + '/' + graph.id + '.html',
+                loadScreenPath = conf.contetnSrc + '/' + graph.id + '-loadscreen.html',
                 graphContent = grunt.file.read(contentPath),
-                title = graph.title;
+                title = graph.title,
+                template = graph.tmpl === 'fullscreen' ? tmplFullScreen : tmpl,
+                loadScreen = '';
+            if (graph.tmpl === 'fullscreen') {
+                loadScreen = grunt.file.read(loadScreenPath);
+            }
 
-            grunt.file.write('GO/graphs/' + fileName + '.html', grunt.template.process(tmpl, {
+            grunt.file.write('graphoverflow/graphs/' + fileName + '.html', grunt.template.process(template, {
                 data: {
                     "graphId": graph.id,
                     "graphContent": graphContent,
+                    "loadScreen": loadScreen,
                     "title": title,
                     "thumbnail": graph.thumbnail,
                     "description": graph.description,
+                    "twitter": graph.twitter,
                     "env": env
+
                 }
             }));
             grunt.log.writeln('Generated : ' + fileName + '.html');
@@ -101,7 +112,7 @@ module.exports = function (grunt) {
             return graph;
         });
 
-        grunt.file.write('GO/index.html', grunt.template.process(tmpl, {
+        grunt.file.write('graphoverflow/index.html', grunt.template.process(tmpl, {
             data: {
                 "env": env,
                 "graphs": graphList
@@ -118,6 +129,46 @@ module.exports = function (grunt) {
         env = "production";
     });
 
+    grunt.registerTask("minifyApp", "Minify App", function () {
+        grunt.task.run('requirejs');
+    });
+
+    grunt.registerTask("minifyProjects", "Minify Projects", function () {
+
+        var graphList = grunt.config('graphList').graphList;
+        var completed = 8;
+        function setConfig(graph) {
+            grunt.config('requirejs.compile', {
+                options: {
+                    wrap: {
+                        "start": '/*\n\n<%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> (https://github.com/sarathsaleem/graphoverflow)\n    By  \n<%= pkg.author.name %> \n\n*/\n\n\n',
+                        "end": ""
+                    },
+                    paths: {
+                        knockout: 'libs/knockout',
+                        d3: 'libs/d3',
+                        jquery: 'libs/jquery'
+                    },
+                    baseUrl: 'graphoverflow/js',
+                    name: "graph/render/"+graph.id,
+                    // include: ["graph/render/g9"],
+                    //insertRequire: ['graph/render/g9'],
+                    out: "graphoverflow/js/builds/"+graph.id+"-min.js",
+                    optimize: "uglify",
+                    done: function(done, output) {
+                         done();
+                         completed++;
+                         if(graphList[completed]) {
+                            setConfig(graphList[completed]);
+                         }
+                    }
+                }
+            });
+            grunt.task.run(['requirejs']);
+        }
+        setConfig(graphList[completed]);
+    });
+
 
 
     //Load the plugin that provides the "uglify" task.
@@ -129,7 +180,8 @@ module.exports = function (grunt) {
 
     // Default task(s).
     grunt.registerTask('default', ['development', 'graphs', 'index']);
-    grunt.registerTask('build', ['production', 'graphs', 'index', 'requirejs']);
+    grunt.registerTask('test-build', ['production', 'graphs', 'index']);
+    grunt.registerTask('build', ['production', 'graphs', 'index', 'minifyApp', 'minifyProjects']);
 
 };
 
