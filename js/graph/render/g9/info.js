@@ -160,6 +160,10 @@ define(['utils/utils'], function (_util) {
                 that.addShellInfo(that.app.atomicNumber);
             });
 
+            $('.g9-footer .devInfo').on('click', function(){
+                $(this).toggleClass('active');
+            })
+
 
         }(this));
 

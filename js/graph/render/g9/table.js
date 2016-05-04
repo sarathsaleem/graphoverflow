@@ -20,7 +20,7 @@ define(['libs/three'], function () {
             elementsPos = [],
             elementsGroup = [];
         var raycaster = new THREE.Raycaster(),
-            mouse = new THREE.Vector2(),
+            mouse = new THREE.Vector2(-5000,-5000),
             INTERSECTED,
             currentNumber = null;
 
@@ -172,6 +172,9 @@ define(['libs/three'], function () {
                 // these are relative to the viewport
                 var top = viewportOffset.top;
                 var left = viewportOffset.left;
+
+
+
                 var cX = event.clientX - left,
                     cY = event.clientY - top;
 
@@ -179,6 +182,29 @@ define(['libs/three'], function () {
                 mouse.y = -(cY / viewportOffset.height) * 2 + 1;
                 mouse.cx = cX;
                 mouse.cy = cY;
+
+            }
+
+            function onDocumentTouchStart(event) {
+                event.preventDefault();
+                var viewportOffset = ele.getBoundingClientRect(); //FIXME: calculate only on resize
+                // these are relative to the viewport
+                var top = viewportOffset.top;
+                var left = viewportOffset.left;
+
+                var cX = event.originalEvent.changedTouches[0].clientX - left,
+                    cY = event.originalEvent.changedTouches[0].clientY - top;
+
+                mouse.x = (cX / viewportOffset.width) * 2 - 1;
+                mouse.y = -(cY / viewportOffset.height) * 2 + 1;
+                mouse.cx = cX;
+                mouse.cy = cY;
+
+                setTimeout(function () {
+                    if (currentNumber) {
+                        that.clickElement(currentNumber);
+                    }
+                },10);
 
             }
 
@@ -191,6 +217,7 @@ define(['libs/three'], function () {
 
             $(ele).on('mousemove', onDocumentMouseMove);
             $(ele).on('click', onDocumentClick);
+            $(ele).on('touchend', onDocumentTouchStart);
 
 
         };
