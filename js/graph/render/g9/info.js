@@ -147,6 +147,7 @@ define(['utils/utils'], function (_util) {
                 } else {
                     that.app.atom.electrons.shellsLabel(false);
                 }
+                $(ele).find('.levels').removeClass('active');
             });
 
             $(ele).find('.leftArr').on('click', function () {
@@ -162,7 +163,15 @@ define(['utils/utils'], function (_util) {
 
             $('.g9-footer .devInfo').on('click', function(){
                 $(this).toggleClass('active');
-            })
+            });
+
+            $(ele).on('mouseover','.marker', function (){
+                var level = $(this).text();
+                $(ele).find('.'+level).addClass('active');
+            });
+            $(ele).on('mouseout','.marker', function () {
+                $(ele).find('.levels').removeClass('active');
+            });
 
 
         }(this));
@@ -273,6 +282,7 @@ define(['utils/utils'], function (_util) {
         this.showInfoPanel = function () {
             if (this.app.screen.isTableLoaded) {
                 $('.infoPlanel').fadeIn(1000);
+                $('.g9-footer').addClass('show');
             }
         };
 

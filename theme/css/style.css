@@ -1188,23 +1188,6 @@ grapgCanvas,
     z-index: 0;
     opacity: 1;
 }
-@-webkit-keyframes fall {
-    0% {
-        margin: 1px;
-    }
-    25% {
-        margin: 2px;
-    }
-    50% {
-        margin: 3px;
-    }
-    75% {
-        margin: 2px;
-    }
-    100% {
-        margin: 1px;
-    }
-}
 .elementInfo .n {
     font-size: 23px;
 }
@@ -1305,8 +1288,12 @@ grapgCanvas,
     display: none;
 }
 .levelsPath .levels {
-    padding: 1.5px 0 0 0;
+    padding: 2px;
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.levelsPath .levels.active {
+    background : rgba(234, 234, 234, 0.21)
 }
 .elementInfo.active .levelsPath {
     display: block;
@@ -1375,6 +1362,8 @@ grapgCanvas,
     -moz-user-select: none;
     -ms-user-select: none;
     text-shadow: 1px 1px 2px #427388;
+    z-index: 31;
+    cursor: pointer;
 }
 .line {
     padding: 0px;
@@ -1411,8 +1400,7 @@ grapgCanvas,
     clear: both;
     height: 45px;
     padding: 10px;
-    margin: 0px;
-    box-shadow: inset 0 0 11px rgba(255, 255, 255, 0.16);
+    argin: 0px;
     display: inline-block;
     float: left;
 }
@@ -1431,6 +1419,7 @@ grapgCanvas,
     background: none;
     text-transform: uppercase;
     border: 0;
+    text-align: center;
 }
 .infoPlanel .parent .childs:hover {
     background: #3498DB;
@@ -1485,8 +1474,8 @@ grapgCanvas,
 }
 .controls {
     position: absolute;
-    right: 10%;
-    top: 18px;
+    right: 35px;
+    top: 35px;
     z-index: 15;
     color: #fff;
     font-size: 10px;
@@ -1514,7 +1503,7 @@ grapgCanvas,
     left: 0px;
     top: 35%;
     height: 25%;
-    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/prev.svg') no-repeat 50%;
+    background: rgba(255, 255, 255, 0.1) url('../../templates/images/g9/prev.svg') no-repeat 50%;
     width: 50px;
     transition: all ease-out 0.5s;
     z-index: 15;
@@ -1527,7 +1516,7 @@ grapgCanvas,
     top: 35%;
     height: 25%;
     width: 50px;
-    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/next.svg') no-repeat 50%;
+    background: rgba(255, 255, 255, 0.1) url('../../templates/images/g9/next.svg') no-repeat 50%;
     z-index: 15;
     transition: all ease-out 0.5s;
     cursor: pointer;
@@ -1535,7 +1524,7 @@ grapgCanvas,
 }
 .atomScreen .leftArr:hover,
 .atomScreen .rightArr:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     opacity: 1;
 }
 .loader {
@@ -1661,9 +1650,12 @@ grapgCanvas,
 }
 .g9-footer {
     background: rgba(0, 0, 0, 0.3);
-    opacity: 0.6;
+    opacity: 0;
     transition: all ease-out 100ms;
     position: absolute;
+}
+.g9-footer.show {
+    opacity: 0.6;
 }
 .g9-footer:hover {
     opacity: 1;
