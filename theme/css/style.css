@@ -40,10 +40,7 @@ body {
     font-family: "Open Sans", sans-serif;
     padding-top: 50px;
     padding-bottom: 20px;
-    background: rgb(235, 233, 224);
-    /* background: radial-gradient(farthest-side ellipse at 10% 0, rgba(255, 122, 0, 0.71), rgba(197, 118, 50, 0.89), rgba(128, 76, 0, 0.9)), url("../images/bg_noise.png");
-    background: radial-gradient(farthest-side ellipse at 10% 0, rgba(60, 34, 4, 0.9), rgba(60, 34, 4, 0.9), rgba(60, 34, 4, 0.9)), url("../images/bg_noise.png");*/
-    background: radial-gradient(farthest-side ellipse at 10% 0, rgba(235, 233, 224, 0.9), rgba(245, 243, 234, 0.9), rgba(245, 243, 234, 0.9)), url("../images/bg_noise.png");
+    background: #000;
 }
 h1,
 h2,
@@ -61,6 +58,9 @@ h6,
 }
 .home .container {
     width: 100%;
+}
+.navbar {
+    background: #000;
 }
 .navbar a.navbar-brand {
     color: #ff1171;
@@ -89,8 +89,7 @@ h6,
     padding: 30px;
     font-size: 21px;
     font-weight: 200;
-    color: #000000;
-    background: #FFB400;
+    color: #fff;
     -moz-box-shadow: inset 0 0 10px #000000;
     -webkit-box-shadow: inset 0 0 10px #000000;
     box-shadow: inset 0 0 10px #000000;
@@ -99,17 +98,19 @@ h6,
     position: relative;
     margin: 20px 0;
     font-size: 24px;
+    color: #CCC;
 }
 .titleWrap a {
-    color: #000000;
+    color: #FFF;
 }
 .titleWrap a:hover {
-    color: #FFFFFF;
+    color: #00b1ff;
 }
 .titleWrap p {
     font-size: 14px;
     text-align: justify;
-    color: #222222;
+    color: #CCC;
+    line-height: 24px;
 }
 .lineThrough {
     display: inline-block;
@@ -237,6 +238,9 @@ footer .developedBy {
 .grapsList {
     list-style: none;
 }
+#grapsList {
+    margin-top: 10px;
+}
 .graplist-item {
     list-style-type: none;
     border-radius: 1px;
@@ -251,7 +255,7 @@ footer .developedBy {
     width: 210px;
     height: 260px;
     float: left;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     transition-timing-function: ease;
 }
 .graplist-item:hover {
@@ -261,10 +265,9 @@ footer .developedBy {
     font-size: 14px;
     margin: 5px 0;
     padding: 5px;
-    font-weight: bold;
     height: 40px;
     overflow: hidden;
-    color: #000;
+    color: rgba(255, 255, 255, 0.9);
 }
 .graplist-item img {
     width: 100%;
@@ -274,7 +277,7 @@ footer .developedBy {
     text-overflow: ellipsis;
     height: 50px;
     font-size: 12px;
-    color: #000;
+    color: rgba(255, 255, 255, 0.50);
 }
 .graplist-item p {
     font-size: 13px;
@@ -405,11 +408,15 @@ grapgCanvas,
     padding: 3px;
 }
 #tagList {
-    width: 100%;
-    background: #4F2F00;
+    background: #000000;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.11);
+    padding: 0 0 5px 0;
 }
 #tagList .tags {
     list-style: none;
+    margin: 0 30px;
+    box-sizing: border-box;
+    width: auto;
 }
 #tagList::after {
     content: " ";
@@ -428,12 +435,12 @@ grapgCanvas,
     display: block;
     border-radius: 10px;
     color: #ACACAC;
-    height: 20px;
+    height: 23px;
     line-height: 20px;
     padding: 0 10px;
-    background: rgba(128, 76, 0, 0.3);
     text-transform: capitalize;
     text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.16);
 }
 #tagList .tagItem a:hover,
 #tagList .tagItem a.selected {
