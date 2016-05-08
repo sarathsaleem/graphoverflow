@@ -35,7 +35,6 @@ define(function (require, exports, module) {
 
     //load libs
     var ko = require('knockout'),
-        d3 = require('d3'),
         GraphModel = require('graph/model/graph'),
         Dashboard = require('graph/views/dashboard'),
         graphs = require('graph/model/graph-list'),
