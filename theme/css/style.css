@@ -1146,6 +1146,10 @@ grapgCanvas,
     top: 40px;
     right: 20px;
 }
+
+.g8 svg {
+    position: absolute;
+}
 /* g9 */
 
 .g9 {
