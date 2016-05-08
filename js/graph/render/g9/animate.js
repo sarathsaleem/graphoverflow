@@ -58,7 +58,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         stats.domElement.style.position = 'absolute';
         stats.domElement.style.top = '0px';
         stats.domElement.id = 'stats';
-        containerEle.append(stats.domElement);
+        //containerEle.append(stats.domElement);
 
         var axes = new THREE.AxisHelper(1000);
         //scene.add(axes);
@@ -113,7 +113,7 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
         requestAnimationFrame(animate);
 
         render();
-        stats.update();
+        //stats.update();
         controls.update();
         TWEEN.update();
 
@@ -126,13 +126,6 @@ define(['utils/utils', '../g9/lightUp', 'd3', 'libs/three', 'libs/stats'], funct
     }
 
     function render() {
-
-        //theta += 0.1;
-
-        //camera.position.x = 500 * Math.sin(THREE.Math.degToRad(theta));
-        //camera.position.y = -100;
-        //camera.position.z = 2000;
-
 
         renderer.render(scene, camera);
 

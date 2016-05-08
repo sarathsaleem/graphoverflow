@@ -1147,10 +1147,13 @@ grapgCanvas,
     right: 20px;
 }
 
-
+.g8 svg {
+    position: absolute;
+}
 /* g9 */
 
 .g9 {
+    min-width: 768px;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
     background: #a90329;
     /* Old browsers */
@@ -1189,23 +1192,6 @@ grapgCanvas,
     z-index: 0;
     opacity: 1;
 }
-@-webkit-keyframes fall {
-    0% {
-        margin: 1px;
-    }
-    25% {
-        margin: 2px;
-    }
-    50% {
-        margin: 3px;
-    }
-    75% {
-        margin: 2px;
-    }
-    100% {
-        margin: 1px;
-    }
-}
 .elementInfo .n {
     font-size: 23px;
 }
@@ -1242,10 +1228,20 @@ grapgCanvas,
     height: 150px;
 }
 .elementInfo .eConfig .label {
-    transform: translate(0, 110px) rotateZ(-90deg);
+    transform: rotateZ(-90deg) translateX(-110px)  translateY(0);
+   -webkit-transform: rotateZ(-90deg) translateX(-110px)  translateY(0);
     width: 20px;
     position: absolute;
 }
+
+@media only screen and (max-width: 640px) {
+    .elementInfo .eConfig .label {
+       -webkit-transform: rotateZ(-90deg) translateX(-130px)  translateY(0);
+        width: 20px;
+        position: absolute;
+    }
+}
+
 .elementInfoWrapper {
     position: absolute;
     top: 0px;
@@ -1257,7 +1253,6 @@ grapgCanvas,
     display: none;
     transition: all ease-out 0.5s;
 }
-
 .close-icon {
     width: 32px;
     height: 32px;
@@ -1270,12 +1265,10 @@ grapgCanvas,
     cursor: pointer;
     z-index: 15;
 }
-
 .elementInfo .close-icon {
     display: none;
 }
-
-.close-icon:hover{
+.close-icon:hover {
     opacity: 1;
 }
 .elementInfo.active .close-icon {
@@ -1308,8 +1301,12 @@ grapgCanvas,
     display: none;
 }
 .levelsPath .levels {
-    padding: 1.5px 0 0 0;
+    padding: 2px;
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.levelsPath .levels.active {
+    background : rgba(234, 234, 234, 0.21)
 }
 .elementInfo.active .levelsPath {
     display: block;
@@ -1354,11 +1351,9 @@ grapgCanvas,
 .elementInfo.inScreen .goDetail-icon {
     display: none;
 }
-
 .elementInfo.inScreen .close-icon {
     display: none;
 }
-
 .elementInfo.inScreen .eConfig {
     left: 270px;
 }
@@ -1368,7 +1363,6 @@ grapgCanvas,
 .elementInfo.inScreen .aSymbol-w {
     top: 102px;
 }
-
 .marker {
     position: absolute;
     background: rgba(255, 255, 255, 0.18);
@@ -1381,6 +1375,8 @@ grapgCanvas,
     -moz-user-select: none;
     -ms-user-select: none;
     text-shadow: 1px 1px 2px #427388;
+    z-index: 31;
+    cursor: pointer;
 }
 .line {
     padding: 0px;
@@ -1393,7 +1389,6 @@ grapgCanvas,
     -moz-user-select: none;
     -ms-user-select: none;
 }
-
 .infoPlanel {
     position: absolute;
     top: 0px;
@@ -1401,7 +1396,7 @@ grapgCanvas,
     background: rgba(126, 1, 29, 0.48);
     left: 0px;
     right: 0;
-    border-bottom:1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 10;
     display: none;
 }
@@ -1418,8 +1413,7 @@ grapgCanvas,
     clear: both;
     height: 45px;
     padding: 10px;
-    margin: 0px;
-    box-shadow: inset 0 0 11px rgba(255, 255, 255, 0.16);
+    argin: 0px;
     display: inline-block;
     float: left;
 }
@@ -1438,6 +1432,7 @@ grapgCanvas,
     background: none;
     text-transform: uppercase;
     border: 0;
+    text-align: center;
 }
 .infoPlanel .parent .childs:hover {
     background: #3498DB;
@@ -1492,8 +1487,8 @@ grapgCanvas,
 }
 .controls {
     position: absolute;
-    right:10%;
-    top:18px;
+    right: 35px;
+    top: 35px;
     z-index: 15;
     color: #fff;
     font-size: 10px;
@@ -1510,20 +1505,18 @@ grapgCanvas,
     display: none;
     opacity: 1;
 }
-
 .tableScreen .marker,
 .tableScreen .line,
 .tableScreen .closeAtomScreen,
-.tableScreen .eleInfo{
+.tableScreen .eleInfo {
     display: none;
 }
-
 .atomScreen .leftArr {
     position: absolute;
     left: 0px;
     top: 35%;
     height: 25%;
-    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/prev.svg') no-repeat 50%;
+    background: rgba(255, 255, 255, 0.1) url('../../templates/images/g9/prev.svg') no-repeat 50%;
     width: 50px;
     transition: all ease-out 0.5s;
     z-index: 15;
@@ -1536,83 +1529,76 @@ grapgCanvas,
     top: 35%;
     height: 25%;
     width: 50px;
-    background: rgba(255, 255, 255, 0.05) url('../../templates/images/g9/next.svg') no-repeat 50%;
+    background: rgba(255, 255, 255, 0.1) url('../../templates/images/g9/next.svg') no-repeat 50%;
     z-index: 15;
     transition: all ease-out 0.5s;
     cursor: pointer;
     opacity: 0.5;
 }
-.atomScreen .leftArr:hover, .atomScreen .rightArr:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.atomScreen .leftArr:hover,
+.atomScreen .rightArr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
     opacity: 1;
 }
 .loader {
-  position: absolute;
-  top: calc(50% - 32px);
-  left: calc(50% - 32px);
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  perspective: 800px;
-  z-index: 10;
+    position: absolute;
+    top: calc(50% - 32px);
+    left: calc(50% - 32px);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    perspective: 800px;
+    z-index: 10;
 }
-
 .inner {
-  position: absolute;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
 }
-
 .inner.one {
-  left: 0%;
-  top: 0%;
-  animation: rotate-one 1s linear infinite;
-  border-bottom: 3px solid #EFEFFA;
+    left: 0%;
+    top: 0%;
+    animation: rotate-one 1s linear infinite;
+    border-bottom: 3px solid #EFEFFA;
 }
-
 .inner.two {
-  right: 0%;
-  top: 0%;
-  animation: rotate-two 1s linear infinite;
-  border-right: 3px solid #EFEFFA;
+    right: 0%;
+    top: 0%;
+    animation: rotate-two 1s linear infinite;
+    border-right: 3px solid #EFEFFA;
 }
-
 .inner.three {
-  right: 0%;
-  bottom: 0%;
-  animation: rotate-three 1s linear infinite;
-  border-top: 3px solid #EFEFFA;
+    right: 0%;
+    bottom: 0%;
+    animation: rotate-three 1s linear infinite;
+    border-top: 3px solid #EFEFFA;
 }
-
 @keyframes rotate-one {
-  0% {
-    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
-  }
+    0% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
 }
-
 @keyframes rotate-two {
-  0% {
-    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
-  }
+    0% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+    }
 }
-
 @keyframes rotate-three {
-  0% {
-    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
-  }
-  100% {
-    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
-  }
+    0% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
 }
-
 .loaderInfo {
     position: absolute;
     top: 75px;
@@ -1624,58 +1610,130 @@ grapgCanvas,
     margin: 0;
     margin: 0;
 }
-
 /* tooltip */
-[data-title] {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-}
 
+[data-title] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
 [data-title]:before,
 [data-title]:after {
-  visibility: hidden;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  pointer-events: none;
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
 }
-
 [data-title]:before {
-  position: absolute;
-  bottom: 150%;
-  left: 50%;
-  margin-bottom: 5px;
-  margin-left: -80px;
-  padding: 7px;
-  width: 160px;
-  border-radius: 3px;
-  background-color: #3498DB;
-  color: #fff;
-  content: attr(data-title);
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.2;
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 160px;
+    border-radius: 3px;
+    background-color: #3498DB;
+    color: #fff;
+    content: attr(data-title);
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.2;
 }
-
 [data-title]:after {
-  position: absolute;
-  bottom: 153%;
-  left: 50%;
-  margin-left: -5px;z-index:
-  width: 0;
-  border-top: 5px solid #3498DB;
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  content: " ";
-  font-size: 0;
-  line-height: 0;
+    position: absolute;
+    bottom: 153%;
+    left: 50%;
+    margin-left: -5px;
+    z-index: width: 0;
+    border-top: 5px solid #3498DB;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
 }
-
 [data-title]:hover:before,
 [data-title]:hover:after {
-  visibility: visible;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-  opacity: 1;
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+.g9-footer {
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: all ease-out 100ms;
+    position: absolute;
+}
+.g9-footer.show {
+    opacity: 0.6;
+}
+.g9-footer:hover {
+    opacity: 1;
+}
+.g9-footer .devInfo {
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    background: rgb(27, 149, 224) url('../../templates/images/g9/info.svg') no-repeat 0 0;
+    transition: all ease-out 0.5s;
+    position: absolute;
+    top: 0px;
+    opacity: 1;
+    cursor: pointer;
+    left: 0px;
+}
+.atomScreen .g9-footer .devInfo {
+    background-color: #a90329;
+}
+.atomScreen .g9-footer .devInfo:hover .myInfo {
+    background: #A90329
+}
+.atomScreen .g9-footer {
+    opacity: 1;
+}
+.g9-footer .devInfo >* {
+    display: none;
+}
+.g9-footer .devInfo:hover .myInfo {
+    display: block;
+    position: absolute;
+    width: 265px;
+    height: 140px;
+    top: -140px;
+    background: #3498DB;
+    padding: 20px 10px;
+    font-size: 11px;
+}
+.g9-footer .devInfo:hover .myInfo a, .homeLink a {
+    color: #FFF;
+    font-size: 11px;
+    text-decoration: underline;
+}
+.g9-footer .devInfo:hover .myInfo p {
+    margin: 0px;
+}
+.g9-footer .devInfo .myInfo h2 {
+    font-size: 11px;
+    padding: 0 5px;
+    margin: 0;
+}
+.homeLink {
+    float: right;
+    text-align: center;
+    font-size: 10px;
+    color: #fff;
+    padding: 4px;
+}
+.myInfo-mobile {
+    display: none;
+}
+.shareBtns {
+    float: right;
+}
+.shareBtns >* {
+    float: left;
+    margin: 0 10px 0 0;
 }

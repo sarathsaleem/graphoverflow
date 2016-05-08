@@ -5,12 +5,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Cache-control" content="public">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Data visualization and info graphics using JavaScript libraries like D3.js, three.js.has a collection Stackoverflow data visualization and others.">
     <meta name="keywords" content="data visualisation,infographics,JavaScript Charts,D3.js charts">
     <meta name="author" content="sarath saleem">
     <meta property="og:image" content="http://graphoverflow.com/<%= thumbnail %>" />
     <meta property="og:description" content="<%= description %>" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@sarathsaleem">
+    <meta name="twitter:creator" content="@sarathsaleem">
+    <meta name="twitter:title" content="<%= title %>">
+    <meta name="twitter:description" content="<%= description %>">
+    <meta name="twitter:image" content="http://graphoverflow.com/<%= thumbnail %>">
+
     <title>GraphOverflow : <%= title %></title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../theme/images/favicon.ico">
@@ -28,33 +35,14 @@
 </head>
 
 <body class="<%= env %>">
-    <div class="navbar navbar-inverse" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">
-                    <h1>
-                        <span>GRAPH</span>
-                        <span>OVERFLOW</span>
-                    </h1>
-                </a>
-            </div>
-            <div class="navbar-collapse collapse"></div>
-        </div>
-    </div>
-
 
     <div class="graphWrapper">
         <div class="canvas">
-          <div class="graphCanvas fullscreen <%= graphId %>"></div>
-          <%= loadScreen %>
+          <div class="graphCanvas fullscreen <%= graphId %>">
+              <%= loadScreen %>
+          </div>
         </div>
     </div>
-
-    <footer>
-        <div class="addthis_sharing_toolbox"></div>
-        <p class="developedBy"> This website is developed and maintained by Sarath Saleem , you can check the source at <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow">Github</a> </p>
-        <p class="developedBy-mobile">@Sarath Saleem <a target="_blank" href="https://github.com/sarathsaleem/graphoverflow"> Github</a> </p>
-    </footer>
 
     <script>
         var require = {
