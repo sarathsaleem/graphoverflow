@@ -271,7 +271,7 @@ define(['utils/utils'], function (_util) {
             elementInfo.addClass('active').css({
                 zIndex: 30,
                 opacity: 1,
-                "transform": "translate3d(-50%, 50%, 0)"
+                "transform": "translate3d(-50%, 90%, 0)"
             });
             inShowScreen = true;
             elementInfoWrapper.show();

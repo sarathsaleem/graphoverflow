@@ -1224,11 +1224,20 @@ grapgCanvas,
     height: 150px;
 }
 .elementInfo .eConfig .label {
-    transform: rotateZ(-90deg) translate(0px, 110px);
-    -webkit-transform: rotateZ(-90deg) translate(-110px, 0);
+    transform: rotateZ(-90deg) translateX(-110px)  translateY(0);
+   -webkit-transform: rotateZ(-90deg) translateX(-110px)  translateY(0);
     width: 20px;
     position: absolute;
 }
+
+@media only screen and (max-width: 640px) {
+    .elementInfo .eConfig .label {
+       -webkit-transform: rotateZ(-90deg) translateX(-130px)  translateY(0);
+        width: 20px;
+        position: absolute;
+    }
+}
+
 .elementInfoWrapper {
     position: absolute;
     top: 0px;
@@ -1673,7 +1682,7 @@ grapgCanvas,
     left: 0px;
 }
 .atomScreen .g9-footer .devInfo {
-    background: #a90329 url('../../templates/images/g9/info.svg') no-repeat 0 0;
+    background-color: #a90329;
 }
 .atomScreen .g9-footer .devInfo:hover .myInfo {
     background: #A90329
