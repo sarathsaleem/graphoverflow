@@ -173,6 +173,11 @@ define(['utils/utils'], function (_util) {
                 $(ele).find('.levels').removeClass('active');
             });
 
+            var isiOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+            if (isiOS) {
+                $(ele).addClass('iphoneDevice');
+            }
 
         }(this));
 

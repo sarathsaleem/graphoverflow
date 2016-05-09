@@ -1214,11 +1214,6 @@ grapgCanvas,
 }
 .elementInfo .label {
     display: none;
-    text-align: right;
-}
-.elementInfo.active .label {
-    display: inline-block;
-    vertical-align: text-bottom;
 }
 .elementInfo .eConfig {
     position: absolute;
@@ -1227,19 +1222,24 @@ grapgCanvas,
     width: 50%;
     height: 150px;
 }
-.elementInfo .eConfig .label {
-    transform: rotateZ(-90deg) translateX(-110px)  translateY(0);
-   -webkit-transform: rotateZ(-90deg) translateX(-110px)  translateY(0);
-    width: 20px;
+.elementInfo.active .eConfig .label {
     position: absolute;
+    top: 125px;
+    left: 0px;
+    transform-origin: 0 0;
+    transform: rotate(-90deg);
+     -webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: 0% 0 0;
+    display: block;
+    vertical-align: bottom;
+}
+.elementInfo.active .label {
+    display: inline-block;
+    vertical-align: baseline;
 }
 
-@media only screen and (max-width: 640px) {
-    .elementInfo .eConfig .label {
-       -webkit-transform: rotateZ(-90deg) translateX(-130px)  translateY(0);
-        width: 20px;
-        position: absolute;
-    }
+.iphoneDevice .elementInfo.active .eConfig .label {
+    top: 145px
 }
 
 .elementInfoWrapper {
