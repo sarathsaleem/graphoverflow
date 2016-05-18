@@ -17,7 +17,7 @@ module.exports = function (grunt) {
         },
         tester: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: '© Sarath Saleem , license : https://github.com/sarathsaleem/graphoverflow#LICENSE\n'
             },
             build: {
                 src: 'src/<%= pkg.name %>.js',
@@ -33,6 +33,17 @@ module.exports = function (grunt) {
                 },
             },
         },
+        uglify: {
+            my_target: {
+                options: {
+                    banner: '/*\n© Sarath Saleem , license : https://github.com/sarathsaleem/graphoverflow#LICENSE \n\n Knockout JavaScript library v2.3.0 \n (c) Steven Sanderson - http://knockoutjs.com/ \n License: MIT (http://www.opensource.org/licenses/mit-license.php) */\n',
+                    preserveComments : false
+                },
+                files: {
+                    'graphoverflow/js/app-min.js': ['graphoverflow/js/app-min.js']
+                }
+            }
+        },
         requirejs: {
             compile: {
                 options: {
@@ -47,13 +58,9 @@ module.exports = function (grunt) {
                             exports: 'd3'
                         }
                     },
-                    wrap: {
-                        "start": '/*\n\n<%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> (https://github.com/sarathsaleem/graphoverflow)\n    By  \n<%= pkg.author.name %> \n\n*/\n\n\n',
-                        "end": ""
-                    },
                     name: 'app',
                     out: "graphoverflow/js/app-min.js",
-                    optimize: "uglify"
+                    optimize: "none"
                 }
             }
         }
@@ -137,30 +144,27 @@ module.exports = function (grunt) {
 
         var graphList = grunt.config('graphList').graphList;
         var completed = 8;
+
         function setConfig(graph) {
             grunt.config('requirejs.compile', {
                 options: {
-                    wrap: {
-                        "start": '/*\n\n<%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> (https://github.com/sarathsaleem/graphoverflow)\n    By  \n<%= pkg.author.name %> \n\n*/\n\n\n',
-                        "end": ""
-                    },
                     paths: {
                         knockout: 'libs/knockout',
                         d3: 'libs/d3',
                         jquery: 'libs/jquery'
                     },
                     baseUrl: 'graphoverflow/js',
-                    name: "graph/render/"+graph.id,
+                    name: "graph/render/" + graph.id,
                     // include: ["graph/render/g9"],
                     //insertRequire: ['graph/render/g9'],
-                    out: "graphoverflow/js/builds/"+graph.id+"-min.js",
+                    out: "graphoverflow/js/builds/" + graph.id + "-min.js",
                     optimize: "uglify",
-                    done: function(done, output) {
-                         done();
-                         completed++;
-                         if(graphList[completed]) {
+                    done: function (done, output) {
+                        done();
+                        completed++;
+                        if (graphList[completed]) {
                             setConfig(graphList[completed]);
-                         }
+                        }
                     }
                 }
             });
@@ -181,7 +185,7 @@ module.exports = function (grunt) {
     // Default task(s).
     grunt.registerTask('default', ['development', 'graphs', 'index']);
     grunt.registerTask('test-build', ['production', 'graphs', 'index']);
-    grunt.registerTask('build', ['production', 'graphs', 'index', 'minifyApp', 'minifyProjects']);
+    grunt.registerTask('build', ['production', 'graphs', 'index', 'minifyApp', 'minifyProjects', 'uglify']);
 
 };
 
