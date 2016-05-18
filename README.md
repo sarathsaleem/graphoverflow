@@ -1,7 +1,7 @@
 [GRAPHOVERFLOW][1]
 =====================
 
-Here you can find a collection of info graphics and data visualization on various topic. Most of them are based on [stackowerflow.com][2] data , basically related to programming languages which are tags in questions asked. All data for stackoverflow is collected using [Stack API][3]. These are experiments with JavaScript data visualization library [D3.js][4]. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
+Here you can find a collection of info graphics and data visualization on various topic. These are experiments with JavaScript data visualization library [D3.js][4]. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
 
 
 ----------
