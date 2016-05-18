@@ -1,7 +1,7 @@
 [GRAPHOVERFLOW][1]
 =====================
 
-Here you can find a collection of info graphics and data visualization on various topic. These are experiments with JavaScript data visualization library [D3.js][4]. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
+Here you can find a collection of info graphics and data visualization on various topic. Most of them  are experiments with JavaScript data visualization library [D3.js][4] and [threejs][8]. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
 
 
 ----------
@@ -30,3 +30,4 @@ The commercial license is designed to for you to use use any content in [graphov
   [5]: https://help.github.com/articles/user-organization-and-project-pages#project-pages
   [6]: http://graphoverflow.com
   [7]: http://gruntjs.com/
+  [8]: http://threejs.org/
