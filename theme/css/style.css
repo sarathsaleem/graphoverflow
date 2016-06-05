@@ -125,7 +125,7 @@ h6,
     font-size: 20px;
     text-rendering: optimizeLegibility;
 }
-footer {
+footer,.footer {
     height: 30px;
     padding: 5px;
     background: #000;
@@ -135,12 +135,12 @@ footer {
     color: #ff1171;
     z-index: 10;
 }
-footer p {
+footer p, .footer p {
     font-size: 10px;
     padding: 5px;
     float: left;
 }
-footer .developedBy {
+footer .developedBy, .footer .developedBy{
     font-size: 10px;
     padding: 2px 10px;
     position: absolute;
@@ -1736,4 +1736,41 @@ grapgCanvas,
 .shareBtns >* {
     float: left;
     margin: 0 10px 0 0;
+}
+.infoAtomModel {
+    position: absolute;
+    z-index: 15;
+    display: none;
+    right: 0px;
+    top: 85px;
+    padding: 10px;
+    transition: all ease-out 0.5s;
+}
+.atomScreen .infoAtomModel {
+    display: block;
+}
+.infoAtomModel .infoIcon {
+    width: 32px;
+    height: 32px;
+    background: rgb(27, 149, 224) url('../../templates/images/g9/info.svg') no-repeat 0 0;
+    float: right;
+    position: relative;
+    right: 146px;
+}
+.infoAtomModel h2 {
+    font-size: 12px;
+    color: #fff;
+    width: 500px;
+    text-align: justify;
+    margin: 0px;
+    padding: 0px;
+    display: none;
+    clear: both;
+}
+.infoAtomModel:hover h2 {
+    display: block;
+}
+.infoAtomModel a {
+    color: white;
+    text-decoration: underline;
 }
