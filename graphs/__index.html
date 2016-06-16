@@ -40,22 +40,6 @@
 </head>
 
 <body class="home <%= env %>">
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" data-bind="click: goHome" href="#home">
-                    <h1>
-                        <span>GRAPH</span>
-                        <span>OVERFLOW</span>
-                    </h1>
-                </a>
-            </div>
-            <div class="navbar-collapse collapse"></div>
-            <!--/.navbar-collapse -->
-
-        </div>
-    </div>
-
     <!-- ko if: page()=== 'home' -->
     <div class="titleWrap">
         <div class="container">
@@ -69,10 +53,8 @@
                     </text>
                 </svg>
                &nbsp; data visualizations and infographics</h1>
-            <p>Here you can find a collection of info graphics and data visualization on various topic. Most of them are based on
-                <a target="_blank" href="http://stackoverflow.com/" target="_blank">stackowerflow.com</a> data , basically related to programming languages which are tags in questions asked. All data for stackoverflow is collected using
-                <a target="_blank" href="https://api.stackexchange.com/docs " target="_blank">Stack API</a>. These are experiments with javascript data visualization library
-                <a target="_blank" href="http://d3js.org/" target="_blank">D3.js</a>. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it.
+            <p>Here you can find a collection of info graphics and data visualization on various topic. Those are created with awesome JavaScript libraries like <a target="_blank" href="http://d3js.org/" target="_blank">D3js</a>, <a target="_blank" href="http://threejs.org/" target="_blank"> Threejs</a>, <a target="_blank" href="https://github.com/tweenjs/tween.js" target="_blank">Tweenjs</a>. All are experiments of different visualization techniques. Most of these data can be visualized with a bar or pie chart, but here I am choosing different types of data presentation just for the sake of it. WebGL is used for some of the visualizations, I recommend to view these experiments on any modern browsers.
+
             </p>
 
         </div>
