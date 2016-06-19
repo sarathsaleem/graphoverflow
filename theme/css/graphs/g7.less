@@ -1,0 +1,151 @@
+
+.g7 text {
+    font-family: inherit;
+}
+.g7 .languagesWrapper {
+    width: 43%;
+    margin: 7% 30%;
+    height: 80%;
+    overflow-y: auto;
+    position: absolute;
+}
+.g7 .languagesWrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: rgba(245, 245, 245, 0.1);
+}
+.g7 .languagesWrapper::-webkit-scrollbar {
+    width: 6px;
+    background-color: rgba(245, 245, 245, 0);
+}
+.g7 .languagesWrapper::-webkit-scrollbar-thumb {
+    background-color: #0B5C39;
+}
+.g7 .totalCount {
+    background: rgba(0, 173, 98, 0.35);
+    padding: 2px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    z-index: 2;
+    top: 0px;
+}
+.g7 .toggleList {
+    background: rgba(0, 21, 12, 0.62) url("../images/hide.png") no-repeat center center;
+    width: 100%;
+    height: 16px;
+    z-index: 10;
+    left: 0px;
+    bottom: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    display: none;
+}
+.g7 .toggleList.show {
+    background: rgba(0, 21, 12, 0.62) url("../images/show.png") no-repeat center center;
+}
+.g7 .labelWrap {
+    margin: 1px;
+    width: 15%;
+    padding: 2px;
+    height: 65px;
+    overflow: hidden;
+    float: left;
+    color: #000000;
+    min-width: 95px;
+    position: relative;
+    font-family: inherit;
+    background-color: rgba(12, 190, 123, 0.12);
+}
+.g7 .labelWrap .language {
+    background: rgba(2, 44, 26, 1);
+    font-family: inherit;
+    font-size: 13px;
+    text-align: center;
+    padding: 3%;
+    color: #00FFE2;
+}
+.g7 .labelWrap .count {
+    color: #FFF;
+    font-size: 14px;
+    text-align: center;
+    padding: 3%;
+}
+.g7 .progressBar {
+    width: 0;
+    height: 25px;
+    background: #00D77B;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+    padding: 3px 20px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.g7 .time {
+    position: absolute;
+    padding: 1px 0 0 3px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 9px;
+}
+.g7 .timeLineWrapper {
+    background: rgba(132, 253, 202, 0.2);
+    height: 25px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+.g7 .time.one {
+    left: 25%;
+}
+.g7 .time.two {
+    left: 50%;
+}
+.g7 .time.three {
+    left: 75%;
+}
+.g7 .chartWrapper {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+}
+.g7 .totalCount .info {
+    font-size: 18px;
+    padding: 20px 10px 10px 10px;
+    border-top: 1px solid #ccc;
+    margin: 10px 0 0 0;
+    display: none;
+}
+.g7 .totalCount .tweetBtn {
+    margin: 5px 0 0 0;
+    display: block;
+}
+.g7 #total {
+    color: rgb(219, 255, 0);
+}
+@media only screen and (max-width: 640px) {
+    .g7 .totalCount .info {
+        font-size: 14px;
+        margin: 5px 0 0 0;
+        padding: 10px 5px;
+    }
+    .g7 .totalCount {
+        font-size: 16px;
+    }
+}
+.g7 .loadingScreen p.gitday-text {
+    text-align: center;
+    font-size: 30px;
+}
+.g7 .loadingScreen {
+    padding-top: ~"calc(45% - 130px)";
+}
+.conterntWrapper img {
+    display: block;
+    box-shadow: 1px 1px 1px rgba(215, 212, 212, 1);
+    margin: 5px;
+    max-width: 100%;
+}

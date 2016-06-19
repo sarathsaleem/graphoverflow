@@ -1,0 +1,168 @@
+
+/* latin */
+
+@font-face {
+    font-family: 'Special Elite';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Special Elite'), local('SpecialElite-Regular'), url(http://fonts.gstatic.com/s/specialelite/v6/9-wW4zu3WNoD5Fjka35JmzxObtw73-qQgbr7Be51v5c.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+.g8 {
+    background: #10a8c4;
+    font-family: 'Special Elite', cursive;
+}
+.g8 h1.title {
+    position: absolute;
+    top: 14%;
+    font-size: 130px;
+    text-align: center;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.18);
+    display: block;
+    font-family: 'Special Elite', cursive;
+}
+.g8 text {
+    font-size: 15px;
+    fill: #FFF;
+}
+.node {
+    stroke: #fff;
+    stroke-width: 2px;
+}
+.link {
+    fill: none;
+    stroke: #000;
+    opacity: .3;
+}
+.link.on {
+    stroke: #F00;
+    opacity: .7;
+}
+.node {
+    stroke: none;
+}
+.g8 .axis path {
+    fill: none;
+    stroke: #FFF;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+.g8 .categoryMenu {
+    height: 15%;
+    background-color: #10a8c4;
+    position: absolute;
+    top: 0px;
+    z-index: 11;
+    left: 0;
+    width: 100%;
+}
+.g8 .categoryMenu div {
+    width: 50%;
+    height: 100%;
+    float: left;
+    color: #FFF;
+    font-size: 50px;
+    text-align: center;
+    padding: 17px;
+    cursor: pointer;
+}
+.g8 .categoryMenu .cause {
+    background-color: #0A76A2;
+}
+.g8 .categoryMenu div.active {
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.32);
+}
+.g8 .categoryMenu .timeline.active {
+    box-shadow: -1px 1px 8px rgba(0, 0, 0, 0.32);
+}
+.g8 .bg-cause {
+    width: 16.66%;
+    height: 67%;
+    margin-top: 25%;
+    float: left;
+    position: relative;
+    bottom: 0px;
+    text-align: center;
+    padding-top: 40%;
+    color: #fff;
+}
+.g8 .bg-cause span {
+    font-size: 20px;
+}
+.g8 .bg-cause:nth-child(odd) {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #10A8C4 100%);
+}
+.g8 .tooltip {
+    padding: 10px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.419608);
+    opacity: 1;
+}
+@media (min-width: 120px) {
+    .g8 .categoryMenu div {
+        font-size: 16px;
+        padding: 10px;
+    }
+    .g8 h1.title {
+        font-size: 80px;
+    }
+    .g8 .bg-cause {
+        font-size: 7px;
+    }
+    .g8 .bg-cause span {
+        font-size: 12px;
+    }
+}
+@media (min-width: 400px) {
+    .g8 .categoryMenu div {
+        font-size: 24px;
+    }
+    .g8 h1.title {
+        font-size: 90px;
+    }
+    .g8 .bg-cause {
+        font-size: 10px;
+    }
+    .g8 .bg-cause span {
+        font-size: 16px;
+    }
+}
+@media (min-width: 550px) {
+    .g8 .categoryMenu div {
+        font-size: 30px;
+    }
+    .g8 h1.title {
+        font-size: 130px;
+    }
+    .g8 .bg-cause {
+        font-size: 12px;
+    }
+    .g8 .bg-cause span {
+        font-size: 20px;
+    }
+}
+@media (min-width: 768px) {
+    .g8 .categoryMenu div {
+        font-size: 40px;
+    }
+}
+@media (min-width: 992px) {
+    .g8 .categoryMenu div {
+        font-size: 50px;
+        padding: 17px;
+    }
+    .g8 .bg-cause {
+        font-size: 14px;
+    }
+}
+.twitter-btn {
+    position: absolute;
+    z-index: 12;
+    top: 40px;
+    right: 20px;
+}
+
+.g8 svg {
+    position: absolute;
+}

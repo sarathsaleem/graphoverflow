@@ -1,0 +1,85 @@
+/*** geometricPrecision cauese perfomance issues, gont use it for animation components */
+
+@font-face {
+    font-family: 'Pulp Fiction M54';
+    font-style: italic;
+    src: local('Pulp Fiction M54'), local('PulpFictionM54'), url(PulpFictionM54.ttf) format('truetype');
+}
+
+text.pulpFic {
+    font-family: 'Pulp Fiction M54';
+    text-rendering: optimizeSpeed;
+    font-style: italic;
+}
+.imdbLink {
+    z-index: 11;
+    background: url('../../templates/images/g5-pullfic/imdb.png') no-repeat 0 0;
+    background-size: 100%;
+    position: absolute;
+    display: block;
+    bottom: 12%;
+    left: 2%;
+    width: 50px;
+    height: 58px;
+    opacity: .5;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+.imdbLink:hover {
+    opacity: 1;
+}
+.timeline-bg {
+    position: absolute;
+    top: 89.3%;
+    left: 0px;
+    display: inline-block;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+    width: 100%;
+    height: 6px;
+    background-position: center top;
+    white-space: nowrap;
+    color: #666;
+    margin-top: 0;
+    padding-top: 0;
+    z-index: 10;
+    font-size: 10px;
+    color: #fff;
+}
+.timeline-bg div {
+    position: absolute;
+    padding: 1px 0 0 3px;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+.timeline-bg .time-1 {
+    left: 40%;
+    top: 4px;
+}
+.timeline-bg .time-2 {
+    left: 80%;
+    top: 4px;
+}
+.timeline-bg .time-3 {
+    right: 0%;
+    top: 4px;
+}
+.comments {
+    padding: 5px;
+}
+.addthis_sharing_toolbox {
+    margin: 3px 0 0 3px;
+    float: left;
+}
+
+.finishScreen {
+    z-index: 8;
+    background: url('../../templates/images/g5-pullfic/bg.png') no-repeat 0 0;
+    background-size: 100%;
+    display: none;
+    height: 90%;
+}
