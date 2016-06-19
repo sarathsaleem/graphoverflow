@@ -37,7 +37,7 @@ module.exports = function (grunt) {
             my_target: {
                 options: {
                     banner: '/*\n© Sarath Saleem , license : https://github.com/sarathsaleem/graphoverflow#LICENSE \n\n Knockout JavaScript library v2.3.0 \n (c) Steven Sanderson - http://knockoutjs.com/ \n License: MIT (http://www.opensource.org/licenses/mit-license.php) */\n',
-                    preserveComments : false
+                    preserveComments: false
                 },
                 files: {
                     'graphoverflow/js/app-min.js': ['graphoverflow/js/app-min.js']
@@ -62,6 +62,27 @@ module.exports = function (grunt) {
                     out: "graphoverflow/js/app-min.js",
                     optimize: "none"
                 }
+            }
+        },
+        less: {
+            components: {
+                options: {
+                    compress: true
+                },
+                files: [{
+                        expand: true,
+                        cwd: 'graphoverflow/theme/css',
+                        src: ['*.less'],
+                        dest: 'graphoverflow/theme/css',
+                        ext: '-min.css'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'graphoverflow/theme/css/graphs',
+                        src: ['*.less'],
+                        dest: 'graphoverflow/theme/css/graphs',
+                        ext: '-min.css'
+                    }]
             }
         }
     });
@@ -179,13 +200,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
 
 
     // Default task(s).
     grunt.registerTask('default', ['development', 'graphs', 'index']);
-    grunt.registerTask('test-build', ['production', 'graphs', 'index']);
-    grunt.registerTask('build', ['production', 'graphs', 'index', 'minifyApp', 'minifyProjects', 'uglify']);
+    grunt.registerTask('test-build', ['production', 'graphs', 'index', 'less']);
+    grunt.registerTask('build', ['production', 'graphs', 'index', 'minifyApp', 'minifyProjects', 'uglify', 'less']);
 
 };
 
