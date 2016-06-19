@@ -58,27 +58,37 @@ h6,
 .addthis_native_toolbox {
     float: left;
 }
+
+.site-info {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 3px;
+    h1 {
+        margin: 0;
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #50a4a2;
+        background: linear-gradient(to right, #50a4a2 0%, #51c5a4 100%);
+        color: #ffffff;
+    }
+    a {
+        text-decoration: none;
+    }
+}
+
+
 .navbar {
-    background: #000;
+    background: linear-gradient(to right, #50a4a2 0%, #52D4A5 100%);
+    .site-info {
+        position: static;
+    }
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
-.navbar a.navbar-brand {
-    color: #ff1171;
-}
-.navbar a.navbar-brand:hover {
-    color: #ff1171;
-}
-.navbar a.navbar-brand h1 {
-    padding: 0px;
-    margin: 0px;
-    font-size: 20px;
-    font-weight: bold;
-}
-.navbar a.navbar-brand h1 span {
-    float: left;
-}
-.navbar a.navbar-brand h1 span:first-child {
-    color: #FFFFFF;
-}
+
 .titleWrap {
     padding-top: 48px;
     padding-bottom: 48px;
@@ -123,7 +133,7 @@ font-size: 21px;
 footer {
     height: 30px;
     padding: 5px;
-    background: linear-gradient(to right, #50a4a2 0%, rgba(82, 212, 165, 0) 100%);
+    background: linear-gradient(to right, #50a4a2 0%, #52D4A5 100%);
     bottom: 0px;
     position: fixed;
     width: 100%;
@@ -143,21 +153,14 @@ footer {
         margin: 0px;
         bottom: 3px;
     }
-    a, a:hover {
+    a,
+    a:hover {
         color: #ffffff;
     }
 }
 .developedBy-mobile {
     display: none;
     float: right;
-}
-@media (max-width: 500px) {
-    .developedBy-mobile {
-        display: block;
-    }
-    .developedBy {
-        display: none;
-    }
 }
 .graphWrapper {
     width: 100%;
@@ -622,17 +625,72 @@ grapgCanvas,
     border: 1px solid #c4c4c4;
     color: #c4c4c4;
 }
-.site-info {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    font-size: 3px;
-    h1 {
-        margin: 0;
-        padding: 10px 20px;
-        font-size: 16px;
-        background: #50a4a2;
-        background: linear-gradient(to right, #50a4a2 0%, #51c5a4 100%);
 
+
+@media (max-width: 560px) {
+    .developedBy-mobile {
+        display: block;
+    }
+    .developedBy {
+        display: none;
+    }
+    #grapsList {
+        padding: 0 10px;
+    }
+    .titleWrap p {
+        line-height: 20px;
+    }
+    .graplist-item {
+        width: 165px;
+        height: 230px;
+    }
+}
+@media (max-width: 430px) {
+     .graplist-item {
+        width: 150px;
+        height: 215px;
+        margin: 5px;
+    }
+}
+/* ipad */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    .graplist-item {
+        width: 200px;
+    }
+}
+/* iphone 6+ */
+
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+    #grapsList {
+        padding: 0 20px;
+    }
+    .titleWrap p {
+        line-height: 20px;
+    }
+    .graplist-item {
+        width: 165px;
+        height: 230px;
+    }
+}
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait and Landscape */
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+    #grapsList {
+        padding: 0 15px;
+    }
+    .titleWrap {
+        padding-bottom: 15px;
+    }
+    .titleWrap p {
+        line-height: 18px;
+        font-size: 13px;
+    }
+    .graplist-item {
+        width: 150px;
+        height: 215px;
+        margin: 5px;
     }
 }
