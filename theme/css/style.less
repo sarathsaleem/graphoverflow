@@ -64,6 +64,7 @@ h6,
     right: 0px;
     top: 0px;
     font-size: 3px;
+    z-index: 1;
     h1 {
         margin: 0;
         padding: 10px 20px;
@@ -71,22 +72,59 @@ h6,
         background: #50a4a2;
         background: linear-gradient(to right, #50a4a2 0%, #51c5a4 100%);
         color: #ffffff;
+        display: inline-block;
+        float: left;
     }
     a {
         text-decoration: none;
+        color: #ffffff;
     }
+    .info-me {
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        background: url('../../templates/images/g9/info.svg') no-repeat 0 0;
+        transition: all ease-out 0.5s;
+        position: relative;
+        top: 2px;
+        opacity: 1;
+        cursor: pointer;
+        right: 8px;
+        display: inline-block;
+        float: left;
+    }
+
 }
-
-
+.contetntAll {
+    max-width: 1300px;
+    margin: 0 auto;
+    transform: translate3d(0,0,0) rotate3d(1, 1, 1, 0deg);
+    transition: all ease-out 0.5s;
+}
+.inInfo {
+    overflow: hidden;
+}
+.inInfo .contetntAll {
+    transform: translate3d(100px,0,0) rotate3d(1, 1, 1, -50deg);
+}
 .navbar {
     background: linear-gradient(to right, #50a4a2 0%, #52D4A5 100%);
     .site-info {
         position: static;
+        h1 {
+            padding: 16px 20px;
+            float: left;
+        }
     }
     .container {
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+.bg-canvas {
+    position: absolute;
+    top: 0px;
 }
 
 .titleWrap {
@@ -137,7 +175,6 @@ footer {
     bottom: 0px;
     position: fixed;
     width: 100%;
-    color: #ff1171;
     z-index: 10;
     p {
         font-size: 10px;
@@ -223,7 +260,7 @@ footer {
     clear: both;
     background: #222222;
     margin: 1%;
-    color: #FF1171;
+    color: #53e3a6;
     padding: 1%;
 }
 .graphWrapper .canvas .heading h2 {
@@ -373,7 +410,7 @@ grapgCanvas,
     padding: 10px;
 }
 #graphContent .conterntWrapper {
-    background: rgba(255, 180, 0, 0.04);
+    background: none;
 }
 #graphContent .conterntWrapper ul {
     list-style: none;
@@ -394,7 +431,7 @@ grapgCanvas,
     line-height: 30px;
 }
 #graphContent .conterntWrapper a {
-    color: #0091FE;
+    color: #ffffff;
 }
 .tag {
     color: #fff;
@@ -625,7 +662,6 @@ grapgCanvas,
     border: 1px solid #c4c4c4;
     color: #c4c4c4;
 }
-
 
 @media (max-width: 560px) {
     .developedBy-mobile {

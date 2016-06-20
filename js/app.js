@@ -116,8 +116,12 @@ define(function (require, exports, module) {
             App.init();
         });
 
-    }
 
+        $('.info-me').on('click', function(){
+            $('body').toggleClass('inInfo');
+        });
+
+    }
     App.dashboard.init(initKoBinding);
 
     exports.App = App;

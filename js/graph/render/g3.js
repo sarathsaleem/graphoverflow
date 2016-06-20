@@ -208,7 +208,7 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
                 startAnimate();
             }).style("fill", "url(#grad-c#)");
 
-        startStop.append('text').text('restart').attr('x', 10).attr('y', 25).style('font-size', '20px')
+        startStop.append('text').text('restart').attr('x', 10).attr('y', 20).style('font-size', '20px')
             .on('click', function () {
                 startAnimate();
             });
