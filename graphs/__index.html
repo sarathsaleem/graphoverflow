@@ -47,7 +47,6 @@
 <body class="home <%= env %>">
         <div class="site-info">
             <h1>graphoverflow</h1>
-            <div class="info-me"></div>
         </div>
         <div class="contetntAll">
         <div class="titleWrap">
@@ -146,41 +145,6 @@
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53e9e79e79db4686"></script>
 
         <% } %>
-
-        <script type="text/javascript">
-
-
-            require.config({
-                // baseUrl: './js',
-                // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
-                paths: {
-                    knockout: 'libs/knockout',
-                    d3: 'libs/d3',
-                    gui :'libs/dat.gui'
-                },
-                shim: {
-                    d3: {
-                        exports: 'd3'
-                    },
-                    'libs/optimer_bold.typeface': {
-                        deps : ['libs/three']
-                    },
-                    'libs/optimer_regular.typeface': {
-                        deps : ['libs/three']
-                    },
-                    'libs/FontUtils': {
-                        deps : ['libs/three']
-                    },
-                    'libs/TextGeometry': {
-                        deps : ['libs/three','libs/FontUtils']
-                    }
-                }
-            });
-
-            require(['bgAnimation'], function (bgAnimation) {
-               bgAnimation('bg-canvas')
-            });
-        </script>
 
 </body>
 
