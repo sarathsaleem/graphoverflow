@@ -106,7 +106,7 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
 
 
             var sphereRadius = 10;
-            var particles = atomicNumber * 2; //protons and neutrons
+            var particles = atomicNumber == 1 ? atomicNumber : atomicNumber * 2; //protons and neutrons
             nucelionsPos = generatePoints(particles, sphereRadius, this.protonRadius);
         };
 

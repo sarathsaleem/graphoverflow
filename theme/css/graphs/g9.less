@@ -582,3 +582,40 @@
     float: left;
     margin: 0 10px 0 0;
 }
+.infoAtomModel {
+    position: absolute;
+    z-index: 15;
+    display: none;
+    right: 0px;
+    top: 85px;
+    padding: 10px;
+    transition: all ease-out 0.5s;
+}
+.atomScreen .infoAtomModel {
+    display: block;
+}
+.infoAtomModel .infoIcon {
+    width: 32px;
+    height: 32px;
+    background: rgb(27, 149, 224) url('../../templates/images/g9/info.svg') no-repeat 0 0;
+    float: right;
+    position: relative;
+    right: 146px;
+}
+.infoAtomModel h2 {
+    font-size: 12px;
+    color: #fff;
+    width: 500px;
+    text-align: justify;
+    margin: 0px;
+    padding: 0px;
+    display: none;
+    clear: both;
+}
+.infoAtomModel:hover h2 {
+    display: block;
+}
+.infoAtomModel a {
+    color: white;
+    text-decoration: underline;
+}
