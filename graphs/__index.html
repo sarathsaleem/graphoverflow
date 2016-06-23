@@ -110,7 +110,40 @@
 
     <% if (env==="development" ) { %>
 
-        <script data-main="" src="js/libs/require.js"></script>
+    <script data-main="" src="js/libs/require.js"></script>
+    <script type="text/javascript">
+    require.config({
+        // baseUrl: './js',
+        // urlArgs: "bust=" + (new Date()).getTime(), //prevent cache for testing
+        paths: {
+            knockout: 'libs/knockout',
+            d3: 'libs/d3',
+            gui :'libs/dat.gui'
+        },
+        shim: {
+            d3: {
+                exports: 'd3'
+            },
+            'libs/optimer_bold.typeface': {
+                deps : ['libs/three']
+            },
+            'libs/optimer_regular.typeface': {
+                deps : ['libs/three']
+            },
+            'libs/FontUtils': {
+                deps : ['libs/three']
+            },
+            'libs/TextGeometry': {
+                deps : ['libs/three','libs/FontUtils']
+            }
+        }
+    });
+
+    require(['bgAnimation'], function (bgAnimation) {
+        bgAnimation('bg-canvas');
+    });
+    </script>
+
 
     <% } %>
 

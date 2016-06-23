@@ -6,15 +6,18 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function buildParticleWorld(containerId) {
+    //http://threejs.org/examples/canvas_particles_waves.html
+
+    function bgAnimation(containerId) {
 
         var containerEle = $("#"+containerId),
             camera, scene, renderer, stats, controls, particles, particleSystem;
 
-        var particleLength = 1000;
+        var particleLength = 100000;
 
 
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setClearColor( 0x000000, 0 ); // the default
         renderer.setSize(containerEle.innerWidth(), containerEle.innerHeight());
         renderer.domElement.style.position = 'absolute';
         containerEle.append(renderer.domElement);
@@ -78,7 +81,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             controls.update();
             renderParticles();
 
-            //stats.update(); :debug
+            stats.update();
 
         }
 
@@ -109,7 +112,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 },
                 texture: {
                     type: "t",
-                    value: new THREE.TextureLoader().load("../templates/images/g6-git/ball.png")
+                    value: new THREE.TextureLoader().load("theme/images/glare.png")
                 }
             };
 
@@ -119,7 +122,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
 
             //for (var i = 0; i < particleLen; i++) {
-            var color = new THREE.Color();
+            var color = new THREE.Color('#52D0A4');
 
             for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
 
@@ -188,8 +191,12 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
             scene.add(particleSystem);
         }
+
+        init();
+        animate();
+        onWindowResize();
     }
 
-    return buildParticleWorld;
+    return bgAnimation;
 
 });
