@@ -7,6 +7,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
     }
 
     //http://threejs.org/examples/canvas_particles_waves.html
+    //view-source:http://oos.moxiecode.com/js_webgl/particles_morph/
 
     function bgAnimation(containerId) {
 
@@ -122,7 +123,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
 
 
             //for (var i = 0; i < particleLen; i++) {
-            var color = new THREE.Color('#52D0A4');
+            var color = new THREE.Color('#ffffff');
 
             for (var i = 0, i3 = 0; i < particleLen; i++, i3 += 3) {
 
@@ -130,7 +131,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
                 positions[i3 + 1] = Math.random() * 1000 - 500;
                 positions[i3 + 2] = Math.random() * 1000 - 500;
 
-                color.setHSL(i / particleLen, 1.0, 0.5);
+                //color.setHSL(i / particleLen, 1.0, 0.5);
 
                 colors[i3 + 0] = color.r;
                 colors[i3 + 1] = color.g;
