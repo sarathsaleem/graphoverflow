@@ -101,7 +101,10 @@ define(['../g9/electrons', 'libs/three', 'd3'], function (Electrons, ignore) {
                         points.push(pt);
                     }
                 }
-                return points.slice(points.length - point);
+                if (points.length > point) {
+                    return points.slice(points.length - point);
+                }
+                return points;
             };
 
 
