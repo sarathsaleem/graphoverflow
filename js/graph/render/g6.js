@@ -641,7 +641,7 @@ define(['utils/utils', 'd3', 'libs/three', 'libs/stats', 'libs/tween'], function
             });
 
 
-            var button2 = $('<div id="laguages" class="g6-button">Laguages</div>');
+            var button2 = $('<div id="laguages" class="g6-button">Languages</div>');
             $(container).append(button2);
             $('body').on('click', "#laguages", function (event) {
 
