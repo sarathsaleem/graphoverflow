@@ -3,7 +3,7 @@
 @font-face {
     font-family: 'Pulp Fiction M54';
     font-style: italic;
-    src: local('Pulp Fiction M54'), local('PulpFictionM54'), url(PulpFictionM54.ttf) format('truetype');
+    src: local('Pulp Fiction M54'), local('PulpFictionM54'), url(../PulpFictionM54.ttf) format('truetype');
 }
 
 text.pulpFic {
@@ -11,9 +11,10 @@ text.pulpFic {
     text-rendering: optimizeSpeed;
     font-style: italic;
 }
+
 .imdbLink {
     z-index: 11;
-    background: url('../../templates/images/g5-pullfic/imdb.png') no-repeat 0 0;
+    background: url('../../../templates/images/g5-pullfic/imdb.png') no-repeat 0 0;
     background-size: 100%;
     position: absolute;
     display: block;
@@ -29,9 +30,11 @@ text.pulpFic {
     transition: all 0.5s ease;
     cursor: pointer;
 }
+
 .imdbLink:hover {
     opacity: 1;
 }
+
 .timeline-bg {
     position: absolute;
     top: 89.3%;
@@ -49,6 +52,7 @@ text.pulpFic {
     font-size: 10px;
     color: #fff;
 }
+
 .timeline-bg div {
     position: absolute;
     padding: 1px 0 0 3px;
@@ -56,21 +60,26 @@ text.pulpFic {
     background-position: 0 0;
     background-repeat: no-repeat;
 }
+
 .timeline-bg .time-1 {
     left: 40%;
     top: 4px;
 }
+
 .timeline-bg .time-2 {
     left: 80%;
     top: 4px;
 }
+
 .timeline-bg .time-3 {
     right: 0%;
     top: 4px;
 }
+
 .comments {
     padding: 5px;
 }
+
 .addthis_sharing_toolbox {
     margin: 3px 0 0 3px;
     float: left;
@@ -78,7 +87,7 @@ text.pulpFic {
 
 .finishScreen {
     z-index: 8;
-    background: url('../../templates/images/g5-pullfic/bg.png') no-repeat 0 0;
+    background: url('../../../templates/images/g5-pullfic/bg.png') no-repeat 0 0;
     background-size: 100%;
     display: none;
     height: 90%;
