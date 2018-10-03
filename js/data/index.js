@@ -80,6 +80,12 @@ define(function (require) {
             }, cb, this);
 
 
+        } else if (name === 'g11') {
+            _u.getData({
+                url: baseUrl + 'kerala.geojson'
+            }, cb, this);
+
+
         } else {
 
             cb.call(this, []);

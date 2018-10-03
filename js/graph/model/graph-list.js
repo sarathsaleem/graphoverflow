@@ -84,9 +84,20 @@ define(function () {
             "twitter": "",
             "tags": ["history"],
             "tmpl": "fullscreen"
+        },
+        {
+            "id": "g11",
+            "title": "Flood 2018 in Kerala,India",
+            "description": "Analysis of Kerala's 2018 flood rainfall data",
+            "thumbnail": "templates/images/kerala-flood-2018.png",
+            "htmlTitle": "kerala-flood-2018",
+            "twitter": "",
+            "tags": ["news"],
+            "tmpl": "fullscreen",
+            "mobileCompatible": "true"
         }
         ],
-        "tags": ["all", "stackoverflow", "filims", "github", "music", "science", "history"]
+        "tags": ["all", "stackoverflow", "filims", "github", "music", "science", "history", "news"]
     };
     return graphs;
 });

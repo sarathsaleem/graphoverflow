@@ -1,13 +1,13 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global require, define, brackets: true, $, window, navigator , clearInterval , setInterval, d3*/
-// require.config({
-//     paths: {
-//         TweenMax: 'libs/TweenMax',
-//         ScrollMagic: 'libs/ScrollMagic',
-//         "ScrollMagic.debug": 'libs/debug.addIndicators'
-//     }
-// });
-define(['libs/ScrollMagic', 'libs/TweenMax'], function (ScrollMagic, TweenMax) {
+require.config({
+    paths: {
+        TweenMax: 'libs/TweenMax',
+        ScrollMagic: 'libs/ScrollMagic',
+        "ScrollMagic.debug": 'libs/debug.addIndicators'
+    }
+});
+define(['libs/ScrollMagic', 'libs/TweenMax'], function (ScrollMagic) {
 
     "use strict";
 
@@ -21,10 +21,10 @@ define(['libs/ScrollMagic', 'libs/TweenMax'], function (ScrollMagic, TweenMax) {
         var tween = TweenMax.to("#target", 1, { rotation: 360, ease: Linear.easeNone });
 
         // build scene
-        var scene = new ScrollMagic.Scene({ triggerElement: "#trigger", duration: 300 })
+        var scene = new ScrollMagic.Scene({ triggerElement: "#trigger", duration: 500 })
             .setTween(tween)
-            .setPin("#target", { pushFollowers: false })
-            .addIndicators() // add indicators (requires plugin)
+            //.setPin("#target", { pushFollowers: false })
+            // .addIndicators() // add indicators (requires plugin)
             .addTo(controller);
 
     }

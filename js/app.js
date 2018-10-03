@@ -9,23 +9,26 @@ require.config({
     paths: {
         knockout: 'libs/knockout',
         d3: 'libs/d3',
-        gui :'libs/dat.gui'
+        gui: 'libs/dat.gui'
     },
     shim: {
         d3: {
             exports: 'd3'
         },
+        // d3v5: {
+        //     exports: 'd3v5'
+        // },
         'libs/optimer_bold.typeface': {
-            deps : ['libs/three']
+            deps: ['libs/three']
         },
         'libs/optimer_regular.typeface': {
-            deps : ['libs/three']
+            deps: ['libs/three']
         },
         'libs/FontUtils': {
-            deps : ['libs/three']
+            deps: ['libs/three']
         },
         'libs/TextGeometry': {
-            deps : ['libs/three','libs/FontUtils']
+            deps: ['libs/three', 'libs/FontUtils']
         }
     }
 });
@@ -58,7 +61,7 @@ define(function (require, exports, module) {
             var list = [];
             if (id) {
                 graphsList.forEach(function (graph) {
-                    if(graph.id == id){
+                    if (graph.id == id) {
                         list.push(graph);
                     }
                 });
@@ -96,7 +99,7 @@ define(function (require, exports, module) {
             //setTimeout(this.loadGraph.bind(this), 2000);
 
         };
-        this.init = function (){
+        this.init = function () {
             this.loadGraph();
             app.dashboard.initGridView();
         };
@@ -117,7 +120,7 @@ define(function (require, exports, module) {
         });
 
 
-        $('.info-me').on('click', function(){
+        $('.info-me').on('click', function () {
             $('body').toggleClass('inInfo');
         });
 
