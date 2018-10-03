@@ -75,20 +75,20 @@ define(function () {
             "tags": ["science"],
             "tmpl": "fullscreen"
         },
-        {
-            "id": "g10",
-            "title": "A breif history of Kashmir",
-            "description": "A breif history of Kashmir",
-            "thumbnail": "templates/images/3d-periodic-table.png",
-            "htmlTitle": "history-of-kashmir",
-            "twitter": "",
-            "tags": ["history"],
-            "tmpl": "fullscreen"
-        },
+        // {
+        //     "id": "g10",
+        //     "title": "A breif history of Kashmir",
+        //     "description": "A breif history of Kashmir",
+        //     "thumbnail": "templates/images/3d-periodic-table.png",
+        //     "htmlTitle": "history-of-kashmir",
+        //     "twitter": "",
+        //     "tags": ["history"],
+        //     "tmpl": "fullscreen"
+        // },
         {
             "id": "g11",
             "title": "Flood 2018 in Kerala,India",
-            "description": "Analysis of Kerala's 2018 flood rainfall data",
+            "description": "Analysis of Kerala's 2018 rainfall data which resulted in heavy flooding",
             "thumbnail": "templates/images/kerala-flood-2018.png",
             "htmlTitle": "kerala-flood-2018",
             "twitter": "",
