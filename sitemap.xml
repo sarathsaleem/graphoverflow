@@ -1,68 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-<url>
-  <loc>http://graphoverflow.com/</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/stackoverflow-tag-relations.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/stackoverflow-tag-trending-yearly.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/stackoverflow-tag-growth-rate-monthly.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/stackoverflow-questions-punchcard.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/pulp-fiction.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/an-hour-on-github.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/a-day-on-github.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/27-club-visualization.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://graphoverflow.com/graphs/3d-periodic-table.html</loc>
-  <lastmod>2016-06-05T10:44:04+00:00</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
+
+  <url>
+    <loc>http://graphoverflow.com/</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/kerala-flood-2018.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/3d-periodic-table.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/27-club-visualization.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/a-day-on-github.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/an-hour-on-github.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/pulp-fiction.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/stackoverflow-questions-punchcard.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/stackoverflow-tag-growth-rate-monthly.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/stackoverflow-tag-trending-yearly.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>http://graphoverflow.com/graphs/stackoverflow-tag-relations.html</loc>
+    <lastmod>2018-10-03T20:15:44+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+
 </urlset>
