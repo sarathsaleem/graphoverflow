@@ -5,9 +5,9 @@ require.config({
         d3v5: 'libs/d3v5'
     }
 });
-define(['libs/d3v5', '../g11/timeline', '../g11/mapRight', '../g11/mapLeft', '../g11/compare', '../g11/scroller', '../g11/mapData', 'utils/utils'], function (d3, Timeline, MapRight, MapLeft, Compare, Scroller, mapData, _util) {
+define(['libs/d3v5', '../g11/timeline', '../g11/mapRight', '../g11/mapLeft', '../g11/compare', '../g11/mapData', 'utils/utils'], function (d3, Timeline, MapRight, MapLeft, Compare, mapData, _util) {
     "use strict";
-    var scroller = new Scroller();
+    // var scroller = new Scroller();
     function render(keralMap, canvas) {
 
         var timeline = new Timeline(canvas)
@@ -24,20 +24,18 @@ define(['libs/d3v5', '../g11/timeline', '../g11/mapRight', '../g11/mapLeft', '..
             });
 
 
-            var scroll = scroller.container(d3.select('.g11'))
-            scroll(d3.selectAll('.step'));
-            // setup event handling
-            scroll.on('active', function (index) {
-                // highlight current step text
-                console.log(index)
-            });
+            //     var scroll = scroller.container(d3.select('.g11'))
+            //     scroll(d3.selectAll('.step'));
+            //     // setup event handling
+            //     scroll.on('active', function (index) {
+            //         // highlight current step text
+            //         console.log(index)
+            //     });
 
-            scroll.on('progress', function (index, progress) {
-                //console.log(index, progress);
-            });
-        })
-
-
+            //     scroll.on('progress', function (index, progress) {
+            //         //console.log(index, progress);
+            //     });
+        });
     }
 
     return render;

@@ -50,34 +50,37 @@
                 <div class="content">
     <header class="step">
         <h1>Kerala Flood 2018</h1>
+        <h1 class="sub">Rainfall data analysis</h1>
         <div class="shareBtns">
             <div id="fb-root"></div>
-            <script>
-                (function (d, s, id) {
+            <script>(function (d, s, id) {
                     var js, fjs = d.getElementsByTagName(s)[0];
                     if (d.getElementById(id)) return;
                     js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+                    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
                     fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-            </script>
+                }(document, 'script', 'facebook-jssdk'));</script>
             <div class="fb-share-button" data-href="http://graphoverflow.com/graphs/kerala-flood-2018.html" data-layout="button"
-                data-mobile-iframe="true"></div>
+                data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fgraphoverflow.com%2Fgraphs%2Fkerala-flood-2018.html&amp;src=sdkpreparse"
+                    class="fb-xfbml-parse-ignore">Share</a></div>
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://goo.gl/7AG7Jt" data-via="sarathsaleem"
-                data-hashtags="dataviz,raindata,keralanews">Tweet</a>
+                data-hashtags="dataviz,raindata,KeralaFlood,kerala">Tweet</a>
             <script>
                 !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');
             </script>
         </div>
 
         <div class="subHead">
-            <h2>Kerala the southern state of India witnessed the worst flood in 94 years due to an unusual monsoon
+            <h2>Kerala the southern state of India witnessed the worst flood in <b>94</b> years due to an unusual
+                monsoon
                 season.</h2>
-            <h2 class="no-m-t">More than 1M people got affected. 35 out of the 44 dams within the state were opened for
+            <h2 class="no-m-t">More than <b>1M</b> people got affected. <b> 35</b> out of the <b>44</b> dams within the
+                state
+                were opened for
                 the
                 first time in history.
             </h2>
-            <h2 class="no-m-t">Monsoon poured 41% extra rain resulted in a death of over 483 people.</h2>
+            <h2 class="no-m-t">Monsoon poured <b>41%</b> extra rain resulted in a death of over <b>483</b> people.</h2>
         </div>
         <time>02/10/2018</time>
     </header>
@@ -98,7 +101,7 @@
             on August
             15 due to heavy flooding and it was reopened on 26th. Kochi Metro was closed briefly on August 16, and has
             since
-            begun offering free service to aid those affected by the flooding.</br>
+            begun offering free service to aid those affected by the flooding.<br />
             Pulling out the records of the last 140 years, Dr Arvind Srivastava, director of IMD, explained the
             rainfall figures in Kerala.
             "The highest rainfall in Kerala occurred in 1907, that was
@@ -126,10 +129,8 @@
                 <b>438%</b> extra rain.That leads to the opening of Idukki dam after 26 years. Wayanad received
                 <b>536.8mm</b> rainfall which is
                 <b>299%</b> extra for that hilly district, the normal rainfall for Wayanad is only
-                <b>134mm </b>for that week. This incessant rainfall triggered landslides and snapped road links
-                between
-                Wayanad
-                and rest of Kerala.
+                <b>134mm </b>. This incessant rainfall triggered landslides and snapped road links between Wayanad and
+                rest of Kerala.
             </p>
             <div id="weekDataBarChart"></div>
 
@@ -143,16 +144,10 @@
                 from
                 <a target="_blank" href="https://earthobservatory.nasa.gov/images/92669/before-and-after-the-kerala-floods">
                     earthobservatory.nasa.gov </a> as "The Operational Land Imager (OLI) on the Landsat 8 satellite
-                acquired
-                the left image (bands 6-5-3) on February 6, 2018, before the flood. The Multispectral Instrument on
-                the
-                European
-                Space Agency’s Sentinel-2 satellite acquired the right image (bands 11-8-3) on August 22, 2018,
-                after
-                flood
-                water had inundated the area. The images are false-color, which makes flood water appear dark blue.
-                Vegetation
-                is bright green."
+                acquired the left image (bands 6-5-3) on February 6, 2018, before the flood. The Multispectral
+                Instrument on the European Space Agency’s Sentinel-2 satellite acquired the right image (bands 11-8-3)
+                on August 22, 2018, after flood water had inundated the area. The images are false-color, which makes
+                flood water appear dark blue. Vegetation is bright green."
             </p>
             <div id="nasaCompare">
                 <iframe id="" frameborder="0" class="juxtapose" width="100%" height="400px" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=895ce420-b97b-11e8-9dba-0edaf8f81e27"></iframe>
@@ -168,14 +163,14 @@
         <div class="leftInfo">
             <p class="graphText">
                 Kerala has two rainy seasons, the first starts in June and the second in mid-October and finally
-                ends
-                around mid-November. For the first three months of monsoon ie from June 1st to August 31st Kerala
-                received more than 35% of rainfall. Actual rainfall of 2428.9mm in the place of a normal 1795.4mm.
-                Idukki received the 3580.6mm rainfall which is 82% extra than normal. 13 districts out of 14
-                received
-                more than normal rainfall, Kasaragod on north most of Kerala is an exception with -13% from normal.
-                Palakad district also had 65% extra than normal with 2305.6mm falls under the category of Large
-                Excess(LE) along with Idukki.
+                ends around mid-November. For the first three months of monsoon ie from June 1st to August 31st Kerala
+                received more than <b>35%</b> of rainfall. Actual rainfall of 2428.9mm in the place of a normal
+                1795.4mm.Idukki received the <b> 3580.6mm</b> rainfall which is 82% extra than normal. <b>13</b>
+                districts out
+                of 14 received more than normal rainfall, Kasaragod on north most of Kerala is an exception with <b>-13%</b>
+                from normal. Palakad district also had 65% extra than normal with <b>2305.6mm</b> falls under the
+                category of
+                Large Excess(LE) along with Idukki.
             </p>
             <div class="yearInfoTable ">
                 <div class="t-row">
@@ -215,18 +210,14 @@
         <div class="rightInfo">
             <p class="graphText">
                 Meteorologists say that the rainfall data over the last six years do not suggest a visible pattern.
-                After a peak in 2013,
-                rainfall in the state dipped in 2014 and hit a low in 2015 before slowly rising in 2016, 2017 and
-                2018.
-                In
-                2013, all the state’s districts, except Thiruvananthapuram, received more than 1400 mm of rainfall.
-                Kannur,
-                with 3119.4 mm, got the most rain. “It is due to the inter-annual variability and changes in
-                climatic
-                conditions,”
-                said D Sivananda Pai, who is the head of the Climatic Prediction Group at the India Meteorological
-                Department
-                in Pune.
+                After a peak in 2013, rainfall in the state dipped in 2014 and hit a low in 2015 before slowly rising
+                in 2016, 2017 and
+                2018. In 2013, all the state’s districts, except Thiruvananthapuram, received more than 1400 mm of
+                rainfall.
+                Kannur, with 3119.4 mm, got the most rain. “It is due to the inter-annual variability and changes in
+                climatic conditions,” said D Sivananda Pai, who is the head of the Climatic Prediction Group at the
+                India Meteorological
+                Department in Pune.
             </p>
 
             <div id="yearDataMap">
@@ -278,12 +269,10 @@
                 </div>
                 <div id="yearDataMapHolder"></div>
                 <div class="graphText wrapText no-mb">
-                    <p> Idukki records the highest rainfall with 4060mm in 2013, Thiruvananthapuram with 1154mm in
-                        2011
-                        is the
-                        lowest. The average rainfall for Kerala since 2010 to 2017 is 2721mm, it varies from 1885mm
-                        to
-                        3222mm.
+                    <p> Idukki records the highest rainfall with <b>4060mm</b> in 2013, Thiruvananthapuram with <b>1154mm</b>
+                        in
+                        2011 is the lowest. The average rainfall for Kerala since 2010 to 2017 is <b>2721mm</b>, it
+                        varies from <b>1885mm</b> to <b>3222mm</b>.
                     </p>
                 </div>
             </div>
@@ -292,16 +281,18 @@
     <div class="step">
         <p class="graphText no-mb">
             <a target="_blank" href="https://economictimes.indiatimes.com/news/politics-and-nation/kerala-floods-live-rescue-operations-underway-as-death-toll-nears-80/articleshow/65418310.cms">The
-                Economic Times </a>has reported that 33,000 people have been rescued. The Kerala State Disaster
+                Economic Times </a>has reported that <b>33,000</b> people have been rescued. The Kerala State Disaster
             Management
             Authority has placed the state
-            in a red alert as a result of the intense flooding. Over 3,274 relief camps have been opened at various
-            locations to accommodate the flood victims. It is estimated that 1,247,496 people have found shelter in
-            such camps.According to initial estimates, property worth more than ₹20,000 crore has been lost and
-            insurance companies have already received claims worth ₹1,000 crore.
+            in a red alert as a result of the intense flooding. Over <b>3,274</b> relief camps have been opened at
+            various
+            locations to accommodate the flood victims. It is estimated that <b>1,247,496</b> people have found shelter
+            in
+            such camps.According to initial estimates, property worth more than <b>₹20,000</b> crore has been lost and
+            insurance companies have already received claims worth <b>₹1,000</b> crore.
         </p>
         <p class="graphText no-mb">
-            As of 02 October 2018, ₹1620.55 crore (US$220 million) was collected from the public including
+            As of 02 October 2018, <b>₹1620.55</b> crore (US$220 million) was collected from the public including
             organisations, corporate firms and famous personalities. The donations can be submitted to <a target="_blank"
                 href="https://donation.cmdrf.kerala.gov.in/">Chief Minister’s Distress Relief Fund(CMRF)</a>. CMRF is
             an emergency assistance release mechanism granting immediate relief to
