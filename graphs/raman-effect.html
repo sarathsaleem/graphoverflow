@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-control" content="public">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="An interactive explanation of CV Raman's greatest contribution to humanity">
+    <meta name="keywords" content="data visualisation,infographics,JavaScript Charts,D3.js charts, three.js data vislization">
+    <meta name="author" content="sarath saleem">
+    <meta property="og:image" content="http://graphoverflow.com/templates/images/raman-effect-explanation.png" />
+    <meta property="og:description" content="An interactive explanation of CV Raman's greatest contribution to humanity" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@sarathsaleem">
+    <meta name="twitter:creator" content="@sarathsaleem">
+    <meta name="twitter:title" content="Raman Effect on a Science Day">
+    <meta name="twitter:description" content="An interactive explanation of CV Raman's greatest contribution to humanity">
+    <meta name="twitter:image" content="http://graphoverflow.com/templates/images/raman-effect-explanation.png">
+
+    <title>GraphOverflow :
+        Raman Effect on a Science Day :
+        An interactive explanation of CV Raman's greatest contribution to humanity
+    </title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="../theme/images/favicon.ico">
+    <!-- Bootstrap core CSS -->
+    <!--   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> -->
+    <link href="../theme/css/bootstrap-min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    
+    <link rel="stylesheet/less" type="text/css" href="../theme/css/style.less">
+    <link rel="stylesheet/less" type="text/css" href="../theme/css/graphs/g12.less">
+    <script src="../theme/js/less.min.js" type="text/javascript"></script>
+    
+    
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="http://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="http://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="development">
+    <div class="graphWrapper">
+        <div class="canvas">
+            <div class="graphCanvas fullscreen g12">
+                <div class="content">
+
+
+    <div id="svgContainer"></div>
+    <div class="fixedStep" id="descTextSticker">
+        <p class="graphText">
+            In physics worlds <b>"Raman scattering"</b> or the <b>"Raman effect"</b> is the <b class="scattering">inelastic
+                scattering</b>
+            of a <b class="photon">photon</b>
+            by
+            <b class="molecules">molecules</b> which are excited to higher energy levels.
+        </p>
+    </div>
+
+    <header class="step">
+        <h1>A breif explanation of <br />"Raman Effect"</h1>
+        <h2 class="sub">National Science Day is celebrated in India on <b>28 February</b> each year to mark the
+            discovery of
+            the "Raman effect" by Indian physicist <b>Sir C V Raman</b> on 28 February 1928.
+        </h2>
+        <div class="shareBtns">
+            <!-- <div id="fb-root"></div>
+            <script>(function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-share-button" data-href="https://graphoverflow.com/graphs/kerala-flood-2018.html" data-layout="button"
+                data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fgraphoverflow.com%2Fgraphs%2Fkerala-flood-2018.html&amp;src=sdkpreparse"
+                    class="fb-xfbml-parse-ignore">Share</a></div>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://goo.gl/7AG7Jt" data-via="sarathsaleem"
+                data-hashtags="dataviz,raindata,KeralaFlood,kerala">Tweet</a>
+            <script>
+                !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');
+            </script> -->
+        </div>
+    </header>
+
+    <div class="step">
+        <p class="graphText">
+            <b>Sir Chandrashekhara Venkata Raman (7 November 1888 – 21 November 1970)</b> was an Indian Tamil physicist
+            born
+            in the former Madras Province in India presently the state of Tamil Nadu. For the discovery of the "Raman
+            effect" he was awarded <b>1930's Nobel Prize</b> for Physics.
+            Lets look into "Raman Effect" and why the discovery is important for science.
+        </p>
+    </div>
+    <div class="step">
+        <p class="graphText">
+            In physics worlds <b>"Raman scattering"</b> or the <b>"Raman effect"</b> is the <b>inelastic scattering</b>
+            of a <b>photon
+                by
+                molecules</b> which are excited to higher energy levels.
+        </p>
+        <p class="graphText">
+            Lets see this definition of each words in detail
+        </p>
+    </div>
+    <div class="step">
+        <h3>Photon</h3>
+        <p class="graphText small">
+            In physics, a photon is a bundle of electromagnetic energy. It is the basic unit that makes up all light.
+            The photon is sometimes referred to as a "quantum" of electromagnetic energy. Photons are not thought to be
+            made up of smaller particles. They are a basic unit of nature called an elementary particle.
+        </p>
+    </div>
+    <div class="step">
+        <h3>Light is particle or wave </h3>
+        <p class="graphText small">
+            Wave–particle duality is the concept in quantum mechanics that every particle or quantum entity may be
+            partly described in terms not only of particles, but also of waves.
+            Albert Einstein believed light is a particle (photon) and the flow of photons is a wave.
+        </p>
+    </div>
+
+    <div class="step">
+        <h3>Scattering</h3>
+        <p class="graphText small">
+            Scattering is a general physical process where some forms of radiation, such as light, sound, or moving
+            particles, are forced to deviate from a straight trajectory by one or more paths due to localized
+            non-uniformities in the medium through which they pass.
+        </p>
+
+    </div>
+    <div class="step">
+        <p class="graphText small">
+            When photons are scattered by a material, most of them are <b>elastically scattered (Rayleigh scattering)</b>,
+            such that the scattered photons have the same energy (frequency and wavelength) as the incident photons but
+            different direction.
+        </p>
+    </div>
+    <div class="step">
+        <h3> Inelastic scattering</h3>
+
+        <p class="graphText small">
+            However, a small fraction of the scattered photons (approximately 1 in 10 million) are scattered
+            <b>inelastically,</b> with the scattered photons having an energy different from, and usually lower than,
+            those of the incident photons.
+        </p>
+        <p class="graphText small">
+            In this scattering process, the incident photon interacts with matter (gas, liquid, and solid) and the
+            frequency of the photon is shifted to red or blue. These are Raman scattered photons.
+        </p>
+    </div>
+    <div class="step">
+        <h3> So what ?</h3>
+        <p class="graphText small">
+            Now we know that there are two type of scattering <br>
+            <b> 1. </b> Incident and scattered photons have the same energy (Rayleigh scattering)
+            <br>
+            <b> 2. </b> Incident and scattered photons have the less or greater energy (Raman scattering)
+        </p>
+    </div>
+    <div class="step">
+        <h3> Stokes and anti-Stokes </h3>
+        <p class="graphText small">
+            When atom or molecule absorbs energy scattered photon has less energy than the
+            incident photon <b>(Stokes Raman scattering)</b> and when atom or molecule loses energy: scattered photon
+            has more
+            energy than the incident photon <b>(anti-Stokes Raman scattering)</b>.
+        </p>
+    </div>
+    <div class="step">
+        <h3> Raman spectrum </h3>
+        <p class="graphText small">
+            The spectrum of the scattered photons is termed the <b>Raman spectrum.</b>
+        </p>
+    </div>
+    <div class="step">
+        <h3> Raman spectroscopy </h3>
+        <p class="graphText small">
+            So by analyzing the spectrum we can get a clue of the nature of the material the light is scattered from.
+            Raman spectroscopy is commonly used to provide a structural fingerprint by which <b> molecules can
+                be identified.</b>
+        </p>
+    </div>
+    <div class="step">
+        <h3> </h3>
+        <p class="graphText ">
+            Raman spectroscopy is used to analyze a wide range of materials, including gases, liquids, and solids.
+            Highly complex materials such as biological organisms and human tissue can also be analyzed by Raman
+            spectroscopy.
+        </p>
+    </div>
+    <div class="step">
+        <h3> Isn't it wonderfull. </h3>
+    </div>
+    <div class="step">
+    </div>
+
+    <footer class="footer">
+
+        <div class="myInfo-mobile">
+            <p>&copy; by
+                <a target="_blank" href="https://github.com/sarathsaleem">Sarath Saleem</a>
+            </p>
+        </div>
+
+        <div class="homeLink">more on
+            <a href="http://graphoverflow.com">Graphoverflow</a>
+        </div>
+    </footer>
+</div>
+
+                <div class="loader">
+
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var require = {
+            baseUrl: '../js'
+        };
+    </script>
+
+    <script src="../js/libs/jquery.js"></script>
+    <script src="../theme/js/bootstrap.min.js"></script>
+
+    
+
+    <script data-main="app" src="../js/libs/require.js"></script>
+    <script type="text/javascript">
+        require(['app'], function (modules, render) {
+            var application = modules.App;
+            application.loadGraph('g12');
+            application.dashboard.showGraph('g12');
+
+        });
+    </script>
+
+    
+    
+
+</body>
+
+</html>

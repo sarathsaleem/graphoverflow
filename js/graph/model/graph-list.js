@@ -95,7 +95,21 @@ define(function () {
             "tags": ["news"],
             "tmpl": "fullscreen",
             "mobileCompatible": "true"
+        },
+        {
+            "id": "g12",
+            "title": "Raman Effect on a Science Day",
+            "description": "An interactive explanation of CV Raman's greatest contribution to humanity",
+            "thumbnail": "templates/images/raman-effect-explanation.png",
+            "htmlTitle": "raman-effect",
+            "twitter": "",
+            "tags": [
+                "science"
+            ],
+            "tmpl": "fullscreen",
+            "mobileCompatible": "true"
         }
+
         ],
         "tags": ["all", "stackoverflow", "filims", "github", "music", "science", "history", "news"]
     };
