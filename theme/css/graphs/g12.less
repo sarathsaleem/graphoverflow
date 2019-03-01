@@ -23,7 +23,7 @@ body {
 
 .step {
     margin: 0 auto;
-    padding-bottom: 200px;
+    padding-top: 100px;
     padding-top: 200px;
     max-width: 1200px;
     min-height: 300px;
@@ -34,6 +34,10 @@ body {
     -ms-transition: opacity .5s ease-in-out;
     -o-transition: opacity .5s ease-in-out;
     transition: opacity .5s ease-in-out;
+    &.last {
+        padding: 0;
+        padding-bottom: 400px;
+    }
 }
 
 .step.active {
@@ -132,13 +136,13 @@ b {
 
 .rays {
     stroke-width: 4;
-    stroke: #11b59e;
+    stroke: #20a8ce;
 }
 
 .srays,
 .srays-clone {
     stroke-width: 2;
-    stroke: #10917f;
+    stroke: #20a8ce;
     transition: stroke .5s ease-in-out;
     &.inelastic {
         stroke: #da340b;
@@ -146,11 +150,11 @@ b {
 }
 
 .arrowHead {
-    fill: #11b59e;
+    fill: #20a8ce;
 }
 
 .objectCircle {
-    fill: #20a8ce;
+    fill: #ce0f46;
 }
 
 .photonCircle,
@@ -172,6 +176,11 @@ b {
 .atomText {
     stroke: #ffffff;
     fill: #ffffff;
+}
+
+.elementInfo {
+    fill: #055367;
+    font-size: 15px;
 }
 
 /**/
@@ -203,7 +212,7 @@ footer,
     max-width: 1200px;
     margin: 0 auto;
     position: static;
-    background: #1f5699;
+    background: #20a8ce;
     font-size: 12px;
     color: #ffffff;
     .myInfo-mobile {

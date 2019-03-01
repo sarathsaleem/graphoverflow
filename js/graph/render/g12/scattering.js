@@ -416,13 +416,23 @@ define(['libs/d3v5', 'utils/utils'], function (d3, _util) {
                 .attr("y", 400)
                 .attr("x", 600)
                 .style('transform', function (d, i) {
-                    return 'translate(' + ((i * 50) - 7) + 'px,6px)'
+                    return 'translate(' + ((i * 50) - 8) + 'px,6px)'
                 });
+            svg.selectAll(".elementInfo").remove();
+            svg.append("text").text("Now we know that where the photons are coming from.")
+                .attr("class", "elementInfo")
+                .attr("y", 450)
+                .attr("x", 580)
+                .append('svg:tspan')
+                .attr('x', 580)
+                .attr('dy', 15)
+                .text('(Eg: An Iron atom)');
         }
 
         this.hideSIcon = function () {
             svg.selectAll(".s-icon").remove();
             svg.selectAll(".atomText").remove();
+            svg.selectAll(".elementInfo").remove();
         }
 
 
@@ -434,7 +444,7 @@ define(['libs/d3v5', 'utils/utils'], function (d3, _util) {
         var photons;
         var ptGroup = svg.append('g').attr('class', 'photonsGroup');
         var n = 40;
-        var w = 500;
+        var w = 467;
         var h = 200;
         var waveTimer;
         this.showPhotons = function () {
@@ -515,7 +525,7 @@ define(['libs/d3v5', 'utils/utils'], function (d3, _util) {
                 })
                 .transition(t)
                 .attr("cx", function (d) {
-                    return margin + 500;
+                    return margin + w;
                 });
         }
 
