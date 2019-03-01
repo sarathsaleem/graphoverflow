@@ -13,6 +13,7 @@ body {
     background: #ffffff;
     overflow: scroll;
     text-align: center;
+    position: static;
     svg {
         position: static;
     }
@@ -183,30 +184,6 @@ b {
     font-size: 15px;
 }
 
-/**/
-
-@media screen and (max-device-width: 667px) {
-    .graphCanvas.fullscreen.g12 {
-        .content {
-            min-width: 100%;
-        }
-    }
-    .step {
-        max-width: 100%;
-    }
-}
-
-@media screen and (max-width: 667px) {
-    .graphCanvas.fullscreen.g12 {
-        .content {
-            min-width: 100%;
-        }
-    }
-    .step {
-        max-width: 100%;
-    }
-}
-
 footer,
 .footer {
     max-width: 1200px;
@@ -227,5 +204,127 @@ footer,
             color: #ffffff;
             text-decoration: underline;
         }
+    }
+}
+
+/**/
+
+@media screen and (max-device-width: 667px) {
+    .graphCanvas.fullscreen.g12 {
+        .content {
+            min-width: 100%;
+        }
+    }
+    .step {
+        max-width: 100%;
+    }
+    h1 {
+        font-size: 30px;
+        color: rgba(0, 0, 0, 0.67);
+    }
+    h2.sub {
+        font-size: 16px;
+        padding: 30px 10%;
+        margin-top: 0;
+        color: rgba(0, 0, 0, 0.67);
+        line-height: 20px;
+        text-align: left;
+    }
+    h3 {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.67);
+        text-align: left;
+        padding: 30px 10%;
+    }
+    .graphText {
+        font-size: 15px;
+        line-height: 25px;
+        text-align: left;
+        &.small {
+            font-size: 15px;
+            line-height: 21px;
+            max-width: 100%;
+        }
+    }
+    #descTextSticker {
+        display: none;
+        visibility: hidden;
+    }
+    #svgContainer {
+        width: 100%;
+        position: fixed;
+        top: 10px;
+        left: -99%;
+        right: 0;
+        margin: 0 auto;
+        z-index: 0;
+    }
+    .step.last {
+        padding: 0;
+        padding-bottom: 200px;
+    }
+    .graphCanvas.fullscreen.g12 svg {
+        position: static;
+        width: 150%;
+    }
+}
+
+@media screen and (max-width: 667px) {
+    .graphCanvas.fullscreen.g12 {
+        .content {
+            min-width: 100%;
+        }
+    }
+    .step {
+        max-width: 100%;
+    }
+    h1 {
+        font-size: 30px;
+        color: rgba(0, 0, 0, 0.67);
+    }
+    h2.sub {
+        font-size: 16px;
+        padding: 30px 10%;
+        margin-top: 0;
+        color: rgba(0, 0, 0, 0.67);
+        line-height: 20px;
+        text-align: left;
+    }
+    h3 {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.67);
+        text-align: left;
+        padding: 30px 10%;
+    }
+    .graphText {
+        font-size: 15px;
+        line-height: 25px;
+        text-align: left;
+        &.small {
+            font-size: 15px;
+            line-height: 21px;
+            max-width: 100%;
+        }
+    }
+    #descTextSticker {
+        display: none;
+        visibility: hidden;
+    }
+    #svgContainer {
+        width: 100%;
+        position: fixed;
+        top: 10px;
+        left: -99%;
+        right: 0;
+        margin: 0 auto;
+        z-index: 0;
+    }
+    .step.last {
+        padding: 0;
+        padding-bottom: 200px;
+    }
+    .graphCanvas.fullscreen.g12 svg {
+        position: static;
+        width: 150%;
     }
 }

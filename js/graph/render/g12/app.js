@@ -13,7 +13,6 @@ define(['libs/d3v5', '../g12/scroller', '../g12/scattering', 'utils/utils'], fun
     function render(data, canvas) {
 
         $(() => {
-
             var scroll = scroller.container(d3.select('.g12'))
             scroll(d3.selectAll('.step'));
             // setup event handling
@@ -92,13 +91,14 @@ define(['libs/d3v5', '../g12/scroller', '../g12/scattering', 'utils/utils'], fun
 
 
                 if (index === 9) {
-                    scattering.showStoke()
+                    scattering.showStoke();
                 }
                 if (index < 9) {
-                    scattering.hideStoke()
+                    scattering.hideStoke();
                 }
 
                 if (index === 10) {
+                    scattering.showStoke();
                     scattering.hideEnergyInfo()
                     scattering.showEnergyInfo();
                 }
@@ -107,6 +107,7 @@ define(['libs/d3v5', '../g12/scroller', '../g12/scattering', 'utils/utils'], fun
                 }
 
                 if (index === 11) {
+                    scattering.showStoke();
                     scattering.showIconMove()
                 }
                 if (index < 11) {
@@ -128,6 +129,9 @@ define(['libs/d3v5', '../g12/scroller', '../g12/scattering', 'utils/utils'], fun
 
             });
         });
+    }
+    window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
     }
 
     return render;

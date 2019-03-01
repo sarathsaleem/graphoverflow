@@ -34,7 +34,7 @@ define(['libs/d3v5', 'utils/utils'], function (d3, _util) {
             // when window is scrolled call
             // position. When it is resized
             // call resize.
-            container
+            d3.select(window)
                 .on('scroll.scroller', position)
                 .on('resize.scroller', resize);
 
@@ -86,7 +86,7 @@ define(['libs/d3v5', 'utils/utils'], function (d3, _util) {
          *
          */
         function position() {
-            var pos = d3.select('.g12')._groups[0][0].scrollTop - 10 - 10 - containerStart;
+            var pos = window.pageYOffset - 10 - 10 - containerStart;
             var sectionIndex = d3.bisect(sectionPositions, pos);
             sectionIndex = Math.min(sections.size() - 1, sectionIndex);
 
