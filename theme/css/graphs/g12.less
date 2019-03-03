@@ -37,7 +37,7 @@ body {
     transition: opacity .5s ease-in-out;
     &.last {
         padding: 0;
-        padding-bottom: 400px;
+        padding-bottom: 500px;
     }
 }
 
@@ -222,6 +222,10 @@ footer,
     }
     .step {
         max-width: 100%;
+        &.last {
+            padding: 0;
+            padding-bottom: 300px;
+        }
     }
     h1 {
         font-size: 30px;
@@ -283,6 +287,11 @@ footer,
             clear: both;
             display: table;
         }
+        &&.bottom {
+            left: 10%;
+            top: 100px;
+            right: inherit;
+        }
     }
 }
 
@@ -294,6 +303,10 @@ footer,
     }
     .step {
         max-width: 100%;
+        &.last {
+            padding: 0;
+            padding-bottom: 300px;
+        }
     }
     h1 {
         font-size: 30px;
