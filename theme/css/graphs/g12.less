@@ -17,9 +17,6 @@ body {
     svg {
         position: static;
     }
-    .content {
-        min-width: 1200px;
-    }
 }
 
 .step {
@@ -87,6 +84,11 @@ h3 {
     color: rgba(0, 0, 0, 0.67);
     text-align: left;
     padding: 30px 10%;
+    max-width: 50%;
+}
+
+.last h3 {
+    max-width: 100%;
 }
 
 b {
@@ -130,7 +132,7 @@ b {
 /* SVG */
 
 #svgContainer {
-    width: 1000px;
+    max-width: 1000px;
     height: 500px;
     position: fixed;
     top: 100px;
@@ -367,6 +369,22 @@ footer,
             content: ' ';
             clear: both;
             display: table;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5) {
+    .step {
+        &.last {
+            padding-bottom: 85%;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5) {
+    .step {
+        &.last {
+            padding-bottom: 600px;
         }
     }
 }
