@@ -15,6 +15,7 @@ define(['utils/utils'], function (_util) {
         var elementInfo,
             infoPanel,
             elementInfoWrapper,
+            androidLink,
             inShowScreen = false;
 
         this.addUi = (function (that) {
@@ -161,15 +162,15 @@ define(['utils/utils'], function (_util) {
                 that.addShellInfo(that.app.atomicNumber);
             });
 
-            $('.g9-footer .devInfo').on('click', function(){
+            $('.g9-footer .devInfo').on('click', function () {
                 $(this).toggleClass('active');
             });
 
-            $(ele).on('mouseover','.marker', function (){
+            $(ele).on('mouseover', '.marker', function () {
                 var level = $(this).text();
-                $(ele).find('.'+level).addClass('active');
+                $(ele).find('.' + level).addClass('active');
             });
-            $(ele).on('mouseout','.marker', function () {
+            $(ele).on('mouseout', '.marker', function () {
                 $(ele).find('.levels').removeClass('active');
             });
 
@@ -178,6 +179,19 @@ define(['utils/utils'], function (_util) {
             if (isiOS) {
                 $(ele).addClass('iphoneDevice');
             }
+
+            androidLink = $(`<div class="androidLink">
+            <p>Please support us by downloading the Periodic Table 3D app from google play store.</p>
+                <a href='https://play.google.com/store/internaltest/4700300310597353638?pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+                <div id="no-thanks">No thanks, continue to site</div></div>
+                `);
+            androidLink.hide();
+            $(ele).append(androidLink);
+
+            $("#no-thanks").on('click', () => {
+                elementInfoWrapper.hide();
+                androidLink.hide();
+            });
 
         }(this));
 
@@ -226,7 +240,7 @@ define(['utils/utils'], function (_util) {
 
         };
 
-         this.addShellInfo = function (aNumber) {
+        this.addShellInfo = function (aNumber) {
 
             var eConfiguration = app.atom.electrons.getConfiguration(),
                 levelSplitConfig = app.atom.electrons.getLevelSplitConfiguration(eConfiguration[aNumber]);
@@ -237,7 +251,7 @@ define(['utils/utils'], function (_util) {
             });
 
 
-         };
+        };
 
         this.addElemntInfo = function (aNumber, mouse) {
 
@@ -304,6 +318,7 @@ define(['utils/utils'], function (_util) {
                 this.showInfoPanel();
                 $('.eleInfo').hide();
                 ele.addClass('tableScreen').removeClass('atomScreen');
+                this.showAndroidLink();
 
             } else {
                 this.hideInfoPanel();
@@ -323,18 +338,27 @@ define(['utils/utils'], function (_util) {
 
         this.loadingScreen = (function () {
             return {
-             'remove' : function () {
-                  $('.loader').remove();
-             }
+                'remove': function () {
+                    $('.loader').remove();
+                }
 
             };
         }());
 
-        this.hideAll= function () {
+        this.hideAll = function () {
             this.hideInfoPanel();
             this.addElemntInfo(0);
             $('.eleInfo').hide();
         };
+
+        this.showAndroidLink = function () {
+            var ua = navigator.userAgent.toLowerCase();
+            var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+            if (isAndroid) {
+                elementInfoWrapper.show();
+                androidLink.show();
+            }
+        }
 
 
     };
