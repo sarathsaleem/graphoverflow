@@ -182,7 +182,7 @@ define(['utils/utils'], function (_util) {
 
             androidLink = $(`<div class="androidLink">
             <p>Please support us by downloading the Periodic Table 3D app from google play store.</p>
-                <a href='https://play.google.com/store/apps/details?id=com.graphoverflow.periodictable3dPro'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+                <a id="googlePlayApp" target="_blank" href='https://play.google.com/store/apps/details?id=com.graphoverflow.periodictable3dPro'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
                 <div id="no-thanks">No thanks, continue to site</div></div>
                 `);
             androidLink.hide();
@@ -191,6 +191,11 @@ define(['utils/utils'], function (_util) {
             $("#no-thanks").on('click', () => {
                 elementInfoWrapper.hide();
                 androidLink.hide();
+                ga('send', 'event', 'button', 'click', 'googleplay:continuesite');
+            });
+
+            $("#googlePlayApp").on('click', () => {
+                ga('send', 'event', 'button', 'click', 'googleplay');
             });
 
         }(this));
@@ -352,12 +357,12 @@ define(['utils/utils'], function (_util) {
         };
 
         this.showAndroidLink = function () {
-            var ua = navigator.userAgent.toLowerCase();
-            var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-            if (isAndroid) {
-                elementInfoWrapper.show();
-                androidLink.show();
-            }
+            // var ua = navigator.userAgent.toLowerCase();
+            // var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+            // if (isAndroid) {
+            elementInfoWrapper.show();
+            androidLink.show();
+            //}
         }
 
 

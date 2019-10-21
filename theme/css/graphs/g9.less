@@ -725,7 +725,7 @@
     position: absolute;
     opacity: 1;
     z-index: 30;
-    transform: scale(2.5) translate3d(-20%, 90%, 0px);
+    transform: scale(1.5) translate3d(-30%, 90%, 0px);
     left: 50%;
     color: #000;
     background: #ffffff;
@@ -752,6 +752,12 @@
         color: black;
         text-decoration: underline;
         cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .androidLink {
+        transform: scale(2.5) translate3d(-20%, 90%, 0px);
     }
 }
 
