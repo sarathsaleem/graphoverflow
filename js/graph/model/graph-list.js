@@ -35,10 +35,10 @@ define(function () {
         {
             "id": "g5",
             "title": "255 f**k in Pulp Fiction",
-            "description": "The word 'fuck' is used 255 times in the filim Pulp Fiction , checkout the visualization to see when they are",
+            "description": "The word 'f**k' is used 255 times in the film Pulp Fiction , checkout the visualization to see when they are",
             "thumbnail": "templates/images/255-fuck-in-pulp-fiction.png",
             "htmlTitle": "pulp-fiction",
-            "tags": ["filims"]
+            "tags": ["films"]
         },
         {
             "id": "g6",
