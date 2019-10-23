@@ -18,6 +18,8 @@ define(['utils/utils'], function (_util) {
             androidLink,
             inShowScreen = false;
 
+        var showLink = false;
+
         this.addUi = (function (that) {
             var htmlTmpl = ' \
                      <div class="elementInfo"> \
@@ -323,7 +325,9 @@ define(['utils/utils'], function (_util) {
                 this.showInfoPanel();
                 $('.eleInfo').hide();
                 ele.addClass('tableScreen').removeClass('atomScreen');
-                this.showAndroidLink();
+                if (!showLink) {
+                    this.showAndroidLink();
+                }
 
             } else {
                 this.hideInfoPanel();
@@ -363,6 +367,7 @@ define(['utils/utils'], function (_util) {
             elementInfoWrapper.show();
             androidLink.show();
             //}
+            showLink = true;
         }
 
 
