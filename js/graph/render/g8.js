@@ -32,9 +32,9 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
             paddingTop = 260,
             margin = 30;
 
-        var colors = d3.scale.category20b();
+        var colors = d3.scale.category10();
 
-          var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
+        var menu = $('<div class="categoryMenu"><div class="timeline ">Timeline</div><div class="cause active">Cause of death</div></div> <h1 class="title">27 CLUB</h1>');
 
         $(canvas).append(menu);
 
@@ -62,17 +62,17 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         }));
         y.domain(d3.extent(artistdata, function (d) {
             return d.dod.getMonth();
-        }));        
-        
+        }));
+
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom");
-        
+
         var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
         var yAxis = d3.svg.axis()
             .scale(y)
-            .orient("left").tickFormat(function(d, i) {
+            .orient("left").tickFormat(function (d, i) {
                 return month_names_short[d];
             });;
 
@@ -93,7 +93,8 @@ define(['d3', 'utils/utils'], function (ignore, _util) {
         var artists = stars.append('circle')
             .attr("r", 20)
             .style("fill", function (d, i) {
-                return colors(i);
+                colors(d.type);
+                return colors(d.type + 1);
             });
 
 
