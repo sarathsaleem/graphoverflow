@@ -184,7 +184,7 @@ define(['utils/utils'], function (_util) {
 
             androidLink = $(`<div class="androidLink">
             <p>Please support us by downloading the Periodic Table 3D app from google play store.</p>
-                <a id="googlePlayApp" target="_blank" href='https://play.google.com/store/apps/details?id=com.graphoverflow.periodictable3dPro'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+                <a id="googlePlayApp" target="_blank" href='https://play.google.com/store/apps/details?id=com.graphoverflow.periodictable3d'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
                 <div id="no-thanks">No thanks, continue to site</div></div>
                 `);
             androidLink.hide();
