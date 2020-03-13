@@ -1,0 +1,100 @@
+{
+    "nodes": [
+        {
+            "name": "NCT OF DELHI"
+        },
+        {
+            "name": "2 BENGALI "
+        },
+        {
+            "name": "6 HINDI "
+        },
+        {
+            "name": "10 MAITHILI "
+        },
+        {
+            "name": "11 MALAYALAM"
+        },
+        {
+            "name": "16 PUNJABI "
+        },
+        {
+            "name": "20 TAMIL "
+        },
+        {
+            "name": "22 URDU"
+        }
+    ],
+    "links": [
+        {
+            "source": 0,
+            "target": 1,
+            "value": 215960,
+            "names": [
+                "NCT OF DELHI",
+                "2 BENGALI "
+            ],
+            "percentage": 1.3220212649777248
+        },
+        {
+            "source": 0,
+            "target": 2,
+            "value": 14255526,
+            "names": [
+                "NCT OF DELHI",
+                "6 HINDI "
+            ],
+            "percentage": 87.26666287943529
+        },
+        {
+            "source": 0,
+            "target": 3,
+            "value": 122956,
+            "names": [
+                "NCT OF DELHI",
+                "10 MAITHILI "
+            ],
+            "percentage": 0.7526877507714443
+        },
+        {
+            "source": 0,
+            "target": 4,
+            "value": 88662,
+            "names": [
+                "NCT OF DELHI",
+                "11 MALAYALAM"
+            ],
+            "percentage": 0.542753516370879
+        },
+        {
+            "source": 0,
+            "target": 5,
+            "value": 873477,
+            "names": [
+                "NCT OF DELHI",
+                "16 PUNJABI "
+            ],
+            "percentage": 5.347078942716004
+        },
+        {
+            "source": 0,
+            "target": 6,
+            "value": 82719,
+            "names": [
+                "NCT OF DELHI",
+                "20 TAMIL "
+            ],
+            "percentage": 0.506372833013949
+        },
+        {
+            "source": 0,
+            "target": 7,
+            "value": 867673,
+            "names": [
+                "NCT OF DELHI",
+                "22 URDU"
+            ],
+            "percentage": 5.311549162099543
+        }
+    ]
+}

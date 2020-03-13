@@ -1,0 +1,14 @@
+{
+  "name": "c0f4b74e522cf0cf",
+  "main": "d/c0f4b74e522cf0cf.js",
+  "version": "101.0.0",
+  "homepage": "https://observablehq.com/d/c0f4b74e522cf0cf",
+  "author": {
+    "name": "Sarath Saleem",
+    "url": "https://observablehq.com/@sarathsaleem"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}
