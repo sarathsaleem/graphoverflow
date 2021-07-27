@@ -326,7 +326,7 @@ define(['utils/utils'], function (_util) {
                 $('.eleInfo').hide();
                 ele.addClass('tableScreen').removeClass('atomScreen');
                 if (!showLink) {
-                    this.showAndroidLink();
+                   // this.showAndroidLink();
                 }
 
             } else {
